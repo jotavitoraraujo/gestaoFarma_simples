@@ -1,8 +1,7 @@
 import xml.etree.ElementTree as ET
 
 def extrair_dados_nfe(caminho_do_xml):
-    'Le um arquivo XML de NF-e e extrai os dados dos produtos.'
-    'Retorna uma lista de dicts, onde cada dict é um produto'
+    'Le um arquivo XML de NF-e e extrai os dados dos produtos. Retorna uma lista de dicts, onde cada dict é um produto'
 
     try:
         # define o namespace padrão da NF-e para encontrar as tags corretamente
@@ -17,7 +16,7 @@ def extrair_dados_nfe(caminho_do_xml):
         # repete sobre cada item ('det') da nota fiscal
         for item in root.findall('.//nfe:det', ns):
             produto = {}
-
+        
             # tenta extrair cada campo do produto. Usa .text p/ pegar o conteudo da tag
             try:
                 # o find() procura por uma tag filha.

@@ -1,4 +1,4 @@
-# GestãoFarma Simples — Sistema de Gestão para Farmácias
+# 薬 GestãoFarma Simples — Sistema de Gestão para Farmácias
 
 Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e financeiro em Python, com foco total em simplicidade e eficiência. A solução é desenhada para atender às necessidades de pequenas farmácias de bairro, onde os processos ainda são, em grande parte, manuais e ineficientes, visando um público-alvo não técnico.
 
@@ -6,12 +6,12 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
 
 ## ⚙️ Funcionalidades Atuais
 
--   ✅ **Leitura e Análise de NF-e:** O sistema já consegue ler e interpretar os dados de produtos de um arquivo XML de Nota Fiscal Eletrônica.
--   ✅ **Estrutura do Banco de Dados:** A base de dados SQLite para armazenar os produtos já foi modelada e é criada na inicialização do programa.
--   ✅ **Controle de Versão:** O projeto está totalmente configurado para versionamento com Git e GitHub.
--   🚧 **Integração com Estoque:** Próximo passo é salvar os produtos lidos do XML no banco de dados.
--   🚧 **Gestão de Vendas e Caixa:** Funcionalidades de saída de estoque e controle financeiro a serem implementadas.
--   📝 **Em Planejamento:** Alertas de estoque baixo, controle de validade e desenvolvimento de uma Interface Gráfica (GUI).
+* ✅ **Leitura e Análise de NF-e:** O sistema consegue ler e interpretar os dados de produtos de um arquivo XML de Nota Fiscal Eletrônica.
+* ✅ **Gravação Inteligente no Banco de Dados:** A lógica de "UPSERT" (inserir ou atualizar) foi implementada, permitindo que o sistema adicione produtos novos e atualize a quantidade e o custo de produtos existentes.
+* ✅ **Assistente de Cadastro Interativo:** O sistema identifica produtos novos e interage com o usuário para solicitar dados essenciais que não constam no XML, como preço de venda e data de validade.
+* ✅ **Controle de Versão:** O projeto está totalmente configurado para versionamento com Git e GitHub.
+* ➡️ **Próxima Fase (Gestão de Vendas):** A próxima grande etapa é a implementação do registro de vendas, com baixa de estoque.
+* 📝 **Em Planejamento:** Alertas de estoque baixo, controle de validade e desenvolvimento de uma Interface Gráfica (GUI).
 
 ---
 
@@ -60,7 +60,6 @@ gestaoFarma_simples/
 ├── sistema/
 │   ├── __init__.py
 │   ├── database.py
-│   │
 │   └── modulos/
 │       ├── __init__.py
 │       └── leitor_xml.py
@@ -88,7 +87,8 @@ Este projeto nasceu dessa percepção. Após desenvolver um agente autônomo par
 
 ## 📅 Histórico de Atualizações
 
--   **02/07/2025** — Criação do repositório, estrutura inicial do projeto, implementação do leitor de NF-e (XML) e definição da documentação e licença.
+-   **02/07/2025** — Fase 0 (Fundação): Criação do repositório, estrutura inicial do projeto, documentação e implementação do leitor de NF-e (XML).
+-   **06/07/2025** — Fase 1 (Entrada de Estoque): Conclusão da automação de entrada com a implementação do "Assistente de Cadastro" interativo e a lógica de "UPSERT" no banco de dados.
 
 ---
 

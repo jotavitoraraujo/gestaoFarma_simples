@@ -6,12 +6,12 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
 
 ## ⚙️ Funcionalidades Atuais
 
-* ✅ **Leitura e Análise de NF-e:** O sistema consegue ler e interpretar os dados de produtos de um arquivo XML de Nota Fiscal Eletrônica.
-* ✅ **Gravação Inteligente no Banco de Dados:** A lógica de "UPSERT" (inserir ou atualizar) foi implementada, permitindo que o sistema adicione produtos novos e atualize a quantidade e o custo de produtos existentes.
-* ✅ **Assistente de Cadastro Interativo:** O sistema identifica produtos novos e interage com o usuário para solicitar dados essenciais que não constam no XML, como preço de venda e data de validade.
-* ✅ **Controle de Versão:** O projeto está totalmente configurado para versionamento com Git e GitHub.
-* ➡️ **Próxima Fase (Gestão de Vendas):** A próxima grande etapa é a implementação do registro de vendas, com baixa de estoque.
-* 📝 **Em Planejamento:** Alertas de estoque baixo, controle de validade e desenvolvimento de uma Interface Gráfica (GUI).
+-   ✅ **Modelo de Dados Relacional:** Implementado um schema robusto com duas tabelas (`produtos` e `lotes`) para garantir a integridade dos dados e permitir um controle de estoque por lote, incluindo custo e validade específicos para cada compra.
+-   ✅ **Leitura e Análise de NF-e:** O sistema consegue ler e interpretar os dados de produtos de um arquivo XML de Nota Fiscal Eletrônica.
+-   ✅ **Assistente de Cadastro Interativo:** O sistema identifica produtos novos e interage com o usuário para obter dados essenciais, como preço de venda e data de validade.
+-   ✅ **Validação de Entrada Robusta:** A entrada de dados do usuário para preço e data é validada para garantir que os valores sejam lógicos (preços positivos, datas futuras) e para aceitar formatos comuns (preços com vírgula, datas no padrão D/M/A).
+-   ✅ **Controle de Versão:** O projeto está totalmente configurado para versionamento com Git e GitHub.
+-   ➡️ **Próxima Fase (Gestão de Vendas):** A próxima grande etapa é a implementação do registro de vendas, com baixa de estoque baseada na lógica PVPS (Primeiro que Vence, Primeiro que Sai).
 
 ---
 
@@ -24,7 +24,8 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
 
 -   `sqlite3` (Banco de Dados)
 -   `xml.etree.ElementTree` (Leitura de XML)
--   `os`, `pathlib`, `time`
+-   `datetime` (Manipulação de Datas)
+-   `os`, `pathlib`
 
 *O projeto foi intencionalmente desenvolvido com o mínimo de dependências externas para garantir leveza e portabilidade, permitindo que rode em computadores mais antigos sem a necessidade de uma instalação complexa.*
 
@@ -87,8 +88,8 @@ Este projeto nasceu dessa percepção. Após desenvolver um agente autônomo par
 
 ## 📅 Histórico de Atualizações
 
--   **02/07/2025** — Fase 0 (Fundação): Criação do repositório, estrutura inicial do projeto, documentação e implementação do leitor de NF-e (XML).
--   **06/07/2025** — Fase 1 (Entrada de Estoque): Conclusão da automação de entrada com a implementação do "Assistente de Cadastro" interativo e a lógica de "UPSERT" no banco de dados.
+-   **02/07/2025 — Fase 0 (Fundação):** Criação do repositório, estrutura inicial do projeto, documentação e implementação do leitor de NF-e (XML).
+-   **11/07/2025 — Fase 1 (Arquitetura e Entrada de Dados):** Refatoração do banco de dados para um modelo relacional (`produtos` + `lotes`). Implementação do fluxo completo de importação de NF-e, incluindo o "Assistente de Cadastro" com validação de dados para novos produtos.
 
 ---
 
@@ -96,4 +97,4 @@ Este projeto nasceu dessa percepção. Após desenvolver um agente autônomo par
 
 O **GestãoFarma Simples** foi desenvolvido com o usuário final em mente: pessoas não técnicas que precisam de uma ferramenta que funcione de forma direta e sem complicações. A filosofia do projeto é priorizar a simplicidade na interface e a robustez na lógica de automação, resolvendo uma dor real do pequeno comerciante com tecnologia acessível.
 
-O projeto serve como um case prático de desenvolvimento de um MVP (Minimum Viable Product), partindo de um problema familiar para uma potencial solução de negócio escalável.
+A arquitetura de dados foi desenhada para espelhar a realidade da gestão de lotes, garantindo não apenas a simplicidade, mas também a precisão e a integridade das informações do negócio a longo prazo.

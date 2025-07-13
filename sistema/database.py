@@ -5,7 +5,7 @@ pasta_sistema = Path(__file__).parent
 db_file = pasta_sistema.parent/'dados'/'farmacia.db'
 
 def criar_tabelas():
-    'Cria tabela de produtos no BD se ela não existir | Utiliza um comando SQL pra criar a tabela'
+    'Cria tabela de produtos/lotes e usuários no db se ela não existir | Utiliza um comando SQL pra criar a tabela'
     conn = sqlite3.connect('dados/farmacia.db')
     cursor = conn.cursor()
 
@@ -32,6 +32,15 @@ def criar_tabelas():
             
         )  
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS usuarios (
+        id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome_usuario TEXT NOT NULL,
+        pin_usuario TEXT NOT NULL
+        
+        )
+    ''')
+
     
     print("Tabela 'produtos' verificada/criada com sucesso.")
     conn.commit()
@@ -120,3 +129,23 @@ def buscar_produto(produto_id):
     conectar_db.close()
     
     return resposta_db
+
+def inserir_usuario(nome_usuario, pin_usuario):
+    conectar_db = sqlite3.connect(db_file)
+    conector = conectar_db.cursor()
+
+    conector.execute('''
+            INSERT INTO usuarios (nome_usuario, pin_usuario)
+            VALUES (?, ?)
+            ''',
+            (
+                nome_usuario,
+                pin_usuario
+            
+            ))
+
+    conectar_db.commit()
+    conectar_db.close()
+    print('=' * 30)
+    print(f'[SUCESSO] O usuário, {nome_usuario} foi cadastrado.')
+    print('=' * 30)

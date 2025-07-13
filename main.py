@@ -1,6 +1,7 @@
 import os
 import sistema.database as database
 import sistema.modulos.leitorXML as leitorXML
+import sistema.modulos.users as users
 from datetime import datetime
 
 
@@ -11,6 +12,7 @@ def exibir_menu():
     print('1. Importar Nota Fiscal (XML)')
     print('2. Registrar Venda')
     print('3. Ver Relátorios')
+    print('4. Cadastrar Novo Usuário')
     print('0. Sair')
     return input('Escolha uma opção: ')
 
@@ -31,7 +33,7 @@ def importar_nfe():
                 if database.produtos_existentes(produto['codigo']):
                     resposta_db = database.buscar_produto(produto['codigo'])
                     if resposta_db == None:
-                        print(f'\n A resposta do database retornou vazia...')
+                        print(f'\n [ERRO] A resposta do database retornou vazia...')
                     else:                    
                         #print('\n [DEBUG]', resposta_db)
                         produto['preco_venda'] = resposta_db[2]
@@ -41,7 +43,7 @@ def importar_nfe():
                     
                     while True:                        
                         # conversão de ponto para virgula visando o input do usuario | conversão float                        
-                        preco_pergunta = f'\n Qual preço de venda deste novo item?: '
+                        preco_pergunta = f'Qual preço de venda deste novo item?: '
                         preco_input = input(f'{preco_pergunta}')
                         try:
                             preco_digitado = float(preco_input.replace(',', '.'))
@@ -54,7 +56,7 @@ def importar_nfe():
                         
                     while True:                        
                         # conversão de d/m/aa para aa/m/d para aceitação no sql
-                        validade_pergunta = f'\n Qual a validade deste novo item (DIA/MÊS/ANO)?: '
+                        validade_pergunta = f'Qual a validade deste novo item (DIA/MÊS/ANO)?: '
                         validade_input = input(f'{validade_pergunta}')                        
                         try:
                             validade_lista = validade_input.split('/')
@@ -73,14 +75,14 @@ def importar_nfe():
         print('\n--- Produtos a serem salvos/atualizados ---')   
         for produto in produtos_nota:
             # imprime os dados de forma mais legivel
-            print(f'\n Código: {produto.get('codigo')}')
-            print(f'\n Nome: {produto.get('nome')}')
-            print(f'\n Qtde: {produto.get('quantidade')}')
-            print(f'\n Custo Unitário: R${produto.get('preco_custo'):.2f}')
+            print(f'Código: {produto.get('codigo')}')
+            print(f'Nome: {produto.get('nome')}')
+            print(f'Qtde: {produto.get('quantidade')}')
+            print(f'Custo Unitário: R${produto.get('preco_custo'):.2f}')
             if produto.get('preco_venda'):
-                print(f'\n Preço de Venda: R$ {produto.get('preco_venda', 0):.2f}')
+                print(f'Preço de Venda: R$ {produto.get('preco_venda', 0):.2f}')
             if produto.get('data_validade'):
-                print(f'\n Validade: {produto.get('data_validade')}')
+                print(f'Validade: {produto.get('data_validade')}')
             print('-' * 30)
         database.salvar_produtos(produtos_nota)        
     else:
@@ -99,6 +101,9 @@ def main():
             print('\n [INFO] Função de registro de venda ainda não implementada.')
         elif escolha == '3':
             print('\n [INFO] Função de relátorios ainda não implementada.')
+        elif escolha == '4':
+            users.cadastro_usuario()
+            #print('\n [INFO] Função de cadastro ainda não implementada.')
         elif escolha == '0':
             print('\n Saindo do sistema...')
             break

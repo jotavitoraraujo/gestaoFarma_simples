@@ -93,6 +93,7 @@ Este projeto nasceu dessa percepção. Após desenvolver um agente autônomo par
 -   **02/07/2025 — Fase 0 (Fundação):** Criação do repositório e da estrutura inicial do projeto.
 -   **11/07/2025 — Fase 1 (Arquitetura e Entrada de Dados):** Refatoração completa do banco de dados para um modelo relacional (`produtos` + `lotes`) e implementação do fluxo de importação de NF-e com validação de dados.
 -   **13/07/2025 — Fase 2 (Início - Gestão de Usuários):** Criação da tabela `usuarios` e implementação da funcionalidade de cadastro de vendedor com validação de entradas e hashing de PIN (SHA-256).
+-   **16/07/2025 — Fase 2 (Refatoração para POO):** Decisão arquitetônica de migrar para Programação Orientada a Objetos. Implementação das classes `Produto` e `Lote` e refatoração do `leitorXML` para operar com objetos.
 
 ---
 

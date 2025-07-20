@@ -1,6 +1,7 @@
 import sqlite3
 from datetime import datetime
 from pathlib import Path
+from sistema.modelos.produto import Produto 
 pasta_sistema = Path(__file__).parent
 db_file = pasta_sistema.parent/'dados'/'farmacia.db'
 
@@ -46,7 +47,7 @@ def criar_tabelas():
     conn.commit()
     conn.close()
 
-def salvar_produtos(lista_produtos):
+def salvar_produtos(lista_produtos: list[Produto]):
     'Salva uma lista de produtos no banco de dados | insere novos ou atualiza a quantidade e o preço de custo dos produtos existentes'
     if not lista_produtos:
         return
@@ -63,24 +64,29 @@ def salvar_produtos(lista_produtos):
                 preco_venda = excluded.preco_venda;
             ''', 
             (
-                produto['codigo'],
-                produto['nome'],
-                produto['preco_venda']
+                produto.id,
+                produto.nome,
+                produto.preco_venda
                 
             ))
         
+        salvar_lote = produto.lotes[0]        
         data_hoje = datetime.now().strftime('%Y-%m-%d')
 
         cursor.execute('''
             INSERT INTO lotes (produto_id, quantidade, preco_custo, data_validade, data_entrada)
             VALUES (?, ?, ?, ?, ?)            
             ''',
-            (     
-                produto['codigo'],
-                produto['quantidade'],
-                produto['preco_custo'],
-                produto['data_validade'],
+            
+            
+            (
+                salvar_lote.produto_id,
+                salvar_lote.quantidade,
+                salvar_lote.preco_custo,
+                salvar_lote.data_validade,
+                salvar_lote.data_entrada,    
                 data_hoje
+            
             ))
         
 
@@ -88,13 +94,19 @@ def salvar_produtos(lista_produtos):
     conn.close()
     print(f'\n [SUCESSO] {len(lista_produtos)} produtos foram salvos/atualizados no banco de dados.')
 
-def produtos_existentes(produto_id):
+def produtos_existentes(produto: Produto):
     'verifica se um produto com determinado id já existe no database'
 
     conectar_db = sqlite3.connect(db_file)
     conector = conectar_db.cursor()
 
-    conector.execute ('SELECT COUNT(*) FROM produtos WHERE id = ?', (produto_id,))              
+    conector.execute ('SELECT COUNT(*) FROM produtos WHERE id = ?', 
+                        
+                        (
+                          produto.id,
+                          
+                        ))              
+    
     resposta_db = conector.fetchone()
     resposta_produtos = resposta_db[0]
 
@@ -105,8 +117,8 @@ def produtos_existentes(produto_id):
     else:
         return False
 
-def buscar_produto(produto_id):
-
+def buscar_produto(produto: Produto):
+    'busca um produto a partir do tipo Produto'
     conectar_db = sqlite3.connect(db_file)
     conector = conectar_db.cursor()
 
@@ -120,9 +132,11 @@ def buscar_produto(produto_id):
             ORDER BY data_validade ASC 
             LIMIT 1 
         
-        ''', (produto_id,)
-        
-        )
+        ''', 
+        (
+            produto.id,
+            
+        ))
     
     resposta_db = conector.fetchone()
     
@@ -131,6 +145,8 @@ def buscar_produto(produto_id):
     return resposta_db
 
 def inserir_usuario(nome_usuario, pin_usuario):
+    'cadastra um novo usuário no database'
+    
     conectar_db = sqlite3.connect(db_file)
     conector = conectar_db.cursor()
 

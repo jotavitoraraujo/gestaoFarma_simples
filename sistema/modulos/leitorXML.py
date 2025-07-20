@@ -3,8 +3,8 @@ from sistema.modelos.produto import Produto
 from sistema.modelos.lote import Lote
 from datetime import datetime
 
-def extrair_dados_nfe(caminho_do_xml):
-    'Le um arquivo XML de NF-e e extrai os dados dos produtos. Retorna uma lista de dicts, onde cada dict é um produto'
+def extrair_dados_nfe(caminho_do_xml) -> list[Produto]:
+    'Le um arquivo XML de NF-e e extrai os dados dos produtos. Retorna uma lista de objetos, onde cada objeto é do tipo produto'
 
     try:
         # define o namespace padrão da NF-e para encontrar as tags corretamente

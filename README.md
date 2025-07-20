@@ -7,8 +7,8 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
 ## ⚙️ Funcionalidades Atuais
 
 -   ✅ **Arquitetura Orientada a Objetos (POO):** O projeto foi arquitetado usando Classes (`Produto`, `Lote`, `Usuario`), tornando o código organizado, reutilizável e alinhado com as melhores práticas de engenharia.
--   ✅ **Modelo de Dados Relacional:** Implementado um schema robusto com tabelas separadas para `produtos` e `lotes`, garantindo a integridade dos dados para um controle de estoque preciso.
--   ✅ **Automação de Entrada de Estoque:** O sistema realiza o fluxo completo de importação de NF-e, criando objetos `Produto` e `Lote` a partir do XML.
+-   ✅ **Modelo de Dados Relacional:** Implementado um schema robusto com tabelas separadas para `produtos`, `lotes` e `usuarios`, garantindo a integridade dos dados.
+-   ✅ **Automação de Entrada de Estoque:** O sistema realiza o fluxo completo de importação de NF-e, criando e manipulando objetos `Produto` e `Lote`.
 -   ✅ **Gestão de Usuários Segura:** Implementada a funcionalidade de cadastro de vendedores, com validação de entradas e armazenamento seguro do PIN usando o algoritmo de hash SHA-256.
 -   ✅ **Entrada de Senha Mascarada:** A interface de terminal utiliza a biblioteca `pwinput` para mascarar a digitação do PIN com asteriscos, garantindo a privacidade e segurança do usuário.
 -   ➡️ **Próxima Fase (Login e Vendas):** O próximo passo é construir a tela de login e a funcionalidade de "Registrar Venda".
@@ -75,13 +75,15 @@ gestaoFarma_simples/
 │   │   └── lote.py
 │   └── modulos/
 │       ├── __init__.py
-│       ├── leitorXML.py
-│       └── users.py
+│       ├── importador_nfe.py
+│       ├── relatorios.py
+│       ├── users.py
+│       └── validadores_input.py
 │
 ├── .gitignore
 ├── LICENSE
-├── main.py
 ├── README.md
+├── main.py
 └── requirements.txt
 ```
 
@@ -103,9 +105,10 @@ Este projeto nasceu dessa percepção. Após desenvolver um agente autônomo par
 ## 📅 Histórico de Atualizações
 
 -   **02/07/2025 — Fase 0 (Fundação):** Criação do repositório e da estrutura inicial do projeto.
--   **11/07/2025 — Fase 1 (Arquitetura e Entrada de Dados):** Refatoração do banco de dados para um modelo relacional (`produtos` + `lotes`) e implementação do fluxo de importação de NF-e com validação de dados.
--   **13/07/2025 — Fase 2 (Início - Gestão de Usuários):** Criação da tabela `usuarios` e implementação da funcionalidade de cadastro de vendedor com validação de entradas e hashing de PIN (SHA-256).
--   **16/07/2025 — Fase 2 (Refatoração para POO):** Decisão arquitetônica de migrar para Programação Orientada a Objetos. Implementação das classes `Produto` e `Lote` e refatoração do `leitorXML` para operar com objetos.
+-   **11/07/2025 — Fase 1 (Arquitetura de Dados):** Refatoração do banco de dados para um modelo relacional (`produtos` + `lotes`).
+-   **13/07/2025 — Fase 2 (Início - Gestão de Usuários):** Criação da tabela `usuarios` e implementação do cadastro de vendedor com hashing de PIN.
+-   **16/07/2025 — Fase 2 (Refatoração para POO):** Decisão arquitetônica e refatoração do sistema para Programação Orientada a Objetos, com a criação das classes `Produto` e `Lote` e a modularização da lógica de importação e validação.
+-   **20/07/2025 — Fase 2 (Refatoração para POO - Parte 2):** Conclusão da refatoração para POO nos módulos de banco de dados e importação" -m "- Funções em `database.py` (buscar_produto, produtos_existentes) foram atualizadas para operar com objetos Produto. A lógica de importação foi extraída do `main.py` para o novo módulo `importador_nfe.py` e refatorada para usar a nova arquitetura de objetos."
 
 ---
 
@@ -113,4 +116,4 @@ Este projeto nasceu dessa percepção. Após desenvolver um agente autônomo par
 
 O **GestãoFarma Simples** foi desenvolvido com o usuário final em mente: pessoas não técnicas que precisam de uma ferramenta que funcione de forma direta e sem complicações. A filosofia do projeto é priorizar a simplicidade na interface e a robustez na lógica de automação, resolvendo uma dor real do pequeno comerciante com tecnologia acessível.
 
-A arquitetura de dados e de segurança está sendo desenhada para espelhar as melhores práticas da indústria, garantindo não apenas a simplicidade, mas também a precisão e a integridade das informações do negócio a longo prazo.
+A arquitetura de dados e de software está sendo desenhada para espelhar as melhores práticas da indústria, garantindo não apenas a simplicidade, mas também a precisão, a segurança e a integridade das informações do negócio a longo prazo.

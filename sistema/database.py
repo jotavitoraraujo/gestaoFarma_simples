@@ -19,8 +19,7 @@ def criar_tabelas():
             curva_abc TEXT
             
         )
-    ''')
-    
+    ''')    
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS lotes (
         id_lote INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,7 +40,26 @@ def criar_tabelas():
         
         )
     ''')
-
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS pedidos (
+        id_pedido INTEGER PRIMARY KEY AUTOINCREMENT,
+        usuario_id INTEGER NOT NULL,
+        data_pedido TEXT NOT NULL,
+        valor_total REAL NOT NULL,
+        FOREIGN KEY(usuario_id) REFERENCES usuarios(id_usuario)
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS itens_pedido (
+        id_item INTEGER PRIMARY KEY AUTOINCREMENT,
+        pedido_id INTEGER NOT NULL,
+        lote_id INTEGER NOT NULL,
+        quantidade_vendida INTEGER NOT NULL,
+        pv_registrado REAL,
+        FOREIGN KEY(pedido_id) REFERENCES pedidos(id_pedido),
+        FOREIGN KEY(lote_id) REFERENCES lotes(id_lote) 
+        )
+    ''')
     
     print("Tabela 'produtos' verificada/criada com sucesso.")
     conn.commit()

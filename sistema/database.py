@@ -2,6 +2,7 @@ import sqlite3
 from datetime import datetime
 from pathlib import Path
 from sistema.modelos.produto import Produto 
+from sistema.modelos.usuario import Usuario
 pasta_sistema = Path(__file__).parent
 db_file = pasta_sistema.parent/'dados'/'farmacia.db'
 
@@ -162,7 +163,8 @@ def buscar_produto(produto: Produto):
     
     return resposta_db
 
-def inserir_usuario(nome_usuario, pin_usuario):
+def inserir_usuario(usuario: Usuario):
+    
     'cadastra um novo usuário no database'
     
     conectar_db = sqlite3.connect(db_file)
@@ -173,13 +175,37 @@ def inserir_usuario(nome_usuario, pin_usuario):
             VALUES (?, ?)
             ''',
             (
-                nome_usuario,
-                pin_usuario
+                usuario.nome_usuario,
+                usuario.pin_usuario               
             
             ))
 
     conectar_db.commit()
     conectar_db.close()
     print('=' * 30)
-    print(f'[SUCESSO] O usuário, {nome_usuario} foi cadastrado.')
+    print(f'[SUCESSO] O usuário, {usuario.nome_usuario} foi cadastrado.')
     print('=' * 30)
+
+def buscar_usuario(usuario: Usuario):
+    'busca um usuário por nome, mas, retorna todos seus dados contidos no database'
+    
+    conectar_db = sqlite3.connect(db_file)
+    conector = conectar_db.cursor()
+
+    conector.execute('''
+            SELECT id_usuario, nome_usuario, pin_usuario
+            FROM usuarios
+            WHERE usuarios.nome_usuario = ?
+            LIMIT 1
+            
+        ''',
+        (
+            usuario.nome_usuario,
+            
+        ))
+    
+    resposta_db = conector.fetchone()
+    
+    conectar_db.close()
+    
+    return resposta_db

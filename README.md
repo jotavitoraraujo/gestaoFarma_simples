@@ -11,7 +11,7 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
 -   ✅ **Automação de Entrada de Estoque:** O sistema realiza o fluxo completo de importação de NF-e, criando e manipulando objetos `Produto` e `Lote`.
 -   ✅ **Gestão de Usuários Segura:** Implementada a funcionalidade de cadastro de vendedores, com validação de entradas e armazenamento seguro do PIN usando o algoritmo de hash SHA-256.
 -   ✅ **Entrada de Senha Mascarada:** A interface de terminal utiliza a biblioteca `pwinput` para mascarar a digitação do PIN com asteriscos, garantindo a privacidade e segurança do usuário.
--   ➡️ **Próxima Fase (Login e Vendas):** O próximo passo é construir a tela de login e a funcionalidade de "Registrar Venda".
+-   ➡️ **Próxima Fase (Lógica de Vendas):** O próximo passo é construir a função Registrar Venda, que irá utilizar a nova estrutura de pedidos e itens_pedido para registrar as transações.
 
 ---
 
@@ -72,7 +72,8 @@ gestaoFarma_simples/
 │   ├── modelos/
 │   │   ├── __init__.py
 │   │   ├── produto.py
-│   │   └── lote.py
+│   │   ├── lote.py
+│   │   └── usuario.py
 │   └── modulos/
 │       ├── __init__.py
 │       ├── importador_nfe.py
@@ -82,7 +83,6 @@ gestaoFarma_simples/
 │
 ├── .gitignore
 ├── LICENSE
-├── README.md
 ├── main.py
 └── requirements.txt
 ```
@@ -109,6 +109,9 @@ Este projeto nasceu dessa percepção. Após desenvolver um agente autônomo par
 -   **13/07/2025 — Fase 2 (Início - Gestão de Usuários):** Criação da tabela `usuarios` e implementação do cadastro de vendedor com hashing de PIN.
 -   **16/07/2025 — Fase 2 (Refatoração para POO):** Decisão arquitetônica e refatoração do sistema para Programação Orientada a Objetos, com a criação das classes `Produto` e `Lote` e a modularização da lógica de importação e validação.
 -   **20/07/2025 — Fase 2 (Refatoração para POO - Parte 2):** Conclusão da refatoração para POO nos módulos de banco de dados e importação" -m "- Funções em `database.py` (buscar_produto, produtos_existentes) foram atualizadas para operar com objetos Produto. A lógica de importação foi extraída do `main.py` para o novo módulo `importador_nfe.py` e refatorada para usar a nova arquitetura de objetos."
+-   **24/07/2025 — Fase 2 (Gestão de Usuários e Vendas):** Implementação da `class Usuario` e da função de `login` completa. Finalização do schema do banco de dados com o design das tabelas `pedidos` e `itens_pedido`.
+-   **25/07/2025 — Fase 2 (Conclusão - Gestão de Acessos):** Finalização da arquitetura POO e implementação do fluxo completo de autenticação, incluindo cadastro (`cadastro_usuario`) e `login()` com hashing de PIN (SHA-256).
+-   ➡️ **Início da Fase 3 (Operação de Vendas):** O próximo passo é o desenho e a implementação do schema de banco de dados para transações (`pedidos` e `itens_pedido`).
 
 ---
 

@@ -37,8 +37,15 @@ def cadastro_usuario():
 
     pin_bytes = pin_input.encode()
     pin_cripto = sha256(pin_bytes).hexdigest()
-    nome_usuario = nome_formatado
-    return database.inserir_usuario(nome_usuario, pin_cripto)
+    name_usuario = nome_formatado
+    usuario = Usuario (
+        
+        id_usuario = None,
+        nome_usuario = name_usuario,
+        pin_usuario = pin_cripto
+        
+        )
+    return database.inserir_usuario(usuario)
 
 def login():
     print('=' * 30)

@@ -62,7 +62,7 @@ def criar_tabelas():
         )
     ''')
     
-    print("Tabela 'produtos' verificada/criada com sucesso.")
+    print("[SUCESSO] Tabelas criadas.")
     conn.commit()
     conn.close()
 

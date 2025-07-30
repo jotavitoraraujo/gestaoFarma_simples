@@ -1,5 +1,4 @@
 import sqlite3
-from datetime import datetime
 from pathlib import Path
 from sistema.modelos.produto import Produto 
 from sistema.modelos.usuario import Usuario
@@ -89,8 +88,7 @@ def salvar_produtos(lista_produtos: list[Produto]):
                 
             ))
         
-        salvar_lote = produto.lotes[0]        
-        data_hoje = datetime.now().strftime('%Y-%m-%d')
+        salvar_lote = produto.lotes[0]     
 
         cursor.execute('''
             INSERT INTO lotes (produto_id, quantidade, preco_custo, data_validade, data_entrada)
@@ -103,8 +101,7 @@ def salvar_produtos(lista_produtos: list[Produto]):
                 salvar_lote.quantidade,
                 salvar_lote.preco_custo,
                 salvar_lote.data_validade,
-                salvar_lote.data_entrada,    
-                data_hoje
+                salvar_lote.data_entrada
             
             ))
         

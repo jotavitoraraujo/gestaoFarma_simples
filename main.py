@@ -21,20 +21,31 @@ def main():
     database.criar_tabelas()
 
     while True:
+        
         escolha = exibir_menu()
+        
         if escolha == '1':
-            importador_nfe.importar_nfe()
-            # print('\n[INFO] Função de importação de XML ainda não implementada.')
+            produtos_nota = importador_nfe.importar_nfe()
+            
+            if produtos_nota is not None:
+                database.salvar_produtos(produtos_nota)
+                print(f'[SUCESSO] A lista de produtos foi salva/atualizada.') 
+            else:
+                print(f'[ERRO] A lista de produtos está vazia. Verifique a NF-e e tente novamente.')                           
+        
         elif escolha == '2':
             print('\n [INFO] Função de registro de venda ainda não implementada.')
+        
         elif escolha == '3':
             print('\n [INFO] Função de relátorios ainda não implementada.')
+       
         elif escolha == '4':
-            users.cadastro_usuario()
-            #print('\n [INFO] Função de cadastro ainda não implementada.')
+            users.cadastro_usuario()            
+       
         elif escolha == '0':
             print('\n Saindo do sistema...')
             break
+       
         else:
             print('\n [ERRO] Opção inválida. Tente novamente')
 

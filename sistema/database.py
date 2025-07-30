@@ -2,6 +2,8 @@ import sqlite3
 from pathlib import Path
 from sistema.modelos.produto import Produto 
 from sistema.modelos.usuario import Usuario
+from sistema.modelos.lote import Lote
+from datetime import datetime
 pasta_sistema = Path(__file__).parent
 db_file = pasta_sistema.parent/'dados'/'farmacia.db'
 
@@ -59,6 +61,18 @@ def criar_tabelas():
         FOREIGN KEY(pedido_id) REFERENCES pedidos(id_pedido),
         FOREIGN KEY(lote_id) REFERENCES lotes(id_lote) 
         )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS alertas_lote (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_pedido INTEGER NOT NULL,
+        id_produto INTEGER NOT NULL,
+        id_lote_correto INTEGER NOT NULL, 
+        id_lote_vendido INTEGER NOT NULL,
+        id_usuario INTEGER NOT NULL,
+        data TEXT NOT NULL,
+        negligencia INTEGER NOT NULL
+        )           
     ''')
     
     print("[SUCESSO] Tabelas criadas.")
@@ -206,3 +220,35 @@ def buscar_usuario(usuario: Usuario):
     conectar_db.close()
     
     return resposta_db
+
+def alerta_lote(id_pedido, id_produto: Produto, id_usuario: Usuario, lote_vendido: Lote, lote_correto: Lote):
+
+    conectar_db = sqlite3.connect(db_file)
+    conector = conectar_db.cursor()
+
+    data_hoje = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    if lote_vendido.id_lote != lote_correto.id_lote:
+        negligencia = 1
+    else:
+        negligencia = 0  
+
+    
+    conector.execute('''
+        INSERT INTO alertas_lote (id_pedido, id_produto, id_usuario, lote_vendido, lote_correto, data, negligencia)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''',
+        (
+            id_pedido,
+            id_produto.id,
+            id_usuario.id_usuario,
+            lote_vendido.id_lote,
+            lote_correto.id_lote,
+            data_hoje,
+            negligencia        
+
+        ))
+    
+    conectar_db.commit()
+    conectar_db.close()
+    

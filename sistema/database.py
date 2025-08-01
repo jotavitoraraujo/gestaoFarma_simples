@@ -174,6 +174,31 @@ def buscar_produto(produto: Produto):
     
     return resposta_db
 
+def buscar_produto_nome(busca):
+
+    conectar_db = sqlite3.connect(db_file)
+    conector = conectar_db.cursor()
+
+    conector.execute('''
+        
+        SELECT id, nome_produto, preco_venda, data_validade
+        FROM produtos
+        JOIN lotes
+        ON produtos.id = lotes.produto_id
+        WHERE produtos.nome_produto LIKE ?
+        ORDER BY data_validade ASC        
+    
+    ''',
+    (
+        f'%{busca}%',
+    ))
+
+    resposta_db = conector.fetchall()
+    
+    conectar_db.close()
+    
+    return resposta_db
+
 def inserir_usuario(usuario: Usuario):
     
     'cadastra um novo usuário no database'

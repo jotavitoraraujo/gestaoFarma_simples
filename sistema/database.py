@@ -220,35 +220,38 @@ def buscar_usuario(usuario: Usuario):
     conectar_db.close()
     
     return resposta_db
+  
+def registrar_alerta_lote(id_pedido, id_produto: Produto, id_usuario: Usuario, id_lote_vendido: Lote, id_lote_correto: Lote):
+    'registra o alerta do lote vendido incorretamente'
 
-def alerta_lote(id_pedido, id_produto: Produto, id_usuario: Usuario, lote_vendido: Lote, lote_correto: Lote):
+    data_hoje = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    if id_lote_vendido.id_lote != id_lote_correto.id_lote:
+        negligencia = 1
+    else:
+        negligencia = 0
 
     conectar_db = sqlite3.connect(db_file)
     conector = conectar_db.cursor()
 
-    data_hoje = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-    if lote_vendido.id_lote != lote_correto.id_lote:
-        negligencia = 1
-    else:
-        negligencia = 0  
-
-    
     conector.execute('''
-        INSERT INTO alertas_lote (id_pedido, id_produto, id_usuario, lote_vendido, lote_correto, data, negligencia)
+        INSERT INTO alertas_lote (id_pedido, id_produto, id_usuario, id_lote_vendido, id_lote_correto, data, negligencia)
         VALUES (?, ?, ?, ?, ?, ?, ?)
         ''',
         (
             id_pedido,
             id_produto.id,
             id_usuario.id_usuario,
-            lote_vendido.id_lote,
-            lote_correto.id_lote,
+            id_lote_vendido.id_lote,
+            id_lote_correto.id_lote,
             data_hoje,
-            negligencia        
-
+            negligencia
         ))
     
     conectar_db.commit()
     conectar_db.close()
+    
+    print('=' * 30)
+    print(f'[ALERTA] Os dados dessa venda foram registrados com sucesso!')
+    print('=' * 30)
     

@@ -6,12 +6,14 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
 
 ## ⚙️ Funcionalidades Atuais
 
--   ✅ **Arquitetura Orientada a Objetos (POO):** O projeto foi arquitetado usando Classes (`Produto`, `Lote`, `Usuario`), tornando o código organizado, reutilizável e alinhado com as melhores práticas de engenharia.
--   ✅ **Modelo de Dados Relacional:** Implementado um schema robusto com tabelas separadas para `produtos`, `lotes` e `usuarios`, garantindo a integridade dos dados.
--   ✅ **Automação de Entrada de Estoque:** O sistema realiza o fluxo completo de importação de NF-e, criando e manipulando objetos `Produto` e `Lote`.
--   ✅ **Gestão de Usuários Segura:** Implementada a funcionalidade de cadastro de vendedores, com validação de entradas e armazenamento seguro do PIN usando o algoritmo de hash SHA-256.
--   ✅ **Entrada de Senha Mascarada:** A interface de terminal utiliza a biblioteca `pwinput` para mascarar a digitação do PIN com asteriscos, garantindo a privacidade e segurança do usuário.
--   ➡️ **Próxima Fase (Lógica de Vendas):** O próximo passo é construir a função Registrar Venda, que irá utilizar a nova estrutura de pedidos e itens_pedido para registrar as transações.
+-   ✅ **Arquitetura Orientada a Objetos (POO):** O projeto é solidamente arquitetado usando Classes (`Produto`, `Lote`, `Usuario`, `Item`), tornando o código organizado, reutilizável e alinhado com as melhores práticas de engenharia.
+-   ✅ **Modelo de Dados Relacional e Robusto:** Implementado um schema em SQLite com tabelas para `produtos`, `lotes`, `usuarios`, e a fundação para `pedidos`, `itens_pedido` e `alertas_lote`, garantindo a integridade e o controle dos dados.
+-   ✅ **Lógica de Negócio Inteligente:** A classe `Item` encapsula regras de negócio complexas, incluindo:
+    -   Cálculo de subtotal.
+    -   Um sistema de **descontos dinâmicos** que se ajusta com base na proximidade da data de validade, com uma **"rede de segurança"** para nunca vender um produto abaixo do seu preço de custo.
+-   ✅ **Sistema de Auditoria (PVPS):** O sistema possui uma fundação completa para auditar desvios na regra de negócio "Primeiro que Vence, Primeiro que Sai", registrando ocorrências para análise gerencial.
+-   ✅ **Automação de Entrada de Estoque:** O sistema realiza o fluxo completo de importação de NF-e, processando os dados e persistindo os novos produtos e lotes no banco de dados.
+-   ✅ **Gestão de Usuários Segura:** Funcionalidade completa de cadastro e login de vendedores, com validação de entradas e armazenamento seguro do PIN usando o algoritmo de hash **SHA-256**.
 
 ---
 
@@ -64,26 +66,31 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
 ```
 gestaoFarma_simples/
 ├── dados/
-│   └── farmacia.db
+│   ├── farmacia.db
+│   └── teste1_NFE.xml (e outros arquivos de exemplo)
 │
 ├── sistema/
 │   ├── __init__.py
 │   ├── database.py
 │   ├── modelos/
 │   │   ├── __init__.py
-│   │   ├── produto.py
+│   │   ├── item.py
 │   │   ├── lote.py
+│   │   ├── produto.py
 │   │   └── usuario.py
 │   └── modulos/
 │       ├── __init__.py
 │       ├── importador_nfe.py
 │       ├── relatorios.py
 │       ├── users.py
-│       └── validadores_input.py
+│       ├── validadores_input.py
+│       └── vendas.py
 │
+├── venv/
 ├── .gitignore
 ├── LICENSE
 ├── main.py
+├── README.md
 └── requirements.txt
 ```
 
@@ -112,6 +119,11 @@ Este projeto nasceu dessa percepção. Após desenvolver um agente autônomo par
 -   **24/07/2025 — Fase 2 (Gestão de Usuários e Vendas):** Implementação da `class Usuario` e da função de `login` completa. Finalização do schema do banco de dados com o design das tabelas `pedidos` e `itens_pedido`.
 -   **25/07/2025 — Fase 2 (Conclusão - Gestão de Acessos):** Finalização da arquitetura POO e implementação do fluxo completo de autenticação, incluindo cadastro (`cadastro_usuario`) e `login()` com hashing de PIN (SHA-256).
 -   ➡️ **Início da Fase 3 (Operação de Vendas):** O próximo passo é o desenho e a implementação do schema de banco de dados para transações (`pedidos` e `itens_pedido`).
+-   **01/08/2025 — Fase 3 (Fundação de Vendas e Controle):** Início da implementação do Ponto de Venda.
+    -   Criação da classe `Item` para encapsular a lógica de um item de venda, com os métodos `calcular_subtotal()` e `desconto()`.
+    -   Implementação do sistema de auditoria para desvios da regra PVPS, com a criação da tabela `alertas_lote` e da função `registrar_alerta_lote()`.
+    -   Correção e finalização do fluxo de importação de NF-e, garantindo o salvamento dos produtos no banco de dados.
+-   ➡️ **Próximo Passo (Fase 3.3):** Desenvolvimento da função `carrinho()` no módulo `vendas.py` para orquestrar a busca e adição de itens à venda.
 
 ---
 

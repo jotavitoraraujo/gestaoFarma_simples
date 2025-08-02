@@ -174,7 +174,7 @@ def buscar_produto(produto: Produto):
     
     return resposta_db
 
-def buscar_produto_nome(busca):
+def buscar_produto_nome(busca: str) -> list:
 
     conectar_db = sqlite3.connect(db_file)
     conector = conectar_db.cursor()

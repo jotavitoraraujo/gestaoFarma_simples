@@ -25,6 +25,7 @@ def validador_dv():
         validade_input = input(f'{validade_pergunta}')                        
         
         try:
+            
             validade_lista = validade_input.split('/')
             validade_formatada = f'{validade_lista[2]}-{validade_lista[1]}-{validade_lista[0]}'
             validade_digitada = datetime.strptime(validade_formatada, '%Y-%m-%d').date()
@@ -38,3 +39,28 @@ def validador_dv():
             print(f'\n [ERRO] Data inválida, por favor tente novamente.')
     
     return validade_digitada
+
+def validador_qtd():
+    'verifica se um numero é um inteiro positivo'
+    
+    while True:
+        print(f'[AVISO] Por favor, inseria apenas números.')
+        quantidade_pergunta = f'Quantidade: '
+        quantidade_input = input(f'{quantidade_pergunta}')
+
+        try:
+            
+            quantidade_verificacao = quantidade_input.isdigit()
+            
+            if quantidade_verificacao is True:
+                if quantidade_verificacao > 0:
+                    break
+                else:
+                    print(f'[ERRO] A quantidade precisa ser maior que zero. Tente novamente.')
+            else:
+                print(f'[ERRO] Entrada inválida, insira apenas números. Tente novamente.')
+        
+        except:
+            print(f'[ERRO] Dados inválidos. Tente novamente.')
+
+    return quantidade_verificacao

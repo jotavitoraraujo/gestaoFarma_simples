@@ -16,6 +16,7 @@ def criar_tabelas():
         CREATE TABLE IF NOT EXISTS produtos (
             id TEXT PRIMARY KEY,
             nome_produto TEXT NOT NULL,            
+            ean TEXT NOT NULL,
             preco_venda REAL,            
             estoque_minimo INTEGER,            
             curva_abc TEXT
@@ -89,14 +90,15 @@ def salvar_produtos(lista_produtos: list[Produto]):
 
     for produto in lista_produtos: 
         cursor.execute('''
-            INSERT INTO produtos (id, nome_produto, preco_venda)
-            VALUES (?, ?, ?)
+            INSERT INTO produtos (id, ean, nome_produto, preco_venda)
+            VALUES (?, ?, ?, ?)
             ON CONFLICT(id) DO UPDATE SET
                 nome_produto = excluded.nome_produto,
                 preco_venda = excluded.preco_venda;
             ''', 
             (
                 produto.id,
+                produto.ean,
                 produto.nome,
                 produto.preco_venda
                 
@@ -181,7 +183,7 @@ def buscar_produto_nome(busca: str) -> list:
 
     conector.execute('''
         
-        SELECT id, nome_produto, preco_venda, data_validade
+        SELECT id, nome_produto, ean, preco_venda, id_lote, produto_id, quantidade, preco_custo, data_validade, data_entrada
         FROM produtos
         JOIN lotes
         ON produtos.id = lotes.produto_id

@@ -1,6 +1,7 @@
 from sistema import database
 from sistema.modelos.item import Item
 from sistema.modelos.produto import Produto
+from sistema.modelos.lote import Lote
 from sistema.modelos.usuario import Usuario
 
 def carrinho() -> Item:
@@ -52,8 +53,36 @@ def carrinho() -> Item:
                         print(f'[ERRO] Utilize apenas números para selecionar o item. Tente novamente.')
                         continue
 
-            item_selecionado = menu_lista(lista_busca)            
+            item_selecionado = menu_lista(lista_busca)
+                
+        id_produto, nome_produto, codigo_barras, preco_venda_produto, id_lote_, produto_id_, quantidade_, preco_custo_, data_validade_, data_entrada_ = item_selecionado
+        
+        produto_selecionado = Produto ( 
+            
+            id = id_produto,
+            ean = codigo_barras,
+            nome = nome_produto,
+            preco_venda = preco_venda_produto
+        )
 
+        lote_selecionado = Lote (
+
+            id_lote = id_lote_,
+            produto_id = produto_id_,
+            quantidade = quantidade_,
+            preco_custo = preco_custo_,
+            data_validade = data_validade_,
+            data_entrada = data_entrada_
+        )
+
+        input_quantidade = int(input(f'[AVISO] Quantidade: '))
+                
+        item = Item (
+
+            produto = produto_selecionado,
+            lote = lote_selecionado,
+            quantidade_vendida = input_quantidade
+        )
                 
 
 

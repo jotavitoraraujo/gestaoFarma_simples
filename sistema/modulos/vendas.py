@@ -1,3 +1,4 @@
+import logging
 from sistema import database
 from sistema.modelos.item import Item
 from sistema.modelos.produto import Produto
@@ -18,14 +19,14 @@ def carrinho() -> Item:
         input_busca = input('Digite o nome do produto: ')
         print('\n')
         lista_busca = database.buscar_produto_nome(input_busca)
-
-        if not lista_busca:
-            print(f'[AVISO] A busca por {input_busca} não corresponde a nenhum item. Tente novamente.')
+    
+        if not lista_busca:            
+            logging.warning('[ALERTA] A busca por %s não corresponde a nenhum item. Tente novamente.', input_busca)
             
         else:
             print('=' * 30)            
             print(f'[RESULTADO] Foram encontrados {len(lista_busca)} itens na busca por "{input_busca}". Selecione o desejado.')
-            print('=' * 30)           
+            print('=' * 30)      
 
             ################################################################################################################################
             
@@ -57,11 +58,11 @@ def carrinho() -> Item:
                             indice_escolha = input_escolha - 1
                             item_selecionado = lista_busca[indice_escolha]    
                             break                            
-                        else:
-                            print('[ERRO] Opção inválidade. Tente novamente.')                                 
+                        else:                            
+                            logging.warning('[ALERTA] Opção inválida. Tente novamente')                                 
                     
-                    except ValueError:
-                        print(f'[ERRO] Utilize apenas números para selecionar o item. Tente novamente.')
+                    except ValueError:                        
+                        logging.warning('[ALERTA] Utilize apenas números para selecionar o item. Tente novamente')
                         continue                    
                     
                 return item_selecionado
@@ -96,11 +97,10 @@ def carrinho() -> Item:
             lote = lote_selecionado,
             quantidade_vendida = input_quantidade
         )
+        
+        ###### teste de introdução de log no algoritmo ######
+        #####################################################
+        logging.info('\n[INFO] Item adicionado ao carrinho: %s', item)
+        #####################################################
+        
         return item
-       
-                
-
-
-
-
-

@@ -16,7 +16,7 @@ def importar_nfe():
         print(f'\n [ERRO] Ocorreu um problema inesperado ao processar o arquivo - Verifique o nome do arquivo.')
 
     if produtos_nota:
-        print('\n--- Produtos Encontrados na Nota Fiscal ---')
+        print(f'\n---{len(produtos_nota)} Produtos Encontrados na Nota Fiscal ---')
         
         for produto in produtos_nota:
                 if database.produtos_existentes(produto):

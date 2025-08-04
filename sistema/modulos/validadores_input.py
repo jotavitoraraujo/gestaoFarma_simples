@@ -24,8 +24,7 @@ def validador_dv():
         validade_pergunta = f'Qual a validade deste novo item (DIA/MÊS/ANO)?: '
         validade_input = input(f'{validade_pergunta}')                        
         
-        try:
-            
+        try:            
             validade_lista = validade_input.split('/')
             validade_formatada = f'{validade_lista[2]}-{validade_lista[1]}-{validade_lista[0]}'
             validade_digitada = datetime.strptime(validade_formatada, '%Y-%m-%d').date()
@@ -33,8 +32,7 @@ def validador_dv():
             if validade_digitada > datetime.now().date():
                 break
             else:
-                print(f'\n [ERRO] Data de validade inferior ou igual a data de hoje.')
-        
+                print(f'\n [ERRO] Data de validade inferior ou igual a data de hoje.')        
         except:
             print(f'\n [ERRO] Data inválida, por favor tente novamente.')
     
@@ -43,24 +41,19 @@ def validador_dv():
 def validador_qtd():
     'verifica se um numero é um inteiro positivo'
     
-    while True:
-        print(f'[AVISO] Por favor, inseria apenas números.')
+    while True:        
         quantidade_pergunta = f'Quantidade: '
         quantidade_input = input(f'{quantidade_pergunta}')
 
-        try:
-            
-            quantidade_verificacao = quantidade_input.isdigit()
-            
-            if quantidade_verificacao is True:
-                if quantidade_verificacao > 0:
-                    break
-                else:
-                    print(f'[ERRO] A quantidade precisa ser maior que zero. Tente novamente.')
+        try:            
+            quantidade_formatada = int(quantidade_input)           
+                            
+            if quantidade_formatada > 0:
+                break                                             
             else:
                 print(f'[ERRO] Entrada inválida, insira apenas números. Tente novamente.')
         
-        except:
+        except ValueError:
             print(f'[ERRO] Dados inválidos. Tente novamente.')
 
-    return quantidade_verificacao
+    return quantidade_formatada

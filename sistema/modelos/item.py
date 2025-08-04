@@ -6,9 +6,26 @@ from datetime import timedelta, date
 
 class Item:
     def __init__(self, produto: Produto, lote: Lote, quantidade_vendida):
+        'cria o tipo Item a partir de outras classes com algumas caracteristicas unicas'
         self.produto = produto
         self.lote = lote
         self.quantidade_vendida = quantidade_vendida
+
+    def __str__(self):
+        'descreve o item'
+        descricao = f'''
+        1. Nome: {self.produto.nome}
+        2. Lote: {self.lote.id_lote}
+        3. Qtd: {self.quantidade_vendida}
+        4. Data de Validade: {self.lote.data_validade}
+        5. Código de barras: {self.produto.ean}
+        '''
+        return descricao
+    
+    def __repr__(self) -> str:
+        'representacao tecnica do tipo Item'
+        return f'1. Nome: {self.produto.nome} 2. Lote: {self.lote.id_lote} 3. Qtd: {self.quantidade_vendida} 4. Data de Validade: {self.lote.data_validade} 5. Código de barras: {self.produto.ean}'
+
     
     def calcular_subtotal(self):
         'acessa o preço de venda do produto e multiplica pela quantidade vendida para retornar o total dessa compra'

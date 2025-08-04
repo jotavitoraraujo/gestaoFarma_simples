@@ -1,6 +1,7 @@
 from sistema import database
 from sistema.modulos import users
 from sistema.modulos import importador_nfe
+from sistema.modulos import vendas
 
 
 
@@ -34,7 +35,12 @@ def main():
                 print(f'[ERRO] A lista de produtos está vazia. Verifique a NF-e e tente novamente.')                           
         
         elif escolha == '2':
-            print('\n [INFO] Função de registro de venda ainda não implementada.')
+            item = vendas.carrinho()
+            if item is not None:
+                print(item)
+            else:
+                print('[ERRO]' * 5)
+            #print('\n [INFO] Função de registro de venda ainda não implementada.')
         
         elif escolha == '3':
             print('\n [INFO] Função de relátorios ainda não implementada.')

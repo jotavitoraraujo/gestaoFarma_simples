@@ -5,7 +5,7 @@ from sistema.modelos.produto import Produto
 from sistema.modelos.lote import Lote
 from sistema.modulos import validadores_input
 
-def carrinho() -> Item:
+def adicionar_item() -> Item:
     'cria um item após uma busca por nome do produto'
 
     print('\n')

@@ -8,12 +8,11 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
 
 -   ✅ **Arquitetura Orientada a Objetos (POO):** O projeto é solidamente arquitetado usando Classes (`Produto`, `Lote`, `Usuario`, `Item`), tornando o código organizado, reutilizável e alinhado com as melhores práticas de engenharia.
 -   ✅ **Modelo de Dados Relacional e Robusto:** Implementado um schema em SQLite com tabelas para `produtos`, `lotes`, `usuarios`, e a fundação para `pedidos`, `itens_pedido` e `alertas_lote`, garantindo a integridade e o controle dos dados.
--   ✅ **Lógica de Negócio Inteligente:** A classe `Item` encapsula regras de negócio complexas, incluindo:
-    -   Cálculo de subtotal.
-    -   Um sistema de **descontos dinâmicos** que se ajusta com base na proximidade da data de validade, com uma **"rede de segurança"** para nunca vender um produto abaixo do seu preço de custo.
--   ✅ **Sistema de Auditoria (PVPS):** O sistema possui uma fundação completa para auditar desvios na regra de negócio "Primeiro que Vence, Primeiro que Sai", registrando ocorrências para análise gerencial.
+-   ✅ **Interface de Venda Interativa:** O sistema possui um fluxo de terminal para adicionar itens a uma venda, com busca de produtos por nome, apresentação de menu dinâmico ordenado por validade (PVPS) e validação robusta de inputs do usuário.
+-   ✅ **Lógica de Negócio Inteligente:** A classe `Item` encapsula regras de negócio complexas, incluindo cálculo de subtotal e um sistema de descontos dinâmicos com "rede de segurança" contra prejuízos.
+-   ✅ **Sistema de Auditoria e Observabilidade:** O sistema possui uma fundação completa para auditar desvios da regra PVPS. Além disso, utiliza um sistema de logging profissional que separa os logs de usuário (exibidos no console) dos logs técnicos detalhados (salvos em arquivo).
 -   ✅ **Automação de Entrada de Estoque:** O sistema realiza o fluxo completo de importação de NF-e, processando os dados e persistindo os novos produtos e lotes no banco de dados.
--   ✅ **Gestão de Usuários Segura:** Funcionalidade completa de cadastro e login de vendedores, com validação de entradas e armazenamento seguro do PIN usando o algoritmo de hash **SHA-256**.
+-   ✅ **Gestão de Usuários Segura:** Funcionalidade completa de cadastro e login de vendedores, com validação de entradas e armazenamento seguro do PIN usando o algoritmo de hash **SHA-266**.
 
 ---
 
@@ -32,6 +31,7 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
 -   `xml.etree.ElementTree` (Leitura de XML)
 -   `datetime` (Manipulação de Datas)
 -   `hashlib` (Criptografia de Hash)
+-   `logging` (Sistema de Logs)
 -   `os`, `pathlib`
 
 *O projeto utiliza poucas dependências externas para garantir leveza e portabilidade, permitindo que rode em computadores mais antigos sem a necessidade de uma instalação complexa.*
@@ -67,7 +67,7 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
 gestaoFarma_simples/
 ├── dados/
 │   ├── farmacia.db
-│   └── teste1_NFE.xml (e outros arquivos de exemplo)
+│   └── gestao_farma.log
 │
 ├── sistema/
 │   ├── __init__.py
@@ -80,6 +80,7 @@ gestaoFarma_simples/
 │   │   └── usuario.py
 │   └── modulos/
 │       ├── __init__.py
+│       ├── config_log.py
 │       ├── importador_nfe.py
 │       ├── relatorios.py
 │       ├── users.py
@@ -118,12 +119,15 @@ Este projeto nasceu dessa percepção. Após desenvolver um agente autônomo par
 -   **20/07/2025 — Fase 2 (Refatoração para POO - Parte 2):** Conclusão da refatoração para POO nos módulos de banco de dados e importação" -m "- Funções em `database.py` (buscar_produto, produtos_existentes) foram atualizadas para operar com objetos Produto. A lógica de importação foi extraída do `main.py` para o novo módulo `importador_nfe.py` e refatorada para usar a nova arquitetura de objetos."
 -   **24/07/2025 — Fase 2 (Gestão de Usuários e Vendas):** Implementação da `class Usuario` e da função de `login` completa. Finalização do schema do banco de dados com o design das tabelas `pedidos` e `itens_pedido`.
 -   **25/07/2025 — Fase 2 (Conclusão - Gestão de Acessos):** Finalização da arquitetura POO e implementação do fluxo completo de autenticação, incluindo cadastro (`cadastro_usuario`) e `login()` com hashing de PIN (SHA-256).
--   ➡️ **Início da Fase 3 (Operação de Vendas):** O próximo passo é o desenho e a implementação do schema de banco de dados para transações (`pedidos` e `itens_pedido`).
+-   **Início da Fase 3 (Operação de Vendas):** O próximo passo é o desenho e a implementação do schema de banco de dados para transações (`pedidos` e `itens_pedido`).
 -   **01/08/2025 — Fase 3 (Fundação de Vendas e Controle):** Início da implementação do Ponto de Venda.
     -   Criação da classe `Item` para encapsular a lógica de um item de venda, com os métodos `calcular_subtotal()` e `desconto()`.
     -   Implementação do sistema de auditoria para desvios da regra PVPS, com a criação da tabela `alertas_lote` e da função `registrar_alerta_lote()`.
     -   Correção e finalização do fluxo de importação de NF-e, garantindo o salvamento dos produtos no banco de dados.
--   ➡️ **Próximo Passo (Fase 3.3):** Desenvolvimento da função `carrinho()` no módulo `vendas.py` para orquestrar a busca e adição de itens à venda.
+-   **04/08/2025 — Fase 3 (Interface de Venda e Logging):**
+    -   Desenvolvimento da função `vendas.adicionar_item`, criando a primeira interface interativa para busca e seleção de produtos.
+    -   Implementação de um sistema de logging profissional e modular (`config_log.py`) que separa os logs de usuário (console) dos logs técnicos (arquivo).
+-   ➡️ **Próximo Passo (Fase 3.3):** Finalizar a função `adicionar_item` com a lógica de validação de lote por 4 dígitos e a integração com o sistema de alertas.
 
 ---
 

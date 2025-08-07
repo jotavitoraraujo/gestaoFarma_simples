@@ -26,6 +26,7 @@ def criar_tabelas():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS lotes (
         id_lote INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_lote_fisico TEXT NOT NULL,
         produto_id TEXT NOT NULL,        
         quantidade INTEGER NOT NULL,        
         preco_custo REAL NOT NULL,  

@@ -30,7 +30,7 @@ def adicionar_item() -> Item:
 
             ################################################################################################################################
             
-            def menu_lista(lista_busca) -> tuple:
+            def _menu_lista(lista_busca) -> tuple:
                 'exibe o menu de opções para selecionar o item desejado (funcao aninhada)'
 
                 if lista_busca is not None:                    
@@ -69,38 +69,65 @@ def adicionar_item() -> Item:
                 
             ################################################################################################################################
 
-        # construir uma função separada que utilize essa lógica de instancia de Item
-
-        item_selecionado = menu_lista(lista_busca)                
-        id_produto, nome_produto, codigo_barras, preco_venda_produto, id_lote_, produto_id_, quantidade_, preco_custo_, data_validade_, data_entrada_ = item_selecionado        
-        
-        produto_selecionado = Produto (            
-            id = id_produto,
-            ean = codigo_barras,
-            nome = nome_produto,
-            preco_venda = preco_venda_produto
-        )
-
-        lote_selecionado = Lote (
-            id_lote = id_lote_,
-            produto_id = produto_id_,
-            quantidade = quantidade_,
-            preco_custo = preco_custo_,
-            data_validade = data_validade_,
-            data_entrada = data_entrada_
-        )
-
-        input_quantidade = validadores_input.validador_qtd()
+            item_selecionado = _menu_lista(lista_busca)
+            
+            def _construir_item_selecionado(item_selecionado: tuple) -> Item:
                 
-        item = Item (
-            produto = produto_selecionado,
-            lote = lote_selecionado,
-            quantidade_vendida = input_quantidade
-        )
+                                
+                id_produto, nome_produto, codigo_barras, preco_venda_produto, id_lote_, produto_id_, quantidade_, preco_custo_, data_validade_, data_entrada_ = item_selecionado        
+                
+                produto_selecionado = Produto (            
+                    id = id_produto,
+                    ean = codigo_barras,
+                    nome = nome_produto,
+                    preco_venda = preco_venda_produto
+                )
+
+                lote_selecionado = Lote (
+                    id_lote = id_lote_,
+                    produto_id = produto_id_,
+                    quantidade = quantidade_,
+                    preco_custo = preco_custo_,
+                    data_validade = data_validade_,
+                    data_entrada = data_entrada_
+                )
+
+                input_quantidade = validadores_input.validador_qtd()
+                        
+                item = Item (
+                    produto = produto_selecionado,
+                    lote = lote_selecionado,
+                    quantidade_vendida = input_quantidade
+                )
+                
+                ###### teste de introdução de log no algoritmo ######                
+                logging.info('\n[INFO] Item adicionado ao carrinho: %s', item)
+                #####################################################
+                
+                return item
+            
+            ################################################################################################################################
+
+            item_processado = _construir_item_selecionado(item_selecionado)
+            item_processado_lote = item_processado.lote
+
+            def _validar_lote_fisico(item_processado_lote: Item) -> bool:
+
+                print('=' * 30)
+                print('       ---[VALIDAÇÃO DE LOTE]---')
+                print('=' * 30)
+
+                print(f'Insira os 2 primeiros e os 2 ultimos digitos do lote do produto em mãos.')
+                input_digitos = input('Digitos: ')
+
+                try:
+                    int(input_digitos)
+                    
+                
+                    
+
+
+
+
+                
         
-        ###### teste de introdução de log no algoritmo ######
-        #####################################################
-        logging.info('\n[INFO] Item adicionado ao carrinho: %s', item)
-        #####################################################
-        
-        return item

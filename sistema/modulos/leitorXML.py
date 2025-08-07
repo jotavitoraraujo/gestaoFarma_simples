@@ -35,6 +35,7 @@ def extrair_dados_nfe(caminho_do_xml) -> list[Produto]:
                 
                 novo_lote = Lote(
                     id_lote = None,
+                    id_lote_fisico = None,
                     produto_id = novo_produto.id,
                     quantidade = float(item.find('.//nfe:qCom', ns).text),
                     preco_custo = float(item.find('.//nfe:vUnCom', ns).text),

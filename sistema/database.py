@@ -108,12 +108,13 @@ def salvar_produtos(lista_produtos: list[Produto]):
         salvar_lote = produto.lotes[0]     
 
         cursor.execute('''
-            INSERT INTO lotes (produto_id, quantidade, preco_custo, data_validade, data_entrada)
-            VALUES (?, ?, ?, ?, ?)            
+            INSERT INTO lotes (id_lote_fisico, produto_id, quantidade, preco_custo, data_validade, data_entrada)
+            VALUES (?, ?, ?, ?, ?, ?)            
             ''',
             
             
             (
+                salvar_lote.id_lote_fisico,
                 salvar_lote.produto_id,
                 salvar_lote.quantidade,
                 salvar_lote.preco_custo,

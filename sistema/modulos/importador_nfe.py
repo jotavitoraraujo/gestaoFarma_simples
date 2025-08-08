@@ -29,9 +29,11 @@ def importar_nfe():
                 else:
                     print(f'\n [NOVO PRODUTO ENCONTRADO]: {produto.nome}')                    
                     pv_validado = validadores_input.validador_pv()
-                    dv_validada = validadores_input.validador_dv()                
+                    dv_validada = validadores_input.validador_dv()
+                    lotef_validado = validadores_input.validador_lotef()                
                     produto.preco_venda = pv_validado
-                    produto.lotes[0].data_validade = dv_validada                    
+                    produto.lotes[0].data_validade = dv_validada
+                    produto.lotes[0].id_lote_fisico = lotef_validado                    
         
         return produtos_nota
     else:

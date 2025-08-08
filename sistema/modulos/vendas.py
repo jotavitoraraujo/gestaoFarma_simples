@@ -43,7 +43,7 @@ def adicionar_item() -> Item:
 
                 # esse loop for é o menu de opções
                 for indice, item in enumerate(lista_busca):
-                    print(f'{indice + 1}. {item[1]} - Preço: R${item[3]} - Validade: {item[8]} - Lote: {item[4]} - Quantidade: {item[6]} - Código de barras: {item[2]}')
+                    print(f'{indice + 1}. {item[1]} - Preço: R${item[3]} - Validade: {item[8]} - Lote: {item[5]} - Quantidade: {item[6]} - Código de barras: {item[2]}')
                 
                 while True:
                     print('\n')
@@ -74,7 +74,7 @@ def adicionar_item() -> Item:
             def _construir_item_selecionado(item_selecionado: tuple) -> Item:
                 
                                 
-                id_produto, nome_produto, codigo_barras, preco_venda_produto, id_lote_, produto_id_, quantidade_, preco_custo_, data_validade_, data_entrada_ = item_selecionado        
+                id_produto, nome_produto, codigo_barras, preco_venda_produto, id_lote_, id_lote_fisico, produto_id_, quantidade_, preco_custo_, data_validade_, data_entrada_ = item_selecionado        
                 
                 produto_selecionado = Produto (            
                     id = id_produto,
@@ -85,6 +85,7 @@ def adicionar_item() -> Item:
 
                 lote_selecionado = Lote (
                     id_lote = id_lote_,
+                    id_lote_fisico = id_lote_fisico,
                     produto_id = produto_id_,
                     quantidade = quantidade_,
                     preco_custo = preco_custo_,
@@ -109,19 +110,38 @@ def adicionar_item() -> Item:
             ################################################################################################################################
 
             item_processado = _construir_item_selecionado(item_selecionado)
-            item_processado_lote = item_processado.lote
+            item_processado_lotef = item_processado.lote.id_lote_fisico
 
-            def _validar_lote_fisico(item_processado_lote: Item) -> bool:
+            def _validar_lote_fisico(item_processado_lotef: str) -> bool:
 
                 print('=' * 30)
                 print('       ---[VALIDAÇÃO DE LOTE]---')
                 print('=' * 30)
 
-                print(f'Insira os 2 primeiros e os 2 ultimos digitos do lote do produto em mãos.')
+                logging.info(f'[INFO] Insira os 2 primeiros e os 2 ultimos digitos do lote do produto em mãos.')
                 input_digitos = input('Digitos: ')
+                
+                # 2 primeiros e 2 ultimos digitos do produto em maos
+                input_primeiros = input_digitos[:2]
+                input_ultimos = input_digitos[-2:]
+                input_formatado = input_primeiros + input_ultimos
+                
+                # 2 primeiros e 2 ultimos digitos do produto selecionado (id_lote_fisico armazenado no db)
+                lote_primeiros = item_processado_lotef[:2]
+                lote_ultimos = item_processado_lotef[-2:]
+                lote_formatado = lote_primeiros + lote_ultimos
 
-                try:
-                    int(input_digitos)
+                if input_formatado == lote_formatado:
+                    lote_correto = True
+                else:
+                    lote_correto = False
+                    database.registrar_alerta_lote(None, item_processado.produto.id, None, lote_correto, item_selecionado[5])
+                
+                return lote_correto
+
+
+                
+                    
                     
                 
                     

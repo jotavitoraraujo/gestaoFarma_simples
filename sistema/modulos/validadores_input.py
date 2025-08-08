@@ -1,6 +1,7 @@
 from datetime import datetime
+import logging
 
-def validador_pv():    
+def validador_pv() -> float:    
     'conversão de ponto para virgula visando o input do usuario | conversão float'
     while True:                                         
         preco_pergunta = f'Qual preço de venda deste novo item?: '
@@ -11,17 +12,17 @@ def validador_pv():
             if preco_digitado > 0:
                 break
             else:
-                print('\n [ERRO] O preço de venda deve ser maior que zero.') 
+                logging.error('\n [ERRO] O preço de venda deve ser maior que zero.') 
         except ValueError:
-            print('\n [ERRO] Entrada inválida. Por favor, digite apenas números.')
+            logging.error('\n [ERRO] Entrada inválida. Por favor, digite apenas números.')
     
     return preco_digitado
 
 
-def validador_dv():
+def validador_dv() -> str:
     'conversão de d/m/aa para aa/m/d para aceitação no sql'
     while True:                        
-        validade_pergunta = f'Qual a validade deste novo item (DIA/MÊS/ANO)?: '
+        validade_pergunta = f'Qual a validade deste novo item? (DIA/MÊS/ANO): '
         validade_input = input(f'{validade_pergunta}')                        
         
         try:            
@@ -32,13 +33,36 @@ def validador_dv():
             if validade_digitada > datetime.now().date():
                 break
             else:
-                print(f'\n [ERRO] Data de validade inferior ou igual a data de hoje.')        
+                logging.error(f'\n [ERRO] Data de validade inferior ou igual a data de hoje.')        
         except:
-            print(f'\n [ERRO] Data inválida, por favor tente novamente.')
+            logging.error(f'\n [ERRO] Data inválida, por favor tente novamente.')
     
     return validade_digitada
 
-def validador_qtd():
+def validador_lotef() -> str:
+    'valida a entrada do lote fisico impresso no produto'
+    while True:
+        lote_pergunta = f'Qual o lote impresso fisicamente neste item? (EX: AB123CD): '
+        lote_input = input(f'{lote_pergunta}')
+        logging.info(f'O lote informado é {lote_input}.')
+        logging.info(f'Você confirma que o lote {lote_input} está correto? ')
+        lote_confirmacao = input(f'Digite 1 para confirmar ou 0 para corrigir: ')
+        
+        if len(lote_confirmacao) > 1:
+            logging.error(f'[ERRO] Digite apenas 1 ou 0. Tente novamente')
+        elif len(lote_confirmacao) < 1:
+            logging.error(f'[ERRO] Digite apenas 1 ou 0. Tente novamente.')
+        else:
+            if lote_confirmacao == '1':
+                break
+            elif lote_confirmacao == '0':
+                continue
+            else:
+                logging.error(f'[ERRO] Opção inválida. Tente novamente.')
+        
+        return lote_input
+
+def validador_qtd() -> int:
     'verifica se um numero é um inteiro positivo'
     
     while True:        

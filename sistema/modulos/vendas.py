@@ -118,26 +118,25 @@ def adicionar_item() -> Item:
                 print('       ---[VALIDAÇÃO DE LOTE]---')
                 print('=' * 30)
 
-                logging.info(f'[INFO] Insira os 2 primeiros e os 2 ultimos digitos do lote do produto em mãos.')
-                input_digitos = input('Digitos: ')
-                
-                # 2 primeiros e 2 ultimos digitos do produto em maos
-                input_primeiros = input_digitos[:2]
-                input_ultimos = input_digitos[-2:]
-                input_formatado = input_primeiros + input_ultimos
-                
-                # 2 primeiros e 2 ultimos digitos do produto selecionado (id_lote_fisico armazenado no db)
-                lote_primeiros = item_processado_lotef[:2]
-                lote_ultimos = item_processado_lotef[-2:]
-                lote_formatado = lote_primeiros + lote_ultimos
+                while True: 
+                    logging.info(f'[INFO] Insira os 2 primeiros e os 2 ultimos digitos do lote do produto em mãos.')
+                    input_digitos = input('Digitos: ')
+                    
+                    if len(input_digitos) != 4:
+                        logging.warning(f'[ALERTA] Entrada inválida. Digite exatamente os 2 primeiros e os 2 ultimos digitos do lote.')
+                        continue
+                    else:
+                        # 2 primeiros e 2 ultimos digitos do produto selecionado (id_lote_fisico armazenado no db)
+                        lote_primeiros = item_processado_lotef[:2]
+                        lote_ultimos = item_processado_lotef[-2:]
+                        lote_formatado = lote_primeiros + lote_ultimos
 
-                if input_formatado == lote_formatado:
-                    lote_correto = True
-                else:
-                    lote_correto = False
-                    database.registrar_alerta_lote(None, item_processado.produto.id, None, lote_correto, item_selecionado[5])
-                
-                return lote_correto
+                        if input_digitos == lote_formatado:
+                            lote_correto = True
+                        else:
+                            lote_correto = False
+                                        
+                    return lote_correto
 
 
                 

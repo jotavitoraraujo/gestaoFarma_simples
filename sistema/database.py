@@ -185,7 +185,7 @@ def buscar_produto_nome(busca: str) -> list:
 
     conector.execute('''
         
-        SELECT id, nome_produto, ean, preco_venda, id_lote, produto_id, quantidade, preco_custo, data_validade, data_entrada
+        SELECT id, nome_produto, ean, preco_venda, id_lote id_lote_fisico, produto_id, quantidade, preco_custo, data_validade, data_entrada
         FROM produtos
         JOIN lotes
         ON produtos.id = lotes.produto_id

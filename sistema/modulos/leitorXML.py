@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 from sistema.modelos.produto import Produto
 from sistema.modelos.lote import Lote
 from datetime import datetime
+import logging
 
 def extrair_dados_nfe(caminho_do_xml) -> list[Produto]:
     'Le um arquivo XML de NF-e e extrai os dados dos produtos. Retorna uma lista de objetos, onde cada objeto é do tipo produto'
@@ -48,14 +49,14 @@ def extrair_dados_nfe(caminho_do_xml) -> list[Produto]:
                 lista_produtos.append(novo_produto)
             
             except AttributeError:                
-                print(f'[AVISO] Item com dados incompletos no XML foi ignorado.')
+                logging.warning(f'[AVISO] Item com dados incompletos no XML foi ignorado.')
                 continue
         
         return lista_produtos
    
     except ET.ParseError as e:
-        print(f'[ERRO] PARSE NO XML. O arquivo está corrompido? Detalhes: {e}')
+        logging.error(f'[ERRO] PARSE NO XML. O arquivo está corrompido? Detalhes: {e}')
         return None
     except FileNotFoundError:
-        print(f'[ERRO] ARQUIVO NÃO ENCONTRADO. Verifique o nome e o local. Detalhes: {e}')
+        logging.error(f'[ERRO] ARQUIVO NÃO ENCONTRADO. Verifique o nome e o local. Detalhes: {e}')
         return None

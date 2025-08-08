@@ -21,8 +21,53 @@ def adicionar_item() -> Item:
         lista_busca = database.buscar_produto_nome(input_busca)
     
         if not lista_busca:            
-            logging.warning('[ALERTA] A busca por %s não corresponde a nenhum item. Tente novamente.', input_busca)
-            
+            logging.warning(f'[ALERTA] A busca por {input_busca} não corresponde a nenhum item.')
+            print('Deseja tentar novamente ou vender como Item Avulso?')
+            print('0. Digitar novamente')
+            print('1. Vender como Item Avulso')
+            escolha = input('Opção: ')
+
+            if escolha == '0':
+                continue
+            elif escolha == '1':
+                
+                # dados produto avulso                
+                print('=' * 30)
+                logging.info(f'[INFO] ---CADASTRO DE PRODUTO AVULSO---')
+                print('=' * 30)
+                
+                nome = input(f'Nome do Produto: ')
+                preco_venda = validadores_input.validador_pv()
+                data_validade = validadores_input.validador_dv()
+                quantidade = validadores_input.validador_qtd()
+                lote_fisico = validadores_input.validador_lotef()
+
+                # instancias temporarias
+                produto_avulso = Produto (
+                    id = 'AVULSO',
+                    ean = 'AVULSO',
+                    nome = nome,
+                    preco_venda = preco_venda
+                )
+
+                lote_avulso = Lote (
+                    id_lote = None,
+                    id_lote_fisico = lote_fisico,
+                    produto_id = 'AVULSO',
+                    quantidade = 0,
+                    preco_custo = 0,
+                    data_validade = data_validade,
+                    data_entrada = 'AVULSO'
+                )
+
+                item_avulso = Item (
+                    produto = produto_avulso,
+                    lote = lote_avulso,
+                    quantidade_vendida = quantidade
+                )
+                return item_avulso            
+            else:
+                logging.warning(f'[ALERTA] Opção inválida. Tente novamente.')
         else:
             print('=' * 30)            
             print(f'[RESULTADO] Foram encontrados {len(lista_busca)} itens na busca por "{input_busca}". Selecione o desejado.')
@@ -30,7 +75,7 @@ def adicionar_item() -> Item:
 
             ################################################################################################################################
             
-            def _menu_lista(lista_busca) -> tuple:
+            def _menu_lista(lista_busca: list) -> tuple:
                 'exibe o menu de opções para selecionar o item desejado (funcao aninhada)'
 
                 if lista_busca is not None:                    
@@ -74,6 +119,7 @@ def adicionar_item() -> Item:
             def _construir_item_selecionado(item_selecionado: tuple) -> Item:
                 
                                 
+                # desemcapsulando a tupla
                 id_produto, nome_produto, codigo_barras, preco_venda_produto, id_lote_, id_lote_fisico, produto_id_, quantidade_, preco_custo_, data_validade_, data_entrada_ = item_selecionado        
                 
                 produto_selecionado = Produto (            
@@ -137,8 +183,28 @@ def adicionar_item() -> Item:
                             lote_correto = False
                                         
                     return lote_correto
+            
+            ################################################################################################################################
 
-
+            # logica de registro de desvio de lote
+            verificacao_fisica = _validar_lote_fisico(item_processado_lotef)           
+            desvio_lote_lista = lista_busca[0][5] != item_processado.lote.id_lote_fisico
+            desvio_lote_fisico = not verificacao_fisica
+                
+            if desvio_lote_lista or desvio_lote_fisico:
+                logging.warning(f'[ALERTA] Desvio de lote detectado, um registro de alerta foi gerado.')
+                logging.warning(f'[ALERTA] ')
+                id_pedido = None
+                id_produto = item_processado.produto.id
+                id_usuario = None
+                id_lote_vendido = item_processado.lote.id_lote_fisico
+                id_lote_correto = lista_busca[0][5]                    
+                database.registrar_alerta_lote(id_pedido, id_produto, id_usuario, id_lote_vendido, id_lote_correto)
+                
+            else:
+                logging.info(f'[INFO] O item {item_processado.produto.nome} foi adicionado com sucesso.')
+            
+            return item_processado
                 
                     
                     

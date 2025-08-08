@@ -2,6 +2,7 @@ import os
 from sistema.modulos import leitorXML
 from sistema import database
 from sistema.modulos import validadores_input
+import logging
 
 
 def importar_nfe():
@@ -13,7 +14,7 @@ def importar_nfe():
     try:
         produtos_nota = leitorXML.extrair_dados_nfe(caminho_completo)
     except Exception as e:
-        print(f'\n [ERRO] Ocorreu um problema inesperado ao processar o arquivo - Verifique o nome do arquivo.')
+        logging.error(f'\n [ERRO] Ocorreu um problema inesperado ao processar o arquivo - Verifique o nome do arquivo.')
 
     if produtos_nota:
         print(f'\n---{len(produtos_nota)} Produtos Encontrados na Nota Fiscal ---')
@@ -22,7 +23,7 @@ def importar_nfe():
                 if database.produtos_existentes(produto):
                     resposta_db = database.buscar_produto(produto)
                     if resposta_db == None:
-                        print(f'\n [ERRO] A resposta do database retornou vazia...')
+                        logging.error(f'\n [ERRO] A resposta do database retornou vazia...')
                     else:                  
                         produto.preco_venda = resposta_db[2]
                         produto.lotes[0].data_validade = resposta_db[3]                   
@@ -37,4 +38,4 @@ def importar_nfe():
         
         return produtos_nota
     else:
-        print('\n [INFO] Nenhum produto encontrado ou erro na leitura do arquivo.')
+        logging.info('\n [INFO] Nenhum produto encontrado ou erro na leitura do arquivo.')

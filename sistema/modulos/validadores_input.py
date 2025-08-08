@@ -44,8 +44,8 @@ def validador_lotef() -> str:
     while True:
         lote_pergunta = f'Qual o lote impresso fisicamente neste item? (EX: AB123CD): '
         lote_input = input(f'{lote_pergunta}')
-        logging.info(f'O lote informado é {lote_input}.')
-        logging.info(f'Você confirma que o lote {lote_input} está correto? ')
+        print(f'O lote informado é {lote_input}.')
+        print(f'Você confirma que o lote {lote_input} está correto? ')
         lote_confirmacao = input(f'Digite 1 para confirmar ou 0 para corrigir: ')
         
         if len(lote_confirmacao) > 1:
@@ -75,9 +75,9 @@ def validador_qtd() -> int:
             if quantidade_formatada > 0:
                 break                                             
             else:
-                print(f'[ERRO] Entrada inválida, insira apenas números. Tente novamente.')
+                logging.error(f'[ERRO] Entrada inválida, insira apenas números. Tente novamente.')
         
         except ValueError:
-            print(f'[ERRO] Dados inválidos. Tente novamente.')
+            logging.error(f'[ERRO] Dados inválidos. Tente novamente.')
 
     return quantidade_formatada

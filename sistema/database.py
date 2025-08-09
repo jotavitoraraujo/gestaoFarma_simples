@@ -185,7 +185,7 @@ def buscar_produto_nome(busca: str) -> list:
 
     conector.execute('''
         
-        SELECT id, nome_produto, ean, preco_venda, id_lote id_lote_fisico, produto_id, quantidade, preco_custo, data_validade, data_entrada
+        SELECT id, nome_produto, ean, preco_venda, id_lote, id_lote_fisico, produto_id, quantidade, preco_custo, data_validade, data_entrada
         FROM produtos
         JOIN lotes
         ON produtos.id = lotes.produto_id
@@ -250,12 +250,12 @@ def buscar_usuario(usuario: Usuario):
     
     return resposta_db
   
-def registrar_alerta_lote(id_pedido, id_produto: Produto, id_usuario: Usuario, id_lote_vendido: Lote, id_lote_correto: Lote):
+def registrar_alerta_lote(id_pedido, id_produto: Produto, id_usuario: Usuario, lote_vendido: Lote, lote_correto: Lote):
     'registra o alerta do lote vendido incorretamente'
 
     data_hoje = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    if id_lote_vendido.id_lote != id_lote_correto.id_lote:
+    if lote_vendido != lote_correto:
         negligencia = 1
     else:
         negligencia = 0
@@ -271,8 +271,8 @@ def registrar_alerta_lote(id_pedido, id_produto: Produto, id_usuario: Usuario, i
             id_pedido,
             id_produto.id,
             id_usuario.id_usuario,
-            id_lote_vendido.id_lote,
-            id_lote_correto.id_lote,
+            lote_vendido.id_lote_fisico,
+            lote_correto.id_lote_fisico,
             data_hoje,
             negligencia
         ))

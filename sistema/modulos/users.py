@@ -1,6 +1,6 @@
 from hashlib import sha256
 from sistema import database
-import pwinput
+from pwinput import pwinput
 from sistema.modelos.usuario import Usuario
 
 def cadastro_usuario():
@@ -20,7 +20,7 @@ def cadastro_usuario():
         
     while True:
         
-        pin_input = pwinput.pwinput('Informe uma senha de 4 digitos para cadastro (EXEMPLO: 1234): ')
+        pin_input = pwinput('Informe uma senha de 4 digitos para cadastro (EXEMPLO: 1234): ')
         print('-' * 10)
         pin_formatado = pin_input.isdigit()
         

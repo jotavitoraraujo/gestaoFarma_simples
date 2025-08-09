@@ -38,7 +38,7 @@ def main():
                 logging.error('[ERRO] A lista de produtos está vazia. Verifique a NF-e e tente novamente.')                           
         
         elif escolha == '2':
-            item = vendas.carrinho()
+            item = vendas.adicionar_item()
             if item is not None:
                 pass
             else:

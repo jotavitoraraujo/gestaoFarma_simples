@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
+   <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+      <infNFe Id="NFe31250118465245000150550030009203121259060987" versao="4.00">
+         <ide>
+            <cUF>31</cUF>
+            <cNF>25906098</cNF>
+            <natOp>VENDAS MERC.SEM SUBST.TRIB.</natOp>
+            <mod>55</mod>
+            <serie>3</serie>
+            <nNF>920312</nNF>
+            <dhEmi>2025-01-15T13:44:00-03:00</dhEmi>
+            <dhSaiEnt>2025-01-15T13:44:00-03:00</dhSaiEnt>
+            <tpNF>1</tpNF>
+            <idDest>1</idDest>
+            <cMunFG>3118601</cMunFG>
+            <tpImp>1</tpImp>
+            <tpEmis>1</tpEmis>
+            <cDV>7</cDV>
+            <tpAmb>1</tpAmb>
+            <finNFe>1</finNFe>
+            <indFinal>0</indFinal>
+            <indPres>1</indPres>
+            <procEmi>0</procEmi>
+            <verProc>1.0.0</verProc>
+         </ide>
+         <emit>
+            <CNPJ>18465245000150</CNPJ>
+            <xNome>EMIS MINAS DISTRIBUIDORA DE PRODUTOS FARMACEUTICOS LTDA</xNome>
+            <xFant>EMIS MINAS LTDA</xFant>
+            <enderEmit>
+               <xLgr>RUA CONTINENTAL</xLgr>
+               <nro>176</nro>
+               <xBairro>CINCAO</xBairro>
+               <cMun>3118601</cMun>
+               <xMun>Contagem</xMun>
+               <UF>MG</UF>
+               <CEP>32371620</CEP>
+               <cPais>1058</cPais>
+               <xPais>BRASIL</xPais>
+               <fone>3134088008</fone>
+            </enderEmit>
+            <IE>0624202040057</IE>
+            <CRT>3</CRT>
+         </emit>
+         <dest>
+            <CNPJ>48208487000129</CNPJ>
+            <xNome>DROGARIA E PERFUMARIA POPULAR MINEIRA LTDA</xNome>
+            <enderDest>
+               <xLgr>AV CARLOS MURTA FILHO</xLgr>
+               <nro>807</nro>
+               <xBairro>GAVEA</xBairro>
+               <cMun>3171204</cMun>
+               <xMun>Vespasiano</xMun>
+               <UF>MG</UF>
+               <CEP>33202670</CEP>
+               <cPais>1058</cPais>
+               <xPais>BRASIL</xPais>
+               <fone>3139504742</fone>
+            </enderDest>
+            <indIEDest>1</indIEDest>
+            <IE>0044583600011</IE>
+         </dest>
+         <det nItem="1">
+            <prod>
+               <cProd>838020</cProd>
+               <cEAN>7898714760180</cEAN>
+               <xProd>OMEGA 3 60CPS KATIGUA</xProd>
+               <NCM>21069030</NCM>
+               <CFOP>5102</CFOP>
+               <uCom>CX</uCom>
+               <qCom>3.0000</qCom>
+               <vUnCom>14.7900</vUnCom>
+               <vProd>44.37</vProd>
+               <cEANTrib>7898714760180</cEANTrib>
+               <uTrib>CX</uTrib>
+               <qTrib>3.0000</qTrib>
+               <vUnTrib>14.7900</vUnTrib>
+               <vOutro>0.68</vOutro>
+               <indTot>1</indTot>
+            </prod>
+            <imposto>
+               <vTotTrib>14.17</vTotTrib>
+               <ICMS><ICMS00><orig>0</orig><CST>00</CST><modBC>3</modBC><vBC>44.37</vBC><pICMS>18.00</pICMS><vICMS>7.99</vICMS></ICMS00></ICMS>
+               <IPI><cEnq>999</cEnq><IPINT><CST>53</CST></IPINT></IPI>
+               <PIS><PISAliq><CST>01</CST><vBC>45.05</vBC><pPIS>1.65</pPIS><vPIS>0.74</vPIS></PISAliq></PIS>
+               <COFINS><COFINSAliq><CST>01</CST><vBC>45.05</vBC><pCOFINS>7.60</pCOFINS><vCOFINS>3.42</vCOFINS></COFINSAliq></COFINS>
+            </imposto>
+         </det>
+         <det nItem="2">
+            <prod>
+               <cProd>840351</cProd>
+               <cEAN>7898330226589</cEAN>
+               <xProd>OMEGA 3-6-9 1000MG 60CPS KATIGUA</xProd>
+               <NCM>21069030</NCM>
+               <CFOP>5102</CFOP>
+               <uCom>UN</uCom>
+               <qCom>2.0000</qCom>
+               <vUnCom>26.9900</vUnCom>
+               <vProd>53.98</vProd>
+               <cEANTrib>7898330226589</cEANTrib>
+               <uTrib>UN</uTrib>
+               <qTrib>2.0000</qTrib>
+               <vUnTrib>26.9900</vUnTrib>
+               <vOutro>0.83</vOutro>
+               <indTot>1</indTot>
+            </prod>
+            <imposto>
+               <vTotTrib>17.24</vTotTrib>
+               <ICMS><ICMS00><orig>0</orig><CST>00</CST><modBC>3</modBC><vBC>53.98</vBC><pICMS>18.00</pICMS><vICMS>9.72</vICMS></ICMS00></ICMS>
+               <IPI><cEnq>999</cEnq><IPINT><CST>53</CST></IPINT></IPI>
+               <PIS><PISAliq><CST>01</CST><vBC>54.81</vBC><pPIS>1.65</pPIS><vPIS>0.90</vPIS></PISAliq></PIS>
+               <COFINS><COFINSAliq><CST>01</CST><vBC>54.81</vBC><pCOFINS>7.60</pCOFINS><vCOFINS>4.17</vCOFINS></COFINSAliq></COFINS>
+            </imposto>
+         </det>
+         <det nItem="3">
+            <prod>
+               <cProd>10014</cProd>
+               <cEAN>7896004700502</cEAN>
+               <xProd>APEVITIN BC 240ML</xProd>
+               <NCM>30045090</NCM>
+               <CFOP>5405</CFOP>
+               <uCom>VD</uCom>
+               <qCom>6.0000</qCom>
+               <vUnCom>10.2900</vUnCom>
+               <vProd>61.74</vProd>
+               <cEANTrib>7896004700502</cEANTrib>
+               <uTrib>VD</uTrib>
+               <qTrib>6.0000</qTrib>
+               <vUnTrib>10.2900</vUnTrib>
+               <vOutro>4.62</vOutro>
+               <indTot>1</indTot>
+            </prod>
+            <imposto>
+               <vTotTrib>20.41</vTotTrib>
+               <ICMS><ICMS60><orig>0</orig><CST>60</CST><vBCSTRet>82.11</vBCSTRet><pST>18.00</pST><vICMSSubstituto>0.00</vICMSSubstituto><vICMSSTRet>3.67</vICMSSTRet></ICMS60></ICMS>
+               <IPI><cEnq>999</cEnq><IPINT><CST>53</CST></IPINT></IPI>
+               <PIS><PISNT><CST>04</CST></PISNT></PIS>
+               <COFINS><COFINSNT><CST>04</CST></COFINSNT></COFINS>
+            </imposto>
+         </det>
+         <det nItem="4">
+            <prod>
+               <cProd>838020</cProd>
+               <cEAN>7898714760180</cEAN>
+               <xProd>OMEGA 3 60CPS KATIGUA</xProd>
+               <NCM>21069030</NCM>
+               <CFOP>5102</CFOP>
+               <uCom>CX</uCom>
+               <qCom>5.0000</qCom>
+               <vUnCom>15.0000</vUnCom>
+               <vProd>75.00</vProd>
+               <cEANTrib>7898714760180</cEANTrib>
+               <uTrib>CX</uTrib>
+               <qTrib>5.0000</qTrib>
+               <vUnTrib>15.0000</vUnTrib>
+               <vOutro>1.00</vOutro>
+               <indTot>1</indTot>
+            </prod>
+            <imposto>
+               <vTotTrib>20.00</vTotTrib>
+               <ICMS><ICMS00><orig>0</orig><CST>00</CST><modBC>3</modBC><vBC>75.00</vBC><pICMS>18.00</pICMS><vICMS>13.50</vICMS></ICMS00></ICMS>
+               <IPI><cEnq>999</cEnq><IPINT><CST>53</CST></IPINT></IPI>
+               <PIS><PISAliq><CST>01</CST><vBC>76.00</vBC><pPIS>1.65</pPIS><vPIS>1.25</vPIS></PISAliq></PIS>
+               <COFINS><COFINSAliq><CST>01</CST><vBC>76.00</vBC><pCOFINS>7.60</pCOFINS><vCOFINS>5.78</vCOFINS></COFINSAliq></COFINS>
+            </imposto>
+         </det>
+         <det nItem="5">
+            <prod>
+               <cProd>840351</cProd>
+               <cEAN>7898330226589</cEAN>
+               <xProd>OMEGA 3-6-9 1000MG 60CPS KATIGUA</xProd>
+               <NCM>21069030</NCM>
+               <CFOP>5102</CFOP>
+               <uCom>UN</uCom>
+               <qCom>1.0000</qCom>
+               <vUnCom>25.0000</vUnCom>
+               <vProd>25.00</vProd>
+               <cEANTrib>7898330226589</cEANTrib>
+               <uTrib>UN</uTrib>
+               <qTrib>1.0000</qTrib>
+               <vUnTrib>25.0000</vUnTrib>
+               <vOutro>0.50</vOutro>
+               <indTot>1</indTot>
+            </prod>
+            <imposto>
+               <vTotTrib>10.00</vTotTrib>
+               <ICMS><ICMS00><orig>0</orig><CST>00</CST><modBC>3</modBC><vBC>25.00</vBC><pICMS>18.00</pICMS><vICMS>4.50</vICMS></ICMS00></ICMS>
+               <IPI><cEnq>999</cEnq><IPINT><CST>53</CST></IPINT></IPI>
+               <PIS><PISAliq><CST>01</CST><vBC>25.50</vBC><pPIS>1.65</pPIS><vPIS>0.42</vPIS></PISAliq></PIS>
+               <COFINS><COFINSAliq><CST>01</CST><vBC>25.50</vBC><pCOFINS>7.60</pCOFINS><vCOFINS>1.94</vCOFINS></COFINSAliq></COFINS>
+            </imposto>
+         </det>
+         <total>
+            <ICMSTot>
+               <vBC>98.35</vBC>
+               <vICMS>17.71</vICMS>
+               <vICMSDeson>0.00</vICMSDeson>
+               <vFCP>0.00</vFCP>
+               <vBCST>0.00</vBCST>
+               <vST>0.00</vST>
+               <vFCPST>0.00</vFCPST>
+               <vFCPSTRet>0.00</vFCPSTRet>
+               <vProd>238.09</vProd>
+               <vFrete>0.00</vFrete>
+               <vSeg>0.00</vSeg>
+               <vDesc>0.00</vDesc>
+               <vII>0.00</vII>
+               <vIPI>0.00</vIPI>
+               <vIPIDevol>0.00</vIPIDevol>
+               <vPIS>1.64</vPIS>
+               <vCOFINS>7.59</vCOFINS>
+               <vOutro>6.13</vOutro>
+               <vNF>244.22</vNF>
+               <vTotTrib>71.82</vTotTrib>
+            </ICMSTot>
+         </total>
+         <transp>
+            <modFrete>0</modFrete>
+         </transp>
+         <cobr>
+            <fat>
+               <nFat>920312</nFat>
+               <vOrig>244.22</vOrig>
+               <vDesc>0.00</vDesc>
+               <vLiq>244.22</vLiq>
+            </fat>
+         </cobr>
+         <pag>
+            <detPag>
+               <indPag>1</indPag>
+               <tPag>15</tPag>
+               <vPag>244.22</vPag>
+            </detPag>
+         </pag>
+         <infAdic/>
+      </infNFe>
+      <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+         <SignedInfo>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+            <Reference URI="#NFe31250118465245000150550030009203121259060987">
+               <Transforms>
+                  <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+                  <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+               </Transforms>
+               <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+               <DigestValue>NQr279UMTJWuZYLTv5rdnl0pJrk=</DigestValue>
+            </Reference>
+         </SignedInfo>
+         <SignatureValue>PYSfnwyVOhvyw1RDXhwvAaqwRgNJLlBsxRbxQHtvgdbI6QL2cCnrMMsGyGZmLYCQYLlpKL0TjadgcJtMIEVUubEi6t2OY97DTwaOnGmAClkCDvkNkVORXJjGV9Gemqw/2cOHMW+6l4e5Avkbev3lvmQr+LVEBQlMzQWRtja71lSXWn1H85kn0B/97SwHXLiAFan1FSo3rJizX3ZiR8Jtl6H9SC6HyivcwtdMrFuWzSQLK8TWihHOHQVklvKpVfAykTzkOmyO5v4NYiW7/wsKkoLybcDdxsNQDpA6ViMvAlHKP7wanPLnmBd5ujc2WfBHeHLowlFg0Ja8CMP65J/KNQ==</SignatureValue>
+         <KeyInfo>
+            <X509Data>
+               <X509Certificate>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</X509Certificate>
+            </X509Data>
+         </KeyInfo>
+      </Signature>
+   </NFe>
+   <protNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+      <infProt>
+         <tpAmb>1</tpAmb>
+         <verAplic>J-3.2.76</verAplic>
+         <chNFe>31250118465245000150550030009203121259060987</chNFe>
+         <dhRecbto>2025-01-15T13:50:32-03:00</dhRecbto>
+         <nProt>131256419076030</nProt>
+         <digVal>NQr279UMTJWuZYLTv5rdnl0pJrk=</digVal>
+         <cStat>100</cStat>
+         <xMotivo>Autorizado o uso da NF-e</xMotivo>
+      </infProt>
+   </protNFe>
+</nfeProc>

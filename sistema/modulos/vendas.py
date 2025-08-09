@@ -192,14 +192,25 @@ def adicionar_item() -> Item:
             desvio_lote_fisico = not verificacao_fisica
                 
             if desvio_lote_lista or desvio_lote_fisico:
+                
                 logging.warning(f'[ALERTA] Desvio de lote detectado, um registro de alerta foi gerado.')
                 logging.warning(f'[ALERTA] ')
+                
                 id_pedido = None
                 id_produto = item_processado.produto.id
                 id_usuario = None
-                id_lote_vendido = item_processado.lote.id_lote_fisico
-                id_lote_correto = lista_busca[0][5]                    
-                database.registrar_alerta_lote(id_pedido, id_produto, id_usuario, id_lote_vendido, id_lote_correto)
+                lote_vendido = item_processado_lotef                
+                lote_correto = Lote (
+                    id_lote = lista_busca[0][4],
+                    id_lote_fisico = lista_busca[0][5],
+                    produto_id = lista_busca[0][6],
+                    quantidade = lista_busca[0][7],
+                    preco_custo = lista_busca[0][8],
+                    data_validade = lista_busca[0][9],
+                    data_entrada = lista_busca[0][10]
+                )                    
+                
+                database.registrar_alerta_lote(id_pedido, id_produto, id_usuario, lote_vendido, lote_correto)
                 
             else:
                 logging.info(f'[INFO] O item {item_processado.produto.nome} foi adicionado com sucesso.')

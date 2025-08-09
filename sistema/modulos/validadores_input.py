@@ -44,8 +44,8 @@ def validador_lotef() -> str:
     while True:
         lote_pergunta = f'Qual o lote impresso fisicamente neste item? (EX: AB123CD): '
         lote_input = input(f'{lote_pergunta}')
-        print(f'O lote informado é {lote_input}.')
-        print(f'Você confirma que o lote {lote_input} está correto? ')
+        print(f'O lote informado é ***{lote_input}***.')
+        print(f'Você confirma que o lote ***{lote_input}*** está correto? ')
         lote_confirmacao = input(f'Digite 1 para confirmar ou 0 para corrigir: ')
         
         if len(lote_confirmacao) > 1:
@@ -54,13 +54,13 @@ def validador_lotef() -> str:
             logging.error(f'[ERRO] Digite apenas 1 ou 0. Tente novamente.')
         else:
             if lote_confirmacao == '1':
-                break
+                lote_fisico = lote_input
             elif lote_confirmacao == '0':
                 continue
             else:
                 logging.error(f'[ERRO] Opção inválida. Tente novamente.')
+        return lote_fisico
         
-        return lote_input
 
 def validador_qtd() -> int:
     'verifica se um numero é um inteiro positivo'

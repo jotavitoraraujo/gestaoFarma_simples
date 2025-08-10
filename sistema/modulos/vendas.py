@@ -3,7 +3,9 @@ from sistema import database
 from sistema.modelos.item import Item
 from sistema.modelos.produto import Produto
 from sistema.modelos.lote import Lote
+from sistema.modelos.usuario import Usuario
 from sistema.modulos import validadores_input
+
 
 def adicionar_item() -> Item:
     'cria um item após uma busca por nome do produto'
@@ -65,12 +67,14 @@ def adicionar_item() -> Item:
                     lote = lote_avulso,
                     quantidade_vendida = quantidade
                 )
+                logging.warning(f'[ALERTA] Cadastre o produto {item_avulso.produto.nome} no seu estoque.')
+                # criar um tabela para salvar esses produtos no database
                 return item_avulso            
             else:
                 logging.warning(f'[ALERTA] Opção inválida. Tente novamente.')
         else:
             print('=' * 30)            
-            print(f'[RESULTADO] Foram encontrados {len(lista_busca)} itens na busca por "{input_busca}". Selecione o desejado.')
+            logging.info(f'[INFO] Foram encontrados {len(lista_busca)} itens na busca por "{input_busca}". Selecione o desejado.')
             print('=' * 30)      
 
             ################################################################################################################################
@@ -80,15 +84,17 @@ def adicionar_item() -> Item:
 
                 if lista_busca is not None:                    
                     recomendacao = f'[RECOMENDADO] O item {lista_busca[0][1]} está com maior próximidade do vencimento, recomenda-se vende-lo.'
+                    print('\n')
+                    print('=' * 30)
                     print(recomendacao)
                     print('=' * 30)
-                    print('\n')
+                    
                 else:
                     pass
 
                 # esse loop for é o menu de opções
                 for indice, item in enumerate(lista_busca):
-                    print(f'{indice + 1}. {item[1]} - Preço: R${item[3]} - Validade: {item[8]} - Lote: {item[5]} - Quantidade: {item[6]} - Código de barras: {item[2]}')
+                    print(f'{indice + 1}. {item[1]} - Preço: R${item[3]} - Validade: {item[9]} - Lote: {item[5]} - Quantidade: {item[7]} - Código de barras: {item[2]}')
                 
                 while True:
                     print('\n')
@@ -148,7 +154,7 @@ def adicionar_item() -> Item:
                 )
                 
                 ###### teste de introdução de log no algoritmo ######                
-                logging.info('\n[INFO] Item adicionado ao carrinho: %s', item)
+                logging.info(f'\n[INFO] Item adicionado ao carrinho: {item}')
                 #####################################################
                 
                 return item
@@ -161,7 +167,7 @@ def adicionar_item() -> Item:
             def _validar_lote_fisico(item_processado_lotef: str) -> bool:
 
                 print('=' * 30)
-                print('       ---[VALIDAÇÃO DE LOTE]---')
+                print('       ---[VALIDAÇÃO]---')
                 print('=' * 30)
 
                 while True: 
@@ -177,7 +183,7 @@ def adicionar_item() -> Item:
                         lote_ultimos = item_processado_lotef[-2:]
                         lote_formatado = lote_primeiros + lote_ultimos
 
-                        if input_digitos == lote_formatado:
+                        if input_digitos.lower() == lote_formatado.lower():
                             lote_correto = True
                         else:
                             lote_correto = False
@@ -191,15 +197,44 @@ def adicionar_item() -> Item:
             desvio_lote_lista = lista_busca[0][5] != item_processado.lote.id_lote_fisico
             desvio_lote_fisico = not verificacao_fisica
                 
+            print('\n')
+            print('=' * 30)
+            print('       ---DEBUG---')
+            print('=' * 30)          
+            logging.debug(f'       ---RAIO X DO SISTEMA---')
+            logging.debug(f'Visão do sistema sobre qual lote ele considera o correto (recomendado) para venda.')
+            logging.debug(f'[DEBUG] 1. Lote (Valor): {lista_busca[0][5]}')
+            logging.debug(f'[DEBUG] 2. Tipo: {type(lista_busca[0][5])}')
+            logging.debug(f'-' * 10)
+            logging.debug(f'Visão do sistema sobre qual lote ele considera que foi vendido.')
+            logging.debug(f'[DEBUG] 1. Lote (Valor): {item_processado.lote.id_lote_fisico}')
+            logging.debug(f'[DEBUG] 2. Tipo: {type(item_processado.lote.id_lote_fisico)}')
+            logging.debug(f'-' * 10)
+            logging.debug(f'Visão do sistema sobre o resultado da comparação guardado nas variaveis desvio_lote_lista/desvio_lote_fisico.')
+            logging.debug(f'[DEBUG] 1. Resultado: {desvio_lote_lista}')
+            logging.debug(f'[DEBUG] 2. Resultado: {desvio_lote_fisico}')
+            logging.debug(f'-' * 10)
+            logging.debug(f'       ---AREA CINZENTA---')
+            logging.debug(f'[DEBUG] Resultado: {item_selecionado}')
+            print('=' * 30)
+            print('\n')
+            
+            
             if desvio_lote_lista or desvio_lote_fisico:
                 
                 logging.warning(f'[ALERTA] Desvio de lote detectado, um registro de alerta foi gerado.')
-                logging.warning(f'[ALERTA] ')
+
+                id_pedido = 'AVULSO'
+                id_produto = item_processado.produto
                 
-                id_pedido = None
-                id_produto = item_processado.produto.id
-                id_usuario = None
-                lote_vendido = item_processado_lotef                
+                id_usuario = Usuario (
+                    id_usuario = 0,
+                    nome_usuario = 'AVULSO',
+                    pin_usuario = 'AVULSO'
+                )
+                
+                lote_vendido = item_processado.lote
+                
                 lote_correto = Lote (
                     id_lote = lista_busca[0][4],
                     id_lote_fisico = lista_busca[0][5],

@@ -4,6 +4,7 @@ from sistema.modelos.produto import Produto
 from sistema.modelos.usuario import Usuario
 from sistema.modelos.lote import Lote
 from datetime import datetime
+import logging
 pasta_sistema = Path(__file__).parent
 db_file = pasta_sistema.parent/'dados'/'farmacia.db'
 
@@ -76,8 +77,6 @@ def criar_tabelas():
         negligencia INTEGER NOT NULL
         )           
     ''')
-    
-    print("[SUCESSO] Tabelas criadas.")
     conn.commit()
     conn.close()
 
@@ -126,7 +125,7 @@ def salvar_produtos(lista_produtos: list[Produto]):
 
     conn.commit()
     conn.close()
-    print(f'\n [SUCESSO] {len(lista_produtos)} produtos foram salvos/atualizados no banco de dados.')
+    logging.info(f'\n [INFO] {len(lista_produtos)} produtos foram salvos/atualizados no banco de dados.')
 
 def produtos_existentes(produto: Produto):
     'verifica se um produto com determinado id já existe no database'
@@ -223,7 +222,7 @@ def inserir_usuario(usuario: Usuario):
     conectar_db.commit()
     conectar_db.close()
     print('=' * 30)
-    print(f'[SUCESSO] O usuário, {usuario.nome_usuario} foi cadastrado.')
+    logging.info(f'[INFO] O usuário, {usuario.nome_usuario} foi cadastrado.')
     print('=' * 30)
 
 def buscar_usuario(usuario: Usuario):
@@ -281,6 +280,6 @@ def registrar_alerta_lote(id_pedido, id_produto: Produto, id_usuario: Usuario, l
     conectar_db.close()
     
     print('=' * 30)
-    print(f'[ALERTA] Os dados dessa venda foram registrados com sucesso!')
+    logging.info(f'[INFO] Os dados dessa venda foram registrados.')
     print('=' * 30)
     

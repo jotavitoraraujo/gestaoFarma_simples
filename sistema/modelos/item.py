@@ -15,16 +15,25 @@ class Item:
         'descreve o item'
         descricao = f'''
         1. Nome: {self.produto.nome}
-        2. Lote: {self.lote.id_lote}
-        3. Qtd: {self.quantidade_vendida}
-        4. Data de Validade: {self.lote.data_validade}
-        5. Código de barras: {self.produto.ean}
+        2. Lote DB: {self.lote.id_lote}
+        3. Lote Fisico: {self.lote.id_lote_fisico}
+        4. Qtd: {self.quantidade_vendida}
+        5. Data de Validade: {self.lote.data_validade}
+        6. Código de barras: {self.produto.ean}
         '''
         return descricao
     
     def __repr__(self) -> str:
         'representacao tecnica do tipo Item'
-        return f'1. Nome: {self.produto.nome} 2. Lote: {self.lote.id_lote} 3. Qtd: {self.quantidade_vendida} 4. Data de Validade: {self.lote.data_validade} 5. Código de barras: {self.produto.ean}'
+        
+        return f'''
+        1. Nome: {self.produto.nome} 
+        2. Lote DB: {self.lote.id_lote} 
+        3. Lote Fisico: {self.lote.id_lote_fisico}
+        3. Qtd: {self.quantidade_vendida} 
+        4. Data de Validade: {self.lote.data_validade} 
+        5. Código de barras: {self.produto.ean}
+        '''
 
     
     def calcular_subtotal(self):

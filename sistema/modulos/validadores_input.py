@@ -44,8 +44,8 @@ def validador_lotef() -> str:
     while True:
         lote_pergunta = f'Qual o lote impresso fisicamente neste item? (EX: AB123CD): '
         lote_input = input(f'{lote_pergunta}')
-        print(f'O lote informado é ***{lote_input}***.')
-        print(f'Você confirma que o lote ***{lote_input}*** está correto? ')
+        print(f'O lote informado é ***{lote_input.upper()}***.')
+        print(f'Você confirma que o lote ***{lote_input.upper()}*** está correto? ')
         lote_confirmacao = input(f'Digite 1 para confirmar ou 0 para corrigir: ')
         
         if len(lote_confirmacao) > 1:

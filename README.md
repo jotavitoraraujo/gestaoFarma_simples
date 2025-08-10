@@ -12,7 +12,7 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
 -   ✅ **Lógica de Negócio Inteligente:** A classe `Item` encapsula regras de negócio complexas, incluindo cálculo de subtotal e um sistema de descontos dinâmicos com "rede de segurança" contra prejuízos.
 -   ✅ **Sistema de Auditoria e Observabilidade:** O sistema possui uma fundação completa para auditar desvios da regra PVPS. Além disso, utiliza um sistema de logging profissional que separa os logs de usuário (exibidos no console) dos logs técnicos detalhados (salvos em arquivo).
 -   ✅ **Automação de Entrada de Estoque:** O sistema realiza o fluxo completo de importação de NF-e, processando os dados e persistindo os novos produtos e lotes no banco de dados.
--   ✅ **Gestão de Usuários Segura:** Funcionalidade completa de cadastro e login de vendedores, com validação de entradas e armazenamento seguro do PIN usando o algoritmo de hash **SHA-266**.
+-   ✅ **Gestão de Usuários Segura:** Funcionalidade completa de cadastro e login de vendedores, com validação de entradas e armazenamento seguro do PIN usando o algoritmo de hash **SHA-256**.
 
 ---
 
@@ -110,24 +110,34 @@ Este projeto nasceu dessa percepção. Após desenvolver um agente autônomo par
 
 ---
 
-## 📅 Histórico de Atualizações
+## 📅 Histórico de Evolução do Projeto
 
--   **02/07/2025 — Fase 0 (Fundação):** Criação do repositório e da estrutura inicial do projeto.
--   **11/07/2025 — Fase 1 (Arquitetura de Dados):** Refatoração do banco de dados para um modelo relacional (`produtos` + `lotes`).
--   **13/07/2025 — Fase 2 (Início - Gestão de Usuários):** Criação da tabela `usuarios` e implementação do cadastro de vendedor com hashing de PIN.
--   **16/07/2025 — Fase 2 (Refatoração para POO):** Decisão arquitetônica e refatoração do sistema para Programação Orientada a Objetos, com a criação das classes `Produto` e `Lote` e a modularização da lógica de importação e validação.
--   **20/07/2025 — Fase 2 (Refatoração para POO - Parte 2):** Conclusão da refatoração para POO nos módulos de banco de dados e importação" -m "- Funções em `database.py` (buscar_produto, produtos_existentes) foram atualizadas para operar com objetos Produto. A lógica de importação foi extraída do `main.py` para o novo módulo `importador_nfe.py` e refatorada para usar a nova arquitetura de objetos."
--   **24/07/2025 — Fase 2 (Gestão de Usuários e Vendas):** Implementação da `class Usuario` e da função de `login` completa. Finalização do schema do banco de dados com o design das tabelas `pedidos` e `itens_pedido`.
--   **25/07/2025 — Fase 2 (Conclusão - Gestão de Acessos):** Finalização da arquitetura POO e implementação do fluxo completo de autenticação, incluindo cadastro (`cadastro_usuario`) e `login()` com hashing de PIN (SHA-256).
--   **Início da Fase 3 (Operação de Vendas):** O próximo passo é o desenho e a implementação do schema de banco de dados para transações (`pedidos` e `itens_pedido`).
--   **01/08/2025 — Fase 3 (Fundação de Vendas e Controle):** Início da implementação do Ponto de Venda.
-    -   Criação da classe `Item` para encapsular a lógica de um item de venda, com os métodos `calcular_subtotal()` e `desconto()`.
-    -   Implementação do sistema de auditoria para desvios da regra PVPS, com a criação da tabela `alertas_lote` e da função `registrar_alerta_lote()`.
-    -   Correção e finalização do fluxo de importação de NF-e, garantindo o salvamento dos produtos no banco de dados.
--   **04/08/2025 — Fase 3 (Interface de Venda e Logging):**
-    -   Desenvolvimento da função `vendas.adicionar_item`, criando a primeira interface interativa para busca e seleção de produtos.
-    -   Implementação de um sistema de logging profissional e modular (`config_log.py`) que separa os logs de usuário (console) dos logs técnicos (arquivo).
--   ➡️ **Próximo Passo (Fase 3.3):** Finalizar a função `adicionar_item` com a lógica de validação de lote por 4 dígitos e a integração com o sistema de alertas.
+### Fase 3: Operação de Vendas [EM ANDAMENTO]
+* **09/08/2025 — Fase 3.3 (Conclusão da Lógica de Adição de Itens):**
+    - Refatoração do modelo de dados para suportar o `id_lote_fisico` do fabricante, alinhando o sistema com os processos de negócio reais.
+    - Implementação da lógica de validação de lote por 4 dígitos no ponto de venda.
+    - Integração do sistema de auditoria para registrar desvios da regra PVPS.
+    - Finalização da estratégia de "Produto Avulso" para vendas de itens não-cadastrados.
+* **04/08/2025 — Fase 3.2 (Interface de Venda e Logging):**
+    - Desenvolvimento da função `vendas.adicionar_item`, criando a primeira interface interativa para busca e seleção de produtos.
+    - Implementação de um sistema de logging profissional e modular (`config_log.py`).
+* **01/08/2025 — Fase 3.1 (Fundação de Vendas e Controle):**
+    - Criação da classe `Item` com lógicas de negócio (`desconto`, `subtotal`).
+    - Implementação do sistema de auditoria com a tabela `alertas_lote`.
+    - Correção do fluxo de importação de NF-e.
+
+### Fase 2: Gestão de Acessos e Refatoração para POO [CONCLUÍDA]
+* **25/07/2025:** Finalização do fluxo completo de autenticação (cadastro e login) com hashing SHA-256.
+* **24/07/2025:** Implementação da classe `Usuario` e design do schema para `pedidos` e `itens_pedido`.
+* **20/07/2025:** Conclusão da refatoração para POO, com funções de banco de dados operando sobre objetos e extração da lógica para módulos.
+* **16/07/2025:** Início da refatoração para Programação Orientada a Objetos com as classes `Produto` e `Lote`.
+* **13/07/2025:** Implementação inicial do cadastro de usuários.
+
+### Fase 1: Arquitetura de Dados [CONCLUÍDA]
+* **11/07/2025:** Refatoração do banco de dados para um modelo relacional com as tabelas `produtos` e `lotes`.
+
+### Fase 0: Fundação [CONCLUÍDA]
+* **02/07/2025:** Criação do repositório e da estrutura inicial do projeto.
 
 ---
 

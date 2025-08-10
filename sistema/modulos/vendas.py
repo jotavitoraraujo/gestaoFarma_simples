@@ -195,30 +195,7 @@ def adicionar_item() -> Item:
             # logica de registro de desvio de lote
             verificacao_fisica = _validar_lote_fisico(item_processado_lotef)           
             desvio_lote_lista = lista_busca[0][5] != item_processado.lote.id_lote_fisico
-            desvio_lote_fisico = not verificacao_fisica
-                
-            print('\n')
-            print('=' * 30)
-            print('       ---DEBUG---')
-            print('=' * 30)          
-            logging.debug(f'       ---RAIO X DO SISTEMA---')
-            logging.debug(f'Visão do sistema sobre qual lote ele considera o correto (recomendado) para venda.')
-            logging.debug(f'[DEBUG] 1. Lote (Valor): {lista_busca[0][5]}')
-            logging.debug(f'[DEBUG] 2. Tipo: {type(lista_busca[0][5])}')
-            logging.debug(f'-' * 10)
-            logging.debug(f'Visão do sistema sobre qual lote ele considera que foi vendido.')
-            logging.debug(f'[DEBUG] 1. Lote (Valor): {item_processado.lote.id_lote_fisico}')
-            logging.debug(f'[DEBUG] 2. Tipo: {type(item_processado.lote.id_lote_fisico)}')
-            logging.debug(f'-' * 10)
-            logging.debug(f'Visão do sistema sobre o resultado da comparação guardado nas variaveis desvio_lote_lista/desvio_lote_fisico.')
-            logging.debug(f'[DEBUG] 1. Resultado: {desvio_lote_lista}')
-            logging.debug(f'[DEBUG] 2. Resultado: {desvio_lote_fisico}')
-            logging.debug(f'-' * 10)
-            logging.debug(f'       ---AREA CINZENTA---')
-            logging.debug(f'[DEBUG] Resultado: {item_selecionado}')
-            print('=' * 30)
-            print('\n')
-            
+            desvio_lote_fisico = not verificacao_fisica           
             
             if desvio_lote_lista or desvio_lote_fisico:
                 

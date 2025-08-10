@@ -7,7 +7,7 @@ def sistema_logs():
     
     ######## ---USUARIO--- #########
     logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     
     terminal_controlador = logging.StreamHandler()
     terminal_formatado = logging.Formatter('%(message)s')

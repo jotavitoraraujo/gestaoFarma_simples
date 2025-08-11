@@ -51,8 +51,7 @@ class Item:
 
         hoje = date.today()
         validade = self.lote.data_validade
-        intervalo: timedelta = (validade - hoje)
-        diferenca = intervalo.days
+        intervalo: timedelta = (validade - hoje)        
         #print(diferenca)
         
         oito_dias = timedelta(days = 8)
@@ -64,19 +63,19 @@ class Item:
 
         # condicional de descontos 
 
-        if diferenca < oito_dias:            
+        if intervalo < oito_dias:            
             oitenta_porcento = float(self.produto.preco_venda * 0.8)
             preco_final = float(self.produto.preco_venda - oitenta_porcento)                                     
                                     
-        elif diferenca < quinze_dias:
+        elif intervalo < quinze_dias:
             cinquenta_porcento = float(self.produto.preco_venda * 0.5)
             preco_final = float(self.produto.preco_venda - cinquenta_porcento)                
         
-        elif diferenca < vinte_dias:
+        elif intervalo < vinte_dias:
             trinta_porcento = float(self.produto.preco_venda * 0.3)
             preco_final = float(self.produto.preco_venda - trinta_porcento)                
         
-        elif diferenca < trinta_dias:
+        elif intervalo < trinta_dias:
             vinte_porcento = float(self.produto.preco_venda * 0.2)
             preco_final = float(self.produto.preco_venda - vinte_porcento)     
         

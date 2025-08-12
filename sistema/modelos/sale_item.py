@@ -46,12 +46,11 @@ class SaleItem:
         return subtotal
         
 
-    def get_discounted_price(self):
+    def get_discounted_price(self, date_object: date) -> float: 
         'applies different discount levels based on the due date of the item'
-
-        current_date = date.today()
+        
         expiration_date = self.batch.data_validade
-        days_until_expiration: timedelta = (expiration_date - current_date)        
+        days_until_expiration: timedelta = (expiration_date - date_object)       
                 
         EIGHT_DAYS = timedelta(days = 8)
         FIFTEEN_DAYS = timedelta(days = 16)

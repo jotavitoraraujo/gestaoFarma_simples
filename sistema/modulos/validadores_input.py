@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 import logging
 
 def validador_pv() -> float:    
@@ -17,7 +17,6 @@ def validador_pv() -> float:
             logging.error('\n [ERRO] Entrada inválida. Por favor, digite apenas números.')
     
     return preco_digitado
-
 
 def validador_dv() -> str:
     'conversão de d/m/aa para aa/m/d para aceitação no sql'
@@ -60,7 +59,6 @@ def validador_lotef() -> str:
             else:
                 logging.error(f'[ERRO] Opção inválida. Tente novamente.')
         return lote_fisico
-        
 
 def validador_qtd() -> int:
     'verifica se um numero é um inteiro positivo'
@@ -81,3 +79,22 @@ def validador_qtd() -> int:
             logging.error(f'[ERRO] Dados inválidos. Tente novamente.')
 
     return quantidade_formatada
+
+def date_validator(date_input: str) -> date:
+    'receives the date through user input and converts it into a date type object'
+
+    while True:
+
+        try:
+            date_input = input(f'[INFO] Digita a data de hoje. (EX: DD/MM/AAAA): ')
+            date_list = date_input.split('/')
+            date_object = date(date_list[2], date_list[1], date_list[0])
+
+            if date_object < date.today():
+                logging.warning(f'[ALERTA] A data inserida "{date_object}" é menor que a data de hoje. Tente novamente')
+            else:
+                break
+        except ValueError:
+            logging.error(f'[ERRO] Entrada inválida. Tente')
+        
+        return date_object

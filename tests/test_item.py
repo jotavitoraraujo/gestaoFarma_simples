@@ -44,13 +44,43 @@ def test_item_calcular_subtotal():
     assert resultado_teste == 30.0
 
 
-def test_item_desconto():
-    'a funcao tem como objetivo testar a classe Item e seu metodo desconto()'
+@pytest.mark.parametrize('current_date, expiration_date, product_price, product_cost, expected_discounted_price', 
+    [
+        (date(2025, 8, 14), date(2025, 8, 21), 10.0, 5.0, 10.0,),
+        (date(2025, 8, 14), date(2025, 8, 27), 10.0, 5.0, 5.0,),
+        (date(2025, 8, 14), date(2025, 9, 3), 10.0, 5.0, 7.0,),
+        (date(2025, 8, 14), date(2025, 9, 10), 10.0, 5.0, 8.0)
 
-    item = instancia_item()
-    resultado_teste = item.get_discounted_price()    
-    desconto = item.product.preco_venda - (item.product.preco_venda * 0.8)
-    assert resultado_teste == 10.0
+])
+
+def test_get_discounted_price(current_date: date, expiration_date: date, product_price: float, product_cost: float, expected_discounted_price: float) -> float:
+
+    def item_instance():
+        product_instance = Produto (
+            id = '0',
+            ean = 123456789101112,
+            nome = 'Test Product',
+            preco_venda = product_price
+        )
+
+        batch_instance = Lote (
+            id_lote = 0,
+            id_lote_fisico = 'AB123CD',
+            produto_id = '0',
+            quantidade = 1,
+            preco_custo = product_cost,
+            data_validade = expiration_date,
+            data_entrada = '01/01/2026'
+        )
+
+        item_test = SaleItem (
+            product = product_instance,
+            batch = batch_instance,
+            quantity_sold = 1
+        )
+        return item_test
+        
     
-    # OBS: as funcoes precisam ter algumas variaveis ajustadas para se adequar ao que vc deseja testar (validade, preco de venda ou custo, qtd)
-    # OBS: 10/08/25 -> 100% funcional
+    call_item_instance = item_instance()
+    call_test = call_item_instance.get_discounted_price(current_date)
+    assert call_test == expected_discounted_price

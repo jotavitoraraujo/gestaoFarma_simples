@@ -1,13 +1,13 @@
 import logging
 from sistema import database
-from sistema.modelos.item import Item
+from sistema.modelos.sale_item import SaleItem
 from sistema.modelos.produto import Produto
 from sistema.modelos.lote import Lote
 from sistema.modelos.usuario import Usuario
 from sistema.modulos import validadores_input
 
 
-def adicionar_item() -> Item:
+def adicionar_item() -> SaleItem:
     'cria um item após uma busca por nome do produto'
 
     print('\n')
@@ -62,12 +62,12 @@ def adicionar_item() -> Item:
                     data_entrada = 'AVULSO'
                 )
 
-                item_avulso = Item (
-                    produto = produto_avulso,
-                    lote = lote_avulso,
-                    quantidade_vendida = quantidade
+                item_avulso = SaleItem (
+                    product = produto_avulso,
+                    batch = lote_avulso,
+                    quantity_sold = quantidade
                 )
-                logging.warning(f'[ALERTA] Cadastre o produto {item_avulso.produto.nome} no seu estoque.')
+                logging.warning(f'[ALERTA] Cadastre o produto {item_avulso.product.nome} no seu estoque.')
                 # criar um tabela para salvar esses produtos no database
                 return item_avulso            
             else:
@@ -122,7 +122,7 @@ def adicionar_item() -> Item:
 
             item_selecionado = _menu_lista(lista_busca)
             
-            def _construir_item_selecionado(item_selecionado: tuple) -> Item:
+            def _construir_item_selecionado(item_selecionado: tuple) -> SaleItem:
                 
                                 
                 # desemcapsulando a tupla
@@ -147,10 +147,10 @@ def adicionar_item() -> Item:
 
                 input_quantidade = validadores_input.validador_qtd()
                         
-                item = Item (
-                    produto = produto_selecionado,
-                    lote = lote_selecionado,
-                    quantidade_vendida = input_quantidade
+                item = SaleItem (
+                    product = produto_selecionado,
+                    batch = lote_selecionado,
+                    quantity_sold = input_quantidade
                 )
                 
                 ###### teste de introdução de log no algoritmo ######                
@@ -162,7 +162,7 @@ def adicionar_item() -> Item:
             ################################################################################################################################
 
             item_processado = _construir_item_selecionado(item_selecionado)
-            item_processado_lotef = item_processado.lote.id_lote_fisico
+            item_processado_lotef = item_processado.batch.id_lote_fisico
 
             def _validar_lote_fisico(item_processado_lotef: str) -> bool:
 
@@ -194,7 +194,7 @@ def adicionar_item() -> Item:
 
             # logica de registro de desvio de lote
             verificacao_fisica = _validar_lote_fisico(item_processado_lotef)           
-            desvio_lote_lista = lista_busca[0][5] != item_processado.lote.id_lote_fisico
+            desvio_lote_lista = lista_busca[0][5] != item_processado.batch.id_lote_fisico
             desvio_lote_fisico = not verificacao_fisica           
             
             if desvio_lote_lista or desvio_lote_fisico:
@@ -202,7 +202,7 @@ def adicionar_item() -> Item:
                 logging.warning(f'[ALERTA] Desvio de lote detectado, um registro de alerta foi gerado.')
 
                 id_pedido = 'AVULSO'
-                id_produto = item_processado.produto
+                id_produto = item_processado.product
                 
                 id_usuario = Usuario (
                     id_usuario = 0,
@@ -210,7 +210,7 @@ def adicionar_item() -> Item:
                     pin_usuario = 'AVULSO'
                 )
                 
-                lote_vendido = item_processado.lote
+                lote_vendido = item_processado.batch
                 
                 lote_correto = Lote (
                     id_lote = lista_busca[0][4],
@@ -225,7 +225,7 @@ def adicionar_item() -> Item:
                 database.registrar_alerta_lote(id_pedido, id_produto, id_usuario, lote_vendido, lote_correto)
                 
             else:
-                logging.info(f'[INFO] O item {item_processado.produto.nome} foi adicionado com sucesso.')
+                logging.info(f'[INFO] O item {item_processado.product.nome} foi adicionado com sucesso.')
             
             return item_processado
                 

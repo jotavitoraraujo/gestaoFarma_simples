@@ -80,21 +80,28 @@ def validador_qtd() -> int:
 
     return quantidade_formatada
 
-def date_validator(date_input: str) -> date:
+def date_validator() -> date:
     'receives the date through user input and converts it into a date type object'
 
     while True:
 
         try:
-            date_input = input(f'[INFO] Digita a data de hoje. (EX: DD/MM/AAAA): ')
+            date_input = input(f'[INFO] Insira a data (EX: DD/MM/AAAA): ')
             date_list = date_input.split('/')
-            date_object = date(date_list[2], date_list[1], date_list[0])
-
+            
+            if len(date_list) == 3:
+                pass
+            else:
+                logging.error(f'[ERRO] Formato de data inválido ({date_input}). Tente novamente.')
+                continue                
+            
+            date_object = date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
+            
             if date_object < date.today():
                 logging.warning(f'[ALERTA] A data inserida "{date_object}" é menor que a data de hoje. Tente novamente')
             else:
                 break
-        except ValueError:
-            logging.error(f'[ERRO] Entrada inválida. Tente')
+        except (ValueError, IndexError):
+            logging.error(f'[ERRO] Entrada inválida. Tente novamente.')
         
-        return date_object
+    return date_object

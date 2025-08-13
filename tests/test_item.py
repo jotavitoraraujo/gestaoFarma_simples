@@ -1,5 +1,7 @@
 import pytest
+from unittest.mock import patch
 from datetime import date
+from sistema.modulos.validadores_input import date_validator
 from sistema.modelos.produto import Produto
 from sistema.modelos.produto import Lote
 from sistema.modelos.sale_item import SaleItem

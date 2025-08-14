@@ -1,8 +1,8 @@
 import sqlite3
 from pathlib import Path
-from sistema.modelos.produto import Produto 
+from sistema.modelos.product import Product 
 from sistema.modelos.usuario import Usuario
-from sistema.modelos.lote import Lote
+from sistema.modelos.batch import Batch
 from datetime import datetime
 import logging
 pasta_sistema = Path(__file__).parent
@@ -80,7 +80,7 @@ def criar_tabelas():
     conn.commit()
     conn.close()
 
-def salvar_produtos(lista_produtos: list[Produto]):
+def salvar_produtos(lista_produtos: list[Product]):
     'Salva uma lista de produtos no banco de dados | insere novos ou atualiza a quantidade e o preço de custo dos produtos existentes'
     if not lista_produtos:
         return
@@ -99,12 +99,12 @@ def salvar_produtos(lista_produtos: list[Produto]):
             (
                 produto.id,
                 produto.ean,
-                produto.nome,
-                produto.preco_venda
+                produto.name,
+                produto.sale_price
                 
             ))
         
-        salvar_lote = produto.lotes[0]     
+        salvar_lote = produto.batch[0]     
 
         cursor.execute('''
             INSERT INTO lotes (id_lote_fisico, produto_id, quantidade, preco_custo, data_validade, data_entrada)
@@ -113,12 +113,12 @@ def salvar_produtos(lista_produtos: list[Produto]):
             
             
             (
-                salvar_lote.id_lote_fisico,
-                salvar_lote.produto_id,
-                salvar_lote.quantidade,
-                salvar_lote.preco_custo,
-                salvar_lote.data_validade,
-                salvar_lote.data_entrada
+                salvar_lote.physical_batch_id,
+                salvar_lote.product_id,
+                salvar_lote.quantity,
+                salvar_lote.cost_price,
+                salvar_lote.expiration_date,
+                salvar_lote.entry_date
             
             ))
         
@@ -127,7 +127,7 @@ def salvar_produtos(lista_produtos: list[Produto]):
     conn.close()
     logging.info(f'\n [INFO] {len(lista_produtos)} produtos foram salvos/atualizados no banco de dados.')
 
-def produtos_existentes(produto: Produto):
+def produtos_existentes(produto: Product):
     'verifica se um produto com determinado id já existe no database'
 
     conectar_db = sqlite3.connect(db_file)
@@ -150,7 +150,7 @@ def produtos_existentes(produto: Produto):
     else:
         return False
 
-def buscar_produto(produto: Produto):
+def buscar_produto(produto: Product):
     'busca um produto a partir do tipo Produto'
     conectar_db = sqlite3.connect(db_file)
     conector = conectar_db.cursor()
@@ -249,7 +249,7 @@ def buscar_usuario(usuario: Usuario):
     
     return resposta_db
   
-def registrar_alerta_lote(id_pedido, id_produto: Produto, id_usuario: Usuario, lote_vendido: Lote, lote_correto: Lote):
+def registrar_alerta_lote(id_pedido, id_produto: Product, id_usuario: Usuario, lote_vendido: Batch, lote_correto: Batch):
     'registra o alerta do lote vendido incorretamente'
 
     data_hoje = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -270,8 +270,8 @@ def registrar_alerta_lote(id_pedido, id_produto: Produto, id_usuario: Usuario, l
             id_pedido,
             id_produto.id,
             id_usuario.id_usuario,
-            lote_vendido.id_lote_fisico,
-            lote_correto.id_lote_fisico,
+            lote_vendido.physical_batch_id,
+            lote_correto.physical_batch_id,
             data_hoje,
             negligencia
         ))

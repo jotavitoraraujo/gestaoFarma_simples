@@ -1,24 +1,24 @@
-from sistema.modelos.produto import Produto
+from sistema.modelos.product import Product
 
 
-def relatorio_importacao(produtos_nota: list[Produto]):
+def relatorio_importacao(produtos_nota: list[Product]):
     'imprime produtos salvos ou atualizados no database'
 
     print('\n--- Produtos a serem salvos/atualizados ---')               
     for produto in produtos_nota:
         # imprime os dados de forma mais legivel
         print(f'Código: {produto.id}')
-        print(f'Nome: {produto.nome}')
-        print(f'Qtde: {produto.lotes[0].quantidade}')
-        print(f'Custo Unitário: R${produto.lotes[0].preco_custo:.2f}')
+        print(f'Nome: {produto.name}')
+        print(f'Qtde: {produto.batch[0].quantity}')
+        print(f'Custo Unitário: R${produto.batch[0].cost_price:.2f}')
         
-        if produto.preco_venda:
-            print(f'Preço de Venda: R$ {produto.preco_venda:.2f}')
+        if produto.sale_price:
+            print(f'Preço de Venda: R$ {produto.sale_price:.2f}')
         else:
             print(f'[ALERTA] Preço de Venda não definido!')
         
-        if produto.lotes[0].data_validade:
-            print(f'Validade: {produto.lotes[0].data_validade}')
+        if produto.batch[0].expiration_date:
+            print(f'Validade: {produto.batch[0].expiration_date}')
         else:
             print(f'[ALERTA] Data de validade não definida!')
         

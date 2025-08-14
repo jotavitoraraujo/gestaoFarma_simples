@@ -1,8 +1,8 @@
 import logging
 from sistema import database
 from sistema.modelos.sale_item import SaleItem
-from sistema.modelos.produto import Produto
-from sistema.modelos.lote import Lote
+from sistema.modelos.product import Product
+from sistema.modelos.batch import Batch
 from sistema.modelos.usuario import Usuario
 from sistema.modulos import validadores_input
 
@@ -45,21 +45,21 @@ def adicionar_item() -> SaleItem:
                 lote_fisico = validadores_input.validador_lotef()
 
                 # instancias temporarias
-                produto_avulso = Produto (
+                produto_avulso = Product (
                     id = 'AVULSO',
                     ean = 'AVULSO',
-                    nome = nome,
-                    preco_venda = preco_venda
+                    name = nome,
+                    sale_price = preco_venda
                 )
 
-                lote_avulso = Lote (
-                    id_lote = None,
-                    id_lote_fisico = lote_fisico,
-                    produto_id = 'AVULSO',
-                    quantidade = 0,
-                    preco_custo = 0,
-                    data_validade = data_validade,
-                    data_entrada = 'AVULSO'
+                lote_avulso = Batch (
+                    batch_id = None,
+                    physical_batch_id = lote_fisico,
+                    product_id = 'AVULSO',
+                    quantity = 0,
+                    cost_price = 0,
+                    expiration_date = data_validade,
+                    entry_date = 'AVULSO'
                 )
 
                 item_avulso = SaleItem (
@@ -67,7 +67,7 @@ def adicionar_item() -> SaleItem:
                     batch = lote_avulso,
                     quantity_sold = quantidade
                 )
-                logging.warning(f'[ALERTA] Cadastre o produto {item_avulso.product.nome} no seu estoque.')
+                logging.warning(f'[ALERTA] Cadastre o produto {item_avulso.product.name} no seu estoque.')
                 # criar um tabela para salvar esses produtos no database
                 return item_avulso            
             else:
@@ -128,21 +128,21 @@ def adicionar_item() -> SaleItem:
                 # desemcapsulando a tupla
                 id_produto, nome_produto, codigo_barras, preco_venda_produto, id_lote_, id_lote_fisico, produto_id_, quantidade_, preco_custo_, data_validade_, data_entrada_ = item_selecionado        
                 
-                produto_selecionado = Produto (            
+                produto_selecionado = Product (            
                     id = id_produto,
                     ean = codigo_barras,
-                    nome = nome_produto,
-                    preco_venda = preco_venda_produto
+                    name = nome_produto,
+                    sale_price = preco_venda_produto
                 )
 
-                lote_selecionado = Lote (
-                    id_lote = id_lote_,
-                    id_lote_fisico = id_lote_fisico,
-                    produto_id = produto_id_,
-                    quantidade = quantidade_,
-                    preco_custo = preco_custo_,
-                    data_validade = data_validade_,
-                    data_entrada = data_entrada_
+                lote_selecionado = Batch (
+                    batch_id = id_lote_,
+                    physical_batch_id = id_lote_fisico,
+                    product_id = produto_id_,
+                    quantity = quantidade_,
+                    cost_price = preco_custo_,
+                    expiration_date = data_validade_,
+                    entry_date = data_entrada_
                 )
 
                 input_quantidade = validadores_input.validador_qtd()
@@ -162,7 +162,7 @@ def adicionar_item() -> SaleItem:
             ################################################################################################################################
 
             item_processado = _construir_item_selecionado(item_selecionado)
-            item_processado_lotef = item_processado.batch.id_lote_fisico
+            item_processado_lotef = item_processado.batch.physical_batch_id
 
             def _validar_lote_fisico(item_processado_lotef: str) -> bool:
 
@@ -194,7 +194,7 @@ def adicionar_item() -> SaleItem:
 
             # logica de registro de desvio de lote
             verificacao_fisica = _validar_lote_fisico(item_processado_lotef)           
-            desvio_lote_lista = lista_busca[0][5] != item_processado.batch.id_lote_fisico
+            desvio_lote_lista = lista_busca[0][5] != item_processado.batch.physical_batch_id
             desvio_lote_fisico = not verificacao_fisica           
             
             if desvio_lote_lista or desvio_lote_fisico:
@@ -212,20 +212,20 @@ def adicionar_item() -> SaleItem:
                 
                 lote_vendido = item_processado.batch
                 
-                lote_correto = Lote (
-                    id_lote = lista_busca[0][4],
-                    id_lote_fisico = lista_busca[0][5],
-                    produto_id = lista_busca[0][6],
-                    quantidade = lista_busca[0][7],
-                    preco_custo = lista_busca[0][8],
-                    data_validade = lista_busca[0][9],
-                    data_entrada = lista_busca[0][10]
+                lote_correto = Batch (
+                    batch_id = lista_busca[0][4],
+                    physical_batch_id = lista_busca[0][5],
+                    product_id = lista_busca[0][6],
+                    quantity = lista_busca[0][7],
+                    cost_price = lista_busca[0][8],
+                    expiration_date = lista_busca[0][9],
+                    entry_date = lista_busca[0][10]
                 )                    
                 
                 database.registrar_alerta_lote(id_pedido, id_produto, id_usuario, lote_vendido, lote_correto)
                 
             else:
-                logging.info(f'[INFO] O item {item_processado.product.nome} foi adicionado com sucesso.')
+                logging.info(f'[INFO] O item {item_processado.product.name} foi adicionado com sucesso.')
             
             return item_processado
                 

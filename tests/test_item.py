@@ -1,30 +1,28 @@
 import pytest
-from unittest.mock import patch
 from datetime import date
-from sistema.modulos.validadores_input import date_validator
-from sistema.modelos.produto import Produto
-from sistema.modelos.produto import Lote
+from sistema.modelos.product import Product
+from sistema.modelos.product import Batch
 from sistema.modelos.sale_item import SaleItem
 
 
 data_validade = date(2025, 8, 12)
 
 def instancia_item():
-    produto = Produto (
+    produto = Product (
         id = 0,
         ean = 123456789101112,
-        nome = 'PRODUTO DE TESTE',
-        preco_venda = float(10.0)
+        name = 'PRODUTO DE TESTE',
+        sale_price = float(10.0)
     )
 
-    lote = Lote (
-        id_lote = 0,
-        id_lote_fisico = 'AB123CD',
-        produto_id = 0,
-        quantidade = 5,
-        preco_custo = float(5.0),
-        data_validade = data_validade,
-        data_entrada = date.today()
+    lote = Batch (
+        batch_id = 0,
+        physical_batch_id = 'AB123CD',
+        product_id = 0,
+        quantity = 5,
+        cost_price = float(5.0),
+        expiration_date = data_validade,
+        entry_date = date.today()
     )
 
     item  = SaleItem (
@@ -46,31 +44,31 @@ def test_item_calcular_subtotal():
 
 @pytest.mark.parametrize('current_date, expiration_date, product_price, product_cost, expected_discounted_price', 
     [
-        (date(2025, 8, 14), date(2025, 8, 21), 10.0, 5.0, 10.0,),
-        (date(2025, 8, 14), date(2025, 8, 27), 10.0, 5.0, 5.0,),
-        (date(2025, 8, 14), date(2025, 9, 3), 10.0, 5.0, 7.0,),
-        (date(2025, 8, 14), date(2025, 9, 10), 10.0, 5.0, 8.0)
+        (date(2025, 8, 14), date(2025, 8, 21), 10.0, 5.0, 10.0,), # 80% discount apply
+        (date(2025, 8, 14), date(2025, 8, 27), 10.0, 5.0, 5.0,), # '' 50% apply
+        (date(2025, 8, 14), date(2025, 9, 3), 10.0, 5.0, 7.0,), # '' 30% apply
+        (date(2025, 8, 14), date(2025, 9, 10), 10.0, 5.0, 8.0) # '' 20% apply
 
 ])
 
 def test_get_discounted_price(current_date: date, expiration_date: date, product_price: float, product_cost: float, expected_discounted_price: float) -> float:
 
     def item_instance():
-        product_instance = Produto (
+        product_instance = Product (
             id = '0',
             ean = 123456789101112,
-            nome = 'Test Product',
-            preco_venda = product_price
+            name = 'Test Product',
+            sale_price = product_price
         )
 
-        batch_instance = Lote (
-            id_lote = 0,
-            id_lote_fisico = 'AB123CD',
-            produto_id = '0',
-            quantidade = 1,
-            preco_custo = product_cost,
-            data_validade = expiration_date,
-            data_entrada = '01/01/2026'
+        batch_instance = Batch (
+            batch_id = 0,
+            physical_batch_id = 'AB123CD',
+            product_id = '0',
+            quantity = 1,
+            cost_price = product_cost,
+            expiration_date = expiration_date,
+            entry_date = '01/01/2026'
         )
 
         item_test = SaleItem (

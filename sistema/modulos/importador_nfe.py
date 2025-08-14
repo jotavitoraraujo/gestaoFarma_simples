@@ -25,16 +25,16 @@ def importar_nfe():
                     if resposta_db == None:
                         logging.error(f'\n [ERRO] A resposta do database retornou vazia...')
                     else:                  
-                        produto.preco_venda = resposta_db[2]
-                        produto.lotes[0].data_validade = resposta_db[3]                   
+                        produto.sale_price = resposta_db[2]
+                        produto.batch[0].expiration_date = resposta_db[3]                   
                 else:
-                    print(f'\n [NOVO PRODUTO ENCONTRADO]: {produto.nome}')                    
+                    print(f'\n [NOVO PRODUTO ENCONTRADO]: {produto.name}')                    
                     pv_validado = validadores_input.validador_pv()
                     dv_validada = validadores_input.validador_dv()
                     lotef_validado = validadores_input.validador_lotef()                
-                    produto.preco_venda = pv_validado
-                    produto.lotes[0].data_validade = dv_validada
-                    produto.lotes[0].id_lote_fisico = lotef_validado                    
+                    produto.sale_price = pv_validado
+                    produto.batch[0].expiration_date = dv_validada
+                    produto.batch[0].physical_batch_id = lotef_validado                    
         
         return produtos_nota
     else:

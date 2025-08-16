@@ -1,7 +1,7 @@
 import os
 from sistema.modulos import leitorXML
 from sistema import database
-from sistema.modulos import validadores_input
+from sistema.modulos import validators
 import logging
 
 
@@ -29,9 +29,9 @@ def importar_nfe():
                         produto.batch[0].expiration_date = resposta_db[3]                   
                 else:
                     print(f'\n [NOVO PRODUTO ENCONTRADO]: {produto.name}')                    
-                    pv_validado = validadores_input.validador_pv()
-                    dv_validada = validadores_input.validador_dv()
-                    lotef_validado = validadores_input.validador_lotef()                
+                    pv_validado = validators.sell_price_validator()
+                    dv_validada = validators.validador_dv()
+                    lotef_validado = validators.validador_lotef()                
                     produto.sale_price = pv_validado
                     produto.batch[0].expiration_date = dv_validada
                     produto.batch[0].physical_batch_id = lotef_validado                    

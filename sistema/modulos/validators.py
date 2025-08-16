@@ -1,22 +1,28 @@
 from datetime import datetime, date
 import logging
 
-def validador_pv() -> float:    
-    'conversão de ponto para virgula visando o input do usuario | conversão float'
+def _convert_price_str(price_str: str) -> float:
+    'convert str price in float price'
+
+    price_converted = float(price_str.replace(',', '.'))   
+    if price_converted > 0:
+        pass
+    else:
+        raise ValueError
+    return price_converted
+
+
+def price_validator() -> float:    
+    'receive input price from user and return as float'
     while True:                                         
-        preco_pergunta = f'Qual preço de venda deste novo item?: '
-        preco_input = input(f'{preco_pergunta}')
-        
+        price_ask = f'Qual preço de venda deste novo item?: '
+        price_input = input(f'{price_ask}')
         try:
-            preco_digitado = float(preco_input.replace(',', '.'))
-            if preco_digitado > 0:
-                break
-            else:
-                logging.error('\n [ERRO] O preço de venda deve ser maior que zero.') 
+            price_converted = _convert_price_str(price_input)
+            break
         except ValueError:
             logging.error('\n [ERRO] Entrada inválida. Por favor, digite apenas números.')
-    
-    return preco_digitado
+    return price_converted
 
 def validador_dv() -> str:
     'conversão de d/m/aa para aa/m/d para aceitação no sql'

@@ -4,7 +4,7 @@ from sistema.modelos.sale_item import SaleItem
 from sistema.modelos.product import Product
 from sistema.modelos.batch import Batch
 from sistema.modelos.usuario import Usuario
-from sistema.modulos import validadores_input
+from sistema.modulos import validators
 
 
 def adicionar_item() -> SaleItem:
@@ -39,10 +39,10 @@ def adicionar_item() -> SaleItem:
                 print('=' * 30)
                 
                 nome = input(f'Nome do Produto: ')
-                preco_venda = validadores_input.validador_pv()
-                data_validade = validadores_input.validador_dv()
-                quantidade = validadores_input.validador_qtd()
-                lote_fisico = validadores_input.validador_lotef()
+                preco_venda = validators.sell_price_validator()
+                data_validade = validators.validador_dv()
+                quantidade = validators.validador_qtd()
+                lote_fisico = validators.validador_lotef()
 
                 # instancias temporarias
                 produto_avulso = Product (
@@ -145,7 +145,7 @@ def adicionar_item() -> SaleItem:
                     entry_date = data_entrada_
                 )
 
-                input_quantidade = validadores_input.validador_qtd()
+                input_quantidade = validators.validador_qtd()
                         
                 item = SaleItem (
                     product = produto_selecionado,

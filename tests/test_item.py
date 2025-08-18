@@ -4,10 +4,14 @@ from sistema.modelos.product import Product
 from sistema.modelos.product import Batch
 from sistema.modelos.sale_item import SaleItem
 
+######################################### --- OBJECTS INSTANCES ---############################################################
+def date_instance():
+    date_object = date(2026, 1, 1)
+    return date_object
 
-data_validade = date(2025, 8, 12)
+#########################################
 
-def instancia_item():
+def item_instance():
     produto = Product (
         id = 0,
         ean = 123456789101112,
@@ -21,7 +25,7 @@ def instancia_item():
         product_id = 0,
         quantity = 5,
         cost_price = float(5.0),
-        expiration_date = data_validade,
+        expiration_date = date_instance(),
         entry_date = date.today()
     )
 
@@ -32,16 +36,16 @@ def instancia_item():
     )
     return item
 
-#######################################################################################################################################################
+######################################### --- TEST FUNCTION _item_calculate_subtotal ---######################################################
 
 def test_item_calcular_subtotal():
     'a funcao tem como objetivo testar a classe Item e seu metodo calcular_subtotal()'
     
-    item = instancia_item()
+    item = item_instance()
     resultado_teste = item.calculate_subtotal()
     assert resultado_teste == 30.0
 
-
+######################################### --- TEST FUNCTION _convert_price_str ---############################################################
 @pytest.mark.parametrize('current_date, expiration_date, product_price, product_cost, expected_discounted_price', 
     [
         (date(2025, 8, 14), date(2025, 8, 21), 10.0, 5.0, 10.0,), # 80% discount apply
@@ -51,9 +55,11 @@ def test_item_calcular_subtotal():
 
 ])
 
+#########################################
+
 def test_get_discounted_price(current_date: date, expiration_date: date, product_price: float, product_cost: float, expected_discounted_price: float) -> float:
 
-    def item_instance():
+    def nested_item_instance():
         product_instance = Product (
             id = '0',
             ean = 123456789101112,
@@ -79,6 +85,8 @@ def test_get_discounted_price(current_date: date, expiration_date: date, product
         return item_test
         
     
-    call_item_instance = item_instance()
+    call_item_instance = nested_item_instance()
     call_test = call_item_instance.get_discounted_price(current_date)
     assert call_test == expected_discounted_price
+
+######################################### --- TEST FUNCTION XXXXXXXXXXXXXXX ---############################################################

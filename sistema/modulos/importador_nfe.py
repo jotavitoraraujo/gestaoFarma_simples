@@ -29,9 +29,9 @@ def importar_nfe():
                         produto.batch[0].expiration_date = resposta_db[3]                   
                 else:
                     print(f'\n [NOVO PRODUTO ENCONTRADO]: {produto.name}')                    
-                    pv_validado = validators.sell_price_validator()
-                    dv_validada = validators.validador_dv()
-                    lotef_validado = validators.validador_lotef()                
+                    pv_validado = validators.collect_price_input()
+                    dv_validada = validators.collect_date_input()
+                    lotef_validado = validators.batch_physical_validator()                
                     produto.sale_price = pv_validado
                     produto.batch[0].expiration_date = dv_validada
                     produto.batch[0].physical_batch_id = lotef_validado                    

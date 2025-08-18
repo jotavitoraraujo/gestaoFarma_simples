@@ -11,9 +11,8 @@ def _convert_price_str(price_str: str) -> float:
         raise ValueError
     return price_converted
 
-
-def price_validator() -> float:    
-    'receive input price from user and return as float'
+def collect_price_input() -> float:    
+    'receive input the price'
     while True:                                         
         price_ask = f'Qual preço de venda deste novo item?: '
         price_input = input(f'{price_ask}')
@@ -24,59 +23,72 @@ def price_validator() -> float:
             logging.error('\n [ERRO] Entrada inválida. Por favor, digite apenas números.')
     return price_converted
 
-def validador_dv() -> str:
-    'conversão de d/m/aa para aa/m/d para aceitação no sql'
-    while True:                        
-        validade_pergunta = f'Qual a validade deste novo item? (DIA/MÊS/ANO): '
-        validade_input = input(f'{validade_pergunta}')                        
-        
-        try:            
-            validade_lista = validade_input.split('/')
-            validade_formatada = f'{validade_lista[2]}-{validade_lista[1]}-{validade_lista[0]}'
-            validade_digitada = datetime.strptime(validade_formatada, '%Y-%m-%d').date()
-            
-            if validade_digitada > datetime.now().date():
-                break
-            else:
-                logging.error(f'\n [ERRO] Data de validade inferior ou igual a data de hoje.')        
-        except:
-            logging.error(f'\n [ERRO] Data inválida, por favor tente novamente.')
-    
-    return validade_digitada
+def _expiration_date_validator(date_str: str) -> str:
+    'convert and validate expiration date to acceptance in sql'
 
-def validador_lotef() -> str:
-    'valida a entrada do lote fisico impresso no produto'
-    while True:
-        lote_pergunta = f'Qual o lote impresso fisicamente neste item? (EX: AB123CD): '
-        lote_input = input(f'{lote_pergunta}')
-        print(f'O lote informado é ***{lote_input.upper()}***.')
-        print(f'Você confirma que o lote ***{lote_input.upper()}*** está correto? ')
-        lote_confirmacao = input(f'Digite 1 para confirmar ou 0 para corrigir: ')
+    expiration_list = date_str.split('/')
+    if len(expiration_list) == 3:
+        pass
+    else:
+        raise ValueError
+    expiration_formated = f'{expiration_list[2]}-{expiration_list[1]}-{expiration_list[0]}'
+    expiration_digited = datetime.strptime(expiration_formated, '%Y-%m-%d').date()
+
+    if expiration_digited > datetime.now().date():
+        expiration_str = datetime.strftime(expiration_digited, '%Y-%m-%d')
+    else:
+        raise ValueError
+    return expiration_str
+
+def collect_date_input() -> str:
+    'receive input the expiration date'
+
+    while True:                        
+        expiration_date = f'Qual a validade deste novo item? (DIA/MÊS/ANO): '
+        expiration_input = input(f'{expiration_date}')                        
         
-        if len(lote_confirmacao) > 1:
+        try:
+            expiration_str = _expiration_date_validator(expiration_input)
+            break
+        except ValueError:
+            logging.error('[ERRO] Data inválida. Tente novamente.')
+    
+    return expiration_str
+
+def batch_physical_validator() -> str:
+    'valiate the input of the physical batch printed on the product'
+
+    while True:
+        batch_ask = f'Qual o lote impresso fisicamente neste item? (EX: AB123CD): '
+        batch_input = input(f'{batch_ask}')
+        print(f'O lote informado é ***{batch_input.upper()}***.')
+        print(f'Você confirma que o lote ***{batch_input.upper()}*** está correto? ')
+        batch_confirmation = input(f'Digite 1 para confirmar ou 0 para corrigir: ')
+        
+        if len(batch_confirmation) > 1:
             logging.error(f'[ERRO] Digite apenas 1 ou 0. Tente novamente')
-        elif len(lote_confirmacao) < 1:
+        elif len(batch_confirmation) < 1:
             logging.error(f'[ERRO] Digite apenas 1 ou 0. Tente novamente.')
         else:
-            if lote_confirmacao == '1':
-                lote_fisico = lote_input
-            elif lote_confirmacao == '0':
+            if batch_confirmation == '1':
+                batch_physical = batch_input
+            elif batch_confirmation == '0':
                 continue
             else:
                 logging.error(f'[ERRO] Opção inválida. Tente novamente.')
-        return lote_fisico
+        return batch_physical
 
-def validador_qtd() -> int:
-    'verifica se um numero é um inteiro positivo'
+def quantity_validator() -> int:
+    'check if a number is positive integer'
     
     while True:        
-        quantidade_pergunta = f'Quantidade: '
-        quantidade_input = input(f'{quantidade_pergunta}')
+        quantity_ask = f'Quantidade: '
+        quantity_input = input(f'{quantity_ask}')
 
         try:            
-            quantidade_formatada = int(quantidade_input)           
+            quantity_formated = int(quantity_input)           
                             
-            if quantidade_formatada > 0:
+            if quantity_formated > 0:
                 break                                             
             else:
                 logging.error(f'[ERRO] Entrada inválida, insira apenas números. Tente novamente.')
@@ -84,10 +96,11 @@ def validador_qtd() -> int:
         except ValueError:
             logging.error(f'[ERRO] Dados inválidos. Tente novamente.')
 
-    return quantidade_formatada
+    return quantity_formated
 
-def date_validator() -> date:
-    'receives the date through user input and converts it into a date type object'
+def SaleItem_date_validator() -> date:
+    '''receives the date through user input and converts it into a date type object.
+     This function is for the exclusive use of the SaleItem class, for now '''
 
     while True:
 

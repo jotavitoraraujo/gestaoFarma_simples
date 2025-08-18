@@ -40,9 +40,9 @@ def adicionar_item() -> SaleItem:
                 
                 nome = input(f'Nome do Produto: ')
                 preco_venda = validators.sell_price_validator()
-                data_validade = validators.validador_dv()
-                quantidade = validators.validador_qtd()
-                lote_fisico = validators.validador_lotef()
+                data_validade = validators.collect_date_input()
+                quantidade = validators.quantity_validator()
+                lote_fisico = validators.batch_physical_validator()
 
                 # instancias temporarias
                 produto_avulso = Product (
@@ -145,7 +145,7 @@ def adicionar_item() -> SaleItem:
                     entry_date = data_entrada_
                 )
 
-                input_quantidade = validators.validador_qtd()
+                input_quantidade = validators.quantity_validator()
                         
                 item = SaleItem (
                     product = produto_selecionado,

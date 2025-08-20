@@ -54,3 +54,5 @@
 2025-08-10 01:24:26,749 - WARNING - vendas - [ALERTA] Desvio de lote detectado, um registro de alerta foi gerado.
 2025-08-10 02:23:45,679 - WARNING - vendas - [ALERTA] Desvio de lote detectado, um registro de alerta foi gerado.
 2025-08-10 02:23:59,177 - WARNING - vendas - [ALERTA] Desvio de lote detectado, um registro de alerta foi gerado.
+2025-08-20 11:57:56,723 - ERROR - validators - [ERRO] Data inválida. Tente novamente.
+2025-08-20 12:00:38,570 - WARNING - vendas - [ALERTA] Desvio de lote detectado, um registro de alerta foi gerado.

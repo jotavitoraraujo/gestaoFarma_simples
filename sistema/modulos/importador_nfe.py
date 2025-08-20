@@ -1,5 +1,5 @@
 import os
-from sistema.modulos import leitorXML
+from sistema.modulos import xml_parser
 from sistema import database
 from sistema.modulos import validators
 import logging
@@ -12,7 +12,7 @@ def importar_nfe():
     nome_arquivo = input('Digite o nome do arquivo XML (ex: exemplo_nfe.xml): ')
     caminho_completo = os.path.join('dados', nome_arquivo)    
     try:
-        produtos_nota = leitorXML.extrair_dados_nfe(caminho_completo)
+        produtos_nota = xml_parser.extrair_dados_nfe(caminho_completo)
     except Exception as e:
         logging.error(f'\n [ERRO] Ocorreu um problema inesperado ao processar o arquivo - Verifique o nome do arquivo.')
 

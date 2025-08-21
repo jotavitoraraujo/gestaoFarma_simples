@@ -3,7 +3,7 @@ from unittest.mock import patch
 from pathlib import Path
 from sistema.modelos.product import Product
 from sistema.modelos.batch import Batch
-from tests.exemplo import extract_nfe_data
+from sistema.modulos import xml_parser
 from datetime import datetime
 
 ######################################### DATE (TODAY) INSTANCE ########################################
@@ -100,7 +100,7 @@ with open(file_1) as xml_data_1, open(file_2) as xml_data_2, open(file_3) as xml
 
 def test_extract_nfe_data(functional_xml_data, expected_list_products):
 
-    result = extract_nfe_data(functional_xml_data)
+    result = xml_parser.extract_nfe_data(functional_xml_data)
 
     assert isinstance(result, list[Product])
     assert len(result) == len(expected_list_products)

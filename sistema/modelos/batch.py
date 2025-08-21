@@ -7,3 +7,16 @@ class Batch:
         self.cost_price = cost_price
         self.expiration_date = expiration_date
         self.entry_date = entry_date
+
+    def __eq__(self, other: 'Batch') -> bool:
+        
+        if isinstance(other, type(self)):
+            return (
+            other.batch_id == self.batch_id
+            and other.physical_batch_id == self.physical_batch_id
+            and other.product_id == self.product_id
+            and other.quantity == self.quantity
+            and other.cost_price == self.cost_price
+            and other.expiration_date == self.expiration_date
+            and other.entry_date == self.entry_date
+            )

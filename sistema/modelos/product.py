@@ -11,11 +11,13 @@ class Product:
     def __eq__(self, other: 'Product') -> bool:
         
         if isinstance(other, type(self)):
-            if all(self) and all(other) == True:
-                return True
-            else:
-                return False
+            return (
+            other.id == self.id 
+            and other.ean == self.ean 
+            and other.name == self.name 
+            and other.sale_price == self.sale_price
+            and other.batch == self.batch
+            )
         else:
             return False
-        
 

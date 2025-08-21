@@ -3,7 +3,7 @@ from unittest.mock import patch
 from pathlib import Path
 from sistema.modelos.product import Product
 from sistema.modelos.batch import Batch
-from sistema.modulos.xml_parser import extrair_dados_nfe
+from tests.exemplo import extract_nfe_data
 from datetime import datetime
 
 ######################################### DATE (TODAY) INSTANCE ########################################
@@ -84,35 +84,24 @@ def expected_list_products(dipirona_product: Product, vitamina_product: Product,
     ]
     return list
 
-def call_expected_list_products(expected_list_products):
-    result = expected_list_products
-    return result
-
-list_products = call_expected_list_products(expected_list_products = expected_list_products)
-
-######################################### PATH INSTANCE FILES ##########################################
+######################################### PATH INSTANCE FILES ###########################################
 path_object = Path ('.')
 file_1 = path_object/'data_tests'/'functional_xml_data.xml'
 file_2 = path_object/'data_tests'/'unstable_xml_data.xml'
 file_3 = path_object/'data_tests'/'broken_xml_data.xml'
 
-######################################### OPEN AND READ FILES ##########################################
+######################################### OPEN AND READ FILES ###########################################
 with open(file_1) as xml_data_1, open(file_2) as xml_data_2, open(file_3) as xml_data_3:
     functional_xml_data = xml_data_1.read()
     unstable_xml_data = xml_data_2.read()
     broken_xml_data = xml_data_3.read()
 
-######################################### DECORATOR AND TEST FUNCTION CONSTRUCT ##########################################
-@pytest.mark.parametrize('xml_content, expected_result', [
-    (functional_xml_data, list_products,)  (functional_xml_data, TypeError,)
-])
+######################################### DECORATOR AND TEST FUNCTION CONSTRUCT #########################
 
-def test_extract_data_nfe(xml_content, expected_result):
-    
-    if isinstance(expected_result, list):
-        result = extrair_dados_nfe(xml_content)
-        assert result == expected_result
+def test_extract_nfe_data(functional_xml_data, expected_list_products):
 
-    else:
-        with pytest.raises(expected_result):
-            extrair_dados_nfe(xml_content)
+    result = extract_nfe_data(functional_xml_data)
+
+    assert isinstance(result, list[Product])
+    assert len(result) == len(expected_list_products)
+    assert result == expected_list_products

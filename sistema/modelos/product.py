@@ -2,6 +2,8 @@ from sistema.modelos.batch import Batch
 
 class Product:
     def __init__(self, id, ean, name, sale_price):
+        'create class Product'
+        
         self.id = id
         self.ean = ean
         self.name = name
@@ -9,7 +11,8 @@ class Product:
         self.batch: list[Batch] = []
 
     def __eq__(self, other: 'Product') -> bool:
-        
+        'dunder method for comparassion the of Product object'
+
         if isinstance(other, type(self)):
             return (
             other.id == self.id 
@@ -21,3 +24,13 @@ class Product:
         else:
             return False
 
+    def __repr__(self):
+        'Product type technical representation'
+
+        return f'''
+        --- Product Atributes ---
+        1. ID: {self.id}
+        2. EAN: {self.ean}
+        3. Name: {self.name}
+        4. Sale price: {self.sale_price}        
+        '''

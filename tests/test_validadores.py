@@ -60,7 +60,7 @@ def test_batch_physhical_validator_two(mock_batch_input):
 
 ######################################### --- TEST FUNCTION _expiration_date_validator ---############################################################
 @pytest.mark.parametrize('input, expected_result', [
-    ('19/08/2025', '2025-08-19',), # correct
+    ('19/08/2035', '2035-08-19',), # correct
     ('19-08-2025', ValueError,), # error invalid format
     ('17/08/2025', ValueError,), # error date in the past (bussiness rule)
     ('18/08/2025', ValueError,), # error date in the present (bussiness rule)

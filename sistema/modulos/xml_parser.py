@@ -73,12 +73,10 @@ def extract_nfe_data(xml_content: str) -> list[Product]:
         
         for item in root_element.findall('.//nfe:det', name_space):                   
             try:
-                ean_tag = item.find('.//nfe:cEAN', name_space)
-                ean_value = ean_tag.text 
-                if ean_tag is not None:
-                    pass
-                else:
-                    None                
+                
+                ean_tag = item.find('.//nfe:cEAN', name_space)                 
+                ean_value = ean_tag.text if ean_tag is not None else None      
+                
                 new_product = Product(
                     id = item.find('.//nfe:cProd', name_space).text,
                     ean = ean_value,

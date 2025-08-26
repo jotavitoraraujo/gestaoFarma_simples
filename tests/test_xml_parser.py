@@ -1,4 +1,5 @@
 import pytest
+import xml.etree.ElementTree as ET
 from unittest.mock import patch
 from pathlib import Path
 from sistema.modelos.product import Product
@@ -134,7 +135,7 @@ def broken_xml():
 
 #####################################################
 
-def test_extract_nfe_data(functional_xml, expected_list_products):                      # <----- TEST FUNCTIONAL XML 
+def test_extract_nfe_data(functional_xml, expected_list_products):                      # <----- TEST FUNCTIONAL XML - STATUS: PASSED
 
     result = xml_parser.extract_nfe_data(functional_xml)
 
@@ -144,7 +145,7 @@ def test_extract_nfe_data(functional_xml, expected_list_products):              
     
 ##################################################### 
 
-def test_extract_nfe_data_unstable(dipirona_product_unstable, unstable_xml, expected_list_products):
+def test_extract_nfe_data_unstable(dipirona_product_unstable, unstable_xml, expected_list_products):            # <------ TEST UNSBTABLE XML - STATUS: PASSED
     
     expected_list_unstable = expected_list_products.copy()
     expected_list_unstable[0] = dipirona_product_unstable
@@ -154,3 +155,12 @@ def test_extract_nfe_data_unstable(dipirona_product_unstable, unstable_xml, expe
     assert isinstance(result, list)
     assert len(result) == len(expected_list_unstable)
     assert result == expected_list_unstable
+
+#####################################################
+
+def test_extract_nfe_data_broken(broken_xml):           # <------- TEST BROKEN XML - STATUS: PASSED
+
+    result = xml_parser.extract_nfe_data(broken_xml)
+    assert result is None
+        
+# LAST DATE OF IN TESTS THEY WERE PERFORM, 26 AUGUST

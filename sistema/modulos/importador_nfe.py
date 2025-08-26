@@ -12,9 +12,9 @@ def importar_nfe():
     nome_arquivo = input('Digite o nome do arquivo XML (ex: exemplo_nfe.xml): ')
     caminho_completo = os.path.join('dados', nome_arquivo)    
     try:
-        produtos_nota = xml_parser.extrair_dados_nfe(caminho_completo)
-    except Exception as e:
-        logging.error(f'\n [ERRO] Ocorreu um problema inesperado ao processar o arquivo - Verifique o nome do arquivo.')
+        produtos_nota = xml_parser.extract_nfe_data(caminho_completo)
+    except Exception as instance_exception:
+        logging.error(f'\n [ERRO] Ocorreu um problema inesperado ao processar o arquivo - Verifique o nome do arquivo. Detalhes: {instance_exception}')
 
     if produtos_nota:
         print(f'\n---{len(produtos_nota)} Produtos Encontrados na Nota Fiscal ---')

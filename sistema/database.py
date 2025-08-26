@@ -1,17 +1,49 @@
-import sqlite3
+#################### --- IMPORTS --- #######################
+from sqlite3 import Connection
 from pathlib import Path
 from sistema.modelos.product import Product 
 from sistema.modelos.usuario import Usuario
 from sistema.modelos.batch import Batch
 from datetime import datetime
+import sqlite3
 import logging
+import contextlib
+
+###################### --- PATH FOR DATABASE 'farmacia.db' --- #############################
 pasta_sistema = Path(__file__).parent
 db_file = pasta_sistema.parent/'dados'/'farmacia.db'
 
-def criar_tabelas():
+###################### --- CONNECTION FUNCTION WITH DATABASE --- #############################
+@contextlib.contextmanager
+def connect_db():
+    'database connection control'
+    
+    connect_db = None
+    try:
+        connect_db = sqlite3.connect(db_file)
+        logging.warning(f'[ALERTA] Conexão com banco de dados iniciada.')
+        yield connect_db
+    
+    except Exception as instance_error:
+        logging.error(f'[ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: {type(instance_error)}')
+        if connect_db:
+            connect_db.rollback()
+        raise instance_error
+    
+    else:
+        if connect_db:
+            connect_db.commit()
+    
+    finally:
+        if connect_db:
+            connect_db.close()
+            logging.warning(f'[ALERTA] Conexão com o banco de dados finalizada.')
+
+###################### --- ALL FUNCTIONALITYS (UNTIL NOW) OF THE MODULE 'DATABASE' --- ########################
+def criar_tabelas(connect_db: Connection):
     'Cria tabela de produtos/lotes e usuários no db se ela não existir | Utiliza um comando SQL pra criar a tabela'
-    conn = sqlite3.connect('dados/farmacia.db')
-    cursor = conn.cursor()
+    
+    cursor = connect_db.cursor()
 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS produtos (
@@ -77,22 +109,21 @@ def criar_tabelas():
         negligencia INTEGER NOT NULL
         )           
     ''')
-    conn.commit()
-    conn.close()
+    connect_db.commit()
 
-def salvar_produtos(lista_produtos: list[Product]):
+def salvar_produtos(connect_db: Connection, lista_produtos: list[Product]):
     'Salva uma lista de produtos no banco de dados | insere novos ou atualiza a quantidade e o preço de custo dos produtos existentes'
     if not lista_produtos:
         return
     
-    conn = sqlite3.connect(db_file)
-    cursor = conn.cursor()    
+    cursor = connect_db.cursor()    
 
     for produto in lista_produtos: 
         cursor.execute('''
             INSERT INTO produtos (id, ean, nome_produto, preco_venda)
             VALUES (?, ?, ?, ?)
             ON CONFLICT(id) DO UPDATE SET
+                ean = excluded.ean,
                 nome_produto = excluded.nome_produto,
                 preco_venda = excluded.preco_venda;
             ''', 
@@ -123,15 +154,13 @@ def salvar_produtos(lista_produtos: list[Product]):
             ))
         
 
-    conn.commit()
-    conn.close()
+    connect_db.commit()
     logging.info(f'\n [INFO] {len(lista_produtos)} produtos foram salvos/atualizados no banco de dados.')
 
-def produtos_existentes(produto: Product):
+def produtos_existentes(connect_db: Connection, produto: Product):
     'verifica se um produto com determinado id já existe no database'
 
-    conectar_db = sqlite3.connect(db_file)
-    conector = conectar_db.cursor()
+    conector = connect_db.cursor()
 
     conector.execute ('SELECT COUNT(*) FROM produtos WHERE id = ?', 
                         
@@ -142,18 +171,16 @@ def produtos_existentes(produto: Product):
     
     resposta_db = conector.fetchone()
     resposta_produtos = resposta_db[0]
-
-    conectar_db.close()
    
     if resposta_produtos > 0:
         return True     
     else:
         return False
 
-def buscar_produto(produto: Product):
+def buscar_produto(connect_db: Connection, produto: Product):
     'busca um produto a partir do tipo Produto'
-    conectar_db = sqlite3.connect(db_file)
-    conector = conectar_db.cursor()
+    
+    conector = connect_db.cursor()
 
     conector.execute('''
                      
@@ -173,14 +200,11 @@ def buscar_produto(produto: Product):
     
     resposta_db = conector.fetchone()
     
-    conectar_db.close()
-    
     return resposta_db
 
-def buscar_produto_nome(busca: str) -> list:
+def buscar_produto_nome(connect_db: Connection, busca: str) -> list:
 
-    conectar_db = sqlite3.connect(db_file)
-    conector = conectar_db.cursor()
+    conector = connect_db.cursor()
 
     conector.execute('''
         
@@ -196,18 +220,14 @@ def buscar_produto_nome(busca: str) -> list:
         f'%{busca}%',
     ))
 
-    resposta_db = conector.fetchall()
-    
-    conectar_db.close()
-    
+    resposta_db = conector.fetchall()    
     return resposta_db
 
-def inserir_usuario(usuario: Usuario):
+def inserir_usuario(connect_db: Connection, usuario: Usuario):
     
     'cadastra um novo usuário no database'
     
-    conectar_db = sqlite3.connect(db_file)
-    conector = conectar_db.cursor()
+    conector = connect_db.cursor()
 
     conector.execute('''
             INSERT INTO usuarios (nome_usuario, pin_usuario)
@@ -219,17 +239,15 @@ def inserir_usuario(usuario: Usuario):
             
             ))
 
-    conectar_db.commit()
-    conectar_db.close()
+    connect_db.commit()
     print('=' * 30)
     logging.info(f'[INFO] O usuário, {usuario.nome_usuario} foi cadastrado.')
     print('=' * 30)
 
-def buscar_usuario(usuario: Usuario):
+def buscar_usuario(connect_db: Connection, usuario: Usuario):
     'busca um usuário por nome, mas, retorna todos seus dados contidos no database'
-    
-    conectar_db = sqlite3.connect(db_file)
-    conector = conectar_db.cursor()
+
+    conector = connect_db.cursor()
 
     conector.execute('''
             SELECT id_usuario, nome_usuario, pin_usuario
@@ -243,13 +261,10 @@ def buscar_usuario(usuario: Usuario):
             
         ))
     
-    resposta_db = conector.fetchone()
-    
-    conectar_db.close()
-    
+    resposta_db = conector.fetchone()    
     return resposta_db
   
-def registrar_alerta_lote(id_pedido, id_produto: Product, id_usuario: Usuario, lote_vendido: Batch, lote_correto: Batch):
+def registrar_alerta_lote(connect_db: Connection, id_pedido, id_produto: Product, id_usuario: Usuario, lote_vendido: Batch, lote_correto: Batch):
     'registra o alerta do lote vendido incorretamente'
 
     data_hoje = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -259,8 +274,7 @@ def registrar_alerta_lote(id_pedido, id_produto: Product, id_usuario: Usuario, l
     else:
         negligencia = 0
 
-    conectar_db = sqlite3.connect(db_file)
-    conector = conectar_db.cursor()
+    conector = connect_db.cursor()
 
     conector.execute('''
         INSERT INTO alertas_lote (id_pedido, id_produto, id_usuario, id_lote_vendido, id_lote_correto, data, negligencia)
@@ -276,10 +290,10 @@ def registrar_alerta_lote(id_pedido, id_produto: Product, id_usuario: Usuario, l
             negligencia
         ))
     
-    conectar_db.commit()
-    conectar_db.close()
-    
+    connect_db.commit()
+
     print('=' * 30)
     logging.info(f'[INFO] Os dados dessa venda foram registrados.')
     print('=' * 30)
-    
+
+######################################################################################################################

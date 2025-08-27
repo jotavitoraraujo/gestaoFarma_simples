@@ -16,7 +16,7 @@ def object_today():
 
 ### PRODUCTs AND BATCHs INSTANCEs ###
 @pytest.fixture
-def dipirona_product(object_today):     # <-- Functional Cenario
+def dipirona_product(object_today):     # <-- Functional Scenario
     product_instance = Product (
         id = '12345',
         ean = '7891020304050',
@@ -37,7 +37,7 @@ def dipirona_product(object_today):     # <-- Functional Cenario
     return dipirona_instance
 
 @pytest.fixture
-def dipirona_product_unstable(object_today):     # <-- EAN Empty / Unstable Cenario
+def dipirona_product_unstable(object_today):     # <-- EAN Empty / Unstable Scenario
     'fixture of the dipirona_product instance with ean_tag empty'
 
     product_instance = Product (
@@ -62,7 +62,7 @@ def dipirona_product_unstable(object_today):     # <-- EAN Empty / Unstable Cena
     return dipirona_product_unstable
 
 @pytest.fixture
-def vitamina_product(object_today):     # <-- Functional Cenario
+def vitamina_product(object_today):     # <-- Functional Scenario
     product_instance = Product (
         id = '67890',
         ean = '7895040302010',
@@ -83,7 +83,7 @@ def vitamina_product(object_today):     # <-- Functional Cenario
     return vitamina_instance
 
 @pytest.fixture
-def algodao_product(object_today):      # <-- Functional Cenario
+def algodao_product(object_today):      # <-- Functional Scenario
     product_instance = Product (
         id = '101112',
         ean = None,

@@ -28,4 +28,3 @@ def db_connection():
         if db_connection:
             db_connection.close()
             logging.warning(f'[ALERT] Test connection with database is off.')
-

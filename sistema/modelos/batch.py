@@ -14,8 +14,7 @@ class Batch:
 
         if isinstance(other, type(self)):
             return (
-            other.batch_id == self.batch_id
-            and other.physical_batch_id == self.physical_batch_id
+            other.physical_batch_id == self.physical_batch_id
             and other.product_id == self.product_id
             and other.quantity == pytest.approx(self.quantity)
             and other.cost_price == pytest.approx(self.cost_price)

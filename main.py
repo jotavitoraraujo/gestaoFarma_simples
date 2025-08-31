@@ -21,7 +21,7 @@ def exibir_menu():
 
 def main():
     'acesso as funções do menu principal'
-    database.criar_tabelas()
+    database.create_tables()
     config_log.sistema_logs()
 
     while True:
@@ -32,7 +32,7 @@ def main():
             produtos_nota = importador_nfe.importar_nfe()
             
             if produtos_nota is not None:
-                database.salvar_produtos(produtos_nota)
+                database.save_products(produtos_nota)
                 logging.info('[INFO] A lista de produtos foi salva/atualizada, com sucesso.') 
             else:
                 logging.error('[ERRO] A lista de produtos está vazia. Verifique a NF-e e tente novamente.')                           

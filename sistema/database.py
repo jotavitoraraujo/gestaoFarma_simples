@@ -4,10 +4,26 @@ from pathlib import Path
 from sistema.modelos.product import Product 
 from sistema.modelos.usuario import Usuario
 from sistema.modelos.batch import Batch
-from datetime import datetime
+from datetime import datetime, date
 import sqlite3
 import logging
 import contextlib
+
+#################### --- ADAPTERS AND CONVERSORS --- ####################
+def date_adapter(object_date: date) -> str:
+    'inject a object_date in the date translator to sql pattern'
+    adapter_format_str = object_date.strftime('%Y-%m-%d')
+    return adapter_format_str
+
+def date_conversor(object_bytes: bytes) -> date:
+    'inject a object_str in the date translator the of sql pattern to python object'
+    convert_object_str = object_bytes.decode()
+    adapter_format_date = datetime.strptime(convert_object_str, '%Y-%m-%d').date()
+    return adapter_format_date
+
+#################### --- TRANSLATORS --- ####################
+sqlite3.register_adapter(datetime.date, date_adapter)
+sqlite3.register_converter('date', date_conversor)
 
 ###################### --- PATH FOR DATABASE 'farmacia.db' --- #############################
 pasta_sistema = Path(__file__).parent
@@ -40,7 +56,7 @@ def connect_db():
             logging.warning(f'[ALERTA] Conexão com o banco de dados finalizada.')
 
 ###################### --- ALL FUNCTIONALITYS (UNTIL NOW) OF THE MODULE 'DATABASE' --- ########################
-def criar_tabelas(connect_db: Connection):
+def create_tables(connect_db: Connection):
     'Cria tabela de produtos/lotes e usuários no db se ela não existir | Utiliza um comando SQL pra criar a tabela'
     
     cursor = connect_db.cursor()
@@ -111,14 +127,14 @@ def criar_tabelas(connect_db: Connection):
     ''')
     connect_db.commit()
 
-def salvar_produtos(connect_db: Connection, lista_produtos: list[Product]):
+def save_products(connect_db: Connection, list_products: list[Product]):
     'Salva uma lista de produtos no banco de dados | insere novos ou atualiza a quantidade e o preço de custo dos produtos existentes'
-    if not lista_produtos:
+    if not list_products:
         return
     
     cursor = connect_db.cursor()    
 
-    for produto in lista_produtos: 
+    for produto in list_products: 
         cursor.execute('''
             INSERT INTO produtos (id, ean, nome_produto, preco_venda)
             VALUES (?, ?, ?, ?)
@@ -155,7 +171,7 @@ def salvar_produtos(connect_db: Connection, lista_produtos: list[Product]):
         
 
     connect_db.commit()
-    logging.info(f'\n [INFO] {len(lista_produtos)} produtos foram salvos/atualizados no banco de dados.')
+    logging.info(f'\n [INFO] {len(list_products)} produtos foram salvos/atualizados no banco de dados.')
 
 def produtos_existentes(connect_db: Connection, produto: Product):
     'verifica se um produto com determinado id já existe no database'

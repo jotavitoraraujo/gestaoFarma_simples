@@ -2,7 +2,6 @@
 import sqlite3
 import pytest
 import logging
-import contextlib
 
 ########## --- FIXTURES UTILITS --- ###########
 @pytest.fixture

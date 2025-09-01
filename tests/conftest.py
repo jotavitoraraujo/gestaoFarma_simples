@@ -7,6 +7,11 @@ from sistema.modelos.product import Product
 from sistema.modelos.batch import Batch
 
 #################### --- ADAPTERS AND CONVERSORS --- ####################
+def datetime_adapter(object_datetime: datetime) -> str:
+    'receives an object_datetime in the date translator to sql pattern'
+    adapter_format_str = object_datetime.strftime('%Y-%m-%d')
+    return adapter_format_str
+
 def date_adapter(object_date: date) -> str:
     'inject a object_date in the date translator to sql pattern'
     adapter_format_str = object_date.strftime('%Y-%m-%d')
@@ -24,10 +29,11 @@ def db_connection():
 
     db_connection = None
     try:
-        ####### --- DATE OBJECT -> BYTES (STR) OBJECT --- #######
+        ####### --- DATETIME AND DATE OBJECT -> BYTES (STR) OBJECT --- #######
+        sqlite3.register_adapter(datetime, datetime_adapter)
         sqlite3.register_adapter(datetime.date, date_adapter)
         ####### --- BYTES (STR) OBJECT -> DATE OBJECT --- #######
-        sqlite3.register_converter('date', date_conversor)        
+        sqlite3.register_converter('date', date_conversor)
         
         db_connection = sqlite3.connect(':memory:', detect_types = sqlite3.PARSE_DECLTYPES)
         logging.warning(f'[ALERT] Test connection with database is on.')

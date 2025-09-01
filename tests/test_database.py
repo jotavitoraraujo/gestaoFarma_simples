@@ -119,6 +119,7 @@ def test_create_all_tables(db_connection: Connection):
 
 ####################################################################################################
 ####### --- THIS SESSION HAS OBJECTIVE TEST THE RECORD THE OF DATA IN TABLES THE OF DATABASE --- #######
+@pytest.mark.filterwarnings("ignore:The default date adapter is deprecated")
 def test_save_products(db_connection: Connection, expected_list_products: list[Product]):
 
     database.create_tables(db_connection)
@@ -156,6 +157,3 @@ def test_save_products(db_connection: Connection, expected_list_products: list[P
         result_list.append(product_instance)
     
     assert result_list == expected_list_products
-
-        
-

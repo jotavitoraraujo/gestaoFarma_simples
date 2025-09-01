@@ -9,22 +9,6 @@ import sqlite3
 import logging
 import contextlib
 
-#################### --- ADAPTERS AND CONVERSORS --- ####################
-def date_adapter(object_date: date) -> str:
-    'inject a object_date in the date translator to sql pattern'
-    adapter_format_str = object_date.strftime('%Y-%m-%d')
-    return adapter_format_str
-
-def date_conversor(object_bytes: bytes) -> date:
-    'inject a object_str in the date translator the of sql pattern to python object'
-    convert_object_str = object_bytes.decode()
-    adapter_format_date = datetime.strptime(convert_object_str, '%Y-%m-%d').date()
-    return adapter_format_date
-
-#################### --- TRANSLATORS --- ####################
-sqlite3.register_adapter(datetime.date, date_adapter)
-sqlite3.register_converter('date', date_conversor)
-
 ###################### --- PATH FOR DATABASE 'farmacia.db' --- #############################
 pasta_sistema = Path(__file__).parent
 db_file = pasta_sistema.parent/'dados'/'farmacia.db'
@@ -36,7 +20,7 @@ def connect_db():
     
     connect_db = None
     try:
-        connect_db = sqlite3.connect(db_file)
+        connect_db = sqlite3.connect(db_file, detect_types = sqlite3.PARSE_DECLTYPES)
         logging.warning(f'[ALERTA] Conexão com banco de dados iniciada.')
         yield connect_db
     
@@ -79,8 +63,8 @@ def create_tables(connect_db: Connection):
         produto_id TEXT NOT NULL,        
         quantidade INTEGER NOT NULL,        
         preco_custo REAL NOT NULL,  
-        data_validade TEXT NOT NULL,
-        data_entrada TEXT NOT NULL,                           
+        data_validade DATE NOT NULL,
+        data_entrada DATE NOT NULL,                           
         FOREIGN KEY(produto_id) REFERENCES produtos(id)
             
         )  
@@ -97,7 +81,7 @@ def create_tables(connect_db: Connection):
         CREATE TABLE IF NOT EXISTS pedidos (
         id_pedido INTEGER PRIMARY KEY AUTOINCREMENT,
         usuario_id INTEGER NOT NULL,
-        data_pedido TEXT NOT NULL,
+        data_pedido DATE NOT NULL,
         valor_total REAL NOT NULL,
         FOREIGN KEY(usuario_id) REFERENCES usuarios(id_usuario)
         )
@@ -121,7 +105,7 @@ def create_tables(connect_db: Connection):
         id_lote_correto INTEGER NOT NULL, 
         id_lote_vendido INTEGER NOT NULL,
         id_usuario INTEGER NOT NULL,
-        data TEXT NOT NULL,
+        data DATE NOT NULL,
         negligencia INTEGER NOT NULL
         )           
     ''')
@@ -178,12 +162,15 @@ def produtos_existentes(connect_db: Connection, produto: Product):
 
     conector = connect_db.cursor()
 
-    conector.execute ('SELECT COUNT(*) FROM produtos WHERE id = ?', 
-                        
-                        (
-                          produto.id,
+    conector.execute ('''
+            SELECT COUNT(*) 
+            FROM produtos 
+            WHERE id = ?
+        ''',                
+        (
+            produto.id,
                           
-                        ))              
+        ))              
     
     resposta_db = conector.fetchone()
     resposta_produtos = resposta_db[0]

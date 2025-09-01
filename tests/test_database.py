@@ -1,25 +1,9 @@
 ####### --- IMPORTS --- #######
-from sqlite3 import Connection, register_adapter, register_converter
+import pytest
+from sqlite3 import Connection
 from sistema import database
-from datetime import datetime, date
 from sistema.modelos.product import Product
 from sistema.modelos.batch import Batch
-
-#################### --- ADAPTERS AND CONVERSORS --- ####################
-def date_adapter(object_date: date) -> str:
-    'inject a object_date in the date translator to sql pattern'
-    adapter_format_str = object_date.strftime('%Y-%m-%d')
-    return adapter_format_str
-
-def date_conversor(object_bytes: bytes) -> date:
-    'inject a object_str in the date translator the of sql pattern to python object'
-    convert_object_str = object_bytes.decode()
-    adapter_format_date = datetime.strptime(convert_object_str, '%Y-%m-%d').date()
-    return adapter_format_date
-
-#################### --- TRANSLATORS --- ####################
-register_adapter(datetime.date, date_adapter)
-register_converter('date', date_conversor)
 
 ####### --- TEST FUNCTIONS WHERE EACH FUNCTION CHECK IF DERTEMINED TABLE WAS CREATE WITHIN DATABASE.PY --- #######
 ####### --- TEST FUNCTION ONE: TABLE -> PRODUCTS --- #######
@@ -156,7 +140,8 @@ def test_save_products(db_connection: Connection, expected_list_products: list[P
             sale_price = item[3]           
         )
         ### --- INSTANCE EXPIRATION DATE --- ###
-        object_expiration_date = datetime.strptime(item[11], '%Y-%m-%d').date()
+        object_expiration_date = item[11]
+        print(type(object_expiration_date))
         ########################################
         batch_instance = Batch (
             batch_id = item[6],

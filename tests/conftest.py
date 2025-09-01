@@ -1,10 +1,22 @@
 ########### --- IMPORTS --- ##########
-import sqlite3
 import pytest
 import logging
+import sqlite3
 from datetime import datetime, date
 from sistema.modelos.product import Product
 from sistema.modelos.batch import Batch
+
+#################### --- ADAPTERS AND CONVERSORS --- ####################
+def date_adapter(object_date: date) -> str:
+    'inject a object_date in the date translator to sql pattern'
+    adapter_format_str = object_date.strftime('%Y-%m-%d')
+    return adapter_format_str
+
+def date_conversor(object_bytes: bytes) -> date:
+    'inject a object_str in the date translator the of sql pattern to python object'
+    convert_object_str = object_bytes.decode()
+    adapter_format_date = datetime.strptime(convert_object_str, '%Y-%m-%d').date()
+    return adapter_format_date
 
 ########## --- FIXTURES UTILITS --- ###########
 @pytest.fixture
@@ -12,6 +24,11 @@ def db_connection():
 
     db_connection = None
     try:
+        ####### --- DATE OBJECT -> BYTES (STR) OBJECT --- #######
+        sqlite3.register_adapter(datetime.date, date_adapter)
+        ####### --- BYTES (STR) OBJECT -> DATE OBJECT --- #######
+        sqlite3.register_converter('date', date_conversor)        
+        
         db_connection = sqlite3.connect(':memory:', detect_types = sqlite3.PARSE_DECLTYPES)
         logging.warning(f'[ALERT] Test connection with database is on.')
         yield db_connection
@@ -34,7 +51,7 @@ def db_connection():
 ### DATE'S INSTANCES ###
 @pytest.fixture
 def object_today():
-    today = datetime.now().strftime('%Y-%m-%d')
+    today = date.today()
     return today
 
 @pytest.fixture
@@ -43,6 +60,27 @@ def object_date():
     return object_date_future
 
 ### PRODUCTs AND BATCHs INSTANCEs ###
+@pytest.fixture
+def dipirona_product(object_today, object_date):
+    product_instance = Product (
+        id = '12345',
+        ean = '7891020304050',
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        sale_price = None        
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = 'ABC123HI',
+        product_id = product_instance.id,
+        quantity = float(20.0),
+        cost_price = float(8.50),
+        expiration_date = object_date,
+        entry_date = object_today
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
+
 @pytest.fixture
 def vitamina_product(object_today, object_date):
     product_instance = Product (
@@ -84,27 +122,6 @@ def algodao_product(object_today, object_date):
     product_instance.batch.append(batch_instance)
     algodao_instance = product_instance
     return algodao_instance
-
-@pytest.fixture
-def dipirona_product(object_today, object_date):
-    product_instance = Product (
-        id = '12345',
-        ean = '7891020304050',
-        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
-        sale_price = None        
-    )
-    batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = 'ABC123HI',
-        product_id = product_instance.id,
-        quantity = float(20.0),
-        cost_price = float(8.50),
-        expiration_date = object_date,
-        entry_date = object_today
-    )
-    product_instance.batch.append(batch_instance)
-    dipirona_instance = product_instance    
-    return dipirona_instance
 
 ### LIST OF INSTANCE PRODUCTS ####
 @pytest.fixture

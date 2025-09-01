@@ -21,7 +21,8 @@ def exibir_menu():
 
 def main():
     'acesso as funções do menu principal'
-    database.create_tables()
+    connect_db = database.connect_db()
+    database.create_tables(connect_db)
     config_log.sistema_logs()
 
     while True:
@@ -32,7 +33,7 @@ def main():
             produtos_nota = importador_nfe.importar_nfe()
             
             if produtos_nota is not None:
-                database.save_products(produtos_nota)
+                database.save_products(connect_db, produtos_nota)
                 logging.info('[INFO] A lista de produtos foi salva/atualizada, com sucesso.') 
             else:
                 logging.error('[ERRO] A lista de produtos está vazia. Verifique a NF-e e tente novamente.')                           
@@ -48,7 +49,7 @@ def main():
             print('\n [INFO] Função de relátorios ainda não implementada.')
        
         elif escolha == '4':
-            users.cadastro_usuario()            
+            users.cadastro_usuario(connect_db)            
        
         elif escolha == '0':
             logging.info('\n[INFO] Sistema finalizado.')

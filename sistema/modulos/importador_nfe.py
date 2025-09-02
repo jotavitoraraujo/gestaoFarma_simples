@@ -20,8 +20,8 @@ def importar_nfe():
         print(f'\n---{len(produtos_nota)} Produtos Encontrados na Nota Fiscal ---')
         
         for produto in produtos_nota:
-                if database.produtos_existentes(produto):
-                    resposta_db = database.buscar_produto(produto)
+                if database.products_existing(produto):
+                    resposta_db = database.search_product(produto)
                     if resposta_db == None:
                         logging.error(f'\n [ERRO] A resposta do database retornou vazia...')
                     else:                  

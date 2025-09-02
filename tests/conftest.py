@@ -5,13 +5,9 @@ import sqlite3
 from datetime import datetime, date
 from sistema.modelos.product import Product
 from sistema.modelos.batch import Batch
+from sistema.modelos.sale_item import SaleItem
 
 #################### --- ADAPTERS AND CONVERSORS --- ####################
-def datetime_adapter(object_datetime: datetime) -> str:
-    'receives an object_datetime in the date translator to sql pattern'
-    adapter_format_str = object_datetime.strftime('%Y-%m-%d')
-    return adapter_format_str
-
 def date_adapter(object_date: date) -> str:
     'inject a object_date in the date translator to sql pattern'
     adapter_format_str = object_date.strftime('%Y-%m-%d')
@@ -20,7 +16,7 @@ def date_adapter(object_date: date) -> str:
 def date_conversor(object_bytes: bytes) -> date:
     'inject a object_str in the date translator the of sql pattern to python object'
     convert_object_str = object_bytes.decode()
-    adapter_format_date = datetime.strptime(convert_object_str, '%Y-%m-%d').date()
+    adapter_format_date = date.fromisoformat(convert_object_str)
     return adapter_format_date
 
 ########## --- FIXTURES UTILITS --- ###########
@@ -29,9 +25,8 @@ def db_connection():
 
     db_connection = None
     try:
-        ####### --- DATETIME AND DATE OBJECT -> BYTES (STR) OBJECT --- #######
-        sqlite3.register_adapter(datetime, datetime_adapter)
-        sqlite3.register_adapter(datetime.date, date_adapter)
+        ####### --- DATE OBJECT -> BYTES (STR) OBJECT --- #######
+        sqlite3.register_adapter(date, date_adapter)
         ####### --- BYTES (STR) OBJECT -> DATE OBJECT --- #######
         sqlite3.register_converter('date', date_conversor)
         

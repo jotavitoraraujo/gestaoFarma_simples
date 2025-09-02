@@ -119,7 +119,7 @@ def test_create_all_tables(db_connection: Connection):
 
 ####################################################################################################
 ####### --- THIS SESSION HAS OBJECTIVE TEST THE RECORD THE OF DATA IN TABLES THE OF DATABASE --- #######
-@pytest.mark.filterwarnings("ignore:The default date adapter is deprecated")
+# @pytest.mark.filterwarnings("ignore:The default date adapter is deprecated")
 def test_save_products(db_connection: Connection, expected_list_products: list[Product]):
 
     database.create_tables(db_connection)
@@ -157,3 +157,25 @@ def test_save_products(db_connection: Connection, expected_list_products: list[P
         result_list.append(product_instance)
     
     assert result_list == expected_list_products
+
+####### --- THIS TEST FUNCTION VERIFY IF AN PRODUCT AS DETERMINED ID ALREADY EXISTS WITHIN DATABASE --- #######
+def test_products_existing(db_connection: Connection, expected_list_products: list[Product], dipirona_product: Product):
+    database.create_tables(db_connection)
+    database.save_products(db_connection, expected_list_products)
+    result = database.products_existing(db_connection, dipirona_product)
+
+    assert result == True
+
+####### --- THIS FUNCTION IS RESPONSABLE FOR THE SEARCH OF AN PRODUCT WITHIN DATABASE --- #######
+def test_search_product(db_connection: Connection, expected_list_products: list[Product], dipirona_product: Product):
+    database.create_tables(db_connection)
+    database.save_products(db_connection, expected_list_products)
+    result = database.search_product(db_connection, dipirona_product)
+
+    if isinstance(result, type(tuple)):
+        assert (
+            result[0] == dipirona_product.id
+        and result[1] == dipirona_product.name
+        and result[2] == dipirona_product.sale_price
+        and result[3] == dipirona_product.batch[0].expiration_date
+        )

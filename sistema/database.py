@@ -9,17 +9,34 @@ import sqlite3
 import logging
 import contextlib
 
+#################### --- ADAPTERS AND CONVERSORS --- ####################
+def date_adapter(object_date: date) -> str:
+    'inject a object_date in the date translator to sql pattern'
+    adapter_format_str = object_date.strftime('%Y-%m-%d')
+    return adapter_format_str
+
+def date_conversor(object_bytes: bytes) -> date:
+    'inject a object_str in the date translator the of sql pattern to python object'
+    convert_object_str = object_bytes.decode()
+    adapter_format_date = date.fromisoformat(convert_object_str)
+    return adapter_format_date
+
 ###################### --- PATH FOR DATABASE 'farmacia.db' --- #############################
 pasta_sistema = Path(__file__).parent
 db_file = pasta_sistema.parent/'dados'/'farmacia.db'
 
-###################### --- CONNECTION FUNCTION WITH DATABASE --- #############################
+###################### --- CONNECTION FUNCTION WITH DATABASE --- ###########################
 @contextlib.contextmanager
 def connect_db():
     'database connection control'
     
     connect_db = None
     try:
+        ####### --- DATE OBJECT -> BYTES (STR) OBJECT --- #######
+        sqlite3.register_adapter(date, date_adapter)
+        ####### --- BYTES (STR) OBJECT -> DATE OBJECT --- #######
+        sqlite3.register_converter('date', date_conversor)
+
         connect_db = sqlite3.connect(db_file, detect_types = sqlite3.PARSE_DECLTYPES)
         logging.warning(f'[ALERTA] Conexão com banco de dados iniciada.')
         yield connect_db
@@ -157,7 +174,7 @@ def save_products(connect_db: Connection, list_products: list[Product]):
     connect_db.commit()
     logging.info(f'\n [INFO] {len(list_products)} produtos foram salvos/atualizados no banco de dados.')
 
-def produtos_existentes(connect_db: Connection, produto: Product):
+def products_existing(connect_db: Connection, product: Product) -> bool:
     'verifica se um produto com determinado id já existe no database'
 
     conector = connect_db.cursor()
@@ -168,7 +185,7 @@ def produtos_existentes(connect_db: Connection, produto: Product):
             WHERE id = ?
         ''',                
         (
-            produto.id,
+            product.id,
                           
         ))              
     
@@ -180,7 +197,7 @@ def produtos_existentes(connect_db: Connection, produto: Product):
     else:
         return False
 
-def buscar_produto(connect_db: Connection, produto: Product):
+def search_product(connect_db: Connection, product: Product):
     'busca um produto a partir do tipo Produto'
     
     conector = connect_db.cursor()
@@ -197,12 +214,11 @@ def buscar_produto(connect_db: Connection, produto: Product):
         
         ''', 
         (
-            produto.id,
+            product.id,
             
         ))
     
     resposta_db = conector.fetchone()
-    
     return resposta_db
 
 def buscar_produto_nome(connect_db: Connection, busca: str) -> list:

@@ -3,7 +3,7 @@ from sistema import database
 from sistema.modelos.sale_item import SaleItem
 from sistema.modelos.product import Product
 from sistema.modelos.batch import Batch
-from sistema.modelos.usuario import Usuario
+from sistema.modelos.user import User
 from sistema.modulos import validators
 
 
@@ -20,7 +20,7 @@ def adicionar_item() -> SaleItem:
         print('\n')
         input_busca = input('Digite o nome do produto: ')
         print('\n')
-        lista_busca = database.buscar_produto_nome(input_busca)
+        lista_busca = database.search_product_name(input_busca)
     
         if not lista_busca:            
             logging.warning(f'[ALERTA] A busca por {input_busca} não corresponde a nenhum item.')
@@ -204,10 +204,10 @@ def adicionar_item() -> SaleItem:
                 id_pedido = 'AVULSO'
                 id_produto = item_processado.product
                 
-                id_usuario = Usuario (
-                    id_usuario = 0,
-                    nome_usuario = 'AVULSO',
-                    pin_usuario = 'AVULSO'
+                id_usuario = User (
+                    user_id = 0,
+                    user_name = 'AVULSO',
+                    user_pin = 'AVULSO'
                 )
                 
                 lote_vendido = item_processado.batch
@@ -222,7 +222,7 @@ def adicionar_item() -> SaleItem:
                     entry_date = lista_busca[0][10]
                 )                    
                 
-                database.registrar_alerta_lote(id_pedido, id_produto, id_usuario, lote_vendido, lote_correto)
+                database.register_batch_alert(id_pedido, id_produto, id_usuario, lote_vendido, lote_correto)
                 
             else:
                 logging.info(f'[INFO] O item {item_processado.product.name} foi adicionado com sucesso.')

@@ -2,10 +2,10 @@
 import pytest
 import logging
 import sqlite3
-from datetime import datetime, date
+from datetime import date
 from sistema.modelos.product import Product
 from sistema.modelos.batch import Batch
-from sistema.modelos.sale_item import SaleItem
+from sistema.modelos.user import User
 
 #################### --- ADAPTERS AND CONVERSORS --- ####################
 def date_adapter(object_date: date) -> str:
@@ -51,18 +51,26 @@ def db_connection():
 
 ### DATE'S INSTANCES ###
 @pytest.fixture
-def object_today():
+def object_today() -> date:
     today = date.today()
     return today
 
 @pytest.fixture
-def object_date():
+def object_date() -> date:
     object_date_future = date(2035, 8, 31)
     return object_date_future
 
+############################################################
+# --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT --- 
+@pytest.fixture
+def object_date_2() -> date:
+    object_date_future = date(2045, 8, 31)
+    return object_date_future
+############################################################
+
 ### PRODUCTs AND BATCHs INSTANCEs ###
 @pytest.fixture
-def dipirona_product(object_today, object_date):
+def dipirona_product(object_today, object_date) -> Product:
     product_instance = Product (
         id = '12345',
         ean = '7891020304050',
@@ -82,8 +90,31 @@ def dipirona_product(object_today, object_date):
     dipirona_instance = product_instance    
     return dipirona_instance
 
+############################################################
+# --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
+def dipirona_product_2(object_today, object_date_2) -> Product:
+    product_instance = Product (
+        id = '12345',
+        ean = '7891020304050',
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        sale_price = None        
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = 'ABC123HJ',
+        product_id = product_instance.id,
+        quantity = float(20.0),
+        cost_price = float(8.50),
+        expiration_date = object_date_2,
+        entry_date = object_today
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
+############################################################
+
 @pytest.fixture
-def vitamina_product(object_today, object_date):
+def vitamina_product(object_today, object_date) -> Product:
     product_instance = Product (
         id = '67890',
         ean = '7895040302010',
@@ -104,7 +135,7 @@ def vitamina_product(object_today, object_date):
     return vitamina_instance
 
 @pytest.fixture
-def algodao_product(object_today, object_date):
+def algodao_product(object_today, object_date) -> Product:
     product_instance = Product (
         id = '101112',
         ean = '7895040302015',
@@ -131,3 +162,29 @@ def expected_list_products(dipirona_product: Product, vitamina_product: Product,
         dipirona_product, vitamina_product, algodao_product
     ]
     return list
+
+############################################################
+# --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
+@pytest.fixture
+def expected_list_products_2(dipirona_product: Product, dipirona_product_2: Product, vitamina_product: Product, algodao_product: Product) -> list[Product]:
+    list = [
+        dipirona_product, dipirona_product_2, vitamina_product, algodao_product
+    ]
+    return list
+############################################################
+
+### INSTANCE USER ###
+@pytest.fixture
+def user_test() -> User:
+    user = User (
+        user_id = 1,
+        user_name = 'JoaoVitor',
+        user_pin = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'
+    )
+    return user
+
+### ORDER ID FIXTURE ###
+@pytest.fixture
+def order_id() -> str:
+    order_id = '1'
+    return order_id

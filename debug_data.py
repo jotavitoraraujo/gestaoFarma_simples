@@ -1,4 +1,5 @@
 import sqlite3
+from hashlib import sha256
 from datetime import date
 import sys
 
@@ -72,3 +73,13 @@ print(f'=' * 25, '--- TYPE OUTPUT ---', '=' * 25)
 print(f'[DEBUG] Type Object Output from Database: {type(return_database[0][1])}')
 print(f'=' * 50)
 ###############################################################################
+
+######## --- THIS SESSION IS RESPONSABLE FOR ENCRYPTING A TEST PASSWORD --- #########
+
+pin_input = '1234'
+pin_bytes = pin_input.encode()
+pin_cripto = sha256(pin_bytes).hexdigest()
+print('\n')
+print('=' * 50)
+print(f'Encrypting Password Hash: {pin_cripto}')
+print('=' * 50)

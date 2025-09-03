@@ -2,7 +2,7 @@
 from sqlite3 import Connection
 from pathlib import Path
 from sistema.modelos.product import Product 
-from sistema.modelos.usuario import Usuario
+from sistema.modelos.user import User
 from sistema.modelos.batch import Batch
 from datetime import datetime, date
 import sqlite3
@@ -58,7 +58,7 @@ def connect_db():
 
 ###################### --- ALL FUNCTIONALITYS (UNTIL NOW) OF THE MODULE 'DATABASE' --- ########################
 def create_tables(connect_db: Connection):
-    'Cria tabela de produtos/lotes e usuários no db se ela não existir | Utiliza um comando SQL pra criar a tabela'
+    'start a creating the of tables for structure in the database' 
     
     cursor = connect_db.cursor()
 
@@ -130,12 +130,13 @@ def create_tables(connect_db: Connection):
 
 def save_products(connect_db: Connection, list_products: list[Product]):
     'Salva uma lista de produtos no banco de dados | insere novos ou atualiza a quantidade e o preço de custo dos produtos existentes'
+    'save an list of products in the database | insert an new or update of the quantity/cost-price of existing products'
     if not list_products:
         return
     
     cursor = connect_db.cursor()    
 
-    for produto in list_products: 
+    for product in list_products: 
         cursor.execute('''
             INSERT INTO produtos (id, ean, nome_produto, preco_venda)
             VALUES (?, ?, ?, ?)
@@ -145,14 +146,14 @@ def save_products(connect_db: Connection, list_products: list[Product]):
                 preco_venda = excluded.preco_venda;
             ''', 
             (
-                produto.id,
-                produto.ean,
-                produto.name,
-                produto.sale_price
+                product.id,
+                product.ean,
+                product.name,
+                product.sale_price
                 
             ))
         
-        salvar_lote = produto.batch[0]     
+        save_batch = product.batch[0]     
 
         cursor.execute('''
             INSERT INTO lotes (id_lote_fisico, produto_id, quantidade, preco_custo, data_validade, data_entrada)
@@ -161,12 +162,12 @@ def save_products(connect_db: Connection, list_products: list[Product]):
             
             
             (
-                salvar_lote.physical_batch_id,
-                salvar_lote.product_id,
-                salvar_lote.quantity,
-                salvar_lote.cost_price,
-                salvar_lote.expiration_date,
-                salvar_lote.entry_date
+                save_batch.physical_batch_id,
+                save_batch.product_id,
+                save_batch.quantity,
+                save_batch.cost_price,
+                save_batch.expiration_date,
+                save_batch.entry_date
             
             ))
         
@@ -175,11 +176,11 @@ def save_products(connect_db: Connection, list_products: list[Product]):
     logging.info(f'\n [INFO] {len(list_products)} produtos foram salvos/atualizados no banco de dados.')
 
 def products_existing(connect_db: Connection, product: Product) -> bool:
-    'verifica se um produto com determinado id já existe no database'
+    'verify if an product with determined id already existing on the database'
 
-    conector = connect_db.cursor()
+    connector = connect_db.cursor()
 
-    conector.execute ('''
+    connector.execute ('''
             SELECT COUNT(*) 
             FROM produtos 
             WHERE id = ?
@@ -189,20 +190,20 @@ def products_existing(connect_db: Connection, product: Product) -> bool:
                           
         ))              
     
-    resposta_db = conector.fetchone()
-    resposta_produtos = resposta_db[0]
+    db_answer = connector.fetchone()
+    products_answer = db_answer[0]
    
-    if resposta_produtos > 0:
+    if products_answer > 0:
         return True     
     else:
         return False
 
 def search_product(connect_db: Connection, product: Product):
-    'busca um produto a partir do tipo Produto'
+    'search for a product using an object -> Product'
     
-    conector = connect_db.cursor()
+    connector = connect_db.cursor()
 
-    conector.execute('''
+    connector.execute('''
                      
             SELECT id, nome_produto, preco_venda, data_validade 
             FROM produtos 
@@ -218,14 +219,14 @@ def search_product(connect_db: Connection, product: Product):
             
         ))
     
-    resposta_db = conector.fetchone()
-    return resposta_db
+    db_answer = connector.fetchone()
+    return db_answer
 
-def buscar_produto_nome(connect_db: Connection, busca: str) -> list:
+def search_product_name(connect_db: Connection, search: str) -> list:
+    'search an product using the integer name or a part of the name of respective Product '
+    connector = connect_db.cursor()
 
-    conector = connect_db.cursor()
-
-    conector.execute('''
+    connector.execute('''
         
         SELECT id, nome_produto, ean, preco_venda, id_lote, id_lote_fisico, produto_id, quantidade, preco_custo, data_validade, data_entrada
         FROM produtos
@@ -236,39 +237,38 @@ def buscar_produto_nome(connect_db: Connection, busca: str) -> list:
     
     ''',
     (
-        f'%{busca}%',
+        f'%{search}%',
     ))
 
-    resposta_db = conector.fetchall()    
-    return resposta_db
+    db_answer = connector.fetchall()    
+    return db_answer
 
-def inserir_usuario(connect_db: Connection, usuario: Usuario):
+def register_user(connect_db: Connection, user: User):
+    'register an new user on database'
     
-    'cadastra um novo usuário no database'
-    
-    conector = connect_db.cursor()
+    connector = connect_db.cursor()
 
-    conector.execute('''
+    connector.execute('''
             INSERT INTO usuarios (nome_usuario, pin_usuario)
             VALUES (?, ?)
             ''',
             (
-                usuario.nome_usuario,
-                usuario.pin_usuario               
+                user.user_name,
+                user.user_pin               
             
             ))
 
     connect_db.commit()
     print('=' * 30)
-    logging.info(f'[INFO] O usuário, {usuario.nome_usuario} foi cadastrado.')
+    logging.info(f'[INFO] O usuário, {user.user_name} foi cadastrado.')
     print('=' * 30)
 
-def buscar_usuario(connect_db: Connection, usuario: Usuario):
-    'busca um usuário por nome, mas, retorna todos seus dados contidos no database'
+def search_user(connect_db: Connection, user: str) -> tuple:
+    'search an user by name, but the function returns all contained data in database'
 
-    conector = connect_db.cursor()
+    connector = connect_db.cursor()
 
-    conector.execute('''
+    connector.execute('''
             SELECT id_usuario, nome_usuario, pin_usuario
             FROM usuarios
             WHERE usuarios.nome_usuario = ?
@@ -276,39 +276,37 @@ def buscar_usuario(connect_db: Connection, usuario: Usuario):
             
         ''',
         (
-            usuario.nome_usuario,
+            user,
             
         ))
     
-    resposta_db = conector.fetchone()    
-    return resposta_db
+    db_answer = connector.fetchone()    
+    return db_answer
   
-def registrar_alerta_lote(connect_db: Connection, id_pedido, id_produto: Product, id_usuario: Usuario, lote_vendido: Batch, lote_correto: Batch):
-    'registra o alerta do lote vendido incorretamente'
+def register_batch_alert(connect_db: Connection, order_id, product_id: Product, user_id: User, batch_sold: Batch, batch_correct: Batch):
+    'register of alert of the batch sold incorretly'
 
-    data_hoje = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    if lote_vendido != lote_correto:
-        negligencia = 1
+    if batch_sold != batch_correct:
+        neglect = 1
     else:
-        negligencia = 0
+        neglect = 0
 
-    conector = connect_db.cursor()
-
-    conector.execute('''
+    connector = connect_db.cursor()
+    connector.execute('''
         INSERT INTO alertas_lote (id_pedido, id_produto, id_usuario, id_lote_vendido, id_lote_correto, data, negligencia)
         VALUES (?, ?, ?, ?, ?, ?, ?)
         ''',
         (
-            id_pedido,
-            id_produto.id,
-            id_usuario.id_usuario,
-            lote_vendido.physical_batch_id,
-            lote_correto.physical_batch_id,
-            data_hoje,
-            negligencia
+            order_id,
+            product_id.id,
+            user_id.user_id,
+            batch_sold.physical_batch_id,
+            batch_correct.physical_batch_id,
+            today,
+            neglect
         ))
-    
     connect_db.commit()
 
     print('=' * 30)

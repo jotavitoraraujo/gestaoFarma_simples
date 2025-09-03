@@ -1,7 +1,7 @@
 from hashlib import sha256
 from sistema import database
 from pwinput import pwinput
-from sistema.modelos.usuario import Usuario
+from sistema.modelos.user import User
 
 def cadastro_usuario():
     print('=' * 30)
@@ -38,14 +38,14 @@ def cadastro_usuario():
     pin_bytes = pin_input.encode()
     pin_cripto = sha256(pin_bytes).hexdigest()
     name_usuario = nome_formatado
-    usuario = Usuario (
+    usuario = User (
         
-        id_usuario = None,
-        nome_usuario = name_usuario,
-        pin_usuario = pin_cripto
+        user_id = None,
+        user_name = name_usuario,
+        user_pin = pin_cripto
         
         )
-    return database.inserir_usuario(usuario)
+    return database.register_user(usuario)
 
 def login():
     print('=' * 30)
@@ -54,14 +54,14 @@ def login():
     
     while True:
         usuario_input = input(f'USUÁRIO: ')
-        resposta_db = database.buscar_usuario(usuario_input)
+        resposta_db = database.search_user(usuario_input)
     
     
         if resposta_db == None:
             print(f'[ERRO] Usuário {usuario_input} não existe ou não é cadastrado.')           
         else:
             while True:
-                pin = pwinput.pwinput(f'SENHA: ')             
+                pin = pwinput(f'SENHA: ')             
                 pin_numeros = pin.isdigit()
                 if pin_numeros is True:                        
                     if len(pin) != 4:
@@ -76,10 +76,10 @@ def login():
             
             if pin_critpo == resposta_db[2]:
                 
-                usuario = Usuario(
-                    id_usuario = resposta_db[0],
-                    nome_usuario = resposta_db[1],
-                    pin_usuario = resposta_db[2]
+                usuario = User(
+                    user_id = resposta_db[0],
+                    user_name = resposta_db[1],
+                    user_pin = resposta_db[2]
                 )
 
                 print(f'\nSEJA BEM VINDO {resposta_db[1]} - GESTÃO FARMA LHE DESEJA UM BOM TRABALHO!')

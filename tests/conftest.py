@@ -92,11 +92,12 @@ def dipirona_product(object_today, object_date) -> Product:
 
 ############################################################
 # --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
+@pytest.fixture
 def dipirona_product_2(object_today, object_date_2) -> Product:
     product_instance = Product (
-        id = '12345',
-        ean = '7891020304050',
-        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        id = '12346',
+        ean = '7891020304051',
+        name = 'DIPIRONA 500MG COM 11 COMPRIMIDOS',
         sale_price = None        
     )
     batch_instance = Batch (
@@ -183,8 +184,67 @@ def user_test() -> User:
     )
     return user
 
-### ORDER ID FIXTURE ###
+### THIS SESSION I AM TRYING CREATE AN CLASS CALLED 'ALERT' AS FIXTURE, FOR BE WITHIN TEST FUNCTION REGISTER_BATCH_ALERT
+class Alert:
+    def __init__(self,
+        alert_id: int,
+        order_id: int, 
+        product: Product, 
+        user: User, 
+        batch_sold: Batch, 
+        batch_correct: Batch, 
+        today: date, 
+        neglect: int
+        ):
+        
+        self.alert_id = alert_id
+        self.order_id = order_id
+        self.product_id = product.id
+        self.user_id = user.user_id
+        self.physical_batch_sold = batch_sold.batch_id
+        self.physical_batch_correct = batch_correct.batch_id
+        self.today = today.today()
+        self.neglect = neglect
+
+    def __repr__(self):
+        'technical representation of type Alert'
+
+        return f'''
+        1. Alert ID: {self.alert_id}
+        2. Order ID: {self.order_id}
+        3. Product ID: {self.product_id}
+        4. User ID: {self.user_id}
+        5. Pyshical Batch Sold: {self.physical_batch_sold}
+        6. Pyshical Batch Correct: {self.physical_batch_correct}
+        7. Date: {self.today}
+        8. Neglect: {self.neglect}
+    '''
+
+    def __eq__(self, other):
+        'dunder method for comparassion between types Alert'
+
+        if isinstance(other, type(self)):
+            return (
+                other.order_id == self.order_id
+                and other.product_id == self.product_id
+                and other.user_id == self.user_id
+                and other.physical_batch_sold == self.physical_batch_sold
+                and other.physical_batch_correct == self.physical_batch_correct
+            )
+        else:
+            return False
+        
+### INSTANCE ALERT ###
 @pytest.fixture
-def order_id() -> str:
-    order_id = '1'
-    return order_id
+def alert(object_today: date, dipirona_product: Product, dipirona_product_2: Product, user_test: User):
+    alert_type = Alert (
+        alert_id = 1,
+        order_id = 1,
+        product = dipirona_product_2,
+        user = user_test,
+        batch_sold = dipirona_product_2.batch[0],
+        batch_correct = dipirona_product.batch[0],
+        today = object_today,
+        neglect = 1
+    )
+    return alert_type

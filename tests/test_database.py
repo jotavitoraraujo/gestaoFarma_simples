@@ -6,7 +6,7 @@ from sistema import database
 from sistema.modelos.product import Product
 from sistema.modelos.batch import Batch
 from sistema.modelos.user import User
-from datetime import date
+from tests.conftest import Alert
 
 
 ####### --- TEST FUNCTIONS WHERE EACH FUNCTION CHECK IF DERTEMINED TABLE WAS CREATE WITHIN DATABASE.PY --- #######
@@ -271,18 +271,41 @@ def test_search_user_2(db_connection: Connection, user_test: User):
         assert user_result == user_test
 
 ####### --- THIS TEST FUNCTION IS RESPONSABLE FOR RECORDING A SALES DEVIATION FROM THE CORRECT BATCH --- #######
-def test_register_batch_alert(db_connection: Connection, expected_list_products_2: list[Product], dipirona_product: Product, dipirona_product_2: Product, user_test: User):
+def test_register_batch_alert(
+    db_connection: Connection, 
+    expected_list_products_2: list[Product], 
+    dipirona_product: Product, 
+    dipirona_product_2: Product, 
+    user_test: User, 
+    alert: Alert
+    ):
     
     database.create_tables(db_connection)
     database.save_products(db_connection, expected_list_products_2)
     database.register_user(db_connection, user_test)
-
     
     order_id = 1
-    batch_correct = dipirona_product.batch[0]
-    batch_sold = dipirona_product_2.batch[0]
-
-    result = database.register_batch_alert(db_connection, order_id, dipirona_product_2, user_test, batch_sold, batch_correct)
+    batch_correct = dipirona_product.batch[0].batch_id
+    batch_sold = dipirona_product_2.batch[0].batch_id
     
+    database.register_batch_alert(db_connection, order_id, dipirona_product_2, user_test, batch_sold, batch_correct)
+    cursor = db_connection.cursor()
+    cursor.execute('''
+        SELECT *
+        FROM alertas_lote
+    ''')
+    result = cursor.fetchone()
 
+    if isinstance(result, type(tuple)):
+        real_alert = Alert (
+            alert_id = result[0],
+            order_id = result[1],
+            product = result[3],
+            user = result[4],
+            batch_sold = result[5],
+            batch_correct = result[6],
+            today = result[7],
+            neglect = result[8]
+        )
+    assert real_alert == alert
 

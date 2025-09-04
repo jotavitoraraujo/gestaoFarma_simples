@@ -146,7 +146,6 @@ def test_save_products(db_connection: Connection, expected_list_products: list[P
         )
         ### --- INSTANCE EXPIRATION DATE --- ###
         object_expiration_date = item[11]
-        print(type(object_expiration_date))
         ########################################
         batch_instance = Batch (
             batch_id = item[6],
@@ -285,8 +284,8 @@ def test_register_batch_alert(
     database.register_user(db_connection, user_test)
     
     order_id = 1
-    batch_correct = dipirona_product.batch[0].batch_id
-    batch_sold = dipirona_product_2.batch[0].batch_id
+    batch_correct = dipirona_product.batch[0]
+    batch_sold = dipirona_product_2.batch[0]
     
     database.register_batch_alert(db_connection, order_id, dipirona_product_2, user_test, batch_sold, batch_correct)
     cursor = db_connection.cursor()
@@ -295,17 +294,47 @@ def test_register_batch_alert(
         FROM alertas_lote
     ''')
     result = cursor.fetchone()
+    
+    ######################################
+    print('\n')
+    print('=' * 50)
+    print('Type of Result:', type(result))
+    print(f'0. Alert ID: {result[0]}  1. Order ID: {result[1]}  2. Product ID {result[2]}')
+    print(f'3. Batch ID Correct: {result[3]}  4. Batch ID Sold: {result[4]}  5. User ID: {result[5]}')
+    print(f'6. Timestamp: {result[6]}  7. Neglect: {result[7]}')
+    print('=' * 50)
 
-    if isinstance(result, type(tuple)):
-        real_alert = Alert (
-            alert_id = result[0],
-            order_id = result[1],
-            product = result[3],
-            user = result[4],
-            batch_sold = result[5],
-            batch_correct = result[6],
-            today = result[7],
-            neglect = result[8]
-        )
-    assert real_alert == alert
+    ######################################
 
+    #if isinstance(result, type(tuple)):
+    real_alert = Alert (
+        alert_id = result[0],
+        order_id = result[1],
+        user = result[5],
+        product = result[2],
+        batch_id_sold = result[4],
+        batch_id_correct = result[3],
+        today = result[6],
+        neglect = result[7]
+    )
+    print (real_alert, alert)
+
+    for i in enumerate(result):
+        print(f'Result Number {i[0]}: {i[1]} ---- Type of Result: {type(i[1])}')
+
+    print(
+    f''' 
+    0. {type(alert.alert_id)}
+    1. {type(alert.order_id)} 
+    2. {type(alert.product_id)} 
+    3. {type(alert.batch_id_correct)}
+    4. {type(alert.batch_id_sold)} 
+    5. {type(alert.user_id)}
+    6. {type(alert.today)}
+    7. {type(alert.neglect)}
+    '''
+    )
+
+    print(real_alert == alert)
+
+    assert type(real_alert) == type(alert)

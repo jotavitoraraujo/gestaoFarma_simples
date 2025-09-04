@@ -122,8 +122,10 @@ def create_tables(connect_db: Connection):
         id_lote_correto INTEGER NOT NULL, 
         id_lote_vendido INTEGER NOT NULL,
         id_usuario INTEGER NOT NULL,
-        data DATE NOT NULL,
-        negligencia INTEGER NOT NULL
+        data TEXT NOT NULL,
+        negligencia INTEGER NOT NULL,
+        FOREIGN KEY(id_lote_correto) REFERENCES lotes(id_lote),
+        FOREIGN KEY(id_lote_vendido) REFERENCES lotes(id_lote)
         )           
     ''')
     connect_db.commit()
@@ -283,7 +285,7 @@ def search_user(connect_db: Connection, user: str) -> tuple:
     db_answer = connector.fetchone()    
     return db_answer
   
-def register_batch_alert(connect_db: Connection, order_id, product_id: Product, user_id: User, batch_sold: Batch, batch_correct: Batch):
+def register_batch_alert(connect_db: Connection, order_id, product: Product, user: User, batch_sold: Batch, batch_correct: Batch):
     'register of alert of the batch sold incorretly'
 
     today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -300,10 +302,10 @@ def register_batch_alert(connect_db: Connection, order_id, product_id: Product, 
         ''',
         (
             order_id,
-            product_id.id,
-            user_id.user_id,
-            batch_sold.physical_batch_id,
-            batch_correct.physical_batch_id,
+            product.id,
+            user.user_id,
+            batch_sold.batch_id,
+            batch_correct.batch_id,
             today,
             neglect
         ))

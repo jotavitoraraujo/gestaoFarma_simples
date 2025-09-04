@@ -2,7 +2,7 @@
 import pytest
 import logging
 import sqlite3
-from datetime import date
+from datetime import date, datetime
 from sistema.modelos.product import Product
 from sistema.modelos.batch import Batch
 from sistema.modelos.user import User
@@ -12,6 +12,12 @@ def date_adapter(object_date: date) -> str:
     'inject a object_date in the date translator to sql pattern'
     adapter_format_str = object_date.strftime('%Y-%m-%d')
     return adapter_format_str
+
+def datetime_conversor(object_bytes: bytes) -> datetime:
+    'inject a object_str in the datetime translator the of sql pattern to python object'
+    convert_object_str = object_bytes.decode()
+    adapter_format_date = datetime.strptime(convert_object_str, '%Y-%m-%d %HH:%MM:SS')
+    return adapter_format_date
 
 def date_conversor(object_bytes: bytes) -> date:
     'inject a object_str in the date translator the of sql pattern to python object'
@@ -78,7 +84,7 @@ def dipirona_product(object_today, object_date) -> Product:
         sale_price = None        
     )
     batch_instance = Batch (
-        batch_id = None,
+        batch_id = 2,
         physical_batch_id = 'ABC123HI',
         product_id = product_instance.id,
         quantity = float(20.0),
@@ -101,7 +107,7 @@ def dipirona_product_2(object_today, object_date_2) -> Product:
         sale_price = None        
     )
     batch_instance = Batch (
-        batch_id = None,
+        batch_id = 1,
         physical_batch_id = 'ABC123HJ',
         product_id = product_instance.id,
         quantity = float(20.0),
@@ -188,34 +194,35 @@ def user_test() -> User:
 class Alert:
     def __init__(self,
         alert_id: int,
-        order_id: int, 
-        product: Product, 
+        order_id: int,  
         user: User, 
-        batch_sold: Batch, 
-        batch_correct: Batch, 
-        today: date, 
+        product: Product,
+        batch_id_sold: Batch,
+        batch_id_correct: Batch, 
+        today: str, 
         neglect: int
         ):
         
         self.alert_id = alert_id
         self.order_id = order_id
-        self.product_id = product.id
-        self.user_id = user.user_id
-        self.physical_batch_sold = batch_sold.batch_id
-        self.physical_batch_correct = batch_correct.batch_id
-        self.today = today.today()
+        self.user_id = user
+        self.product_id = product
+        self.batch_id_sold = batch_id_sold
+        self.batch_id_correct = batch_id_correct
+        self.today = today
         self.neglect = neglect
 
     def __repr__(self):
         'technical representation of type Alert'
 
         return f'''
+        --- Data Alert ---
         1. Alert ID: {self.alert_id}
         2. Order ID: {self.order_id}
-        3. Product ID: {self.product_id}
-        4. User ID: {self.user_id}
-        5. Pyshical Batch Sold: {self.physical_batch_sold}
-        6. Pyshical Batch Correct: {self.physical_batch_correct}
+        3. User ID: {self.user_id}
+        4. Product ID: {self.product_id}
+        5. Batch ID Sold: {self.batch_id_sold}
+        6. Batch ID Correct: {self.batch_id_correct}
         7. Date: {self.today}
         8. Neglect: {self.neglect}
     '''
@@ -228,23 +235,25 @@ class Alert:
                 other.order_id == self.order_id
                 and other.product_id == self.product_id
                 and other.user_id == self.user_id
-                and other.physical_batch_sold == self.physical_batch_sold
-                and other.physical_batch_correct == self.physical_batch_correct
+                and other.batch_id_sold == self.batch_id_sold
+                and other.batch_id_correct == self.batch_id_correct
             )
         else:
             return False
         
 ### INSTANCE ALERT ###
 @pytest.fixture
-def alert(object_today: date, dipirona_product: Product, dipirona_product_2: Product, user_test: User):
+def alert(dipirona_product: Product, dipirona_product_2: Product, user_test: User):
+    
+    object_datetime_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     alert_type = Alert (
-        alert_id = 1,
+        alert_id = 2,
         order_id = 1,
-        product = dipirona_product_2,
-        user = user_test,
-        batch_sold = dipirona_product_2.batch[0],
-        batch_correct = dipirona_product.batch[0],
-        today = object_today,
+        user = user_test.user_id,
+        product = int(dipirona_product_2.id),        
+        batch_id_sold = dipirona_product_2.batch[0].batch_id,
+        batch_id_correct = dipirona_product.batch[0].batch_id,
+        today = object_datetime_str,
         neglect = 1
     )
     return alert_type

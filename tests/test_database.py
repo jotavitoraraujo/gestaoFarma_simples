@@ -317,7 +317,6 @@ def test_register_batch_alert(
         today = result[6],
         neglect = result[7]
     )
-    print (real_alert, alert)
 
     for i in enumerate(result):
         print(f'Result Number {i[0]}: {i[1]} ---- Type of Result: {type(i[1])}')
@@ -334,7 +333,4 @@ def test_register_batch_alert(
     7. {type(alert.neglect)}
     '''
     )
-
-    print(real_alert == alert)
-
-    assert type(real_alert) == type(alert)
+    assert real_alert == alert

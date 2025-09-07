@@ -294,19 +294,7 @@ def test_register_batch_alert(
         FROM alertas_lote
     ''')
     result = cursor.fetchone()
-    
-    ######################################
-    print('\n')
-    print('=' * 50)
-    print('Type of Result:', type(result))
-    print(f'0. Alert ID: {result[0]}  1. Order ID: {result[1]}  2. Product ID {result[2]}')
-    print(f'3. Batch ID Correct: {result[3]}  4. Batch ID Sold: {result[4]}  5. User ID: {result[5]}')
-    print(f'6. Timestamp: {result[6]}  7. Neglect: {result[7]}')
-    print('=' * 50)
-
-    ######################################
-
-    #if isinstance(result, type(tuple)):
+    assert isinstance(result, tuple)
     real_alert = Alert (
         alert_id = result[0],
         order_id = result[1],
@@ -317,20 +305,29 @@ def test_register_batch_alert(
         today = result[6],
         neglect = result[7]
     )
-
-    for i in enumerate(result):
-        print(f'Result Number {i[0]}: {i[1]} ---- Type of Result: {type(i[1])}')
-
-    print(
-    f''' 
-    0. {type(alert.alert_id)}
-    1. {type(alert.order_id)} 
-    2. {type(alert.product_id)} 
-    3. {type(alert.batch_id_correct)}
-    4. {type(alert.batch_id_sold)} 
-    5. {type(alert.user_id)}
-    6. {type(alert.today)}
-    7. {type(alert.neglect)}
-    '''
-    )
     assert real_alert == alert
+    
+    ################## --- USEFUL IN CASES OF THE DEBBUGING --- ####################
+    #print('\n')
+    #print('=' * 50)
+    #print('Type of Result:', type(result))
+    #print(f'0. Alert ID: {result[0]}  1. Order ID: {result[1]}  2. Product ID {result[2]}')
+    #print(f'3. Batch ID Correct: {result[3]}  4. Batch ID Sold: {result[4]}  5. User ID: {result[5]}')
+    #print(f'6. Timestamp: {result[6]}  7. Neglect: {result[7]}')
+    #print('=' * 50)
+
+    #for i in enumerate(result):
+    #    print(f'Result Number {i[0]}: {i[1]} ---- Type of Result: {type(i[1])}')
+
+    #print(
+    #f''' 
+    #0. {type(alert.alert_id)}
+    #1. {type(alert.order_id)} 
+    #2. {type(alert.product_id)} 
+    #3. {type(alert.batch_id_correct)}
+    #4. {type(alert.batch_id_sold)} 
+    #5. {type(alert.user_id)}
+    #6. {type(alert.today)}
+    #7. {type(alert.neglect)}
+    #'''
+    #)

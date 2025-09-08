@@ -1,4 +1,6 @@
+from sistema.modelos.user import User
 from datetime import datetime, date
+from pwinput import pwinput
 import logging
 
 def _convert_price_str(price_str: str) -> float:
@@ -124,3 +126,40 @@ def SaleItem_date_validator() -> date:
             logging.error(f'[ERRO] Entrada inválida. Tente novamente.')
         
     return date_object
+
+def collect_user_name() -> str:
+    'this function is responsable by collect input of user_name of client'
+   
+    while True:
+        user_name = (input('\nInforme nome de usuário para cadastro (EXEMPLO: MARIA SILVA): '))
+        user_name_formated = user_name.replace(' ', '')
+        bool_user_name = user_name_formated.isalpha()
+        
+        if bool_user_name == True:
+            break
+        else:
+            print('\n[ERRO] O nome de usuário deve conter apenas letras. Tente novamente.')
+    return user_name_formated
+
+def collect_user_pin() -> str:
+    'this function is an validator of string that client input send to create the password'
+
+    while True:
+        pin_input = pwinput('Informe uma senha de 4 digitos para cadastro (EXEMPLO: 1234): ')
+        bool_user_pin = pin_input.isdigit()
+
+        if bool_user_pin == True:
+            pin_digit = pin_input
+            break
+        else:
+            logging.error('[ERRO] A senha deve conter apenas numeros. Tente novamente.')
+    return pin_digit
+
+def password_length_validator(pin_digit) -> bool:
+    'this function verify if length of the a password is equal 4 digits'
+    
+    if len(pin_digit) != 4:
+        print('[ERRO] A senha deve conter 4 digitos. Tente novamente.')                
+    else:
+        print('\n[SUCESSO] Senha cadastrada.')
+        return True

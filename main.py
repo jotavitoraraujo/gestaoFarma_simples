@@ -49,7 +49,7 @@ def main():
             print('\n [INFO] Função de relátorios ainda não implementada.')
        
         elif escolha == '4':
-            users.cadastro_usuario(connect_db)            
+            users.register_user(connect_db)            
        
         elif escolha == '0':
             logging.info('\n[INFO] Sistema finalizado.')

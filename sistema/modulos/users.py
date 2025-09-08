@@ -1,51 +1,31 @@
-from hashlib import sha256
-from sistema import database
-from pwinput import pwinput
+### --- IMPORTS --- ###
+from sqlite3 import Connection
+from sistema import database, security
+from sistema.modulos import validators
 from sistema.modelos.user import User
 
-def cadastro_usuario():
+def register_user():
     print('=' * 30)
     print(' CADASTRO DE NOVO USUÁRIO')
     print('=' * 30)
-    while True:
+           
+    user_name = validators.collect_user_name()
+    user_pin = validators.collect_user_pin()
+    
+    if isinstance(user_pin, str):
+        bool = validators.password_length_validator(user_pin)
         
-        nome_input = (input('\nInforme nome de usuário para cadastro (EXEMPLO: MARIA SILVA): '))
-        nome_formatado = nome_input.replace(' ', '')
-        
-        if nome_formatado.isalpha():
-            break
-        else:
-            print('\n[ERRO] O nome de usuário deve conter apenas letras. Tente novamente.')
+        if bool == True:
+            pin_hash = security.password_for_hash(user_pin)
             
-        
-    while True:
-        
-        pin_input = pwinput('Informe uma senha de 4 digitos para cadastro (EXEMPLO: 1234): ')
-        print('-' * 10)
-        pin_formatado = pin_input.isdigit()
-        
-        if pin_formatado is True:        
-            if len(pin_input) > 4:
-                print('[ERRO] A senha deve conter 4 digitos. Tente novamente.')                
-            elif len(pin_input) < 4:
-                print('[ERRO] A senha deve conter 4 digitos. Tente novamente.')
-            else:
-                print('\n[SUCESSO] Senha cadastrada.')
-                break
-        else:
-            print('[ERRO] A senha deve conter apenas números. Tente novamente.')
-
-    pin_bytes = pin_input.encode()
-    pin_cripto = sha256(pin_bytes).hexdigest()
-    name_usuario = nome_formatado
-    usuario = User (
-        
-        user_id = None,
-        user_name = name_usuario,
-        user_pin = pin_cripto
-        
-        )
-    return database.register_user(usuario)
+            user_instance = User(
+                user_id = None,
+                user_name = user_name,
+                user_pin = pin_hash
+            )
+            
+            connect_db: Connection = database.connect_db()
+            database.register_user_database(connect_db, user_instance)
 
 def login():
     print('=' * 30)

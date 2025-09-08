@@ -245,7 +245,7 @@ def search_product_name(connect_db: Connection, search: str) -> list:
     db_answer = connector.fetchall()    
     return db_answer
 
-def register_user(connect_db: Connection, user: User):
+def register_user_database(connect_db: Connection, user: User):
     'register an new user on database'
     
     connector = connect_db.cursor()

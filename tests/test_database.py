@@ -220,7 +220,7 @@ def test_search_products_name_2(db_connection: Connection, expected_list_product
 ####### --- THIS TEST FUCTION IS RESPONSABLE OF REGISTER AN USER ON DATABASE --- #######
 def test_register_user(db_connection: Connection, user_test: User):
     database.create_tables(db_connection)
-    database.register_user(db_connection, user_test)
+    database.register_user_database(db_connection, user_test)
     cursor = db_connection.cursor()
     cursor.execute('''
         SELECT *
@@ -245,7 +245,7 @@ def test_register_user(db_connection: Connection, user_test: User):
 ])
 def test_search_user(db_connection: Connection, user_test: User, user_name_str: str, expected_result):
     database.create_tables(db_connection)
-    database.register_user(db_connection, user_test)
+    database.register_user_database(db_connection, user_test)
     result = database.search_user(db_connection, user_name_str)
 
     if isinstance(result, type(tuple)):
@@ -254,7 +254,7 @@ def test_search_user(db_connection: Connection, user_test: User, user_name_str: 
 ####### --- SCENARIO TWO: CORRECT SEARCHS --- #######
 def test_search_user_2(db_connection: Connection, user_test: User):
     database.create_tables(db_connection)
-    database.register_user(db_connection, user_test)
+    database.register_user_database(db_connection, user_test)
     
     user_name_str = 'JoaoVitor'
     result = database.search_user(db_connection, user_name_str)
@@ -281,7 +281,7 @@ def test_register_batch_alert(
     
     database.create_tables(db_connection)
     database.save_products(db_connection, expected_list_products_2)
-    database.register_user(db_connection, user_test)
+    database.register_user_database(db_connection, user_test)
     
     order_id = 1
     batch_correct = dipirona_product.batch[0]

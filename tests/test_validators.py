@@ -4,25 +4,6 @@ from sistema.modulos import validators
 from datetime import date
 
 
-######################################### --- TEST FUNCTION quantity_validator ---############################################################
-@patch('builtins.input')
-def test_quantity_validator(mock_input):
-    mock_input.return_value = '5'
-    resultado = validators.quantity_validator()
-    assert resultado == 5
-
-######################################### --- TEST FUNCTION date_validador ---############################################################
-def date_instance():
-    date_object = date(2026, 1, 1)
-    return date_object
-
-@patch('builtins.input')
-def test_date_validator(mock_date_input):
-    mock_date_input.return_value = '01/01/2026'
-    result = validators.SaleItem_date_validator()
-    date_object = date_instance()
-    assert result == date_object
-
 ######################################### --- TEST FUNCTION _convert_price_str ---############################################################
 @pytest.mark.parametrize('input, expected_result', [
     ('letters', ValueError,), # input letters 
@@ -32,7 +13,6 @@ def test_date_validator(mock_date_input):
     (' ', ValueError,), # none input
     ('-1', ValueError,) # negative price input            
 ])
-
 def test_convert_str_to_price(input, expected_result):
     
     if isinstance(expected_result, float):
@@ -41,7 +21,14 @@ def test_convert_str_to_price(input, expected_result):
     else:
         with pytest.raises(expected_result):
             validators._convert_price_str(input)
-            
+
+######################################### --- TEST FUNCTION quantity_validator ---############################################################
+@patch('builtins.input')
+def test_quantity_validator(mock_input):
+    mock_input.return_value = '5'
+    resultado = validators.quantity_validator()
+    assert resultado == 5
+
 ######################################### --- TEST FUNCTION batch_physical_validator ---############################################################
 @patch('builtins.input')
 def test_batch_physhical_validator(mock_batch_input):
@@ -69,12 +56,29 @@ def test_batch_physhical_validator_two(mock_batch_input):
     ('19 08 2025', ValueError,), # '' format
     ('31/02/2026', ValueError,)  # '' error impossible date
 ])
-
-def test_expiration_date_validator(input, expected_result):
+def test_expiration_date_conversor_validator(input, expected_result):
 
     if isinstance(expected_result, str):
-        result = validators._expiration_date_validator(input)
+        result = validators._expiration_date_conversor_validator(input)
         assert result == expected_result
     else:
         with pytest.raises(expected_result):
-            validators._expiration_date_validator(input)
+            validators._expiration_date_conversor_validator(input)
+
+######################################### --- TEST FUNCTION date_validador ---############################################################
+def date_instance():
+    date_object = date(2026, 1, 1)
+    return date_object
+
+@patch('builtins.input')
+def test_date_validator(mock_date_input):
+    mock_date_input.return_value = '01/01/2026'
+    result = validators.SaleItem_date_validator()
+    date_object = date_instance()
+    assert result == date_object
+
+
+            
+
+
+

@@ -41,29 +41,29 @@ def login():
             print(f'[ERRO] Usuário {usuario_input} não existe ou não é cadastrado.')           
         else:
             while True:
-                pin = pwinput(f'SENHA: ')             
-                pin_numeros = pin.isdigit()
-                if pin_numeros is True:                        
-                    if len(pin) != 4:
+                #pin = pwinput(f'SENHA: ')             
+                #pin_numeros = pin.isdigit()
+                #if pin_numeros is True:                        
+                    #if len(pin) != 4:
                         print('[ERRO] A senha deve conter 4 digitos. Tente novamente.')                   
-                    else:
+                    #else:
                         break
-                else:
-                    print(f'[ERRO] A senha deve conter apenas números. Tente novamente.')
+                #else:
+                    #print(f'[ERRO] A senha deve conter apenas números. Tente novamente.')
         
-            pin_bytes = pin.encode()
-            pin_critpo = sha256(pin_bytes).hexdigest()
+            #pin_bytes = pin.encode()
+            #pin_critpo = sha256(pin_bytes).hexdigest()
             
-            if pin_critpo == resposta_db[2]:
+            #if pin_critpo == resposta_db[2]:
                 
-                usuario = User(
-                    user_id = resposta_db[0],
-                    user_name = resposta_db[1],
-                    user_pin = resposta_db[2]
-                )
+                #usuario = User(
+                #    user_id = resposta_db[0],
+                #    user_name = resposta_db[1],
+                #    user_pin = resposta_db[2]
+                #)
 
-                print(f'\nSEJA BEM VINDO {resposta_db[1]} - GESTÃO FARMA LHE DESEJA UM BOM TRABALHO!')
-                return usuario
+                #print(f'\nSEJA BEM VINDO {resposta_db[1]} - GESTÃO FARMA LHE DESEJA UM BOM TRABALHO!')
+                #return usuario
             else:
                 print(f'Senha incorreta, tente novamente.')
 

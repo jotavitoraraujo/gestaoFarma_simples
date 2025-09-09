@@ -1,9 +1,9 @@
 #################### --- IMPORTS --- #######################
 from sqlite3 import Connection
 from pathlib import Path
-from sistema.modelos.product import Product 
-from sistema.modelos.user import User
-from sistema.modelos.batch import Batch
+from system.models.product import Product 
+from system.models.user import User
+from system.models.batch import Batch
 from datetime import datetime, date
 import sqlite3
 import logging

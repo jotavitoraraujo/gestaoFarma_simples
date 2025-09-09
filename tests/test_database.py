@@ -2,10 +2,10 @@
 import pytest
 from unittest.mock import patch
 from sqlite3 import Connection
-from sistema import database
-from sistema.modelos.product import Product
-from sistema.modelos.batch import Batch
-from sistema.modelos.user import User
+from system import database
+from system.models.product import Product
+from system.models.batch import Batch
+from system.models.user import User
 from tests.conftest import Alert
 
 

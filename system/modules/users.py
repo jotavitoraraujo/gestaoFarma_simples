@@ -1,8 +1,8 @@
 ### --- IMPORTS --- ###
 from sqlite3 import Connection
-from sistema import database, security
-from sistema.modulos import validators
-from sistema.modelos.user import User
+from system import database, security
+from system.utils import validators
+from system.models.user import User
 
 def register_user():
     print('=' * 30)
@@ -13,7 +13,7 @@ def register_user():
     user_pin = validators.collect_user_pin()
     
     if isinstance(user_pin, str):
-        bool = validators.password_length_validator(user_pin)
+        bool = validators.user_pass_validator(user_pin)
         
         if bool == True:
             pin_hash = security.password_for_hash(user_pin)

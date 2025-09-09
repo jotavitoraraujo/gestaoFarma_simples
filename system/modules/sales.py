@@ -1,10 +1,10 @@
 import logging
-from sistema import database
-from sistema.modelos.sale_item import SaleItem
-from sistema.modelos.product import Product
-from sistema.modelos.batch import Batch
-from sistema.modelos.user import User
-from sistema.modulos import validators
+from system import database
+from system.models.sale_item import SaleItem
+from system.models.product import Product
+from system.models.batch import Batch
+from system.models.user import User
+from system.utils import validators
 
 
 def adicionar_item() -> SaleItem:
@@ -41,7 +41,7 @@ def adicionar_item() -> SaleItem:
                 nome = input(f'Nome do Produto: ')
                 preco_venda = validators.sell_price_validator()
                 data_validade = validators.collect_date_input()
-                quantidade = validators.quantity_validator()
+                quantidade = validators.batch_quantity_validator()
                 lote_fisico = validators.batch_physical_validator()
 
                 # instancias temporarias
@@ -145,7 +145,7 @@ def adicionar_item() -> SaleItem:
                     entry_date = data_entrada_
                 )
 
-                input_quantidade = validators.quantity_validator()
+                input_quantidade = validators.batch_quantity_validator()
                         
                 item = SaleItem (
                     product = produto_selecionado,

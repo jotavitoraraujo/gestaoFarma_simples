@@ -1,4 +1,4 @@
-from sistema.modelos.product import Product
+from system.models.product import Product
 
 
 def relatorio_importacao(produtos_nota: list[Product]):

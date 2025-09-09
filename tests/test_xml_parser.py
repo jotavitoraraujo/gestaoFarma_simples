@@ -2,9 +2,9 @@ import pytest
 import xml.etree.ElementTree as ET
 from unittest.mock import patch
 from pathlib import Path
-from sistema.modelos.product import Product
-from sistema.modelos.batch import Batch
-from sistema.modulos import xml_parser
+from system.models.product import Product
+from system.models.batch import Batch
+from system.modules import xml_parser
 from datetime import datetime
 
 ######################################### --- TEST SUIT FROM EXTRACT DATA NFE FUNCTION --- ########################################

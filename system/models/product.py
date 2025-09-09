@@ -1,4 +1,4 @@
-from sistema.modelos.batch import Batch
+from system.models.batch import Batch
 
 class Product:
     def __init__(self, id, ean, name, sale_price):

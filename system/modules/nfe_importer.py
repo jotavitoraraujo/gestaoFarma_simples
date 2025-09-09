@@ -1,7 +1,7 @@
 import os
-from sistema.modulos import xml_parser
-from sistema import database
-from sistema.modulos import validators
+from system.modules import xml_parser
+from system import database
+from system.utils import validators
 import logging
 
 

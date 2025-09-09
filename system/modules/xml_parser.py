@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
-from sistema.modelos.product import Product
-from sistema.modelos.batch import Batch
+from system.models.product import Product
+from system.models.batch import Batch
 from datetime import datetime
 import logging
 

@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch
-from sistema.modulos import validators
+from system.utils import validators
 from datetime import date
 
 
@@ -26,7 +26,7 @@ def test_convert_str_to_price(input, expected_result):
 @patch('builtins.input')
 def test_quantity_validator(mock_input):
     mock_input.return_value = '5'
-    resultado = validators.quantity_validator()
+    resultado = validators.batch_quantity_validator()
     assert resultado == 5
 
 ######################################### --- TEST FUNCTION batch_physical_validator ---############################################################
@@ -59,11 +59,11 @@ def test_batch_physhical_validator_two(mock_batch_input):
 def test_expiration_date_conversor_validator(input, expected_result):
 
     if isinstance(expected_result, str):
-        result = validators._expiration_date_conversor_validator(input)
+        result = validators.batch_expiration_date_validator(input)
         assert result == expected_result
     else:
         with pytest.raises(expected_result):
-            validators._expiration_date_conversor_validator(input)
+            validators.batch_expiration_date_validator(input)
 
 ######################################### --- TEST FUNCTION date_validador ---############################################################
 def date_instance():

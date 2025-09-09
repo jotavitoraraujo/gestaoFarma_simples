@@ -1,8 +1,8 @@
 import pytest
 from datetime import date
-from sistema.modelos.product import Product
-from sistema.modelos.product import Batch
-from sistema.modelos.sale_item import SaleItem
+from system.models.product import Product
+from system.models.product import Batch
+from system.models.sale_item import SaleItem
 
 ######################################### --- OBJECTS INSTANCES ---############################################################
 def date_instance():

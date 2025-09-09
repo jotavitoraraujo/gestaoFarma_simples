@@ -1,9 +1,9 @@
-from sistema import database
+from system import database
 import logging
-from sistema.modulos import config_log
-from sistema.modulos import users
-from sistema.modulos import importador_nfe
-from sistema.modulos import vendas
+from system.modules import settings_log
+from system.modules import users
+from system.modules import nfe_importer
+from system.modules import sales
 
 
 
@@ -23,14 +23,14 @@ def main():
     'acesso as funções do menu principal'
     connect_db = database.connect_db()
     database.create_tables(connect_db)
-    config_log.sistema_logs()
+    settings_log.sistema_logs()
 
     while True:
         
         escolha = exibir_menu()
         
         if escolha == '1':
-            produtos_nota = importador_nfe.importar_nfe()
+            produtos_nota = nfe_importer.importar_nfe()
             
             if produtos_nota is not None:
                 database.save_products(connect_db, produtos_nota)
@@ -39,7 +39,7 @@ def main():
                 logging.error('[ERRO] A lista de produtos está vazia. Verifique a NF-e e tente novamente.')                           
         
         elif escolha == '2':
-            item = vendas.adicionar_item()
+            item = sales.adicionar_item()
             if item is not None:
                 pass
             else:

@@ -114,21 +114,21 @@ def expected_list_products(dipirona_product: Product, vitamina_product: Product,
 #### PATH FILES FIXTURES ####
 @pytest.fixture
 def functional_xml():    
-    path_object = Path (__file__).parent
+    path_object = Path (__file__).parent.parent
     file_xml = path_object/'data_tests'/'functional_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as funcional_xml:
         return funcional_xml.read()
 
 @pytest.fixture
 def unstable_xml():
-    path_object = Path (__file__).parent
+    path_object = Path (__file__).parent.parent
     file_xml = path_object/'data_tests'/'unstable_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as unstable_xml:
         return unstable_xml.read()
     
 @pytest.fixture
 def broken_xml():
-    path_object = Path (__file__).parent
+    path_object = Path (__file__).parent.parent
     file_xml = path_object/'data_tests'/'broken_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as broken_xml:
         return broken_xml.read()        

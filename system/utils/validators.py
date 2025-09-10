@@ -4,17 +4,25 @@ from datetime import date
 ### --- VALIDATORS FUNCTIONS --- ###
 def batch_quantity_validator(quantity_input: int) -> bool:
     'check if a number is positive integer'
-                      
-    if quantity_input > 0:                                             
-        return True
+                         
+    if isinstance(quantity_input, int) and quantity_input > 0:                                             
+        return True    
     else:
         return False
+
 
 def batch_physical_validator(batch_inputs: tuple) -> bool:
     'valiate the input of the physical batch printed on the product'
 
-    if isinstance(batch_inputs[0], str) and batch_inputs[1] == '1':
-        return True
+    if isinstance(batch_inputs, tuple) and len(batch_inputs) == 2:
+        if isinstance(batch_inputs[0], str) and batch_inputs[1] == '1':
+            alpha = batch_inputs[0].isalnum()
+            if alpha is True:
+                return True
+            else:
+                return False
+        else:
+            return False
     else:
         return False
 

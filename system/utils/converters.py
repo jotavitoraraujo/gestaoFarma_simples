@@ -1,4 +1,5 @@
 ### --- IMPORTS --- ###
+from system.utils.exceptions import ConversionError
 from datetime import date
 
 ### --- CONVERSORS FUNCTIONS --- ###
@@ -7,11 +8,11 @@ def price_str_conversor(price_str: str) -> float:
 
     try:
         price_converted = float(price_str.replace(',', '.'))
-    except Exception as exceptions:
+    except (ValueError, TypeError, AttributeError) as conversion_error:
         print('=' * 50)
-        print(f'[DEBUG] Type Exception: {type(exceptions)}')
+        print(f'[DEBUG] Type Exception: {type(conversion_error)}')
         print('=' * 50)
-        raise Exception
+        raise ConversionError(f'[ERRO] Os dados fornecidos estão corrompidos ou são incompativeis.') from conversion_error
     
     return price_converted
 

@@ -1,5 +1,6 @@
 ### --- IMPORTS --- ###
 from system.utils import converters
+from system.utils.exceptions import ConversionError
 from datetime import date
 import pytest
 

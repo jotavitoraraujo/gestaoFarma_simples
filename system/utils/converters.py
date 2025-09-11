@@ -5,11 +5,7 @@ from datetime import date
 def price_str_conversor(price_str: str) -> float:
     'receives an object string and make convert in an float'
 
-    price_converted = float(price_str.replace(',', '.'))   
-    if price_converted > 0:
-        pass
-    else:
-        raise ValueError
+    price_converted = float(price_str.replace(',', '.'))
     return price_converted
 
 def expiration_date_str_conversor(date_str: str) -> date:

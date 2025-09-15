@@ -53,25 +53,30 @@ def test_price_str_conversor(price_str, expected_result):
         ('12/09/2035', test_date,),
 
         ### --- > FAIL SCENARIOS
-        ('2035/09/35', ValueError,),
-        ('09/2035/12', ValueError,),
-        ('12-09-2035', ValueError,),
-        ('2035-09-12', ValueError,),
-        ('year/month/day', ValueError,),
-        ('  /  /    ', ValueError,),
-        ('///', ValueError,),
-        ('', ValueError,),
-        (12/9/2035, AttributeError,),
-        (1, AttributeError,),
-        (test_date, AttributeError,),        
-        (('12/', '09/', '2035',), AttributeError,),
-        (['12/', '09/', '2035'], AttributeError,),
-        (None, AttributeError,),
-        (True, AttributeError,),
-        (False, AttributeError,),
-        ('09/2035', ValueError,),
-        ('09/', ValueError,),
-        ('12/09/20/25', ValueError,)
+        ('3/9/2035', ConversionError,),
+        ('  12/09/2035  ', ConversionError,),
+        ('              12/09/2035', ConversionError,),
+        ('12/09/2035             ', ConversionError,),
+        ('29/02/2031', ConversionError,),
+        ('2035/09/35', ConversionError,),
+        ('09/2035/12', ConversionError,),
+        ('12-09-2035', ConversionError,),
+        ('2035-09-12', ConversionError,),
+        ('year/month/day', ConversionError,),
+        ('  /  /    ', ConversionError,),
+        ('///', ConversionError,),
+        ('', ConversionError,),
+        (12/9/2035, ConversionError,),
+        (1, ConversionError,),
+        (test_date, ConversionError,),        
+        (('12/', '09/', '2035',), ConversionError,),
+        (['12/', '09/', '2035'], ConversionError,),
+        (None, ConversionError,),
+        (True, ConversionError,),
+        (False, ConversionError,),
+        ('09/2035', ConversionError,),
+        ('09/', ConversionError,),
+        ('12/09/20/25', ConversionError,)
     ]   
 )
 def test_expiration_date_str_conversor(date_str, expected_result):
@@ -83,3 +88,40 @@ def test_expiration_date_str_conversor(date_str, expected_result):
     else:
         with pytest.raises(expected_result):
             converters.expiration_date_str_conversor(date_str)
+
+### --- TEST QUANTITY CONVERSOR --- ###
+@pytest.mark.parametrize('quantity_input, expected_result', 
+    [
+        ### --- > SUCESSFULL SCENARIO
+        ('1', 1,),
+        ('0', 0),
+
+        ### --- > FAIL SCENARIO
+        ('1.0', ConversionError,),
+        ('   1    ', ConversionError,),
+        ('  1', ConversionError,),
+        ('1   ', ConversionError,),
+        ('', ConversionError,),
+        ('     ', ConversionError,),
+        ('+1', ConversionError,),
+        ('-1', ConversionError,),
+        (['1'], ConversionError,),
+        (('1',), ConversionError,),
+        (today, ConversionError,),
+        ('10,0', ConversionError,),
+        ('/', ConversionError,),
+        (-1, ConversionError,),
+        (True, ConversionError,),
+        (False, ConversionError,),
+        (None, ConversionError,)
+    ]
+)
+def test_quantity_conversor(quantity_input, expected_result):
+
+    if isinstance(expected_result, int):
+        result = converters.batch_quantity_conversor(quantity_input)
+        assert result == expected_result
+    
+    else:
+        with pytest.raises(expected_result):
+            converters.batch_quantity_conversor(quantity_input)

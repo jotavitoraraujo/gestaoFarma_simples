@@ -23,6 +23,6 @@ class ConversionError(Exception):
             )
         if self.error_original:
             type_error_original = type(self.error_original).__name__
-            info_message += f'Main Cause: {type_error_original}'
+            info_message += f'[ERROR]: Main Cause: {type_error_original}'
         
         return info_message

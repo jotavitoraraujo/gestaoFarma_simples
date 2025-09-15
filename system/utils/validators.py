@@ -61,5 +61,3 @@ def price_validator(price: float) -> bool:
 
 
 
-
-

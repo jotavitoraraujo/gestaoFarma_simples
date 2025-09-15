@@ -47,3 +47,13 @@ def batch_quantity_conversor(quantity_input: str) -> int:
     
     except (TypeError, ValueError) as conversion_error:
         raise ConversionError(f'[ERRO] Os dados são inválidos ou estão corrompidos.', conversion_error, quantity_input) from conversion_error
+
+def user_name_conversor(user_name: str) -> str:
+
+    try:
+        user_name_formated = user_name.replace(' ', '').upper()
+        return user_name_formated
+
+    except (ValueError, TypeError) as conversion_error:
+        raise ConversionError(f'[ERRO] Os dados fornecediso estão corrompidos ou são incompátiveis.', conversion_error, user_name) from conversion_error
+    

@@ -16,7 +16,7 @@ def register_user():
         bool = validators.user_pass_validator(user_pin)
         
         if bool == True:
-            pin_hash = security.password_for_hash(user_pin)
+            pin_hash = security.password_for_hash_conversor(user_pin)
             
             user_instance = User(
                 user_id = None,

@@ -13,17 +13,14 @@ def batch_quantity_validator(quantity_input: int) -> bool:
 def batch_physical_validator(batch_inputs: tuple) -> bool:
     'valiate the input of the physical batch printed on the product'
 
-    if isinstance(batch_inputs, tuple) and len(batch_inputs) == 2:
-        if isinstance(batch_inputs[0], str) and batch_inputs[1] == '1':
-            alphanum = batch_inputs[0].isalnum()
-            if alphanum is True:
-                return True
-            else:
-                return False
-        else:
-            return False
-    else:
+    if not isinstance(batch_inputs, tuple) and len(batch_inputs) == 2:
         return False
+    if not isinstance(batch_inputs[0], str) and batch_inputs[1] == '1':
+        return False      
+    if not batch_inputs[0].isalnum():
+        return False
+    else:
+        return True
 
 def user_pass_validator(pin_digit: str) -> bool:
     'this function verify if length of the a password is equal 4 digits'
@@ -48,6 +45,15 @@ def price_validator(price: float) -> bool:
         return True
     else:
         return False
+    
+def user_name_validator(user_name: str) -> bool:
+    'receives an user_name and verify if is alphabetic and type str'
+
+    if isinstance(user_name, str) is not None and user_name.isalpha():
+        return True
+    else:
+        return False
+
 
 
 

@@ -13,9 +13,9 @@ def batch_quantity_validator(quantity_input: int) -> bool:
 def batch_physical_validator(batch_inputs: tuple) -> bool:
     'valiate the input of the physical batch printed on the product'
 
-    if not isinstance(batch_inputs, tuple) and len(batch_inputs) == 2:
+    if not isinstance(batch_inputs, tuple) or len(batch_inputs) != 2:
         return False
-    if not isinstance(batch_inputs[0], str) and batch_inputs[1] == '1':
+    if not isinstance(batch_inputs[0], str) or batch_inputs[1] != '1':
         return False      
     if not batch_inputs[0].isalnum():
         return False

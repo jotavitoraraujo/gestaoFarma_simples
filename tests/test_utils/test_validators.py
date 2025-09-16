@@ -40,15 +40,18 @@ def test_batch_quantity_validator(input, expected_result):
         (('', '1',), False,),
         ((' ', '1',), False,),        
         (('BATCH123A', '0',), False,),
+        (('BATCH123A', 1,), False,),
         (('1', '0',), False,),
         (('-1', '0',), False,),
         (('/', '0',), False,),
         (('', '0',), False,),
         ((' ', '0',), False,),
+        (('     ', '1',), False,),
         (('BATCH123B', '2',), False,),
         (['BATCH123C', '1',], False,),
         (('BATCH123D',), False),
-        ('BATCH123E', False,)
+        ('BATCH123E', False,),
+        (('BATCH123G', '1', '1', '1',), False,)
         
 ])
 def test_batch_physical_validator(input_tuple, expected_result):

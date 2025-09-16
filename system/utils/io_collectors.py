@@ -1,5 +1,6 @@
 ### --- IMPORTS --- ###
 from system.utils import converters, validators
+from system.utils.exceptions import ConversionError
 from system import security
 from datetime import date
 from pwinput import pwinput
@@ -13,12 +14,16 @@ def collect_price() -> float:
     while True:
         ask_price = f'[ALERTA] Insira o preço: [EX: 10,99]'
         price_str = input(f'{ask_price}')
-        price_float = converters.price_str_conversor(price_str)
-        price_validated = validators.price_validator(price_float)
-        if price_validated is True:
-            break
-        else: 
-            logging.error(f'[ERRO] O preço inserido não é válido. Tente novamente.')
+        try:
+            price_float = converters.price_str_conversor(price_str)
+            price_validated = validators.price_validator(price_float)
+            if price_validated is True:
+                break
+            else: 
+                logging.error(f'[ERRO] O preço inserido não é válido. Tente novamente.')
+        except ConversionError:
+            logging.error(f'[ERRO] O preço inserido não é válido. Tente novamente') 
+
     return price_float
 
 def collect_expiration_date() -> date:

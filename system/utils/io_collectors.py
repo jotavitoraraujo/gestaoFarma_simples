@@ -18,7 +18,7 @@ def return_value(x):
 def _collector_generic_input(ask: str, 
     func_conv: Callable[[str], joker_type], 
     func_valid: Callable[[joker_type], bool], 
-    func_input: Callable = input):
+    func_input: Callable = input) -> joker_type:
 
     while True:
         ask_input = func_input(f'{ask}')
@@ -114,7 +114,7 @@ def collect_batch_physical() -> str:
     return batch_physical
 
 ### --- COLLECTOR MENU ADMINISTRATION --- ###
-def collector_menu(option: str = None) -> str:
+def collector_menu(option: str = None) -> joker_type:
     'collect all data send by the user'
 
     print('= ' * 15, 'MENU', ' =' * 15)

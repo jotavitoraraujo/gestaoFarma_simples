@@ -127,7 +127,3 @@ def collect_price() -> float:
     ask_price = f'[ALERTA] Insira o preço: '
     result = _collector_generic_input(ask_price, converter, validator)
     return result 
-
-
-
-collect_price()

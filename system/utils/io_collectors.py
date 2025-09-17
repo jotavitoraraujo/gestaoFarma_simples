@@ -3,93 +3,115 @@ from system.utils import converters, validators
 from system.utils.exceptions import ConversionError
 from system import security
 from datetime import date
+from typing import Callable, TypeVar
 from pwinput import pwinput
 import logging
 
+### --- DEFINITION JOKER_TYPE WITH TYPEVAR TYPE HINT --- ###
+joker_type = TypeVar('joker_var')
 
+### --- JOKER FOR CONVERTER --- ###
+def return_value(x):
+    return x
+
+### --- INTERNAL FUNCTION RESPONSABLE BY INPUT CONTROLLER WORKFLOW --- ###
+def _collector_generic_input(ask: str, 
+    func_conv: Callable[[str], joker_type], 
+    func_valid: Callable[[joker_type], bool], 
+    func_input: Callable = input):
+
+    while True:
+        ask_input = func_input(f'{ask}')
+        try:
+            conversion_result = func_conv(ask_input)
+            validated_result = func_valid(conversion_result)
+            if validated_result is True:
+                return conversion_result
+            else:
+                logging.error(f'[ERRO] Os dados inseridos são inválidos. Tente novamente.')
+        except ConversionError:
+            logging.error(f'[ERRO] Os dados inseridos são inválidos. Tente novamente.')
+   
 
 ### --- INPUT/OUTPUT COLLECTORS FUNCTIONS --- ###
-
 def collect_price() -> float:
-    while True:
-        ask_price = f'[ALERTA] Insira o preço: [EX: 10,99]'
-        price_str = input(f'{ask_price}')
-        try:
-            price_float = converters.price_str_conversor(price_str)
-            price_validated = validators.price_validator(price_float)
-            if price_validated is True:
-                break
-            else: 
-                logging.error(f'[ERRO] O preço inserido não é válido. Tente novamente.')
-        except ConversionError:
-            logging.error(f'[ERRO] O preço inserido não é válido. Tente novamente') 
+    print('=' * 30)
+    print('APLICAR PREÇO')
+    print('=' * 30)
 
-    return price_float
+    converter = converters.price_str_conversor
+    validator = validators.price_validator
+
+    ask_price = f'[ALERTA] Insira o preço: '
+    price = _collector_generic_input(ask_price, converter, validator)
+    return price    
 
 def collect_expiration_date() -> date:
-    while True:
-        ask_date = f'[ALERTA] Insira a data de validade: [EX: DD/MM/AAAA]'
-        date_str = input(f'{ask_date}')
-        object_date = converters.expiration_date_str_conversor(date_str)
-        date_validated = validators.batch_expiration_date_validator(object_date)
-        if date_validated is True:
-            break
-        else:
-            logging.error(f'[ERRO] Data de validade inválida. Tente novamente.')
-    return object_date
+    print('=' * 30)
+    print('DEFINIÇÃO DE DATA')
+    print('[ALERTA] O padrão para definições de data no GestãoFarma Simples é: DD/MM/AAAA')
+    print('=' * 30)
+
+    converter = converters.expiration_date_str_conversor
+    validator = validators.batch_expiration_date_validator
+
+    ask_date = f'[ALERTA] Insira a data: '
+    expiration = _collector_generic_input(ask_date, converter, validator)
+    return expiration
 
 def collect_user_name() -> str: 
-    while True:
-        print(f'[ALERTA] O padrão para nomes de usuário é utilizar nome e sobrenome sem espaços. Exemplo: MARIASILVA')
-        ask_name = f'[ALERTA] Insira o nome de usuário: '
-        user_name_input = input(f'{ask_name}')
-        user_name = converters.user_name_conversor(user_name_input)
-        user_name_validated = validators.user_name_validator(user_name)
-        if user_name_validated is True:
-            break
-        else:
-            logging.error(f'[ERRO] O nome de usuário inserido é inválido. Tente novamente.')
+    print('=' * 30)
+    print('NOME DE USUÁRIO')
+    print('[ALERTA] O padrão para nomes de usuário no GestãoFarma Simples é: NOMESOBRENOME [EX: MARIASILVA]')
+    print('=' * 30)
+
+    converter = converters.user_name_conversor
+    validator = validators.user_name_validator
+
+    ask_user_name = f'[ALERTA] Insira o Nome de Usuário: '
+    user_name = _collector_generic_input(ask_user_name, converter, validator)
     return user_name
 
 def collect_user_pin() -> str:
-    while True:
-        print(f'[ALERTA] O padrão para senha é utilizar 4 digitos númericos. Exemplo: 1234')
-        ask_pin = f'[ALERTA] Insira a senha: '
-        pin_input = pwinput(f'{ask_pin}')
-        user_pin_validated = validators.user_pass_validator(pin_input)
-        if user_pin_validated is True:
-            user_pin = security.password_for_hash_conversor(pin_input)
-            break
-        else:
-            logging.error(f'[ERRO] A senha inserida é inválida. Tente novamente.')
-    return user_pin
+    print('=' * 30)
+    print('DEFINIÇÃO DE SENHA')
+    print('[ALERTA] O padrão de definição de senhas do GestãoFarma Simples é: 4 digitos numéricos [EX: 1234]')
+    print('=' * 30)
 
-def collect_quantity():
-    while True:
-        ask_quantity = f'[ALERTA] Insira a quantidade: '
-        quantity_input = input(f'{ask_quantity}')
-        quantity = converters.batch_quantity_conversor(quantity_input)
-        quantity_validated = validators.batch_quantity_validator(quantity)
-        if quantity_validated is True:
-            break
-        else:
-            logging.error(f'[ALERTA] A quantidade inserida é inválida. Tente novamente.')
+    converter = security.password_for_hash_conversor
+    validator = validators.user_pass_validator
+    mask_pass = pwinput
+
+    ask_pass = f'[ALERTA] Insira a senha: '
+    user_pass = _collector_generic_input(ask_pass, converter, validator, mask_pass)
+    return user_pass
+
+def collect_quantity() -> int:
+    print('=' * 30)
+    print('INSERÇÃO DE QUANTIDADE')
+    print('=' * 30)
+
+    conversor = converters.batch_quantity_conversor
+    validator = validators.batch_quantity_validator
+
+    ask_quantity = f'[ALERTA] Insira a quantidade deste item: '
+    quantity = _collector_generic_input(ask_quantity, conversor, validator)
     return quantity
 
 def collect_batch_physical() -> str:
-    while True:
-        ask_batch = f'[ALERTA] Insira o lote fisíco impresso na caixa deste item: '
-        batch_input = input(f'{ask_batch}')
-        print(f'[ALERTA] O lote fisíco digitado é: {batch_input}.')
-        print(f'[ALERTA] Para confirmar digite: 1 | Para corrigir digite: 0')
-        batch_confirmation = input(f'Insira a opção: ')
-        batch_tuple: tuple = (batch_input, batch_confirmation,)
-        batch_validated = validators.batch_physical_validator(batch_tuple)
-        if batch_validated is True:
-            break
-        else:
-            logging.error(f'[ERRO] O lote fisico inserido é inválido. Tente novamente ou contacte o administrador.')
-    return batch_input
+    print('=' * 30)
+    print('REGISTRO DE LOTE FISICO')
+    print('''[ALERTA] O lote físico solicitado é o lote impresso na caixa do produto.
+    \nGeralmente em um padrão Alphanumerico [EX: LOTE123FISICO]' 
+    ''')
+    print('=' * 30)
+
+    conversor = return_value
+    validator = validators.batch_physical_validator    
+
+    ask_batch_physical = f'[ALERTA] Insira o Lote Fisico: '
+    batch_physical = _collector_generic_input(ask_batch_physical, conversor, validator)
+    return batch_physical
 
 ### --- COLLECTOR MENU ADMINISTRATION --- ###
 def collector_menu(option: str = None) -> str:

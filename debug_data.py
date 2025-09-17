@@ -4,6 +4,8 @@ from hashlib import sha256
 from datetime import date
 import sys
 import logging
+from pwinput import pwinput
+from typing import Callable, TypeVar
 
 ###############################################################################
 print('\n')
@@ -88,7 +90,15 @@ print(f'Type for object hash: {type(pin_cripto)}')
 print('=' * 50)
 
 ######## --- THIS SESSION IS AN EXPERIMENT FOR A NEW FUCTION --- ########
-def collector_generic_input(ask: str, func_conv: callable, func_valid: callable[[conversion_value], bool], func_input: callable = input):
+
+######## --- TYPE HINT EXPERIMENT WITH TYPEVAR --- ########
+joker_type = TypeVar('joker_type')
+
+######## --- FUNCTION --- ########
+def _collector_generic_input(ask: str, 
+    func_conv: Callable[[str], joker_type], 
+    func_valid: Callable[[joker_type], bool], 
+    func_input: Callable = input):
 
     while True:
         ask_input = func_input(f'{ask}')
@@ -101,4 +111,23 @@ def collector_generic_input(ask: str, func_conv: callable, func_valid: callable[
                 logging.error(f'[ERRO] Os dados inseridos são inválidos. Tente novamente.')
         except exceptions.ConversionError:
             logging.error(f'[ERRO] Os dados inseridos são inválidos. Tente novamente.')
-        
+
+def return_value(value):
+    return value
+
+def collect_price() -> float:
+    print('=' * 30)
+    print('APLICAR PREÇO')
+    print('=' * 30)
+
+
+    converter = return_value
+    validator = validators.price_validator
+
+    ask_price = f'[ALERTA] Insira o preço: '
+    result = _collector_generic_input(ask_price, converter, validator)
+    return result 
+
+
+
+collect_price()

@@ -1,7 +1,7 @@
 ### --- IMPORTS --- ###
 from system.utils import converters, validators, io_collectors, exceptions
-from unittest.mock import patch
-from datetime import date
+from system import security
+from unittest.mock import patch, ANY
 import pytest
 
 ### --- TEST COLLECT PRICE INPUT --- ###
@@ -44,3 +44,42 @@ def test_collect_gerenic_input_2(mock_validator, mock_conversor, mock_input):
         assert result == expected_result
         assert mock_validator.call_count == 1
         assert mock_conversor.call_count == 2
+
+@pytest.mark.parametrize('public_func, conversor_func, validator_func', 
+        [
+            (
+                io_collectors.collect_price, 
+                converters.price_str_conversor,
+                validators.price_validator,
+            ),
+
+            (
+                io_collectors.collect_expiration_date,
+                converters.expiration_date_str_conversor,
+                validators.batch_expiration_date_validator,
+            ),
+
+            (
+                io_collectors.collect_user_name,
+                converters.user_name_conversor,
+                validators.user_name_validator,
+            ),
+
+            (
+                io_collectors.collect_quantity,
+                converters.batch_quantity_conversor,
+                validators.batch_quantity_validator,
+            ),
+
+            (
+                io_collectors.collect_batch_physical,
+                io_collectors.return_value,
+                validators.batch_physical_validator,
+            )
+        ]
+    )
+@patch('system.utils.io_collectors._collector_generic_input')
+def test_public_functions(mock_generic_input, public_func, conversor_func, validator_func):
+
+    public_func()
+    assert mock_generic_input.assert_called_once_with(ANY, conversor_func, validator_func)

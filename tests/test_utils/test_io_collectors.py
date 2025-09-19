@@ -1,7 +1,7 @@
 ### --- IMPORTS --- ###
 from system.utils import converters, validators, io_collectors, exceptions
 from system import security
-from unittest.mock import patch, ANY
+from unittest.mock import MagicMock, patch, ANY
 import pytest
 
 ### --- TEST COLLECT PRICE INPUT --- ###
@@ -9,7 +9,7 @@ import pytest
 @patch('builtins.input')
 @patch('system.utils.converters.price_str_conversor')
 @patch('system.utils.validators.price_validator')
-def test_collect_gerenic_input(mock_validator, mock_conversor, mock_input):
+def test_collect_gerenic_input(mock_validator: MagicMock, mock_conversor: MagicMock, mock_input: MagicMock):
     'test for function collect_price()'
 
     ask_test: str = f'[TEST] THIS STRING IS AN TEST TEXT: '
@@ -29,14 +29,13 @@ def test_collect_gerenic_input(mock_validator, mock_conversor, mock_input):
 @patch('builtins.input')
 @patch('system.utils.converters.price_str_conversor')
 @patch('system.utils.validators.price_validator')
-def test_collect_gerenic_input_2(mock_validator, mock_conversor, mock_input):
+def test_collect_gerenic_input_2(mock_validator: MagicMock, mock_conversor: MagicMock, mock_input: MagicMock):
 
     ask_test: str = f'[TEST] THIS STRING IS AN TEST TEXT: '
     
     mock_validator.return_value = True
     mock_conversor.side_effect = exceptions.ConversionError('ERROR'), 10.99
     mock_input.side_effect = '-1', '10,99'
-
     result = io_collectors._collector_generic_input(ask_test, mock_conversor, mock_validator, mock_input)
     expected_result = 10.99
 
@@ -79,7 +78,22 @@ def test_collect_gerenic_input_2(mock_validator, mock_conversor, mock_input):
         ]
     )
 @patch('system.utils.io_collectors._collector_generic_input')
-def test_public_functions(mock_generic_input, public_func, conversor_func, validator_func):
+def test_public_functions(mock_generic_input: MagicMock, public_func, conversor_func, validator_func):
 
     public_func()
-    assert mock_generic_input.assert_called_once_with(ANY, conversor_func, validator_func)
+    mock_generic_input.assert_called_once_with(ANY, conversor_func, validator_func)
+
+@pytest.mark.parametrize('public_func, pin_conversor, pin_validator', 
+    [
+        (
+            io_collectors.collect_user_pin,
+            security.password_for_hash_conversor,
+            validators.user_pass_validator,
+        )
+    ]
+)
+@patch('system.utils.io_collectors._collector_generic_input')
+def test_public_funcion_password(mock_generic_input: MagicMock, public_func, pin_conversor, pin_validator):
+
+    public_func()
+    mock_generic_input.assert_called_once_with(ANY, pin_conversor, pin_validator, ANY)

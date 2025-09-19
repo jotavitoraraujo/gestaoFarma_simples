@@ -5,27 +5,26 @@ from hashlib import sha256
 import pytest
 
 ### --- HASH EXPECTED --- ###
-
-@pytest.mark.parametrize('pin_input, expected_result', 
+@pytest.mark.parametrize('pin_input, hash_expected', 
 
     [
         ('1234', None,),
-        ('4321', None,),
-        ('letters', None,),
+        ('1020', None,),
+        ('3040', None,),
         ('/', None,),
+        ('letters', None,),
         (1234, ConversionError,),
         (4321, ConversionError,)
     ]
 
 )
-def test_password_for_hash_conversor(pin_input: str, expected_result):
+def test_password_for_hash_conversor(pin_input: str, hash_expected, hash_list_test):
 
-    if expected_result is None:
-        pin_bytes = pin_input.encode()
-        pin_cripto = sha256(pin_bytes).hexdigest()
-        result = security.password_for_hash_conversor(pin_input)
-        assert result == pin_cripto
+    if hash_expected is None:
+        for hash in hash_list_test:
+            result = security.password_for_hash_conversor(pin_input)
+            assert result == hash
     
     else:
-        with pytest.raises(expected_result):
+        with pytest.raises(hash_expected):
             security.password_for_hash_conversor(pin_input)

@@ -14,8 +14,8 @@ def password_for_hash_conversor(pin_digit: str) -> str:
         
         if not isinstance(pin_bytes, bytes):
             raise TypeError
-        
         pin_cripto = sha256(pin_bytes).hexdigest()
+        
         return pin_cripto 
     
     except (ValueError, TypeError, AttributeError) as conversion_error:

@@ -32,5 +32,5 @@ class Product:
         1. ID: {self.id}
         2. EAN: {self.ean}
         3. Name: {self.name}
-        4. Sale price: {self.sale_price}        
+        4. Sale price: {self.sale_price}
         '''

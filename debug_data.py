@@ -80,7 +80,7 @@ print(f'=' * 50)
 
 ######## --- THIS SESSION IS RESPONSABLE FOR ENCRYPTING A TEST PASSWORD --- #########
 
-pin_input = 'letters'
+pin_input = '1234'
 pin_bytes = pin_input.encode()
 pin_cripto = sha256(pin_bytes).hexdigest()
 print('\n')

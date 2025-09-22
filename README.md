@@ -1,46 +1,42 @@
 # 薬 GestãoFarma Simples — Sistema de Gestão para Farmácias
 
-Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e financeiro em Python, com foco total em simplicidade e eficiência. A solução é desenhada para atender às necessidades de pequenas farmácias de bairro, onde os processos ainda são, em grande parte, manuais e ineficientes, visando um público-alvo não técnico.
+<p align="center">
+  <img src="./assets/gestaofarma_simples_logo_v2.png" alt="Logo do GestãoFarma Simples" width="200"/>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.12+-blue.svg" alt="Python Version">
+  <img src="https://img.shields.io/badge/Tested%20with-Pytest-green.svg" alt="Tested with Pytest">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+</p>
+
+Este projeto é um sistema de gestão de estoque e financeiro desenvolvido em Python, com foco total em robustez, qualidade de código e eficiência. A solução é desenhada para modernizar os processos de pequenas farmácias de bairro, substituindo controles manuais por uma ferramenta digital confiável e de simples utilização.
 
 ---
 
-## ⚙️ Funcionalidades Atuais
+## ⚙️ Funcionalidades e Arquitetura
 
--   ✅ **Arquitetura Orientada a Objetos (POO):** O projeto é solidamente arquitetado usando Classes (`Produto`, `Lote`, `Usuario`, `Item`), tornando o código organizado, reutilizável e alinhado com as melhores práticas de engenharia.
--   ✅ **Modelo de Dados Relacional e Robusto:** Implementado um schema em SQLite com tabelas para `produtos`, `lotes`, `usuarios`, e a fundação para `pedidos`, `itens_pedido` e `alertas_lote`, garantindo a integridade e o controle dos dados.
--   ✅ **Interface de Venda Interativa:** O sistema possui um fluxo de terminal para adicionar itens a uma venda, com busca de produtos por nome, apresentação de menu dinâmico ordenado por validade (PVPS) e validação robusta de inputs do usuário.
--   ✅ **Lógica de Negócio Inteligente:** A classe `Item` encapsula regras de negócio complexas, incluindo cálculo de subtotal e um sistema de descontos dinâmicos com "rede de segurança" contra prejuízos.
--   ✅ **Sistema de Auditoria e Observabilidade:** O sistema possui uma fundação completa para auditar desvios da regra PVPS. Além disso, utiliza um sistema de logging profissional que separa os logs de usuário (exibidos no console) dos logs técnicos detalhados (salvos em arquivo).
--   ✅ **Automação de Entrada de Estoque:** O sistema realiza o fluxo completo de importação de NF-e, processando os dados e persistindo os novos produtos e lotes no banco de dados.
--   ✅ **Gestão de Usuários Segura:** Funcionalidade completa de cadastro e login de vendedores, com validação de entradas e armazenamento seguro do PIN usando o algoritmo de hash **SHA-256**.
+-   ✅ **Arquitetura Orientada a Objetos (POO):** O projeto é solidamente arquitetado usando Classes (`Product`, `Batch`, `User`) e princípios de Clean Code (SRP, DRY) para garantir um código organizado, manutenível e escalável.
+-   ✅ **Fundação de Testes Robusta:** A qualidade é garantida por uma cultura de **Test-Driven Development (TDD)** com Pytest, cobrindo as camadas de utilitários, modelos de dados e lógica de negócio com testes unitários e de interação.
+-   ✅ **Design de Software Avançado:** Implementação de padrões de design como **Injeção de Dependência** em módulos críticos para criar um código desacoplado, flexível e de fácil extensão.
+-   ✅ **Modelo de Dados Relacional:** Schema de banco de dados (SQLite) projetado do zero para assegurar a integridade e o controle preciso de produtos, lotes e usuários.
+-   ✅ **Automação de Entrada de Estoque:** Fluxo completo de importação de NF-e (XML), processando e persistindo os dados de novos produtos e lotes no banco de dados.
+-   ✅ **Gestão de Usuários Segura:** Funcionalidade de cadastro e login de vendedores, com armazenamento seguro de PIN usando o algoritmo de hash **SHA-256**.
 
 ---
 
 ## 🧱 Tecnologias Utilizadas
 
--   **Python 3.12+**
--   **VS Code**
-
-### Bibliotecas Externas:
-
--   `pwinput` - Para entrada segura e mascarada de senhas no terminal.
-
-### Bibliotecas Padrão:
-
--   `sqlite3` (Banco de Dados)
--   `xml.etree.ElementTree` (Leitura de XML)
--   `datetime` (Manipulação de Datas)
--   `hashlib` (Criptografia de Hash)
--   `logging` (Sistema de Logs)
--   `os`, `pathlib`
-
-*O projeto utiliza poucas dependências externas para garantir leveza e portabilidade, permitindo que rode em computadores mais antigos sem a necessidade de uma instalação complexa.*
+-   **Linguagem Principal:** Python 3.12+
+-   **Testes:** Pytest, unittest.mock
+-   **Banco de Dados:** SQLite
+-   **Bibliotecas Externas:** `pwinput`
+-   **Bibliotecas Padrão:** `xml.etree.ElementTree`, `datetime`, `hashlib`, `logging`
 
 ---
 
 ## 🚀 Como Executar
 
-1.  Clone o projeto:
+1.  Clone o projeto e entre na pasta:
     ```bash
     git clone [https://github.com/jotavitoraraujo/gestaoFarma_simples.git](https://github.com/jotavitoraraujo/gestaoFarma_simples.git)
     cd gestaoFarma_simples
@@ -54,10 +50,20 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
     ```bash
     pip install -r requirements.txt
     ```
-4.  Execute o projeto:
+4.  Execute a aplicação:
     ```bash
     py main.py
     ```
+
+---
+
+## 🧪 Rodando os Testes
+
+A qualidade do projeto é garantida por uma suíte de testes completa. Para executá-la, use o seguinte comando na raiz do projeto:
+
+```bash
+pytest -vv
+```
 
 ---
 
@@ -65,31 +71,37 @@ Este projeto tem como objetivo desenvolver um sistema de gestão de estoque e fi
 
 ```
 gestaoFarma_simples/
-├── dados/
-│   ├── farmacia.db
-│   └── gestao_farma.log
-│
-├── sistema/
+├── system/
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── batch.py
+│   │   ├── product.py
+│   │   └── user.py
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── converters.py
+│   │   ├── exceptions.py
+│   │   ├── io_collectors.py
+│   │   └── validators.py
 │   ├── __init__.py
 │   ├── database.py
-│   ├── modelos/
+│   └── security.py
+├── tests/
+│   ├── tests_models/
 │   │   ├── __init__.py
-│   │   ├── item.py
-│   │   ├── lote.py
-│   │   ├── produto.py
-│   │   └── usuario.py
-│   └── modulos/
-│       ├── __init__.py
-│       ├── config_log.py
-│       ├── importador_nfe.py
-│       ├── relatorios.py
-│       ├── users.py
-│       ├── validadores_input.py
-│       └── vendas.py
-│
-├── venv/
+│   │   ├── test_batch.py
+│   │   └── test_product.py
+│   │   └── test_user.py
+│   ├── test_utils/
+│   │   ├── __init__.py
+│   │   ├── test_converters.py
+│   │   ├── test_io_collectors.py
+│   │   └── test_validators.py
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── test_database.py
+│   └── test_security.py
 ├── .gitignore
-├── LICENSE
 ├── main.py
 ├── README.md
 └── requirements.txt
@@ -111,6 +123,12 @@ Este projeto nasceu dessa percepção. Após desenvolver um agente autônomo par
 ---
 
 ## 📅 Histórico de Evolução do Projeto
+
+### Fase 4: Garantia de Qualidade e Fundação de Testes [CONCLUÍDA]
+* **22/09/2025 — Cobertura Total da Fundação:**
+    - Conclusão da suíte de testes unitários para todas as camadas fundamentais do sistema (`utils`, `security`, `models`). 
+    - Adoção de Test-Driven Development (TDD) com Pytest para garantir a robustez e o comportamento esperado de cada componente em isolamento. 
+    - Implementação de testes de interação com `unittest.mock` e parametrização para validar a nova arquitetura do módulo de I/O.
 
 ### Fase 3: Operação de Vendas [EM ANDAMENTO]
 * **09/08/2025 — Fase 3.3 (Conclusão da Lógica de Adição de Itens):**

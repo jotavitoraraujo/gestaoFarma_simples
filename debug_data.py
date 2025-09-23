@@ -1,11 +1,14 @@
 import sqlite3
 from system.utils import converters, validators, exceptions
+from system.models.product import Product
 from hashlib import sha256
-from datetime import date
+from datetime import date, datetime
 import sys
 import logging
 from pwinput import pwinput
 from typing import Callable, TypeVar
+import xml.etree.ElementTree as ET
+from system.models.batch import Batch
 
 ###############################################################################
 print('\n')
@@ -127,3 +130,86 @@ def collect_price() -> float:
     ask_price = f'[ALERTA] Insira o preço: '
     result = _collector_generic_input(ask_price, converter, validator)
     return result 
+
+######### --- THIS SESSION CONTAINS AN NEW LOGIC FOR THE XML PARSER --- ###########
+def extract_nfe_data(xml_content: str) -> str:
+
+    if xml_content is not None:
+        if isinstance(xml_content, str):
+            root_element: ET.Element = ET.fromstring(xml_content)
+            return root_element
+    else:
+        return None
+  
+def extract_tags_nfe(root_element: ET.Element) -> list[ET.Element[str]]:
+    
+    if isinstance(root_element, ET.Element):
+        name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
+        list_dets = root_element.findall('.//nfe:det', name_space)
+        return list_dets
+    else:
+        None
+
+def manufacture_product(det: ET.Element) -> Product:
+
+    if isinstance(det, ET.Element):
+        name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
+        
+        id_xml: ET.Element = det.find('.//nfe:cProd', name_space)           
+        if id_xml is not None:
+            id_xml = id_xml.text
+
+        ean_xml: ET.Element = det.find('.//nfe:cEAN', name_space)
+        if ean_xml is not None:
+            ean_xml = ean_xml.text
+        
+        name_xml: ET.Element = det.find('.//nfe:xProd', name_space)
+        if name_xml is not None:
+            name_xml = name_xml.text
+        
+        quantity_xml: ET.Element = det.find('.//nfe:qCom', name_space)    
+        if quantity_xml is not None:
+            quantity_xml = int(quantity_xml.text)
+        
+        cost_price_xml: ET.Element = det.find('.//nfe:vUnCom', name_space)
+        if cost_price_xml is not None:
+            cost_price_xml = int(cost_price_xml.text)
+
+    new_product = Product (
+        id = id_xml,
+        ean = ean_xml,
+        name = name_xml,
+        sale_price = None
+    )
+    new_batch = Batch (
+        batch_id = None,
+        physical_batch_id = None,
+        product_id = new_product.id,
+        quantity = quantity_xml,
+        cost_price = cost_price_xml,
+        expiration_date = None,
+        entry_date = date.today()
+    )
+
+    new_product.batch.append(new_batch)
+    return new_product
+
+def manager_import(
+        xml_content,
+        func_data: Callable[[str], ET.Element],
+        func_tags: Callable[[ET.Element], list[ET.Element]],
+        func_manufacture: Callable[[ET.Element], Product]
+    ) -> list[Product]:
+
+
+        root_element = func_data(xml_content)
+        dets = func_tags(root_element)
+        list_products = []
+        
+        for tag in dets:  
+            product = func_manufacture(tag)
+            list_products.append(product)
+        
+        return list_products
+
+    

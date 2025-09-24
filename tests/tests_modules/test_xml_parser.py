@@ -1,3 +1,4 @@
+import debug_data
 import pytest
 import xml.etree.ElementTree as ET
 from unittest.mock import patch
@@ -5,13 +6,14 @@ from pathlib import Path
 from system.models.product import Product
 from system.models.batch import Batch
 from system.modules import xml_parser
-from datetime import datetime
+from datetime import date
+
 
 ######################################### --- TEST SUIT FROM EXTRACT DATA NFE FUNCTION --- ########################################
 ### DATE (TODAY) INSTANCE ###
 @pytest.fixture
 def object_today():
-    today = datetime.now().strftime('%Y-%m-%d')
+    today = date.today()
     return today
 
 ### PRODUCTs AND BATCHs INSTANCEs ###
@@ -113,28 +115,28 @@ def expected_list_products(dipirona_product: Product, vitamina_product: Product,
 
 #### PATH FILES FIXTURES ####
 @pytest.fixture
-def functional_xml():    
+def functional_xml() -> str:    
     path_object = Path (__file__).parent.parent
     file_xml = path_object/'data_tests'/'functional_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as funcional_xml:
         return funcional_xml.read()
 
 @pytest.fixture
-def unstable_xml():
+def unstable_xml() -> str:
     path_object = Path (__file__).parent.parent
     file_xml = path_object/'data_tests'/'unstable_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as unstable_xml:
         return unstable_xml.read()
     
 @pytest.fixture
-def broken_xml():
+def broken_xml() -> str:
     path_object = Path (__file__).parent.parent
     file_xml = path_object/'data_tests'/'broken_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as broken_xml:
         return broken_xml.read()        
 
 #####################################################
-
+@pytest.mark.skip(reason = 'THE NEW ARCHTECTURE COVER THIS SUITE')
 def test_extract_nfe_data(functional_xml, expected_list_products):                      # <----- TEST FUNCTIONAL XML - STATUS: PASSED
 
     result = xml_parser.extract_nfe_data(functional_xml)
@@ -144,7 +146,7 @@ def test_extract_nfe_data(functional_xml, expected_list_products):              
     assert result == expected_list_products
     
 ##################################################### 
-
+@pytest.mark.skip(reason = 'THE NEW ARCHTECTURE COVER THIS SUITE')
 def test_extract_nfe_data_unstable(dipirona_product_unstable, unstable_xml, expected_list_products):            # <------ TEST UNSBTABLE XML - STATUS: PASSED
     
     expected_list_unstable = expected_list_products.copy()
@@ -164,3 +166,26 @@ def test_extract_nfe_data_broken(broken_xml):           # <------- TEST BROKEN X
     assert result is None
         
 # LAST DATE OF IN TESTS THEY WERE PERFORM, 26 AUGUST
+###### --- NEW SESSION OF THE XML_PARSER.PY TESTS FOR RECEIVE THE NEW ARCHTECTURE --- ######
+
+@pytest.fixture
+def object_det() -> ET.Element:
+    det_string = '''
+        <det nItem="1">
+            <prod>
+                <cProd>12345</cProd>
+                <cEAN>7891020304050</cEAN>
+                <xProd>DIPIRONA 500MG COM 10 COMPRIMIDOS</xProd>
+                <qCom>20.0000</qCom>
+                <vUnCom>8.50</vUnCom>
+            </prod>
+        </det>
+    '''
+    object_det = ET.fromstring(det_string)
+    return object_det
+
+def test_manufacture_product(object_det, dipirona_product):
+
+    product = debug_data.manufacture_product(object_det)
+    assert product == dipirona_product
+

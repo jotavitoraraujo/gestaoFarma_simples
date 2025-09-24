@@ -141,7 +141,7 @@ def extract_nfe_data(xml_content: str) -> str:
     else:
         return None
   
-def extract_tags_nfe(root_element: ET.Element) -> list[ET.Element[str]]:
+def extract_tags_nfe(root_element: ET.Element) -> list[ET.Element]:
     
     if isinstance(root_element, ET.Element):
         name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}

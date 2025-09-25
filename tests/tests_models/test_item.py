@@ -14,6 +14,7 @@ def date_instance():
 def item_instance():
     produto = Product (
         id = 0,
+        supplier_code = '123',
         ean = 123456789101112,
         name = 'PRODUTO DE TESTE',
         sale_price = float(10.0)
@@ -62,6 +63,7 @@ def test_get_discounted_price(current_date: date, expiration_date: date, product
     def nested_item_instance():
         product_instance = Product (
             id = '0',
+            supplier_code = '123',
             ean = 123456789101112,
             name = 'Test Product',
             sale_price = product_price

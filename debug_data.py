@@ -155,9 +155,9 @@ def manufacture_product(det: ET.Element) -> Product:
     if isinstance(det, ET.Element):
         name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
         
-        id_xml: ET.Element = det.find('.//nfe:cProd', name_space)           
-        if id_xml is not None:
-            id_xml = id_xml.text
+        supplier_code_xml: ET.Element = det.find('.//nfe:cProd', name_space)           
+        if supplier_code_xml is not None:
+            supplier_code_xml = supplier_code_xml.text
 
         ean_xml: ET.Element = det.find('.//nfe:cEAN', name_space)
         if ean_xml is not None:
@@ -169,14 +169,15 @@ def manufacture_product(det: ET.Element) -> Product:
         
         quantity_xml: ET.Element = det.find('.//nfe:qCom', name_space)    
         if quantity_xml is not None:
-            quantity_xml = int(quantity_xml.text)
+            quantity_xml = float(quantity_xml.text)
         
         cost_price_xml: ET.Element = det.find('.//nfe:vUnCom', name_space)
         if cost_price_xml is not None:
-            cost_price_xml = int(cost_price_xml.text)
+            cost_price_xml = float(cost_price_xml.text)
 
     new_product = Product (
-        id = id_xml,
+        id = None,
+        supplier_code = supplier_code_xml,
         ean = ean_xml,
         name = name_xml,
         sale_price = None

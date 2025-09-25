@@ -2,6 +2,7 @@
 import pytest
 import logging
 import sqlite3
+from pathlib import Path
 from datetime import date, datetime
 from system.models.product import Product
 from system.models.batch import Batch
@@ -55,6 +56,28 @@ def db_connection():
             db_connection.close()
             logging.warning(f'[ALERT] Test connection with database is off.')
 
+#### PATH FILES FIXTURES ####
+@pytest.fixture
+def functional_xml():    
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'functional_xml_data.xml'
+    with open(file_xml, encoding = 'UTF-8') as funcional_xml:
+        return funcional_xml.read()
+
+@pytest.fixture
+def unstable_xml():
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'unstable_xml_data.xml'
+    with open(file_xml, encoding = 'UTF-8') as unstable_xml:
+        return unstable_xml.read()
+    
+@pytest.fixture
+def broken_xml():
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'broken_xml_data.xml'
+    with open(file_xml, encoding = 'UTF-8') as broken_xml:
+        return broken_xml.read()
+
 ### DATE'S INSTANCES ###
 @pytest.fixture
 def object_today() -> date:
@@ -78,13 +101,14 @@ def object_date_2() -> date:
 @pytest.fixture
 def dipirona_product(object_today, object_date) -> Product:
     product_instance = Product (
-        id = '12345',
+        id = None,
+        supplier_code = '12345',
         ean = '7891020304050',
         name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
         sale_price = None        
     )
     batch_instance = Batch (
-        batch_id = 2,
+        batch_id = None,
         physical_batch_id = 'ABC123HI',
         product_id = product_instance.id,
         quantity = float(20.0),
@@ -95,13 +119,14 @@ def dipirona_product(object_today, object_date) -> Product:
     product_instance.batch.append(batch_instance)
     dipirona_instance = product_instance    
     return dipirona_instance
-
+    
 ############################################################
 # --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
 @pytest.fixture
 def dipirona_product_2(object_today, object_date_2) -> Product:
     product_instance = Product (
-        id = '12346',
+        id = 2,
+        supplier_code = '12345',
         ean = '7891020304051',
         name = 'DIPIRONA 500MG COM 11 COMPRIMIDOS',
         sale_price = None        
@@ -119,11 +144,35 @@ def dipirona_product_2(object_today, object_date_2) -> Product:
     dipirona_instance = product_instance    
     return dipirona_instance
 ############################################################
+# --- EXCLUSIVE VARIANT FOR TESTING OF THE NEW FUNCTION MANUFACTURE PRODUCT --- #
+@pytest.fixture
+def dipirona_product_manufacture() -> Product:
+    product_instance = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = '7891020304050',
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        sale_price = None        
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = None,
+        product_id = product_instance.id,
+        quantity = float(20.0),
+        cost_price = float(8.50),
+        expiration_date = None,
+        entry_date = date.today()
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
+#############################################################
 
 @pytest.fixture
 def vitamina_product(object_today, object_date) -> Product:
     product_instance = Product (
-        id = '67890',
+        id = 2,
+        supplier_code = '67890',
         ean = '7895040302010',
         name = 'VITAMINA C EFERVESCENTE',
         sale_price = None
@@ -144,7 +193,8 @@ def vitamina_product(object_today, object_date) -> Product:
 @pytest.fixture
 def algodao_product(object_today, object_date) -> Product:
     product_instance = Product (
-        id = '101112',
+        id = 3,
+        supplier_code = '101112',
         ean = '7895040302015',
         name = 'ALGODÃO HIDRÓFILO 50G',
         sale_price = None

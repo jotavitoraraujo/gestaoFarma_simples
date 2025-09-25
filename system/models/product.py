@@ -1,10 +1,11 @@
 from system.models.batch import Batch
 
 class Product:
-    def __init__(self, id, ean, name, sale_price):
+    def __init__(self, id, supplier_code, ean, name, sale_price):
         'create class Product'
         
         self.id = id
+        self.supplier_code = supplier_code
         self.ean = ean
         self.name = name
         self.sale_price = sale_price
@@ -15,7 +16,8 @@ class Product:
 
         if isinstance(other, type(self)):
             return (
-            other.id == self.id 
+            other.id == self.id
+            and other.supplier_code == self.supplier_code 
             and other.ean == self.ean 
             and other.name == self.name 
             and other.sale_price == self.sale_price
@@ -29,8 +31,9 @@ class Product:
 
         return f'''
         --- Product Atributes ---
-        1. ID: {self.id}
-        2. EAN: {self.ean}
-        3. Name: {self.name}
-        4. Sale price: {self.sale_price}
+        1. ID Autoincrement: {self.id}
+        2. ID Supplier: {self.supplier_code}
+        3. EAN: {self.ean}
+        4. Name: {self.name}
+        5. Sale price: {self.sale_price}
         '''

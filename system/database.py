@@ -64,7 +64,7 @@ def create_tables(connect_db: Connection):
 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS produtos (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome_produto TEXT NOT NULL,            
             ean TEXT NOT NULL,
             preco_venda REAL,            
@@ -77,7 +77,7 @@ def create_tables(connect_db: Connection):
         CREATE TABLE IF NOT EXISTS lotes (
         id_lote INTEGER PRIMARY KEY AUTOINCREMENT,
         id_lote_fisico TEXT NOT NULL,
-        produto_id TEXT NOT NULL,        
+        produto_id INTEGER NOT NULL,        
         quantidade INTEGER NOT NULL,        
         preco_custo REAL NOT NULL,  
         data_validade DATE NOT NULL,

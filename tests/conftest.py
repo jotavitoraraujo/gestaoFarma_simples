@@ -2,6 +2,7 @@
 import pytest
 import logging
 import sqlite3
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from datetime import date, datetime
 from system.models.product import Product
@@ -96,7 +97,100 @@ def object_date_2() -> date:
     object_date_future = date(2045, 8, 31)
     return object_date_future
 ############################################################
+###### --- OBJECTS DET'S FOR TEST OF THE NEW ARCHTECTURE IN XML_PARSER.PY --- #######
 
+###### --- SCENARIO FUNCTIONAL --- #######
+@pytest.fixture
+def object_det() -> ET.Element:
+    det_string = '''
+        <NFe xmlns="http://www.portalfiscal.inf.br/nfe">    
+            <infNFe>    
+                <det nItem="1">
+                    <prod>
+                        <cProd>12345</cProd>
+                        <cEAN>7891020304050</cEAN>
+                        <xProd>DIPIRONA 500MG COM 10 COMPRIMIDOS</xProd>
+                        <qCom>20.0000</qCom>
+                        <vUnCom>8.50</vUnCom>
+                    </prod>
+                </det>
+            </infNFe>
+        </NFe>        
+    '''
+    object_nfe = ET.fromstring(det_string)
+    name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
+    object_det = object_nfe.find('.//nfe:det', name_space)
+    return object_det
+
+###### --- SCENARIO UNSTABLE (<cEAN></cEAN> NOT CONTENT)--- #########
+@pytest.fixture
+def object_det_unstable() -> ET.Element:
+    det_string = '''
+        <NFe xmlns="http://www.portalfiscal.inf.br/nfe">    
+            <infNFe>    
+                <det nItem="1">
+                    <prod>
+                        <cProd>12345</cProd>
+                        <cEAN></cEAN>
+                        <xProd>DIPIRONA 500MG COM 10 COMPRIMIDOS</xProd>
+                        <qCom>20.0000</qCom>
+                        <vUnCom>8.50</vUnCom>
+                    </prod>
+                </det>
+            </infNFe>
+        </NFe>        
+    '''
+    object_nfe = ET.fromstring(det_string)
+    name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
+    object_det = object_nfe.find('.//nfe:det', name_space)
+    return object_det
+
+###### --- SCENARIO WHERE DATA IS MISSING (<xProd></xProd> TAG MISSING)--- #######
+@pytest.fixture
+def object_det_missing() -> ET.Element:
+    det_string = '''
+        <NFe xmlns="http://www.portalfiscal.inf.br/nfe">    
+            <infNFe>    
+                <det nItem="1">
+                    <prod>
+                        <cProd>12345</cProd>
+                        <cEAN>7891020304050</cEAN>
+                        <qCom>20.0000</qCom>
+                        <vUnCom>8.50</vUnCom>
+                    </prod>
+                </det>
+            </infNFe>
+        </NFe>        
+    '''
+    object_nfe = ET.fromstring(det_string)
+    name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
+    object_det = object_nfe.find('.//nfe:det', name_space)
+    return object_det
+
+####### --- SCENARIO OF THE DATA MALFORMED (<qCom></qCom> CONTENT IS AS TEXT NOT FLOAT) --- #######
+@pytest.fixture
+def object_det_malformed() -> ET.Element:
+    det_string = '''
+        <NFe xmlns="http://www.portalfiscal.inf.br/nfe">    
+            <infNFe>    
+                <det nItem="1">
+                    <prod>
+                        <cProd>12345</cProd>
+                        <cEAN>7891020304050</cEAN>
+                        <xProd>DIPIRONA 500MG COM 10 COMPRIMIDOS</xProd>
+                        <qCom>TWENTY UNITS</qCom>
+                        <vUnCom>8.50</vUnCom>
+                    </prod>
+                </det>
+            </infNFe>
+        </NFe>        
+    '''
+    object_nfe = ET.fromstring(det_string)
+    name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
+    object_det = object_nfe.find('.//nfe:det', name_space)
+    return object_det
+
+####################################################################
 ### PRODUCTs AND BATCHs INSTANCEs ###
 @pytest.fixture
 def dipirona_product(object_today, object_date) -> Product:

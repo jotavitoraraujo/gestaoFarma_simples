@@ -1,14 +1,14 @@
 import sqlite3
-from system.utils import converters, validators, exceptions
+from system.utils import validators, exceptions
 from system.models.product import Product
 from hashlib import sha256
-from datetime import date, datetime
+from datetime import date
 import sys
 import logging
-from pwinput import pwinput
 from typing import Callable, TypeVar
 import xml.etree.ElementTree as ET
 from system.models.batch import Batch
+from system.utils.exceptions import MissingTagError
 
 ###############################################################################
 print('\n')
@@ -132,7 +132,7 @@ def collect_price() -> float:
     return result 
 
 ######### --- THIS SESSION CONTAINS AN NEW LOGIC FOR THE XML PARSER --- ###########
-def extract_nfe_data(xml_content: str) -> str:
+def extract_xml_data(xml_content: str) -> str:
 
     if xml_content is not None:
         if isinstance(xml_content, str):
@@ -141,7 +141,7 @@ def extract_nfe_data(xml_content: str) -> str:
     else:
         return None
   
-def extract_tags_nfe(root_element: ET.Element) -> list[ET.Element]:
+def extract_det(root_element: ET.Element) -> list[ET.Element]:
     
     if isinstance(root_element, ET.Element):
         name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
@@ -153,41 +153,56 @@ def extract_tags_nfe(root_element: ET.Element) -> list[ET.Element]:
 def manufacture_product(det: ET.Element) -> Product:
 
     if isinstance(det, ET.Element):
-        name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
-        
+        name_space: dict = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
         supplier_code_xml: ET.Element = det.find('.//nfe:cProd', name_space)           
-        if supplier_code_xml is not None:
-            supplier_code_xml = supplier_code_xml.text
-
         ean_xml: ET.Element = det.find('.//nfe:cEAN', name_space)
-        if ean_xml is not None:
-            ean_xml = ean_xml.text
-        
         name_xml: ET.Element = det.find('.//nfe:xProd', name_space)
-        if name_xml is not None:
-            name_xml = name_xml.text
-        
         quantity_xml: ET.Element = det.find('.//nfe:qCom', name_space)    
-        if quantity_xml is not None:
-            quantity_xml = float(quantity_xml.text)
-        
         cost_price_xml: ET.Element = det.find('.//nfe:vUnCom', name_space)
-        if cost_price_xml is not None:
-            cost_price_xml = float(cost_price_xml.text)
+
+        tags_mandatory: dict = {
+            'cProd': supplier_code_xml, 
+            'xProd': name_xml, 
+            'qCom': quantity_xml, 
+            'vUnCom': cost_price_xml
+        }
+        
+        tags_missing: list = []
+        for name_tag, element in tags_mandatory.items():
+            if element is None:
+                tags_missing.append(name_tag)
+
+        if tags_missing:
+            det_nItem = det.attrib.get('nItem')
+            raise MissingTagError (
+                f'[ERRO] Dados criticos ausentes na NF-e.',
+                tags_missing,
+                det_nItem
+            )
+        
+        supplier_code = tags_mandatory['cProd'].text
+        name = tags_mandatory['xProd'].text
+        quantity = float(tags_mandatory['qCom'].text)
+        cost_price = float(tags_mandatory['vUnCom'].text)
+
+        ean = None
+        if ean_xml is not None:
+            ean = ean_xml.text
+
 
     new_product = Product (
         id = None,
-        supplier_code = supplier_code_xml,
-        ean = ean_xml,
-        name = name_xml,
+        supplier_code = supplier_code,
+        ean = ean,
+        name = name,
         sale_price = None
     )
     new_batch = Batch (
         batch_id = None,
         physical_batch_id = None,
         product_id = new_product.id,
-        quantity = quantity_xml,
-        cost_price = cost_price_xml,
+        quantity = quantity,
+        cost_price = cost_price,
         expiration_date = None,
         entry_date = date.today()
     )

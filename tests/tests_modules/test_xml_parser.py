@@ -2,6 +2,7 @@ import debug_data
 import pytest
 import xml.etree.ElementTree as ET
 from system.modules import xml_parser
+from system.utils.exceptions import MissingTagError
 
 
 
@@ -38,28 +39,18 @@ def test_extract_nfe_data_broken(broken_xml):           # <------- TEST BROKEN X
 # LAST DATE OF IN TESTS THEY WERE PERFORM, 26 AUGUST
 ###### --- NEW SESSION OF THE XML_PARSER.PY TESTS FOR RECEIVE THE NEW ARCHTECTURE --- ######
 
-@pytest.fixture
-def object_det() -> ET.Element:
-    det_string = '''
-        <NFe xmlns="http://www.portalfiscal.inf.br/nfe">    
-            <infNFe>    
-                <det nItem="1">
-                    <prod>
-                        <cProd>12345</cProd>
-                        <cEAN>7891020304050</cEAN>
-                        <xProd>DIPIRONA 500MG COM 10 COMPRIMIDOS</xProd>
-                        <qCom>20.0000</qCom>
-                        <vUnCom>8.50</vUnCom>
-                    </prod>
-                </det>
-            </infNFe>
-        </NFe>        
-    '''
-    object_det = ET.fromstring(det_string)
-    return object_det
-
-def test_manufacture_product(object_det, dipirona_product_manufacture):
+def test_manufacture_product(object_det: ET.Element, dipirona_product_manufacture):
 
     product = debug_data.manufacture_product(object_det)
     assert product == dipirona_product_manufacture
 
+def test_manufacture_product_unstable(object_det_unstable):
+    
+    product = debug_data.manufacture_product(object_det_unstable)
+    print(f'[DEBUG] __ini__ this Product have this content: {product}')
+    assert product.ean == None
+
+def test_manufacture_product_tag_missing(object_det_missing):
+
+    with pytest.raises(MissingTagError):
+        debug_data.manufacture_product(object_det_missing)

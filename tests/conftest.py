@@ -190,6 +190,53 @@ def object_det_malformed() -> ET.Element:
     object_det = object_nfe.find('.//nfe:det', name_space)
     return object_det
 
+@pytest.fixture
+def root_element(functional_xml) -> ET.Element:
+        root_element: ET.Element = ET.fromstring(functional_xml)
+        return root_element
+
+@pytest.fixture
+def extracts_dets(root_element: ET.Element) -> list[ET.Element]:
+        name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
+        list_dets: list[ET.Element] = root_element.findall('.//nfe:det', name_space)
+        return list_dets
+
+@pytest.fixture
+def dict_tags(object_det: ET.Element):
+        
+    name_space: dict = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
+    supplier_code_xml: ET.Element = object_det.find('.//nfe:cProd', name_space)           
+    ean_xml: ET.Element = object_det.find('.//nfe:cEAN', name_space)
+    name_xml: ET.Element = object_det.find('.//nfe:xProd', name_space)
+    quantity_xml: ET.Element = object_det.find('.//nfe:qCom', name_space)    
+    cost_price_xml: ET.Element = object_det.find('.//nfe:vUnCom', name_space)
+    
+    dict_tags: dict = {
+        'cProd': supplier_code_xml,
+        'cEAN': ean_xml,
+        'xProd': name_xml, 
+        'qCom': quantity_xml, 
+        'vUnCom': cost_price_xml
+    }
+    
+    return dict_tags
+
+@pytest.fixture
+def tuple_product(dict_tags):
+
+    ean = None
+    supplier_code: str = dict_tags['cProd'].text
+    
+    if dict_tags['cEAN'] is not None:
+        ean = dict_tags['cEAN'].text        
+    
+    name: str = dict_tags['xProd'].text
+    quantity: float = float(dict_tags['qCom'].text)
+    cost_price: float = float(dict_tags['vUnCom'].text)
+    tuple_product: tuple = (supplier_code, ean, name, quantity, cost_price,)
+    return tuple_product
+    
+
 ####################################################################
 ### PRODUCTs AND BATCHs INSTANCEs ###
 @pytest.fixture
@@ -260,6 +307,29 @@ def dipirona_product_manufacture() -> Product:
     product_instance.batch.append(batch_instance)
     dipirona_instance = product_instance    
     return dipirona_instance
+
+#############################################################
+@pytest.fixture
+def vitamina_product_manufacture() -> Product:
+    product_instance = Product (
+        id = None,
+        supplier_code = '67890',
+        ean = '7895040302010',
+        name = 'VITAMINA C EFERVESCENTE',
+        sale_price = None
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = None,
+        product_id = product_instance.id,
+        quantity = float(15.0),
+        cost_price = float(12.75),
+        expiration_date = None,
+        entry_date = date.today()
+    )
+    product_instance.batch.append(batch_instance)
+    vitamina_instance = product_instance
+    return vitamina_instance
 #############################################################
 
 @pytest.fixture
@@ -283,7 +353,30 @@ def vitamina_product(object_today, object_date) -> Product:
     product_instance.batch.append(batch_instance)
     vitamina_instance = product_instance
     return vitamina_instance
+#############################################################
+@pytest.fixture
+def algodao_product_manufacture() -> Product:
+    product_instance = Product (
+        id = None,
+        supplier_code = '101112',
+        ean = '7895040302015',
+        name = 'ALGODÃO HIDRÓFILO 50G',
+        sale_price = None
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = None,
+        product_id = product_instance.id,
+        quantity = float(30.0),
+        cost_price = float(3.20),
+        expiration_date = None,
+        entry_date = date.today()
+    )
+    product_instance.batch.append(batch_instance)
+    algodao_instance = product_instance
+    return algodao_instance
 
+#############################################################
 @pytest.fixture
 def algodao_product(object_today, object_date) -> Product:
     product_instance = Product (
@@ -320,6 +413,14 @@ def expected_list_products(dipirona_product: Product, vitamina_product: Product,
 def expected_list_products_2(dipirona_product: Product, dipirona_product_2: Product, vitamina_product: Product, algodao_product: Product) -> list[Product]:
     list = [
         dipirona_product, dipirona_product_2, vitamina_product, algodao_product
+    ]
+    return list
+
+# --- EXCLUSIVE VARIANT FOR THE TEST EXTRACT DETS ---
+@pytest.fixture
+def expected_list_products_manufacture(dipirona_product_manufacture: Product, vitamina_product_manufacture: Product, algodao_product_manufacture: Product) -> list[Product]:
+    list = [
+        dipirona_product_manufacture, vitamina_product_manufacture, algodao_product_manufacture
     ]
     return list
 ############################################################

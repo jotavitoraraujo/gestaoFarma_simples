@@ -93,10 +93,8 @@ print(f'Type for object hash: {type(pin_cripto)}')
 print('=' * 50)
 
 ######## --- THIS SESSION IS AN EXPERIMENT FOR A NEW FUCTION --- ########
-
 ######## --- TYPE HINT EXPERIMENT WITH TYPEVAR --- ########
 joker_type = TypeVar('joker_type')
-dict_or_tuple = TypeVar('dict_or_tuple')
 
 ######## --- FUNCTION --- ########
 def _collector_generic_input(ask: str, 
@@ -131,6 +129,16 @@ def collect_price() -> float:
     ask_price = f'[ALERTA] Insira o preço: '
     result = _collector_generic_input(ask_price, converter, validator)
     return result 
+
+######### --- THIS SESSION CONTAINS AN NEW LOGIC FOR THE XML PARSER --- ###########
+######## --- IMPORTS --- ########
+from system.models.product import Product
+from system.models.batch import Batch
+from system.utils.exceptions import MissingTagError, ConversionError
+from datetime import date
+from typing import Callable
+import xml.etree.ElementTree as ET
+import logging
 
 ######### --- THIS SESSION CONTAINS AN NEW LOGIC FOR THE XML PARSER --- ###########
 def extract_xml_data(xml_content: str) -> ET.Element:
@@ -239,6 +247,21 @@ def manufacture_product(product_data: tuple) -> Product:
         new_product.batch.append(new_batch)
     return new_product
 
+def filter_products(product: Product) -> tuple:
+    '''
+    filter the products sent by the manufacture function at perfect product or  in case of .ean attribute absent, product imperfect.
+    then insert hes at your adequate list and returns an tuple which contains the two lists.
+    '''
+    list_perfect_products: list = []
+    list_absent_product_ean: list  = []
+    
+    if product.ean is not None:
+        list_perfect_products.append(product)
+    else:
+        list_absent_product_ean.append(product)
+
+    return (list_perfect_products, list_absent_product_ean,)
+
 def manager_import(
         xml_content,
         func_extractor_data: Callable[[str], ET.Element],
@@ -247,33 +270,54 @@ def manager_import(
         func_verify_tags: Callable[[dict], str],
         func_convertion_tags: Callable[[dict], tuple],
         func_manufacture: Callable[[tuple], Product]
-    ) -> list[Product]:
+    ) -> tuple:
 
     '''
     this orchestrator manage all scenario of the parsing in xml since initiation until conclusion.
     giving you an list from the products instantiated by manufacture_product function in the end of the data flow here
     i kwon that are many args but is required that you respect of assingnature of the function
     '''
-        
-    root_element: ET.Element = func_extractor_data(xml_content)
-    list_dets: list[ET.Element] = func_extractor_det(root_element)
+    try:        
+        root_element: ET.Element = func_extractor_data(xml_content)
+        list_dets: list[ET.Element] = func_extractor_det(root_element)
+        list_products_complets = []
+        list_products_ean_absent = []
 
-    if list_dets is not None: 
-        list_product: list[Product] = []
-               
-        for det in list_dets:
-            nItem = det.attrib.get('nItem')
-            
-            try:
-                tags: dict = func_find_tags(det)
-                func_verify_tags(tags, det)
-                clean_data: tuple = func_convertion_tags(tags)
-                final_product: Product = func_manufacture(clean_data)
-                list_product.append(final_product)
-            
-            except (MissingTagError, ConversionError) as error:
-                logging.warning(f'[ALERTA] O Item DET Nº: {nItem} da NF-e foi ignorado. Motivo: {error}')
-                continue
-    else:
-        logging.warning(f'[ERRO] Conteúdo do XML vazio. Verifique o arquivo e tente novamente.')
-    return list_product
+        # THIS TWO INSTANCES OF THE LISTS HAVE A UNIQUE FINALLITY
+        # STORE IN THE LIST_PRODUCTS_COMPLETS THE PRODUCTS INSTANTIATED CORRECTLY
+        # AND STORE IN THE LIST_PRODUCTS_EAN_ABSENT THE PRODUCTS INSTANTIATED WITH THE ATTRIBUTE .ean AS NONE
+        # LIST_PRODUCTS_COMPLETS -> GO TO THE TABLE: products, WITHIN OF DATABASE
+        # LIST_PRODUCTS_EAN_ABSENT -> GO TO THE TABLE: quarantined_products, WITHIN OF DATABASE
+        #         
+        if list_dets is not None:
+            for det in list_dets:
+                nItem = det.attrib.get('nItem')
+                
+                try:
+                    tags: dict = func_find_tags(det)
+                    func_verify_tags(tags, det)
+                    clean_data: tuple = func_convertion_tags(tags)
+                    final_product: Product = func_manufacture(clean_data)
+
+                    if final_product.ean is not None:
+                        list_products_complets.append(final_product)
+                    else:
+                        list_products_ean_absent.append(final_product)
+                
+                except (MissingTagError, ConversionError) as error:
+                    logging.warning(f'[ALERTA] O Item DET Nº: {nItem} da NF-e foi ignorado. Motivo: {error}')
+                    continue
+            return (list_products_complets, list_products_ean_absent,)
+        
+        else:
+            logging.warning(f'[ERRO] Conteúdo do XML vazio. Verifique o arquivo e tente novamente.')
+    
+    except ET.ParseError as error:
+        logging.warning(
+            f'''
+            [ERRO] A Nota Fiscal inserida está sintaximente mal formada e não importará nenhum item. 
+            Verifique a integridade das tags dentro do arquivo XML e tente novamente ou insira outra NF-e.
+            Dados do Erro: {error}
+            '''
+            )
+        return ([], [])

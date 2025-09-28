@@ -2,26 +2,29 @@
     <infNFe>
         <det nItem="1">
             <prod>
-                <cProd>12345
+                <cProd>12345</cProd>
                 <cEAN>7891020304050</cEAN>
                 <xProd>DIPIRONA 500MG COM 10 COMPRIMIDOS</xProd>
-                <qCom>20.0000</qCom>
+                <qCom>TWENTY UNITS</qCom>
                 <vUnCom>8.50</vUnCom>
             </prod>
         </det>
         <det nItem="2">
             <prod>
-                <cProd>67890<cProd>
+                <cProd>67890</cProd>
                 <cEAN>7895040302010</cEAN>
-                <qCom>15.0000</qCom>
+                <xProd>VITAMINA C EFERVESCENTE</xProd>
+                <qCom>FIFTEEN UNITS</qCom>
                 <vUnCom>12.75</vUnCom>
             </prod>
         </det>
         <det nItem="3">
             <prod>
-                <cProd>101112</Prod>
-                <cEAN></cEAN>
+                <cProd>101112</cProd>
+                <cEAN>7895040302015</cEAN>
                 <xProd>ALGODÃO HIDRÓFILO 50G</xProd>
+                <qCom>THIRTY UNITS</qCom>
+                <vUnCom>3.20</vUnCom>
             </prod>
         </det>
     </infNFe>

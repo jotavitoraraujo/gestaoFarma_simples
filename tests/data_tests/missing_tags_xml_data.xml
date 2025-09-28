@@ -2,7 +2,7 @@
     <infNFe>
         <det nItem="1">
             <prod>
-                <cProd>12345
+                <cProd>12345</cProd>
                 <cEAN>7891020304050</cEAN>
                 <xProd>DIPIRONA 500MG COM 10 COMPRIMIDOS</xProd>
                 <qCom>20.0000</qCom>
@@ -11,7 +11,7 @@
         </det>
         <det nItem="2">
             <prod>
-                <cProd>67890<cProd>
+                <cProd>67890</cProd>
                 <cEAN>7895040302010</cEAN>
                 <qCom>15.0000</qCom>
                 <vUnCom>12.75</vUnCom>
@@ -19,7 +19,7 @@
         </det>
         <det nItem="3">
             <prod>
-                <cProd>101112</Prod>
+                <cProd>101112</cProd>
                 <cEAN></cEAN>
                 <xProd>ALGODÃO HIDRÓFILO 50G</xProd>
             </prod>

@@ -28,7 +28,7 @@ def date_conversor(object_bytes: bytes) -> date:
     return adapter_format_date
 
 ########## --- FIXTURES UTILITS --- ###########
-@pytest.fixture
+@pytest.fixture(scope = 'session')
 def db_connection():
 
     db_connection = None
@@ -57,42 +57,63 @@ def db_connection():
             db_connection.close()
             logging.warning(f'[ALERT] Test connection with database is off.')
 
-#### PATH FILES FIXTURES ####
-@pytest.fixture
+#### --- PATH FILES FIXTURES --- ####
+@pytest.fixture(scope = 'module')
 def functional_xml():    
     path_object = Path (__file__).parent
     file_xml = path_object/'data_tests'/'functional_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as funcional_xml:
         return funcional_xml.read()
 
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def unstable_xml():
     path_object = Path (__file__).parent
     file_xml = path_object/'data_tests'/'unstable_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as unstable_xml:
         return unstable_xml.read()
     
-@pytest.fixture
+@pytest.fixture(scope = 'module')
+def missing_tags_xml():
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'missing_tags_xml_data.xml'
+    with open(file_xml, encoding = 'UTF-8') as missing_tags_xml:
+        return missing_tags_xml.read()
+    
+@pytest.fixture(scope = 'module')
+def missing_dets_xml_data():
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'missing_dets_xml_data.xml'
+    with open(file_xml, encoding = 'UTF-8') as missing_dets_xml_data:
+        return missing_dets_xml_data.read()
+    
+@pytest.fixture(scope = 'module')
+def malformed_xml_data():
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'malformed_xml_data.xml'
+    with open(file_xml, encoding = 'UTF-8') as malformed_xml_data:
+        return malformed_xml_data.read()
+    
+@pytest.fixture(scope = 'module')
 def broken_xml():
     path_object = Path (__file__).parent
     file_xml = path_object/'data_tests'/'broken_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as broken_xml:
         return broken_xml.read()
 
-### DATE'S INSTANCES ###
-@pytest.fixture
+### --- DATE'S INSTANCES --- ###
+@pytest.fixture(scope = 'module')
 def object_today() -> date:
     today = date.today()
     return today
 
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def object_date() -> date:
     object_date_future = date(2035, 8, 31)
     return object_date_future
 
 ############################################################
 # --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT --- 
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def object_date_2() -> date:
     object_date_future = date(2045, 8, 31)
     return object_date_future
@@ -100,7 +121,7 @@ def object_date_2() -> date:
 ###### --- OBJECTS DET'S FOR TEST OF THE NEW ARCHTECTURE IN XML_PARSER.PY --- #######
 
 ###### --- SCENARIO FUNCTIONAL --- #######
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def object_det() -> ET.Element:
     det_string = '''
         <NFe xmlns="http://www.portalfiscal.inf.br/nfe">    
@@ -123,7 +144,7 @@ def object_det() -> ET.Element:
     return object_det
 
 ###### --- SCENARIO UNSTABLE (<cEAN></cEAN> NOT CONTENT)--- #########
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def object_det_unstable() -> ET.Element:
     det_string = '''
         <NFe xmlns="http://www.portalfiscal.inf.br/nfe">    
@@ -146,7 +167,7 @@ def object_det_unstable() -> ET.Element:
     return object_det
 
 ###### --- SCENARIO WHERE DATA IS MISSING (<xProd></xProd> TAG MISSING)--- #######
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def object_det_missing() -> ET.Element:
     det_string = '''
         <NFe xmlns="http://www.portalfiscal.inf.br/nfe">    
@@ -168,7 +189,7 @@ def object_det_missing() -> ET.Element:
     return object_det
 
 ####### --- SCENARIO OF THE DATA MALFORMED (<qCom></qCom> CONTENT IS AS TEXT NOT FLOAT) --- #######
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def object_det_malformed() -> ET.Element:
     det_string = '''
         <NFe xmlns="http://www.portalfiscal.inf.br/nfe">    
@@ -190,18 +211,18 @@ def object_det_malformed() -> ET.Element:
     object_det = object_nfe.find('.//nfe:det', name_space)
     return object_det
 
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def root_element(functional_xml) -> ET.Element:
         root_element: ET.Element = ET.fromstring(functional_xml)
         return root_element
 
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def extracts_dets(root_element: ET.Element) -> list[ET.Element]:
         name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
         list_dets: list[ET.Element] = root_element.findall('.//nfe:det', name_space)
         return list_dets
 
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def dict_tags(object_det: ET.Element):
         
     name_space: dict = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
@@ -221,7 +242,7 @@ def dict_tags(object_det: ET.Element):
     
     return dict_tags
 
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def tuple_product(dict_tags):
 
     ean = None
@@ -239,7 +260,7 @@ def tuple_product(dict_tags):
 
 ####################################################################
 ### PRODUCTs AND BATCHs INSTANCEs ###
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def dipirona_product(object_today, object_date) -> Product:
     product_instance = Product (
         id = None,
@@ -263,7 +284,7 @@ def dipirona_product(object_today, object_date) -> Product:
     
 ############################################################
 # --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def dipirona_product_2(object_today, object_date_2) -> Product:
     product_instance = Product (
         id = 2,
@@ -286,7 +307,7 @@ def dipirona_product_2(object_today, object_date_2) -> Product:
     return dipirona_instance
 ############################################################
 # --- EXCLUSIVE VARIANT FOR TESTING OF THE NEW FUNCTION MANUFACTURE PRODUCT --- #
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def dipirona_product_manufacture() -> Product:
     product_instance = Product (
         id = None,
@@ -309,30 +330,53 @@ def dipirona_product_manufacture() -> Product:
     return dipirona_instance
 
 #############################################################
-@pytest.fixture
-def vitamina_product_manufacture() -> Product:
+@pytest.fixture(scope = 'module')
+def dipirona_product_manufacture_unstable() -> Product:
     product_instance = Product (
         id = None,
-        supplier_code = '67890',
-        ean = '7895040302010',
-        name = 'VITAMINA C EFERVESCENTE',
-        sale_price = None
+        supplier_code = '12345',
+        ean = None,
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        sale_price = None        
     )
     batch_instance = Batch (
         batch_id = None,
         physical_batch_id = None,
         product_id = product_instance.id,
-        quantity = float(15.0),
-        cost_price = float(12.75),
+        quantity = float(20.0),
+        cost_price = float(8.50),
         expiration_date = None,
         entry_date = date.today()
     )
     product_instance.batch.append(batch_instance)
-    vitamina_instance = product_instance
-    return vitamina_instance
-#############################################################
+    dipirona_instance = product_instance    
+    return dipirona_instance
 
-@pytest.fixture
+#############################################################
+@pytest.fixture(scope = 'module')
+def dipirona_product_manufacture_missing_tags() -> Product:
+    product_instance = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = '7891020304050',
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        sale_price = None        
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = None,
+        product_id = product_instance.id,
+        quantity = float(20.0),
+        cost_price = float(8.50),
+        expiration_date = None,
+        entry_date = date.today()
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
 def vitamina_product(object_today, object_date) -> Product:
     product_instance = Product (
         id = 2,
@@ -353,8 +397,101 @@ def vitamina_product(object_today, object_date) -> Product:
     product_instance.batch.append(batch_instance)
     vitamina_instance = product_instance
     return vitamina_instance
+
 #############################################################
-@pytest.fixture
+@pytest.fixture(scope = 'module')
+def vitamina_product_manufacture() -> Product:
+    product_instance = Product (
+        id = None,
+        supplier_code = '67890',
+        ean = '7895040302010',
+        name = 'VITAMINA C EFERVESCENTE',
+        sale_price = None
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = None,
+        product_id = product_instance.id,
+        quantity = float(15.0),
+        cost_price = float(12.75),
+        expiration_date = None,
+        entry_date = date.today()
+    )
+    product_instance.batch.append(batch_instance)
+    vitamina_instance = product_instance
+    return vitamina_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def vitamina_product_manufacture_unstable() -> Product:
+    product_instance = Product (
+        id = None,
+        supplier_code = '67890',
+        ean = '7895040302010',
+        name = 'VITAMINA C EFERVESCENTE',
+        sale_price = None
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = None,
+        product_id = product_instance.id,
+        quantity = float(15.0),
+        cost_price = float(12.75),
+        expiration_date = None,
+        entry_date = date.today()
+    )
+    product_instance.batch.append(batch_instance)
+    vitamina_instance = product_instance
+    return vitamina_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def vitamina_product_manufacture_missing_tags() -> Product:
+    product_instance = Product (
+        id = None,
+        supplier_code = '67890',
+        ean = '7895040302010',
+        name = None,
+        sale_price = None
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = None,
+        product_id = product_instance.id,
+        quantity = float(15.0),
+        cost_price = float(12.75),
+        expiration_date = None,
+        entry_date = date.today()
+    )
+    product_instance.batch.append(batch_instance)
+    vitamina_instance = product_instance
+    return vitamina_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def algodao_product(object_today, object_date) -> Product:
+    product_instance = Product (
+        id = 3,
+        supplier_code = '101112',
+        ean = '7895040302015',
+        name = 'ALGODÃO HIDRÓFILO 50G',
+        sale_price = None
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = 'ABC123FG',
+        product_id = product_instance.id,
+        quantity = float(30.0),
+        cost_price = float(3.20),
+        expiration_date = object_date,
+        entry_date = object_today
+    )
+    product_instance.batch.append(batch_instance)
+    algodao_instance = product_instance
+    return algodao_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
 def algodao_product_manufacture() -> Product:
     product_instance = Product (
         id = None,
@@ -377,30 +514,54 @@ def algodao_product_manufacture() -> Product:
     return algodao_instance
 
 #############################################################
-@pytest.fixture
-def algodao_product(object_today, object_date) -> Product:
+@pytest.fixture(scope = 'module')
+def algodao_product_manufacture_unstable() -> Product:
     product_instance = Product (
-        id = 3,
+        id = None,
         supplier_code = '101112',
-        ean = '7895040302015',
+        ean = None,
         name = 'ALGODÃO HIDRÓFILO 50G',
         sale_price = None
     )
     batch_instance = Batch (
         batch_id = None,
-        physical_batch_id = 'ABC123FG',
+        physical_batch_id = None,
         product_id = product_instance.id,
         quantity = float(30.0),
         cost_price = float(3.20),
-        expiration_date = object_date,
-        entry_date = object_today
+        expiration_date = None,
+        entry_date = date.today()
     )
     product_instance.batch.append(batch_instance)
     algodao_instance = product_instance
     return algodao_instance
 
+#############################################################
+@pytest.fixture(scope = 'module')
+def algodao_product_manufacture_missing_tags() -> Product:
+    product_instance = Product (
+        id = None,
+        supplier_code = None,
+        ean = None,
+        name = 'ALGODÃO HIDRÓFILO 50G',
+        sale_price = None
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = None,
+        product_id = product_instance.id,
+        quantity = None,
+        cost_price = None,
+        expiration_date = None,
+        entry_date = date.today()
+    )
+    product_instance.batch.append(batch_instance)
+    algodao_instance = product_instance
+    return algodao_instance
+
+#############################################################
 ### LIST OF INSTANCE PRODUCTS ####
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def expected_list_products(dipirona_product: Product, vitamina_product: Product, algodao_product: Product) -> list[Product]:
     list = [
         dipirona_product, vitamina_product, algodao_product
@@ -409,24 +570,39 @@ def expected_list_products(dipirona_product: Product, vitamina_product: Product,
 
 ############################################################
 # --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def expected_list_products_2(dipirona_product: Product, dipirona_product_2: Product, vitamina_product: Product, algodao_product: Product) -> list[Product]:
     list = [
         dipirona_product, dipirona_product_2, vitamina_product, algodao_product
     ]
     return list
 
-# --- EXCLUSIVE VARIANT FOR THE TEST EXTRACT DETS ---
-@pytest.fixture
+############################################################
+# --- EXCLUSIVE VARIANTS FOR THE TEST EXTRACT DETS ---
+@pytest.fixture(scope = 'module')
 def expected_list_products_manufacture(dipirona_product_manufacture: Product, vitamina_product_manufacture: Product, algodao_product_manufacture: Product) -> list[Product]:
     list = [
         dipirona_product_manufacture, vitamina_product_manufacture, algodao_product_manufacture
     ]
     return list
-############################################################
 
+################
+@pytest.fixture(scope = 'module')
+def expected_list_products_manufacture_unstable(dipirona_product_manufacture_unstable: Product, vitamina_product_manufacture_unstable: Product, algodao_product_manufacture_unstable: Product) -> list[Product]:
+    list = [
+        dipirona_product_manufacture_unstable, vitamina_product_manufacture_unstable, algodao_product_manufacture_unstable
+    ]
+    return list
+################
+@pytest.fixture(scope = 'module')
+def expected_list_products_manufacture_missing_tags(dipirona_product_manufacture_missing_tags: Product) -> list[Product]:
+    list = [
+        dipirona_product_manufacture_missing_tags
+    ]
+    return list
+############################################################
 ### INSTANCE USER ###
-@pytest.fixture
+@pytest.fixture(scope = 'module')
 def user_test() -> User:
     user = User (
         user_id = 1,
@@ -487,7 +663,7 @@ class Alert:
             return False
         
 ### INSTANCE ALERT ###
-@pytest.fixture
+@pytest.fixture(scope = 'function')
 def alert(dipirona_product: Product, dipirona_product_2: Product, user_test: User):
     
     object_datetime_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -504,7 +680,7 @@ def alert(dipirona_product: Product, dipirona_product_2: Product, user_test: Use
     return alert_type
 
 ### --- HASH FOR TESTING IN THE FUNCTION -> PASSWORD FOR HASH CONVERSOR --- ###
-@pytest.fixture
+@pytest.fixture(scope = 'function')
 def hash_list_test() -> list[str]:
 
     hash_list = [

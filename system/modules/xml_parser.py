@@ -120,22 +120,6 @@ def manufacture_product(product_data: tuple) -> Product:
     return new_product
 
 ###########
-def filter_products(product: Product) -> tuple:
-    '''
-    filter the products sent by the manufacture function at perfect product or  in case of .ean attribute absent, product imperfect.
-    then insert hes at your adequate list and returns an tuple which contains the two lists.
-    '''
-    list_perfect_products: list = []
-    list_absent_product_ean: list  = []
-    
-    if product.ean is not None:
-        list_perfect_products.append(product)
-    else:
-        list_absent_product_ean.append(product)
-
-    return (list_perfect_products, list_absent_product_ean,)
-
-###########
 def manager_import(
         xml_content,
         func_extractor_data: Callable[[str], ET.Element],

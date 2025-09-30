@@ -281,51 +281,6 @@ def dipirona_product(object_today, object_date) -> Product:
     product_instance.batch.append(batch_instance)
     dipirona_instance = product_instance    
     return dipirona_instance
-
-@pytest.fixture(scope = 'module')
-def dipirona_product_supplier_diff(object_today, object_date) -> Product:
-    product_instance = Product (
-        id = None,
-        supplier_code = '123456',
-        ean = '7891020304050',
-        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
-        sale_price = None        
-    )
-    batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = 'ABC123HI',
-        product_id = product_instance.id,
-        quantity = float(20.0),
-        cost_price = float(8.50),
-        expiration_date = object_date,
-        entry_date = object_today
-    )
-    product_instance.batch.append(batch_instance)
-    dipirona_instance = product_instance    
-    return dipirona_instance
-
-############################################################
-@pytest.fixture(scope = 'module')
-def dipirona_product_batch_quantity_diff(object_today, object_date) -> Product:
-    product_instance = Product (
-        id = None,
-        supplier_code = '12345',
-        ean = '7891020304050',
-        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
-        sale_price = None        
-    )
-    batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = 'ABC123HX',
-        product_id = product_instance.id,
-        quantity = float(30.0),
-        cost_price = float(8.50),
-        expiration_date = object_date,
-        entry_date = object_today
-    )
-    product_instance.batch.append(batch_instance)
-    dipirona_instance = product_instance    
-    return dipirona_instance
     
 ############################################################
 # --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
@@ -613,19 +568,7 @@ def expected_list_products(dipirona_product: Product, vitamina_product: Product,
     ]
     return list
 
-@pytest.fixture(scope = 'module')
-def expected_list_products_dip_diff(dipirona_product: Product) -> list[Product]:
-    list = [
-        dipirona_product_batch_quantity_diff
-    ]
-    return list
 
-@pytest.fixture(scope = 'module')
-def expected_list_products_dip_diff(dipirona_product_batch_quantity_diff: Product) -> list[Product]:
-    list = [
-        dipirona_product_batch_quantity_diff
-    ]
-    return list
 
 ############################################################
 # --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
@@ -750,3 +693,93 @@ def hash_list_test() -> list[str]:
         '7ad8dbe5dbed0dcda5e2fa713de5ddb5b6db23d8b7f4fc0ed2650b5b071107c7'  # HASH OF: letters
     ]
     return hash_list
+
+@pytest.fixture(scope = 'module')
+def product_A(object_date: date) -> Product:
+
+    product_A = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = 'TESTSAVEPRODUCTS123',
+        name = 'PRODUCT A',
+        sale_price = None
+    )
+
+    batch_A = Batch (
+        batch_id = None,
+        physical_batch_id = 'ABC123D',
+        product_id = 1,
+        quantity = 1,
+        cost_price = float(10.99),
+        expiration_date = object_date,
+        entry_date = date.today()
+    )
+
+    product_A.batch.append(batch_A)
+    return product_A
+
+@pytest.fixture(scope = 'module')
+def product_B(object_date: date) -> Product:
+
+    product_B = Product (
+        id = None,
+        supplier_code = '123456',
+        ean = 'TESTSAVEPRODUCTS123',
+        name = 'PRODUCT B',
+        sale_price = None
+    )
+
+    batch_B = Batch (
+        batch_id = None,
+        physical_batch_id = 'ABC123D',
+        product_id = 2,
+        quantity = 1,
+        cost_price = float(10.99),
+        expiration_date = object_date,
+        entry_date = date.today()
+    )
+
+    product_B.batch.append(batch_B)
+    return product_B
+
+@pytest.fixture(scope = 'module')
+def inicial_products_list(product_A: Product, product_B: Product) -> list[Product]:
+
+    list = [
+        product_A, product_B
+    ]
+
+    return list
+
+@pytest.fixture(scope = 'module')
+def product_A_copy_diff(object_date: date) -> Product:
+
+    product_A = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = 'TESTSAVEPRODUCTS123',
+        name = 'PRODUCT A COPY',
+        sale_price = None
+    )
+
+    batch_A = Batch (
+        batch_id = None,
+        physical_batch_id = 'ABC123E',
+        product_id = 3,
+        quantity = 2,
+        cost_price = float(11.99),
+        expiration_date = object_date,
+        entry_date = date.today()
+    )
+
+    product_A.batch.append(batch_A)
+    return product_A
+
+@pytest.fixture(scope = 'module')
+def upsert_product_list(product_A_copy_diff: Product) -> list[Product]:
+
+    list = [
+        product_A_copy_diff
+    ]
+
+    return list

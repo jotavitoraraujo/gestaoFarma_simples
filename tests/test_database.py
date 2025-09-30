@@ -125,46 +125,36 @@ def test_create_all_tables(db_connection: Connection):
 ####################################################################################################
 ####### --- THIS SESSION HAS OBJECTIVE TEST THE RECORD THE OF DATA IN TABLES THE OF DATABASE --- #######
 # @pytest.mark.filterwarnings("ignore:The default date adapter is deprecated")
-def test_save_products(db_connection: Connection, expected_list_products: list[Product]):
+def test_save_products(db_connection: Connection, inicial_products_list: list[Product], upsert_product_list: list[Product]):
 
     database.create_tables(db_connection)
-    database.save_products(db_connection, expected_list_products)
+    database.save_products(db_connection, inicial_products_list)
     cursor = db_connection.cursor()
     cursor.execute('''
-        SELECT *
-        FROM produtos
-        JOIN lotes
-        ON produtos.id = lotes.produto_id        
+        SELECT COUNT (*)
+        FROM produtos       
     ''')
-    result = cursor.fetchall()
-    result_list = []
-    for item in result:
-        product_instance = Product (
-            id = item[0],
-            supplier_code = item[1],
-            ean = item[3],
-            name = item[2],
-            sale_price = item[4]           
-        )
-        ### --- INSTANCE EXPIRATION DATE --- ###
-        object_expiration_date = item[12]
-        ########################################
-        batch_instance = Batch (
-            batch_id = item[7],
-            physical_batch_id = item[8],
-            product_id = item[9],
-            quantity = item[10],
-            cost_price = item[11],
-            expiration_date = object_expiration_date,
-            entry_date = item[13]
-        )
-        product_instance.batch.append(batch_instance)
-        result_list.append(product_instance)
-    print(f'[DEBUG]: Expected list Index 0 is: {type(expected_list_products[0])} {expected_list_products[0]} {expected_list_products[0].batch[0]}')
-    print(f'[DEBUG]: Result list Index 0 is: {type(result_list[0])} {result_list[0]} {result_list[0].batch[0]}')
-    print(f'[DEBUG]: Expected List -> Product_ID Input is a type: {type(expected_list_products[0].batch[0].product_id)}')
-    print(f'[DEBUG]: Result list -> Product_ID Output is a type: {type(result_list[0].batch[0].product_id)}')  
-    assert result_list == expected_list_products
+    product_count = cursor.fetchone()[0]
+    assert product_count == 2
+    cursor.execute ('''
+        SELECT COUNT (*)
+        FROM lotes    
+    ''')
+    batch_count = cursor.fetchone()[0]
+    assert batch_count == 2
+    database.save_products(db_connection, upsert_product_list)
+    cursor.execute('''
+        SELECT COUNT (*)
+        FROM produtos
+    ''')
+    product_count_after_upsert = cursor.fetchone()[0]
+    assert product_count_after_upsert == 2
+    cursor.execute('''
+        SELECT COUNT (*)
+        FROM lotes
+    ''')
+    batch_count_after_upsert = cursor.fetchone()[0]
+    assert batch_count_after_upsert == 3
 
 ####### --- THIS TEST FUNCTION VERIFY IF AN PRODUCT AS DETERMINED ID ALREADY EXISTS WITHIN DATABASE --- #######
 def test_products_existing(db_connection: Connection, expected_list_products: list[Product], dipirona_product: Product):

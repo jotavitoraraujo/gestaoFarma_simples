@@ -34,7 +34,7 @@ def extract_dets(root_element: ET.Element) -> list[ET.Element]:
 
 ###########
 def find_tags(det: ET.Element) -> dict:
-    'find and pull of this knot det all tags that will make use to Product instance and returns an dictionary'
+    'find and pull of this knot det, all tags that will make use to Product instance and returns an dictionary'
     
     if isinstance(det, ET.Element):
         

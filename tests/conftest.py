@@ -281,6 +281,51 @@ def dipirona_product(object_today, object_date) -> Product:
     product_instance.batch.append(batch_instance)
     dipirona_instance = product_instance    
     return dipirona_instance
+
+@pytest.fixture(scope = 'module')
+def dipirona_product_supplier_diff(object_today, object_date) -> Product:
+    product_instance = Product (
+        id = None,
+        supplier_code = '123456',
+        ean = '7891020304050',
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        sale_price = None        
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = 'ABC123HI',
+        product_id = product_instance.id,
+        quantity = float(20.0),
+        cost_price = float(8.50),
+        expiration_date = object_date,
+        entry_date = object_today
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
+
+############################################################
+@pytest.fixture(scope = 'module')
+def dipirona_product_batch_quantity_diff(object_today, object_date) -> Product:
+    product_instance = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = '7891020304050',
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        sale_price = None        
+    )
+    batch_instance = Batch (
+        batch_id = None,
+        physical_batch_id = 'ABC123HX',
+        product_id = product_instance.id,
+        quantity = float(30.0),
+        cost_price = float(8.50),
+        expiration_date = object_date,
+        entry_date = object_today
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
     
 ############################################################
 # --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
@@ -565,6 +610,20 @@ def algodao_product_manufacture_missing_tags() -> Product:
 def expected_list_products(dipirona_product: Product, vitamina_product: Product, algodao_product: Product) -> list[Product]:
     list = [
         dipirona_product, vitamina_product, algodao_product
+    ]
+    return list
+
+@pytest.fixture(scope = 'module')
+def expected_list_products_dip_diff(dipirona_product: Product) -> list[Product]:
+    list = [
+        dipirona_product_batch_quantity_diff
+    ]
+    return list
+
+@pytest.fixture(scope = 'module')
+def expected_list_products_dip_diff(dipirona_product_batch_quantity_diff: Product) -> list[Product]:
+    list = [
+        dipirona_product_batch_quantity_diff
     ]
     return list
 

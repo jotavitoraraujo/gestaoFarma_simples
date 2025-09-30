@@ -1,6 +1,6 @@
 ####### --- IMPORTS --- #######
 import pytest
-pytestmark = pytest.mark.skip(reason = 'PAUSE')
+#pytestmark = pytest.mark.skip(reason = 'PAUSE')
 from unittest.mock import patch
 from sqlite3 import Connection
 from system import database
@@ -141,22 +141,22 @@ def test_save_products(db_connection: Connection, expected_list_products: list[P
     for item in result:
         product_instance = Product (
             id = item[0],
-            supplier_code = None,
-            ean = item[2],
-            name = item[1],
-            sale_price = item[3]           
+            supplier_code = item[1],
+            ean = item[3],
+            name = item[2],
+            sale_price = item[4]           
         )
         ### --- INSTANCE EXPIRATION DATE --- ###
-        object_expiration_date = item[11]
+        object_expiration_date = item[12]
         ########################################
         batch_instance = Batch (
-            batch_id = item[6],
-            physical_batch_id = item[7],
-            product_id = item[8],
-            quantity = item[9],
-            cost_price = item[10],
+            batch_id = item[7],
+            physical_batch_id = item[8],
+            product_id = item[9],
+            quantity = item[10],
+            cost_price = item[11],
             expiration_date = object_expiration_date,
-            entry_date = item[12]
+            entry_date = item[13]
         )
         product_instance.batch.append(batch_instance)
         result_list.append(product_instance)

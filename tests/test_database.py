@@ -156,14 +156,6 @@ def test_save_products(db_connection: Connection, inicial_products_list: list[Pr
     batch_count_after_upsert = cursor.fetchone()[0]
     assert batch_count_after_upsert == 3
 
-####### --- THIS TEST FUNCTION VERIFY IF AN PRODUCT AS DETERMINED ID ALREADY EXISTS WITHIN DATABASE --- #######
-def test_products_existing(db_connection: Connection, expected_list_products: list[Product], dipirona_product: Product):
-    database.create_tables(db_connection)
-    database.save_products(db_connection, expected_list_products)
-    result = database.products_existing(db_connection, dipirona_product)
-
-    assert result == True
-
 ####### --- THIS TEST FUNCTION IS RESPONSABLE FOR THE SEARCH OF AN PRODUCT WITHIN DATABASE --- #######
 def test_search_product(db_connection: Connection, expected_list_products: list[Product], dipirona_product: Product):
     database.create_tables(db_connection)
@@ -301,28 +293,3 @@ def test_register_batch_alert(
         neglect = result[7]
     )
     assert real_alert == alert
-    
-    ################## --- USEFUL IN CASES OF THE DEBBUGING --- ####################
-    #print('\n')
-    #print('=' * 50)
-    #print('Type of Result:', type(result))
-    #print(f'0. Alert ID: {result[0]}  1. Order ID: {result[1]}  2. Product ID {result[2]}')
-    #print(f'3. Batch ID Correct: {result[3]}  4. Batch ID Sold: {result[4]}  5. User ID: {result[5]}')
-    #print(f'6. Timestamp: {result[6]}  7. Neglect: {result[7]}')
-    #print('=' * 50)
-
-    #for i in enumerate(result):
-    #    print(f'Result Number {i[0]}: {i[1]} ---- Type of Result: {type(i[1])}')
-
-    #print(
-    #f''' 
-    #0. {type(alert.alert_id)}
-    #1. {type(alert.order_id)} 
-    #2. {type(alert.product_id)} 
-    #3. {type(alert.batch_id_correct)}
-    #4. {type(alert.batch_id_sold)} 
-    #5. {type(alert.user_id)}
-    #6. {type(alert.today)}
-    #7. {type(alert.neglect)}
-    #'''
-    #)

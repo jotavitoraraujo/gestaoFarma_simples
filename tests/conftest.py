@@ -15,12 +15,14 @@ def date_adapter(object_date: date) -> str:
     adapter_format_str = object_date.strftime('%Y-%m-%d')
     return adapter_format_str
 
+##############
 def datetime_conversor(object_bytes: bytes) -> datetime:
     'inject a object_str in the datetime translator the of sql pattern to python object'
     convert_object_str = object_bytes.decode()
     adapter_format_date = datetime.strptime(convert_object_str, '%Y-%m-%d %HH:%MM:SS')
     return adapter_format_date
 
+##############
 def date_conversor(object_bytes: bytes) -> date:
     'inject a object_str in the date translator the of sql pattern to python object'
     convert_object_str = object_bytes.decode()
@@ -65,34 +67,39 @@ def functional_xml():
     with open(file_xml, encoding = 'UTF-8') as funcional_xml:
         return funcional_xml.read()
 
+##############
 @pytest.fixture(scope = 'module')
 def unstable_xml():
     path_object = Path (__file__).parent
     file_xml = path_object/'data_tests'/'unstable_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as unstable_xml:
         return unstable_xml.read()
-    
+
+##############
 @pytest.fixture(scope = 'module')
 def missing_tags_xml():
     path_object = Path (__file__).parent
     file_xml = path_object/'data_tests'/'missing_tags_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as missing_tags_xml:
         return missing_tags_xml.read()
-    
+
+##############
 @pytest.fixture(scope = 'module')
 def missing_dets_xml_data():
     path_object = Path (__file__).parent
     file_xml = path_object/'data_tests'/'missing_dets_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as missing_dets_xml_data:
         return missing_dets_xml_data.read()
-    
+
+##############
 @pytest.fixture(scope = 'module')
 def malformed_xml_data():
     path_object = Path (__file__).parent
     file_xml = path_object/'data_tests'/'malformed_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as malformed_xml_data:
         return malformed_xml_data.read()
-    
+
+############## 
 @pytest.fixture(scope = 'module')
 def broken_xml():
     path_object = Path (__file__).parent
@@ -106,6 +113,7 @@ def object_today() -> date:
     today = date.today()
     return today
 
+##############
 @pytest.fixture(scope = 'module')
 def object_date() -> date:
     object_date_future = date(2035, 8, 31)
@@ -211,17 +219,20 @@ def object_det_malformed() -> ET.Element:
     object_det = object_nfe.find('.//nfe:det', name_space)
     return object_det
 
+##############
 @pytest.fixture(scope = 'module')
 def root_element(functional_xml) -> ET.Element:
         root_element: ET.Element = ET.fromstring(functional_xml)
         return root_element
 
+##############
 @pytest.fixture(scope = 'module')
 def extracts_dets(root_element: ET.Element) -> list[ET.Element]:
         name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
         list_dets: list[ET.Element] = root_element.findall('.//nfe:det', name_space)
         return list_dets
 
+##############
 @pytest.fixture(scope = 'module')
 def dict_tags(object_det: ET.Element):
         
@@ -242,6 +253,7 @@ def dict_tags(object_det: ET.Element):
     
     return dict_tags
 
+##############
 @pytest.fixture(scope = 'module')
 def tuple_product(dict_tags):
 
@@ -256,7 +268,6 @@ def tuple_product(dict_tags):
     cost_price: float = float(dict_tags['vUnCom'].text)
     tuple_product: tuple = (supplier_code, ean, name, quantity, cost_price,)
     return tuple_product
-    
 
 ####################################################################
 ### PRODUCTs AND BATCHs INSTANCEs ###
@@ -270,7 +281,7 @@ def dipirona_product(object_today, object_date) -> Product:
         sale_price = None        
     )
     batch_instance = Batch (
-        batch_id = None,
+        batch_id = 1,
         physical_batch_id = 'ABC123HI',
         product_id = product_instance.id,
         quantity = float(20.0),
@@ -294,7 +305,7 @@ def dipirona_product_2(object_today, object_date_2) -> Product:
         sale_price = None        
     )
     batch_instance = Batch (
-        batch_id = 1,
+        batch_id = 2,
         physical_batch_id = 'ABC123HJ',
         product_id = product_instance.id,
         quantity = float(20.0),
@@ -305,6 +316,7 @@ def dipirona_product_2(object_today, object_date_2) -> Product:
     product_instance.batch.append(batch_instance)
     dipirona_instance = product_instance    
     return dipirona_instance
+
 ############################################################
 # --- EXCLUSIVE VARIANT FOR TESTING OF THE NEW FUNCTION MANUFACTURE PRODUCT --- #
 @pytest.fixture(scope = 'module')
@@ -559,6 +571,81 @@ def algodao_product_manufacture_missing_tags() -> Product:
     algodao_instance = product_instance
     return algodao_instance
 
+####### --- THIS FIXTURES WERE CREATED FOR NEW UPSERT LOGIC IN THE TEST_SAVE_PRODUCTS --- #######
+@pytest.fixture(scope = 'module')
+def product_A(object_date: date) -> Product:
+
+    product_A = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = 'TESTSAVEPRODUCTS123',
+        name = 'PRODUCT A',
+        sale_price = None
+    )
+
+    batch_A = Batch (
+        batch_id = None,
+        physical_batch_id = 'ABC123D',
+        product_id = 1,
+        quantity = 1,
+        cost_price = float(10.99),
+        expiration_date = object_date,
+        entry_date = date.today()
+    )
+
+    product_A.batch.append(batch_A)
+    return product_A
+
+#############
+@pytest.fixture(scope = 'module')
+def product_B(object_date: date) -> Product:
+
+    product_B = Product (
+        id = None,
+        supplier_code = '123456',
+        ean = 'TESTSAVEPRODUCTS123',
+        name = 'PRODUCT B',
+        sale_price = None
+    )
+
+    batch_B = Batch (
+        batch_id = None,
+        physical_batch_id = 'ABC123D',
+        product_id = 2,
+        quantity = 1,
+        cost_price = float(10.99),
+        expiration_date = object_date,
+        entry_date = date.today()
+    )
+
+    product_B.batch.append(batch_B)
+    return product_B
+
+#############
+@pytest.fixture(scope = 'module')
+def product_A_copy_diff(object_date: date) -> Product:
+
+    product_A = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = 'TESTSAVEPRODUCTS123',
+        name = 'PRODUCT A COPY',
+        sale_price = None
+    )
+
+    batch_A = Batch (
+        batch_id = None,
+        physical_batch_id = 'ABC123E',
+        product_id = 3,
+        quantity = 2,
+        cost_price = float(11.99),
+        expiration_date = object_date,
+        entry_date = date.today()
+    )
+
+    product_A.batch.append(batch_A)
+    return product_A
+
 #############################################################
 ### LIST OF INSTANCE PRODUCTS ####
 @pytest.fixture(scope = 'module')
@@ -567,8 +654,6 @@ def expected_list_products(dipirona_product: Product, vitamina_product: Product,
         dipirona_product, vitamina_product, algodao_product
     ]
     return list
-
-
 
 ############################################################
 # --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
@@ -602,6 +687,28 @@ def expected_list_products_manufacture_missing_tags(dipirona_product_manufacture
         dipirona_product_manufacture_missing_tags
     ]
     return list
+
+#############
+# --- EXCLUSIVE VARIANTS HAS BEEN CREATED FOR THE TEST OF THE FUNCTION SAVE_ PRODUCTS --- #
+@pytest.fixture(scope = 'module')
+def inicial_products_list(product_A: Product, product_B: Product) -> list[Product]:
+
+    list = [
+        product_A, product_B
+    ]
+
+    return list
+
+#############
+@pytest.fixture(scope = 'module')
+def upsert_product_list(product_A_copy_diff: Product) -> list[Product]:
+
+    list = [
+        product_A_copy_diff
+    ]
+
+    return list
+
 ############################################################
 ### INSTANCE USER ###
 @pytest.fixture(scope = 'module')
@@ -693,93 +800,3 @@ def hash_list_test() -> list[str]:
         '7ad8dbe5dbed0dcda5e2fa713de5ddb5b6db23d8b7f4fc0ed2650b5b071107c7'  # HASH OF: letters
     ]
     return hash_list
-
-@pytest.fixture(scope = 'module')
-def product_A(object_date: date) -> Product:
-
-    product_A = Product (
-        id = None,
-        supplier_code = '12345',
-        ean = 'TESTSAVEPRODUCTS123',
-        name = 'PRODUCT A',
-        sale_price = None
-    )
-
-    batch_A = Batch (
-        batch_id = None,
-        physical_batch_id = 'ABC123D',
-        product_id = 1,
-        quantity = 1,
-        cost_price = float(10.99),
-        expiration_date = object_date,
-        entry_date = date.today()
-    )
-
-    product_A.batch.append(batch_A)
-    return product_A
-
-@pytest.fixture(scope = 'module')
-def product_B(object_date: date) -> Product:
-
-    product_B = Product (
-        id = None,
-        supplier_code = '123456',
-        ean = 'TESTSAVEPRODUCTS123',
-        name = 'PRODUCT B',
-        sale_price = None
-    )
-
-    batch_B = Batch (
-        batch_id = None,
-        physical_batch_id = 'ABC123D',
-        product_id = 2,
-        quantity = 1,
-        cost_price = float(10.99),
-        expiration_date = object_date,
-        entry_date = date.today()
-    )
-
-    product_B.batch.append(batch_B)
-    return product_B
-
-@pytest.fixture(scope = 'module')
-def inicial_products_list(product_A: Product, product_B: Product) -> list[Product]:
-
-    list = [
-        product_A, product_B
-    ]
-
-    return list
-
-@pytest.fixture(scope = 'module')
-def product_A_copy_diff(object_date: date) -> Product:
-
-    product_A = Product (
-        id = None,
-        supplier_code = '12345',
-        ean = 'TESTSAVEPRODUCTS123',
-        name = 'PRODUCT A COPY',
-        sale_price = None
-    )
-
-    batch_A = Batch (
-        batch_id = None,
-        physical_batch_id = 'ABC123E',
-        product_id = 3,
-        quantity = 2,
-        cost_price = float(11.99),
-        expiration_date = object_date,
-        entry_date = date.today()
-    )
-
-    product_A.batch.append(batch_A)
-    return product_A
-
-@pytest.fixture(scope = 'module')
-def upsert_product_list(product_A_copy_diff: Product) -> list[Product]:
-
-    list = [
-        product_A_copy_diff
-    ]
-
-    return list

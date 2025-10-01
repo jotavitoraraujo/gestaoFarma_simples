@@ -65,8 +65,9 @@ def create_tables(connect_db: Connection):
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS produtos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            supplier_code TEXT,
             nome_produto TEXT NOT NULL,            
-            ean TEXT NOT NULL,
+            ean TEXT,
             preco_venda REAL,            
             estoque_minimo INTEGER,            
             curva_abc TEXT
@@ -134,71 +135,77 @@ def save_products(connect_db: Connection, list_products: list[Product]):
     'Salva uma lista de produtos no banco de dados | insere novos ou atualiza a quantidade e o preço de custo dos produtos existentes'
     'save an list of products in the database | insert an new or update of the quantity/cost-price of existing products'
     if not list_products:
-        return
-    
-    cursor = connect_db.cursor()    
-
+        return None
+    cursor = connect_db.cursor()
     for product in list_products: 
         cursor.execute('''
-            INSERT INTO produtos (id, ean, nome_produto, preco_venda)
-            VALUES (?, ?, ?, ?)
-            ON CONFLICT(id) DO UPDATE SET
-                ean = excluded.ean,
-                nome_produto = excluded.nome_produto,
-                preco_venda = excluded.preco_venda;
+            SELECT id
+            FROM produtos
+            WHERE supplier_code = ? 
             ''', 
             (
-                product.id,
-                product.ean,
-                product.name,
-                product.sale_price
-                
+                product.supplier_code,
             ))
-        
-        save_batch = product.batch[0]     
-
-        cursor.execute('''
-            INSERT INTO lotes (id_lote_fisico, produto_id, quantidade, preco_custo, data_validade, data_entrada)
-            VALUES (?, ?, ?, ?, ?, ?)            
+        response: tuple = cursor.fetchone()
+        if response is not None:
+            existed_id: int = response[0]
+            cursor.execute('''
+                INSERT INTO lotes (
+                id_lote_fisico,
+                produto_id,
+                quantidade,
+                preco_custo,
+                data_validade,
+                data_entrada
+                )
+                VALUES (?, ?, ?, ?, ?, ?)
             ''',
-            
-            
             (
-                save_batch.physical_batch_id,
-                save_batch.product_id,
-                save_batch.quantity,
-                save_batch.cost_price,
-                save_batch.expiration_date,
-                save_batch.entry_date
-            
+                product.batch[0].physical_batch_id,
+                existed_id,
+                product.batch[0].quantity,
+                product.batch[0].cost_price,
+                product.batch[0].expiration_date,
+                product.batch[0].entry_date,
             ))
-        
+        else:
+            cursor.execute('''
+                INSERT INTO produtos (
+                supplier_code, 
+                nome_produto, 
+                ean, 
+                preco_venda)
+                VALUES (?, ?, ?, ?)
+            ''',
+            (
+                product.supplier_code,
+                product.name,
+                product.ean,
+                product.sale_price,
+            ))
+            new_id_product: int = cursor.lastrowid
+            cursor.execute('''
+                INSERT INTO lotes (
+                id_lote_fisico, 
+                produto_id, 
+                quantidade, 
+                preco_custo,
+                data_validade,
+                data_entrada
+                )
 
-    connect_db.commit()
-    logging.info(f'\n [INFO] {len(list_products)} produtos foram salvos/atualizados no banco de dados.')
-
-def products_existing(connect_db: Connection, product: Product) -> bool:
-    'verify if an product with determined id already existing on the database'
-
-    connector = connect_db.cursor()
-
-    connector.execute ('''
-            SELECT COUNT(*) 
-            FROM produtos 
-            WHERE id = ?
-        ''',                
-        (
-            product.id,
-                          
-        ))              
+                VALUES (?, ?, ?, ?, ?, ?)
+            ''',
+            (
+                product.batch[0].physical_batch_id,
+                new_id_product,
+                product.batch[0].quantity,
+                product.batch[0].cost_price,
+                product.batch[0].expiration_date,
+                product.batch[0].entry_date,
+            ))
     
-    db_answer = connector.fetchone()
-    products_answer = db_answer[0]
-   
-    if products_answer > 0:
-        return True     
-    else:
-        return False
+    logging.info(f'\n [INFO] {len(list_products)} produtos foram salvos ou atualizados no banco de dados.')
 
 def search_product(connect_db: Connection, product: Product):
     'search for a product using an object -> Product'

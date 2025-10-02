@@ -11,7 +11,7 @@ from tests.conftest import Alert
 
 
 ####### --- TEST FUNCTIONS WHERE EACH FUNCTION CHECK IF DERTEMINED TABLE WAS CREATE WITHIN DATABASE.PY --- #######
-####### --- TEST FUNCTION ONE: TABLE -> PRODUCTS --- #######
+####### --- TEST FUNCTION ZERO: TABLE -> PRODUCTS --- #######
 def test_create_table_products(db_connection: Connection):
     
     expected_result = ('produtos',)
@@ -21,6 +21,20 @@ def test_create_table_products(db_connection: Connection):
         SELECT name
         FROM sqlite_schema
         WHERE type = 'table' AND name = 'produtos';
+    ''')
+    real_result = cursor.fetchone()
+    assert real_result == expected_result
+
+####### --- TEST FUNCTION ONE: TABLE -> OUTSTANDING PRODUCTS --- #######
+def test_create_table_outstanding_products(db_connection: Connection):
+    
+    expected_result = ('produtos_pendentes',)
+    database.create_tables(db_connection)
+    cursor = db_connection.cursor()   
+    cursor.execute('''
+        SELECT name
+        FROM sqlite_schema
+        WHERE type = 'table' AND name = 'produtos_pendentes';
     ''')
     real_result = cursor.fetchone()
     assert real_result == expected_result
@@ -101,6 +115,7 @@ def test_create_all_tables(db_connection: Connection):
     
     expected_result_list = [
         'produtos',
+        'produtos_pendentes',
         'lotes',
         'usuarios',
         'pedidos',

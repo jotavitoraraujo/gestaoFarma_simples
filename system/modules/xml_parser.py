@@ -138,8 +138,8 @@ def manager_import(
     try:        
         root_element: ET.Element = func_extractor_data(xml_content)
         list_dets: list[ET.Element] = func_extractor_det(root_element)
-        list_products_complets = []
-        list_products_ean_absent = []
+        list_products_complets: list = []
+        list_products_ean_absent: list[tuple] = []
 
         # THIS TWO INSTANCES OF THE LISTS HAVE A UNIQUE FINALLITY
         # STORE IN THE LIST_PRODUCTS_COMPLETS THE PRODUCTS INSTANTIATED CORRECTLY
@@ -159,7 +159,8 @@ def manager_import(
                     if final_product.ean is not None:
                         list_products_complets.append(final_product)
                     else:
-                        list_products_ean_absent.append(final_product)
+                        reason = 'EAN ausente na NF-e'
+                        list_products_ean_absent.append((final_product, reason,))
                 
                 except (MissingTagError, ConversionError) as error:
                     logging.warning(f'[ALERTA] O Item DET Nº: {nItem} da NF-e foi ignorado. Motivo: {error}')

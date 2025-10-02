@@ -71,9 +71,18 @@ def create_tables(connect_db: Connection):
             preco_venda REAL,            
             estoque_minimo INTEGER,            
             curva_abc TEXT
-            
         )
     ''')    
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS produtos_pendentes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            supplier_code TEXT,
+            nome_produto TEXT,
+            ean TEXT,
+            motivo_pendencia TEXT
+            preco_venda REAL
+        )
+    ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS lotes (
         id_lote INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -132,8 +141,8 @@ def create_tables(connect_db: Connection):
     connect_db.commit()
 
 def save_products(connect_db: Connection, list_products: list[Product]):
-    'Salva uma lista de produtos no banco de dados | insere novos ou atualiza a quantidade e o preço de custo dos produtos existentes'
-    'save an list of products in the database | insert an new or update of the quantity/cost-price of existing products'
+    'save an list of products in the database | insert a new or update it'
+    
     if not list_products:
         return None
     cursor = connect_db.cursor()

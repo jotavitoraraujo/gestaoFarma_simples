@@ -170,12 +170,12 @@ def save_products(connect_db: Connection, list_products: list[Product]):
                 VALUES (?, ?, ?, ?, ?, ?)
             ''',
             (
-                product.batch[0].physical_batch_id,
+                product.batch[0].physical_id,
                 existed_id,
                 product.batch[0].quantity,
-                product.batch[0].cost_price,
-                product.batch[0].expiration_date,
-                product.batch[0].entry_date,
+                product.batch[0].unit_cost_amount,
+                product.batch[0].use_by_date,
+                product.batch[0].received_date,
             ))
         else:
             cursor.execute('''
@@ -206,12 +206,12 @@ def save_products(connect_db: Connection, list_products: list[Product]):
                 VALUES (?, ?, ?, ?, ?, ?)
             ''',
             (
-                product.batch[0].physical_batch_id,
+                product.batch[0].physical_id,
                 new_id_product,
                 product.batch[0].quantity,
-                product.batch[0].cost_price,
-                product.batch[0].expiration_date,
-                product.batch[0].entry_date,
+                product.batch[0].unit_cost_amount,
+                product.batch[0].use_by_date,
+                product.batch[0].received_date,
             ))
     
     logging.info(f'\n [INFO] {len(list_products)} produtos foram salvos ou atualizados no banco de dados.')
@@ -320,8 +320,8 @@ def register_batch_alert(connect_db: Connection, order_id, product: Product, use
             order_id,
             product.id,
             user.user_id,
-            batch_sold.batch_id,
-            batch_correct.batch_id,
+            batch_sold.id,
+            batch_correct.id,
             today,
             neglect
         ))

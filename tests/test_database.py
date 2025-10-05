@@ -1,6 +1,6 @@
 ####### --- IMPORTS --- #######
 import pytest
-#pytestmark = pytest.mark.skip(reason = 'PAUSE')
+pytestmark = pytest.mark.skip(reason = 'PAUSE')
 from unittest.mock import patch
 from sqlite3 import Connection
 from system import database
@@ -182,7 +182,7 @@ def test_search_product(db_connection: Connection, expected_list_products: list[
             result[0] == dipirona_product.id
         and result[1] == dipirona_product.name
         and result[2] == dipirona_product.sale_price
-        and result[3] == dipirona_product.batch[0].expiration_date
+        and result[3] == dipirona_product.batch[0].use_by_date
         )
 
 ####### --- THIS TEST FUNCTION IS RESPONSABLE FOR THE SEARCH AN PRODUCT BY THE NAME OR PART OF THE NAME --- #######

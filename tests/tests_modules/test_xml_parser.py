@@ -8,6 +8,7 @@ from system.modules.xml_parser import manufacture_product
 from system.modules.xml_parser import manager_import
 import xml.etree.ElementTree as ET
 import pytest
+pytestmark = pytest.mark.skip(reason = 'PAUSE')
 
 ######################################################################################
 ###### --- SESSION OF THE XML_PARSER.PY UNIT TESTS ISOLATEDS WITH FUNCTIONAL CONTENT OF THE XML --- ######

@@ -53,13 +53,13 @@ def adicionar_item() -> SaleItem:
                 )
 
                 lote_avulso = Batch (
-                    batch_id = None,
-                    physical_batch_id = lote_fisico,
+                    id = None,
+                    physical_id = lote_fisico,
                     product_id = 'AVULSO',
                     quantity = 0,
-                    cost_price = 0,
-                    expiration_date = data_validade,
-                    entry_date = 'AVULSO'
+                    unit_cost_amount = 0,
+                    use_by_date = data_validade,
+                    received_date = 'AVULSO'
                 )
 
                 item_avulso = SaleItem (
@@ -136,13 +136,13 @@ def adicionar_item() -> SaleItem:
                 )
 
                 lote_selecionado = Batch (
-                    batch_id = id_lote_,
-                    physical_batch_id = id_lote_fisico,
+                    id = id_lote_,
+                    physical_id = id_lote_fisico,
                     product_id = produto_id_,
                     quantity = quantidade_,
-                    cost_price = preco_custo_,
-                    expiration_date = data_validade_,
-                    entry_date = data_entrada_
+                    unit_cost_amount = preco_custo_,
+                    use_by_date = data_validade_,
+                    received_date = data_entrada_
                 )
 
                 input_quantidade = validators.batch_quantity_validator()
@@ -162,7 +162,7 @@ def adicionar_item() -> SaleItem:
             ################################################################################################################################
 
             item_processado = _construir_item_selecionado(item_selecionado)
-            item_processado_lotef = item_processado.batch.physical_batch_id
+            item_processado_lotef = item_processado.batch.physical_id
 
             def _validar_lote_fisico(item_processado_lotef: str) -> bool:
 
@@ -194,7 +194,7 @@ def adicionar_item() -> SaleItem:
 
             # logica de registro de desvio de lote
             verificacao_fisica = _validar_lote_fisico(item_processado_lotef)           
-            desvio_lote_lista = lista_busca[0][5] != item_processado.batch.physical_batch_id
+            desvio_lote_lista = lista_busca[0][5] != item_processado.batch.physical_id
             desvio_lote_fisico = not verificacao_fisica           
             
             if desvio_lote_lista or desvio_lote_fisico:
@@ -213,13 +213,13 @@ def adicionar_item() -> SaleItem:
                 lote_vendido = item_processado.batch
                 
                 lote_correto = Batch (
-                    batch_id = lista_busca[0][4],
-                    physical_batch_id = lista_busca[0][5],
+                    id = lista_busca[0][4],
+                    physical_id = lista_busca[0][5],
                     product_id = lista_busca[0][6],
                     quantity = lista_busca[0][7],
-                    cost_price = lista_busca[0][8],
-                    expiration_date = lista_busca[0][9],
-                    entry_date = lista_busca[0][10]
+                    unit_cost_amount = lista_busca[0][8],
+                    use_by_date = lista_busca[0][9],
+                    received_date = lista_busca[0][10]
                 )                    
                 
                 database.register_batch_alert(id_pedido, id_produto, id_usuario, lote_vendido, lote_correto)

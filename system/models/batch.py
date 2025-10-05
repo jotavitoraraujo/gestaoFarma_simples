@@ -1,25 +1,50 @@
-import pytest
+### --- IMPORTS --- ###
+from system.models.fiscal import PurchaseTaxDetails
+from decimal import Decimal
+from datetime import date
+
+##########
+# --- CLASS BATCH SETUP --- #
 class Batch:
-    def __init__(self, batch_id, physical_batch_id, product_id, quantity, cost_price, expiration_date, entry_date):
-        self.batch_id = batch_id
-        self.physical_batch_id = physical_batch_id
+    def __init__(self, 
+        id: int, 
+        physical_id: str, 
+        product_id: int, 
+        quantity: Decimal, 
+        unit_cost_amount: Decimal, 
+        other_expenses_amount: Decimal,
+        use_by_date: date,
+        manufacturing_date: date, 
+        received_date: date,
+        taxation_details: PurchaseTaxDetails
+        ):
+        
+        self.id = id
+        self.physical_id = physical_id
         self.product_id = product_id
         self.quantity = quantity
-        self.cost_price = cost_price
-        self.expiration_date = expiration_date
-        self.entry_date = entry_date
+        self.unit_cost_amount = unit_cost_amount
+        self.other_expenses_amount = other_expenses_amount
+        self.use_by_date = use_by_date
+        self.manufacturing_date = manufacturing_date
+        self.received_date = received_date
+        self.taxation_details = taxation_details
 
     def __eq__(self, other: 'Batch') -> bool:
         'dunder method for comparassion the of Batch object'
 
         if isinstance(other, type(self)):
             return (
-            other.physical_batch_id == self.physical_batch_id
+            other.id == self.id
+            and other.physical_id == self.physical_id
             and other.product_id == self.product_id
-            and other.quantity == pytest.approx(self.quantity)
-            and other.cost_price == pytest.approx(self.cost_price)
-            and other.expiration_date == self.expiration_date
-            and other.entry_date == self.entry_date
+            and other.quantity == self.quantity
+            and other.unit_cost_amount == self.unit_cost_amount
+            and other.other_expenses_amount == self.other_expenses_amount
+            and other.use_by_date == self.use_by_date
+            and other.manufacturing_date == self.manufacturing_date
+            and other.received_date == self.received_date
+            and other.taxation_details == self.taxation_details
             )
     
     def __repr__(self):
@@ -27,11 +52,14 @@ class Batch:
 
         return f'''
         --- Batch Atributes ---
-        1. Batch ID: {self.batch_id}
-        2. Pyshical Batch ID: {self.physical_batch_id}
+        1. Batch ID: {self.id}
+        2. Pyshical Batch ID: {self.physical_id}
         3. Product ID: {self.product_id}
         4. Quantity: {self.quantity}
-        5. Cost price: {self.cost_price}
-        6. Expiration date: {self.expiration_date}
-        7. Entry date: {self.entry_date}
+        5. Cost price: {self.unit_cost_amount}
+        6. Cost extras: {self.other_expenses_amount}
+        7. Expiration date: {self.use_by_date}
+        8. Manufacturing: {self.manufacturing_date}
+        9. Entry date: {self.received_date}
+        {self.taxation_details}
     '''

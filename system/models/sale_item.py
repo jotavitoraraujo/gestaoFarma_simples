@@ -15,10 +15,10 @@ class SaleItem:
         'descreve o item'
         description = f'''
         1. Nome: {self.product.name}
-        2. Lote DB: {self.batch.batch_id}
-        3. Lote Fisico: {self.batch.physical_batch_id}
+        2. Lote DB: {self.batch.id}
+        3. Lote Fisico: {self.batch.physical_id}
         4. Qtd: {self.quantity_sold}
-        5. Data de Validade: {self.batch.expiration_date}
+        5. Data de Validade: {self.batch.use_by_date}
         6. Código de barras: {self.product.ean}
         '''
         return description
@@ -28,10 +28,10 @@ class SaleItem:
         
         return f'''
         1. Name: {self.product.name} 
-        2. Batch ID in Database: {self.batch.batch_id} 
-        3. Physical Batch: {self.batch.physical_batch_id}
+        2. Batch ID in Database: {self.batch.id} 
+        3. Physical Batch: {self.batch.physical_id}
         3. Quantity: {self.quantity_sold} 
-        4. Expiration Date: {self.batch.expiration_date} 
+        4. Expiration Date: {self.batch.use_by_date} 
         5. Barcode (EAN): {self.product.ean}
         '''
 
@@ -49,7 +49,7 @@ class SaleItem:
     def get_discounted_price(self, date_object: date) -> float: 
         'applies different discount levels based on the due date of the item'
         
-        expiration_date = self.batch.expiration_date
+        expiration_date = self.batch.use_by_date
         days_until_expiration: timedelta = (expiration_date - date_object)       
                 
         EIGHT_DAYS = timedelta(days = 8)
@@ -80,7 +80,7 @@ class SaleItem:
         
         # adds a conditional that checks if there is no prejudice
             
-        if final_price < self.batch.cost_price:
+        if final_price < self.batch.unit_cost_amount:
             price_to_return = self.product.sale_price
         else:
             price_to_return = final_price

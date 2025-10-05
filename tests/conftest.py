@@ -5,9 +5,12 @@ import sqlite3
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from datetime import date, datetime
+from decimal import Decimal
 from system.models.product import Product
+from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
 from system.models.batch import Batch
 from system.models.user import User
+
 
 #################### --- ADAPTERS AND CONVERSORS --- ####################
 def date_adapter(object_date: date) -> str:
@@ -270,7 +273,7 @@ def tuple_product(dict_tags):
     return tuple_product
 
 ####################################################################
-### PRODUCTs AND BATCHs INSTANCEs ###
+### PRODUCTs, FISCAL PROFILE, PURCHASE TAX DETAILS AND BATCH, INSTANCES ###
 @pytest.fixture(scope = 'module')
 def dipirona_product(object_today, object_date) -> Product:
     product_instance = Product (
@@ -281,13 +284,13 @@ def dipirona_product(object_today, object_date) -> Product:
         sale_price = None        
     )
     batch_instance = Batch (
-        batch_id = 1,
-        physical_batch_id = 'ABC123HI',
+        id = 1,
+        physical_id = 'ABC123HI',
         product_id = product_instance.id,
         quantity = float(20.0),
-        cost_price = float(8.50),
-        expiration_date = object_date,
-        entry_date = object_today
+        unit_cost_amount = float(8.50),
+        use_by_date = object_date,
+        received_date = object_today
     )
     product_instance.batch.append(batch_instance)
     dipirona_instance = product_instance    
@@ -305,13 +308,13 @@ def dipirona_product_2(object_today, object_date_2) -> Product:
         sale_price = None        
     )
     batch_instance = Batch (
-        batch_id = 2,
-        physical_batch_id = 'ABC123HJ',
+        id = 2,
+        physical_id = 'ABC123HJ',
         product_id = product_instance.id,
         quantity = float(20.0),
-        cost_price = float(8.50),
-        expiration_date = object_date_2,
-        entry_date = object_today
+        unit_cost_amount = float(8.50),
+        use_by_date = object_date_2,
+        received_date = object_today
     )
     product_instance.batch.append(batch_instance)
     dipirona_instance = product_instance    
@@ -329,13 +332,13 @@ def dipirona_product_manufacture() -> Product:
         sale_price = None        
     )
     batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = None,
+        id = None,
+        physical_id = None,
         product_id = product_instance.id,
         quantity = float(20.0),
-        cost_price = float(8.50),
-        expiration_date = None,
-        entry_date = date.today()
+        unit_cost_amount = float(8.50),
+        use_by_date = None,
+        received_date = date.today()
     )
     product_instance.batch.append(batch_instance)
     dipirona_instance = product_instance    
@@ -352,13 +355,13 @@ def dipirona_product_manufacture_unstable() -> Product:
         sale_price = None        
     )
     batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = None,
+        id = None,
+        physical_id = None,
         product_id = product_instance.id,
         quantity = float(20.0),
-        cost_price = float(8.50),
-        expiration_date = None,
-        entry_date = date.today()
+        unit_cost_amount = float(8.50),
+        use_by_date = None,
+        received_date = date.today()
     )
     product_instance.batch.append(batch_instance)
     dipirona_instance = product_instance    
@@ -375,13 +378,13 @@ def dipirona_product_manufacture_missing_tags() -> Product:
         sale_price = None        
     )
     batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = None,
+        id = None,
+        physical_id = None,
         product_id = product_instance.id,
         quantity = float(20.0),
-        cost_price = float(8.50),
-        expiration_date = None,
-        entry_date = date.today()
+        unit_cost_amount = float(8.50),
+        use_by_date = None,
+        received_date = date.today()
     )
     product_instance.batch.append(batch_instance)
     dipirona_instance = product_instance    
@@ -398,13 +401,13 @@ def vitamina_product(object_today, object_date) -> Product:
         sale_price = None
     )
     batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = 'ABC123DE',
+        id = None,
+        physical_id = 'ABC123DE',
         product_id = product_instance.id,
         quantity = float(15.0),
-        cost_price = float(12.75),
-        expiration_date = object_date,
-        entry_date = object_today
+        unit_cost_amount = float(12.75),
+        use_by_date = object_date,
+        received_date = object_today
     )
     product_instance.batch.append(batch_instance)
     vitamina_instance = product_instance
@@ -421,13 +424,13 @@ def vitamina_product_manufacture() -> Product:
         sale_price = None
     )
     batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = None,
+        id = None,
+        physical_id = None,
         product_id = product_instance.id,
         quantity = float(15.0),
-        cost_price = float(12.75),
-        expiration_date = None,
-        entry_date = date.today()
+        unit_cost_amount = float(12.75),
+        use_by_date = None,
+        received_date = date.today()
     )
     product_instance.batch.append(batch_instance)
     vitamina_instance = product_instance
@@ -444,13 +447,13 @@ def vitamina_product_manufacture_unstable() -> Product:
         sale_price = None
     )
     batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = None,
+        id = None,
+        physical_id = None,
         product_id = product_instance.id,
         quantity = float(15.0),
-        cost_price = float(12.75),
-        expiration_date = None,
-        entry_date = date.today()
+        unit_cost_amount = float(12.75),
+        use_by_date = None,
+        received_date = date.today()
     )
     product_instance.batch.append(batch_instance)
     vitamina_instance = product_instance
@@ -467,13 +470,13 @@ def vitamina_product_manufacture_missing_tags() -> Product:
         sale_price = None
     )
     batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = None,
+        id = None,
+        physical_id = None,
         product_id = product_instance.id,
         quantity = float(15.0),
-        cost_price = float(12.75),
-        expiration_date = None,
-        entry_date = date.today()
+        unit_cost_amount = float(12.75),
+        use_by_date = None,
+        received_date = date.today()
     )
     product_instance.batch.append(batch_instance)
     vitamina_instance = product_instance
@@ -490,13 +493,13 @@ def algodao_product(object_today, object_date) -> Product:
         sale_price = None
     )
     batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = 'ABC123FG',
+        id = None,
+        physical_id = 'ABC123FG',
         product_id = product_instance.id,
         quantity = float(30.0),
-        cost_price = float(3.20),
-        expiration_date = object_date,
-        entry_date = object_today
+        unit_cost_amount = float(3.20),
+        use_by_date = object_date,
+        received_date = object_today
     )
     product_instance.batch.append(batch_instance)
     algodao_instance = product_instance
@@ -513,13 +516,13 @@ def algodao_product_manufacture() -> Product:
         sale_price = None
     )
     batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = None,
+        id = None,
+        physical_id = None,
         product_id = product_instance.id,
         quantity = float(30.0),
-        cost_price = float(3.20),
-        expiration_date = None,
-        entry_date = date.today()
+        unit_cost_amount = float(3.20),
+        use_by_date = None,
+        received_date = date.today()
     )
     product_instance.batch.append(batch_instance)
     algodao_instance = product_instance
@@ -536,13 +539,13 @@ def algodao_product_manufacture_unstable() -> Product:
         sale_price = None
     )
     batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = None,
+        id = None,
+        physical_id = None,
         product_id = product_instance.id,
         quantity = float(30.0),
-        cost_price = float(3.20),
-        expiration_date = None,
-        entry_date = date.today()
+        unit_cost_amount = float(3.20),
+        use_by_date = None,
+        received_date = date.today()
     )
     product_instance.batch.append(batch_instance)
     algodao_instance = product_instance
@@ -559,13 +562,13 @@ def algodao_product_manufacture_missing_tags() -> Product:
         sale_price = None
     )
     batch_instance = Batch (
-        batch_id = None,
-        physical_batch_id = None,
+        id = None,
+        physical_id = None,
         product_id = product_instance.id,
         quantity = None,
-        cost_price = None,
-        expiration_date = None,
-        entry_date = date.today()
+        unit_cost_amount = None,
+        use_by_date = None,
+        received_date = date.today()
     )
     product_instance.batch.append(batch_instance)
     algodao_instance = product_instance
@@ -584,13 +587,13 @@ def product_A(object_date: date) -> Product:
     )
 
     batch_A = Batch (
-        batch_id = None,
-        physical_batch_id = 'ABC123D',
+        id = None,
+        physical_id = 'ABC123D',
         product_id = 1,
         quantity = 1,
-        cost_price = float(10.99),
-        expiration_date = object_date,
-        entry_date = date.today()
+        unit_cost_amount = float(10.99),
+        use_by_date = object_date,
+        received_date = date.today()
     )
 
     product_A.batch.append(batch_A)
@@ -609,13 +612,13 @@ def product_B(object_date: date) -> Product:
     )
 
     batch_B = Batch (
-        batch_id = None,
-        physical_batch_id = 'ABC123D',
+        id = None,
+        physical_id = 'ABC123D',
         product_id = 2,
         quantity = 1,
-        cost_price = float(10.99),
-        expiration_date = object_date,
-        entry_date = date.today()
+        unit_cost_amount = float(10.99),
+        use_by_date = object_date,
+        received_date = date.today()
     )
 
     product_B.batch.append(batch_B)
@@ -634,17 +637,43 @@ def product_A_copy_diff(object_date: date) -> Product:
     )
 
     batch_A = Batch (
-        batch_id = None,
-        physical_batch_id = 'ABC123E',
+        id = None,
+        physical_id = 'ABC123E',
         product_id = 3,
         quantity = 2,
-        cost_price = float(11.99),
-        expiration_date = object_date,
-        entry_date = date.today()
+        unit_cost_amount = float(11.99),
+        use_by_date = object_date,
+        received_date = date.today()
     )
 
     product_A.batch.append(batch_A)
     return product_A
+
+################
+# --- SESSION TO UNIQUE INSTANCES FROM FISCAL PROFILES AND PURCHASE TAX DETAILS
+@pytest.fixture(scope = 'module')
+def fiscal_profile() -> FiscalProfile:
+    fiscal_profile = FiscalProfile (
+        id = 1,
+        ncm = '1234',
+        cest = '1234',
+        origin_code = '1234' 
+    )
+    return fiscal_profile
+##############
+@pytest.fixture(scope = 'module')
+def purchase_tax_details() -> PurchaseTaxDetails:
+    purchase_tax_details = PurchaseTaxDetails (
+        id = 1,
+        cfop = '1234',
+        icms_cst = '1234',
+        icms_st_base_amount = Decimal('0.1'),
+        icms_st_percentage = Decimal('0.2'),
+        icms_st_retained_amount = Decimal('0.3'),
+        pis_cst = '1234',
+        cofins_cst = '1234'
+    )
+    return purchase_tax_details
 
 #############################################################
 ### LIST OF INSTANCE PRODUCTS ####
@@ -781,8 +810,8 @@ def alert(dipirona_product: Product, dipirona_product_2: Product, user_test: Use
         order_id = 1,
         user = user_test.user_id,
         product = int(dipirona_product_2.id),        
-        batch_id_sold = dipirona_product_2.batch[0].batch_id,
-        batch_id_correct = dipirona_product.batch[0].batch_id,
+        batch_id_sold = dipirona_product_2.batch[0].id,
+        batch_id_correct = dipirona_product.batch[0].id,
         today = object_datetime_str,
         neglect = 1
     )

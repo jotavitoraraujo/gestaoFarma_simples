@@ -235,13 +235,13 @@ def manufacture_product(product_data: tuple) -> Product:
             sale_price = None
         )
         new_batch = Batch (
-            batch_id = None,
-            physical_batch_id = None,
+            id = None,
+            physical_id = None,
             product_id = new_product.id,
             quantity = product_data[3],
-            cost_price = product_data[4],
-            expiration_date = None,
-            entry_date = date.today()
+            unit_cost_amount = product_data[4],
+            use_by_date = None,
+            received_date = date.today()
         )
 
         new_product.batch.append(new_batch)

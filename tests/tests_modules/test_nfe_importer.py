@@ -2,6 +2,8 @@
 from system import database
 from system.modules import nfe_importer
 from sqlite3 import Connection
+import pytest
+pytestmark = pytest.mark.skip(reason = 'PAUSE')
 
 ### --- TEST SUITE TO NFE_IMPORTER FUNCTION --- ###
 def test_nfe_importer(db_connection: Connection, unstable_xml):

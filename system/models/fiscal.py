@@ -90,9 +90,9 @@ class PurchaseTaxDetails:
         1. ID Purchase: {self.id}
         2. CFOP: {self.cfop}
         3. ICMS CST: {self.icms_cst}
-        4. ICMS Base Value: {self.icms_st_base_amount}
-        5. ICMS Percentage: {self.icms_st_percentage}
-        6. ICMS Value: {self.icms_st_retained_amount}
+        4. ICMS Base Value: {self.icms_st_base_amount:.2f}
+        5. ICMS Percentage: {self.icms_st_percentage:.2f}%
+        6. ICMS Value: {self.icms_st_retained_amount:.2f}
         7. PIS CST: {self.pis_cst}
         8. COFINS CST: {self.cofins_cst}
         '''

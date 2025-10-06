@@ -51,8 +51,8 @@ repr_string = f'''
         3. EAN: {product_test_A.ean}
         4. Name: {product_test_A.name}
         5. ANVISA Code: {product_test_A.anvisa_code}
-        6. Sale price: R${product_test_A.sale_price}
-        7. MAX Price Consumer: R${product_test_A.max_consumer_price}
+        6. Sale price: {product_test_A.sale_price}
+        7. MAX Price Consumer: {product_test_A.max_consumer_price:.2f}
         {product_test_A.fiscal_profile}
         '''
 repr_real = repr(product_test_A)

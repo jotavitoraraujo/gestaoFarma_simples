@@ -4,7 +4,7 @@ from system.models.batch import Batch
 from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
 from system.utils.exceptions import MissingTagError, ConversionError
 from datetime import date
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 import xml.etree.ElementTree as ET
 import logging
 #################################
@@ -13,7 +13,7 @@ class XMLParser:
     def __init__(self, xml_content: str):
         self.xml_content: str = xml_content
         self.list_complete_products: list = []
-        self.list_absent_ean_products: list[tuple] = []
+        self.list_quarantine_products: list[tuple] = []
         self.list_errors: list = []
 
     def _extract_xml_data(self) -> ET.Element:
@@ -49,30 +49,30 @@ class XMLParser:
             # -- EXTRACT TO PRODUCT ATTRIBUTES
             #############################################################################
             name_space: dict = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
-            supplier_code_xml: ET.Element = det.find('./nfe:cProd', name_space)           
-            ean_xml: ET.Element = det.find('./nfe:cEAN', name_space)
-            name_xml: ET.Element = det.find('./nfe:xProd', name_space)
-            anvisa_code_xml: ET.Element = det.find('./nfe:med/nfe:cProdANVISA', name_space)
-            max_consumer_price_xml: ET.Element = det.find('./nfe:med/nfe:vPMC', name_space)
+            supplier_code_xml: ET.Element = det.find('./nfe:prod/nfe:cProd', name_space)           
+            ean_xml: ET.Element = det.find('./nfe:prod/nfe:cEAN', name_space)
+            name_xml: ET.Element = det.find('./nfe:prod/nfe:xProd', name_space)
+            anvisa_code_xml: ET.Element = det.find('./nfe:prod/nfe:med/nfe:cProdANVISA', name_space)
+            max_consumer_price_xml: ET.Element = det.find('./nfe:prod/nfe:med/nfe:vPMC', name_space)
             #############################################################################
             # -- EXTRACT TO BATCH ATTRIBUTES
             #############################################################################
-            physical_id_xml: ET.Element = det.find('./nfe:rastro/nfe:nLote', name_space) 
-            quantity_xml: ET.Element = det.find('./nfe:qCom', name_space)  
-            unit_cost_amount_xml: ET.Element = det.find('./nfe:vUnCom', name_space)
-            other_expenses_amount_xml: ET.Element = det.find('./nfe:vOutro', name_space)
-            manufacturing_date_xml: ET.Element = det.find('./nfe:rastro/nfe:dFab', name_space)
-            use_by_date_xml: ET.Element = det.find('./nfe:rastro/nfe:dVal', name_space)
+            physical_id_xml: ET.Element = det.find('./nfe:prod/nfe:rastro/nfe:nLote', name_space) 
+            quantity_xml: ET.Element = det.find('./nfe:prod/nfe:qCom', name_space)  
+            unit_cost_amount_xml: ET.Element = det.find('./nfe:prod/nfe:vUnCom', name_space)
+            other_expenses_amount_xml: ET.Element = det.find('./nfe:prod/nfe:vOutro', name_space)
+            manufacturing_date_xml: ET.Element = det.find('./nfe:prod/nfe:rastro/nfe:dFab', name_space)
+            use_by_date_xml: ET.Element = det.find('./nfe:prod/nfe:rastro/nfe:dVal', name_space)
             #############################################################################
             # -- EXTRACT TO FISCAL PROFILE ATTRIBUTES
             #############################################################################
-            ncm_xml: ET.Element = det.find('./nfe:NCM', name_space)
-            cest_xml: ET.Element = det.find('./nfe:CEST', name_space)
+            ncm_xml: ET.Element = det.find('./nfe:prod/nfe:NCM', name_space)
+            cest_xml: ET.Element = det.find('./nfe:prod/nfe:CEST', name_space)
             origin_code_xml: ET.Element = det.find('./nfe:imposto/nfe:ICMS/nfe:ICMS60/nfe:orig', name_space)
             #############################################################################
             # -- EXTRACT TO PURCHASE TAX DETAILS ATTRIBUTES
             #############################################################################
-            cfop_xml: ET.Element = det.find('./nfe:CFOP', name_space)
+            cfop_xml: ET.Element = det.find('./nfe:prod/nfe:CFOP', name_space)
             icms_cst_xml: ET.Element = det.find('./nfe:imposto/nfe:ICMS/nfe:ICMS60/nfe:CST', name_space)
             icms_st_base_amount_xml: ET.Element = det.find('./nfe:imposto/nfe:ICMS/nfe:ICMS60/nfe:vBCSTRet', name_space)
             icms_st_percentage_xml: ET.Element = det.find('./nfe:imposto/nfe:ICMS/nfe:ICMS60/nfe:pST', name_space)
@@ -144,56 +144,28 @@ class XMLParser:
     ###########
     def _to_decimal(self, element: ET.Element) -> Decimal | None:
         if element is not None:
-            return Decimal(element.text)
+            try:
+                return Decimal(element.text)
+            except InvalidOperation:
+                raise ConversionError('[ERRO] Conversion Fail')
         else: return None
     ###########
     def _to_date(self, element: ET.Element) -> date | None:
         if element is not None:
-            return date.fromisoformat(element.text)
+            try:
+                return date.fromisoformat(element.text)
+            except:
+                raise (ValueError, TypeError)
         else: return None
     
     ######################################################
     def _convertion_tags(self, tags: dict) -> tuple:
         'convert the tags in objetcs type string/float and manage a lift as error inside of except'
-        
         try:
-            ###################################
-            # -- VALUES TO PURCHASE TAX DETAILS
-            ###################################
-            cfop = self._to_str(tags['CFOP'])
-            icms_cst = self._to_str(tags['CST_ICMS'])
-            icms_st_base_amount = self._to_decimal(tags['vBCSTRet'])
-            icms_st_percentage = self._to_decimal(tags['pST'])
-            icms_st_retained_amount = self._to_decimal(tags['vICMSSTRet'])
-            pis_cst = self._to_str(tags['CST_PIS'])
-            cofins_cst = self._to_str(tags['CST_COFINS'])
-            ###################################
-            # -- VALUES TO FISCAL PROFILE
-            ###################################
-            ncm = self._to_str(tags['NCM'])
-            cest = self._to_str(tags['CEST'])
-            origin_code = self._to_str(tags['orig'])
-            ###################################
-            # -- VALUES TO BATCH
-            ###################################
-            physical_id = self._to_str(tags['nLote'])
-            quantity = self._to_decimal(tags['qCom'])
-            unit_cost_amount = self._to_decimal(tags['vUnCom'])
-            other_expenses_amount = self._to_decimal(tags['vOutro'])
-            use_by_date = self._to_date(tags['dVal'])
-            manufacturing_date = self._to_date(tags['dFab'])
-            ###################################
-            # -- VALUES TO PRODUCT
-            ###################################
-            supplier_code = self._to_str(tags['cProd'])
-            ean = self._to_str(tags['cEAN'])
-            name = self._to_str(tags['xProd'])
-            anvisa_code = self._to_str(tags['cProdANVISA'])
-            max_consumer_price = self._to_decimal(tags['vPMC'])
-            ###################################
-
             clean_data = {
-                # Dados para PurchaseTaxDetails
+                ################################################
+                # -- VALUES TO PURCHASE TAX DETAILS
+                ################################################
                 'cfop': self._to_str(tags.get('CFOP')),
                 'icms_cst': self._to_str(tags.get('CST_ICMS')),
                 'icms_st_base_amount': self._to_decimal(tags.get('vBCSTRet')),
@@ -201,26 +173,30 @@ class XMLParser:
                 'icms_st_retained_amount': self._to_decimal(tags.get('vICMSSTRet')),
                 'pis_cst': self._to_str(tags.get('CST_PIS')),
                 'cofins_cst': self._to_str(tags.get('CST_COFINS')),
-                
-                # Dados para FiscalProfile
+                ################################################                
+                # -- VALUES TO FISCAL PROFILE
+                ################################################
                 'ncm': self._to_str(tags.get('NCM')),
                 'cest': self._to_str(tags.get('CEST')),
                 'origin_code': self._to_str(tags.get('orig')),
-
-                # Dados para Batch
+                ################################################
+                # -- VALUES TO BATCH
+                ################################################
                 'physical_id': self._to_str(tags.get('nLote')),
                 'quantity': self._to_decimal(tags.get('qCom')),
                 'unit_cost_amount': self._to_decimal(tags.get('vUnCom')),
                 'other_expenses_amount': self._to_decimal(tags.get('vOutro')),
                 'use_by_date': self._to_date(tags.get('dVal')),
                 'manufacturing_date': self._to_date(tags.get('dFab')),
-
-                # Dados para Product
+                ################################################
+                # -- VALUES TO PRODUCT
+                ################################################
                 'supplier_code': self._to_str(tags.get('cProd')),
                 'ean': self._to_str(tags.get('cEAN')),
                 'name': self._to_str(tags.get('xProd')),
                 'anvisa_code': self._to_str(tags.get('cProdANVISA')),
                 'max_consumer_price': self._to_decimal(tags.get('vPMC')),
+                ################################################
             }
             return clean_data
         except (ValueError) as conversion_error:
@@ -244,10 +220,10 @@ class XMLParser:
                 cofins_cst = clean_data['cofins_cst']
             )
             fiscal_profile = FiscalProfile(
-                id=None,
-                ncm=clean_data['ncm'],
-                cest=clean_data['cest'],
-                origin_code=clean_data['origin_code']
+                id = None,
+                ncm = clean_data['ncm'],
+                cest = clean_data['cest'],
+                origin_code = clean_data['origin_code']
             )
             new_batch = Batch(
                 id = None,
@@ -292,7 +268,7 @@ class XMLParser:
                         if final_product.ean is not None:
                             self.list_complete_products.append(final_product)
                         else:
-                            self.list_absent_ean_products.append(final_product)
+                            self.list_quarantine_products.append(final_product)
                     
                     except (MissingTagError, ConversionError) as error:
                         logging.warning(f'[ALERTA] O Item DET Nº: {nitem} da NF-e foi ignorado. Motivo: {error}')
@@ -315,9 +291,9 @@ class XMLParser:
         'returns tuple of products complete'
         return (self.list_complete_products)
     
-    def get_incomplete_products(self) -> tuple:
+    def get_quarantine_products(self) -> tuple:
         'returns tuple of products incomplete'
-        return (self.list_absent_ean_products)
+        return (self.list_quarantine_products)
 
     def get_errors(self) -> tuple:
         'returns a tuple with the erros generated within process'

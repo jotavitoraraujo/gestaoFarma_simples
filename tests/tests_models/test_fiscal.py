@@ -96,9 +96,9 @@ repr_string_2 = f'''
         1. ID Purchase: {purchase_tax_details_A.id}
         2. CFOP: {purchase_tax_details_A.cfop}
         3. ICMS CST: {purchase_tax_details_A.icms_cst}
-        4. ICMS Base Value: {purchase_tax_details_A.icms_st_base_amount}
-        5. ICMS Percentage: {purchase_tax_details_A.icms_st_percentage}
-        6. ICMS Value: {purchase_tax_details_A.icms_st_retained_amount}
+        4. ICMS Base Value: {purchase_tax_details_A.icms_st_base_amount:.2f}
+        5. ICMS Percentage: {purchase_tax_details_A.icms_st_percentage:.2f}%
+        6. ICMS Value: {purchase_tax_details_A.icms_st_retained_amount:.2f}
         7. PIS CST: {purchase_tax_details_A.pis_cst}
         8. COFINS CST: {purchase_tax_details_A.cofins_cst}
         '''

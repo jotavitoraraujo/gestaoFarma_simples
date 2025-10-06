@@ -56,7 +56,7 @@ class Product:
         3. EAN: {self.ean}
         4. Name: {self.name}
         5. ANVISA Code: {self.anvisa_code}
-        6. Sale price: R${self.sale_price}
-        7. MAX Price Consumer: R${self.max_consumer_price}
+        6. Sale price: {self.sale_price}
+        7. MAX Price Consumer: {self.max_consumer_price:.2f}
         {self.fiscal_profile}
         '''

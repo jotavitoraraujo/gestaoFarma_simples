@@ -64,6 +64,20 @@ def db_connection():
 
 #### --- PATH FILES FIXTURES --- ####
 @pytest.fixture(scope = 'module')
+def real_nfe_functional_xml():    
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'real_nfe_functional_data.xml'
+    with open(file_xml, encoding = 'UTF-8') as real_nfe_functional:
+        return real_nfe_functional.read()
+##############
+@pytest.fixture(scope = 'module')
+def functional_xml_real():    
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'functional_xml_data_real.xml'
+    with open(file_xml, encoding = 'UTF-8') as funcional_real_xml:
+        return funcional_real_xml.read()
+##############    
+@pytest.fixture(scope = 'module')
 def functional_xml():    
     path_object = Path (__file__).parent
     file_xml = path_object/'data_tests'/'functional_xml_data.xml'
@@ -77,6 +91,13 @@ def unstable_xml():
     file_xml = path_object/'data_tests'/'unstable_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as unstable_xml:
         return unstable_xml.read()
+    
+@pytest.fixture(scope = 'module')
+def unstable_xml_real():
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'unstable_xml_data_real.xml'
+    with open(file_xml, encoding = 'UTF-8') as unstable_xml:
+        return unstable_xml.read()
 
 ##############
 @pytest.fixture(scope = 'module')
@@ -85,12 +106,26 @@ def missing_tags_xml():
     file_xml = path_object/'data_tests'/'missing_tags_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as missing_tags_xml:
         return missing_tags_xml.read()
+##############
+@pytest.fixture(scope = 'module')
+def missing_tags_xml_real():
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'missing_tags_xml_data_real.xml'
+    with open(file_xml, encoding = 'UTF-8') as missing_tags_xml:
+        return missing_tags_xml.read()
 
 ##############
 @pytest.fixture(scope = 'module')
 def missing_dets_xml_data():
     path_object = Path (__file__).parent
     file_xml = path_object/'data_tests'/'missing_dets_xml_data.xml'
+    with open(file_xml, encoding = 'UTF-8') as missing_dets_xml_data:
+        return missing_dets_xml_data.read()
+##############
+@pytest.fixture(scope = 'module')
+def missing_dets_xml_real():
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'missing_dets_xml_data_real.xml'
     with open(file_xml, encoding = 'UTF-8') as missing_dets_xml_data:
         return missing_dets_xml_data.read()
 
@@ -102,6 +137,14 @@ def malformed_xml_data():
     with open(file_xml, encoding = 'UTF-8') as malformed_xml_data:
         return malformed_xml_data.read()
 
+##############
+@pytest.fixture(scope = 'module')
+def malformed_xml_real():
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'malformed_xml_data_real.xml'
+    with open(file_xml, encoding = 'UTF-8') as malformed_xml_data:
+        return malformed_xml_data.read()
+
 ############## 
 @pytest.fixture(scope = 'module')
 def broken_xml():
@@ -109,17 +152,30 @@ def broken_xml():
     file_xml = path_object/'data_tests'/'broken_xml_data.xml'
     with open(file_xml, encoding = 'UTF-8') as broken_xml:
         return broken_xml.read()
+##############
+@pytest.fixture(scope = 'module')
+def broken_xml_real():
+    path_object = Path (__file__).parent
+    file_xml = path_object/'data_tests'/'broken_xml_data_real.xml'
+    with open(file_xml, encoding = 'UTF-8') as broken_xml:
+        return broken_xml.read()
 
 ### --- DATE'S INSTANCES --- ###
 @pytest.fixture(scope = 'module')
-def object_today() -> date:
+def received_date() -> date:
     today = date.today()
     return today
 
 ##############
 @pytest.fixture(scope = 'module')
-def object_date() -> date:
+def manufacturing_date() -> date:
     object_date_future = date(2035, 8, 31)
+    return object_date_future
+
+##############
+@pytest.fixture(scope = 'module')
+def use_by_date() -> date:
+    object_date_future = date(2045, 8, 31)
     return object_date_future
 
 ############################################################
@@ -223,6 +279,7 @@ def object_det_malformed() -> ET.Element:
     return object_det
 ###############################################################################
 # --- SESSION TO UNIQUE INSTANCES FROM FISCAL PROFILES AND PURCHASE TAX DETAILS
+###############################################################################
 @pytest.fixture(scope = 'module')
 def sample_fiscal_profile() -> FiscalProfile:
     fiscal_profile = FiscalProfile (
@@ -232,25 +289,103 @@ def sample_fiscal_profile() -> FiscalProfile:
         origin_code = '1234' 
     )
     return fiscal_profile
-##############
+########################
 @pytest.fixture(scope = 'module')
 def sample_purchase_tax_details() -> PurchaseTaxDetails:
     purchase_tax_details = PurchaseTaxDetails (
         id = 1,
         cfop = '1234',
         icms_cst = '1234',
-        icms_st_base_amount = Decimal('0.1'),
-        icms_st_percentage = Decimal('0.2'),
-        icms_st_retained_amount = Decimal('0.3'),
+        icms_st_base_amount = Decimal('1.99'),
+        icms_st_percentage = Decimal('1.99'),
+        icms_st_retained_amount = Decimal('1.88'),
         pis_cst = '1234',
         cofins_cst = '1234'
+    )
+    return purchase_tax_details
+############################################################
+# -- THIS VARIANTS IS OF EXCLUSIVE USE NEW SUITE TEST FOR CLINDAMICINA FIXTURE
+############################################################
+@pytest.fixture(scope = 'module')
+def fiscal_profile_clindamicina() -> FiscalProfile:
+    fiscal_profile = FiscalProfile (
+        id = None,
+        ncm = '30049099',
+        cest = '1300300',
+        origin_code = '0' 
+    )
+    return fiscal_profile
+##########################
+@pytest.fixture(scope = 'module')
+def taxation_details_clindamicina() -> PurchaseTaxDetails:
+    purchase_tax_details = PurchaseTaxDetails (
+        id = None,
+        cfop = '5405',
+        icms_cst = '60',
+        icms_st_base_amount = Decimal('43.86'),
+        icms_st_percentage = Decimal('18.00'),
+        icms_st_retained_amount = Decimal('2.57'),
+        pis_cst = '04',
+        cofins_cst = '04'
+    )
+    return purchase_tax_details
+############################################################
+# -- THIS VARIANTS IS OF EXCLUSIVE USE NEW SUITE TEST FOR BROMAZEPAN FIXTURE
+############################################################
+@pytest.fixture(scope = 'module')
+def fiscal_profile_bromazepan() -> FiscalProfile:
+    fiscal_profile = FiscalProfile (
+        id = None,
+        ncm = '30049064',
+        cest = '1300200',
+        origin_code = '0' 
+    )
+    return fiscal_profile
+############################
+@pytest.fixture(scope = 'module')
+def taxation_details_bromazepan() -> PurchaseTaxDetails:
+    purchase_tax_details = PurchaseTaxDetails (
+        id = None,
+        cfop = '5405',
+        icms_cst = '60',
+        icms_st_base_amount = Decimal('22.35'),
+        icms_st_percentage = Decimal('12.00'),
+        icms_st_retained_amount = Decimal('0.75'),
+        pis_cst = '04',
+        cofins_cst = '04'
+    )
+    return purchase_tax_details
+############################################################
+# -- THIS VARIANTS IS OF EXCLUSIVE USE NEW SUITE TEST FOR CELECOXIBE FIXTURE
+############################################################
+@pytest.fixture(scope = 'module')
+def fiscal_profile_celecoxibe() -> FiscalProfile:
+    fiscal_profile = FiscalProfile (
+        id = None,
+        ncm = '30049079',
+        cest = '1300200',
+        origin_code = '0' 
+    )
+    return fiscal_profile
+############################
+@pytest.fixture(scope = 'module')
+def taxation_details_celecoxibe() -> PurchaseTaxDetails:
+    purchase_tax_details = PurchaseTaxDetails (
+        id = None,
+        cfop = '5405',
+        icms_cst = '60',
+        icms_st_base_amount = Decimal('23.49'),
+        icms_st_percentage = Decimal('12.00'),
+        icms_st_retained_amount = Decimal('0.78'),
+        pis_cst = '04',
+        cofins_cst = '04'
     )
     return purchase_tax_details
 ####################################################################
 ### PRODUCTs, FISCAL PROFILE, PURCHASE TAX DETAILS AND BATCH, INSTANCES ###
 @pytest.fixture(scope = 'module')
-def dipirona_product(object_today, 
-    object_date, 
+def dipirona_product(received_date, 
+    manufacturing_date, 
     object_date_2, 
     sample_fiscal_profile, 
     sample_purchase_tax_details
@@ -274,8 +409,8 @@ def dipirona_product(object_today,
         unit_cost_amount = Decimal('8.50'),
         other_expenses_amount = Decimal('1.50'),
         use_by_date = object_date_2,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
@@ -285,8 +420,8 @@ def dipirona_product(object_today,
 ############################################################
 # --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
 @pytest.fixture(scope = 'module')
-def dipirona_product_2(object_today, 
-    object_date, 
+def dipirona_product_2(received_date, 
+    manufacturing_date, 
     object_date_2, 
     sample_fiscal_profile, 
     sample_purchase_tax_details
@@ -310,8 +445,8 @@ def dipirona_product_2(object_today,
         unit_cost_amount = Decimal('8.50'),
         other_expenses_amount = Decimal('1.50'),
         use_by_date = object_date_2,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
@@ -321,8 +456,8 @@ def dipirona_product_2(object_today,
 ############################################################
 # --- EXCLUSIVE VARIANT FOR TESTING OF THE NEW FUNCTION MANUFACTURE PRODUCT --- #
 @pytest.fixture(scope = 'module')
-def dipirona_product(object_today, 
-    object_date, 
+def dipirona_product(received_date, 
+    manufacturing_date, 
     object_date_2, 
     sample_fiscal_profile, 
     sample_purchase_tax_details
@@ -346,52 +481,163 @@ def dipirona_product(object_today,
         unit_cost_amount = Decimal('8.50'),
         other_expenses_amount = Decimal('1.50'),
         use_by_date = object_date_2,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
     dipirona_instance = product_instance    
     return dipirona_instance
-
+############################################################
+# -- THIS VARIANT IS OF EXCLUSIVE USE NEW SUITE TEST FOR CLASS XML_PARSER
+############################################################
 @pytest.fixture(scope = 'module')
-def dipirona_product_manufacture(object_today, 
-    object_date, 
-    sample_fiscal_profile, 
-    sample_purchase_tax_details
+def clidamicina_teuto_farma(use_by_date, 
+    manufacturing_date,
+    received_date, 
+    fiscal_profile_clindamicina, 
+    taxation_details_clindamicina
     ) -> Product:
     
     product_instance = Product (
         id = None,
-        supplier_code = '12345',
-        ean = '7891020304050',
-        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
-        anvisa_code = '1234',
+        supplier_code = '0101465',
+        ean = '7896112196846',
+        name = 'Clindamin-c 300mg 16cps (clindamicina) / Teuto Farma / *(1,2)',
+        anvisa_code = '1037006270012',
         sale_price = None,
-        max_consumer_price = None,
-        fiscal_profile = sample_fiscal_profile
+        max_consumer_price = Decimal('93.47'),
+        fiscal_profile = fiscal_profile_clindamicina
     )
 
     batch_instance = Batch (
         id = None,
-        physical_id = None,
+        physical_id = '9684081',
         product_id = product_instance.id,
-        quantity = Decimal('20.0'),
-        unit_cost_amount = Decimal('8.50'),
-        other_expenses_amount = Decimal('1.50'),
-        use_by_date = None,
-        manufacturing_date = object_date,
-        received_date = object_today,
-        taxation_details = sample_purchase_tax_details
+        quantity = Decimal('2.0'),
+        unit_cost_amount = Decimal('14.59'),
+        other_expenses_amount = Decimal('2.95'),
+        use_by_date = use_by_date,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
+        taxation_details = taxation_details_clindamicina
     )
     product_instance.batch.append(batch_instance)
-    dipirona_instance = product_instance    
-    return dipirona_instance
-
-#############################################################
+    clidamin_instance = product_instance    
+    return clidamin_instance
+############################################################
+# -- THIS VARIANT IS OF EXCLUSIVE USE NEW SUITE TEST FOR CLASS XML_PARSER
+############################################################
 @pytest.fixture(scope = 'module')
-def dipirona_product_manufacture_unstable(object_today, 
-    object_date,  
+def bromazepan_teuto_gen(use_by_date, 
+    manufacturing_date,
+    received_date, 
+    fiscal_profile_bromazepan,
+    taxation_details_bromazepan
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = '0102122',
+        ean = '7896112113843',
+        name = 'Bromazepam 6mg 30cpr Gen / Teuto Gen. / *(1,2)',
+        anvisa_code = '1037004950067',
+        sale_price = None,
+        max_consumer_price = Decimal('30.84'),
+        fiscal_profile = fiscal_profile_bromazepan
+    )
+
+    batch_instance = Batch (
+        id = None,
+        physical_id = '1384218',
+        product_id = product_instance.id,
+        quantity = Decimal('4.0'),
+        unit_cost_amount = Decimal('3.99'),
+        other_expenses_amount = Decimal('0.96'),
+        use_by_date = use_by_date,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
+        taxation_details = taxation_details_bromazepan
+    )
+    product_instance.batch.append(batch_instance)
+    bromazepan_instance = product_instance    
+    return bromazepan_instance
+############################################################
+# -- THIS VARIANT IS OF EXCLUSIVE USE NEW SUITE TEST FOR CLASS XML_PARSER
+############################################################
+@pytest.fixture(scope = 'module')
+def celecoxibe_teuto_gen(use_by_date, 
+    manufacturing_date,
+    received_date, 
+    fiscal_profile_celecoxibe,
+    taxation_details_celecoxibe
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = '0102240',
+        ean = '7896112106470',
+        name = 'Celecoxibe 200mg 10cps Gen / Teuto Gen. / *(1,2)',
+        anvisa_code = '1037005980091',
+        sale_price = None,
+        max_consumer_price = Decimal('43.13'),
+        fiscal_profile = fiscal_profile_celecoxibe
+    )
+
+    batch_instance = Batch (
+        id = None,
+        physical_id = '46470014',
+        product_id = product_instance.id,
+        quantity = Decimal('3.0'),
+        unit_cost_amount = Decimal('5.59'),
+        other_expenses_amount = Decimal('1.00'),
+        use_by_date = use_by_date,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
+        taxation_details = taxation_details_celecoxibe
+    )
+    product_instance.batch.append(batch_instance)
+    bromazepan_instance = product_instance    
+    return bromazepan_instance
+
+@pytest.fixture(scope = 'module')
+def celecoxibe_teuto_gen_EAN_None(use_by_date, 
+    manufacturing_date,
+    received_date, 
+    fiscal_profile_celecoxibe,
+    taxation_details_celecoxibe
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = '0102240',
+        ean = None,
+        name = 'Celecoxibe 200mg 10cps Gen / Teuto Gen. / *(1,2)',
+        anvisa_code = '1037005980091',
+        sale_price = None,
+        max_consumer_price = Decimal('43.13'),
+        fiscal_profile = fiscal_profile_celecoxibe
+    )
+
+    batch_instance = Batch (
+        id = None,
+        physical_id = '46470014',
+        product_id = product_instance.id,
+        quantity = Decimal('3.0'),
+        unit_cost_amount = Decimal('5.59'),
+        other_expenses_amount = Decimal('1.00'),
+        use_by_date = use_by_date,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
+        taxation_details = taxation_details_celecoxibe
+    )
+    product_instance.batch.append(batch_instance)
+    bromazepan_instance = product_instance    
+    return bromazepan_instance
+############################################################
+@pytest.fixture(scope = 'module')
+def dipirona_product_manufacture(received_date, 
+    manufacturing_date,  
     sample_fiscal_profile, 
     sample_purchase_tax_details
     ) -> Product:
@@ -415,8 +661,8 @@ def dipirona_product_manufacture_unstable(object_today,
         unit_cost_amount = Decimal('8.50'),
         other_expenses_amount = Decimal('1.50'),
         use_by_date = None,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
@@ -425,8 +671,43 @@ def dipirona_product_manufacture_unstable(object_today,
 
 #############################################################
 @pytest.fixture(scope = 'module')
-def dipirona_product_manufacture_missing_tags(object_today, 
-    object_date, 
+def dipirona_product_manufacture_unstable(received_date, 
+    manufacturing_date,  
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = None,
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+
+    batch_instance = Batch (
+        id = None,
+        physical_id = None,
+        product_id = product_instance.id,
+        quantity = Decimal('20.0'),
+        unit_cost_amount = Decimal('8.50'),
+        other_expenses_amount = Decimal('1.50'),
+        use_by_date = None,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def dipirona_product_manufacture_missing_tags(received_date, 
+    manufacturing_date, 
     sample_fiscal_profile, 
     sample_purchase_tax_details
     ) -> Product:
@@ -450,8 +731,8 @@ def dipirona_product_manufacture_missing_tags(object_today,
         unit_cost_amount = Decimal('8.50'),
         other_expenses_amount = Decimal('1.50'),
         use_by_date = None,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
@@ -460,8 +741,8 @@ def dipirona_product_manufacture_missing_tags(object_today,
 
 #############################################################
 @pytest.fixture(scope = 'module')
-def vitamina_product(object_today, 
-    object_date, 
+def vitamina_product(received_date, 
+    manufacturing_date, 
     object_date_2, 
     sample_fiscal_profile, 
     sample_purchase_tax_details
@@ -485,8 +766,8 @@ def vitamina_product(object_today,
         unit_cost_amount = Decimal('12.75'),
         other_expenses_amount = Decimal('10.75'),
         use_by_date = object_date_2,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
@@ -495,8 +776,8 @@ def vitamina_product(object_today,
 
 #############################################################
 @pytest.fixture(scope = 'module')
-def vitamina_product_manufacture(object_today, 
-    object_date,  
+def vitamina_product_manufacture(received_date, 
+    manufacturing_date,  
     sample_fiscal_profile, 
     sample_purchase_tax_details
     ) -> Product:
@@ -519,8 +800,8 @@ def vitamina_product_manufacture(object_today,
         unit_cost_amount = Decimal('12.75'),
         other_expenses_amount = Decimal('10.75'),
         use_by_date = None,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
@@ -529,8 +810,8 @@ def vitamina_product_manufacture(object_today,
 
 #############################################################
 @pytest.fixture(scope = 'module')
-def vitamina_product_manufacture_unstable(object_today, 
-    object_date,  
+def vitamina_product_manufacture_unstable(received_date, 
+    manufacturing_date,  
     sample_fiscal_profile, 
     sample_purchase_tax_details
     ) -> Product:
@@ -553,8 +834,8 @@ def vitamina_product_manufacture_unstable(object_today,
         unit_cost_amount = Decimal('12.75'),
         other_expenses_amount = Decimal('10.75'),
         use_by_date = None,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
@@ -563,8 +844,8 @@ def vitamina_product_manufacture_unstable(object_today,
 
 #############################################################
 @pytest.fixture(scope = 'module')
-def vitamina_product_manufacture_missing_tags(object_today, 
-    object_date,  
+def vitamina_product_manufacture_missing_tags(received_date, 
+    manufacturing_date,  
     sample_fiscal_profile, 
     sample_purchase_tax_details
     ) -> Product:
@@ -587,8 +868,8 @@ def vitamina_product_manufacture_missing_tags(object_today,
         unit_cost_amount = Decimal('12.75'),
         other_expenses_amount = Decimal('10.75'),
         use_by_date = None,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
@@ -597,8 +878,8 @@ def vitamina_product_manufacture_missing_tags(object_today,
 
 #############################################################
 @pytest.fixture(scope = 'module')
-def algodao_product(object_today, 
-    object_date, 
+def algodao_product(received_date, 
+    manufacturing_date, 
     object_date_2, 
     sample_fiscal_profile, 
     sample_purchase_tax_details
@@ -622,8 +903,8 @@ def algodao_product(object_today,
         unit_cost_amount = Decimal('3.20'),
         other_expenses_amount = Decimal('1.20'),
         use_by_date = object_date_2,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
@@ -632,8 +913,8 @@ def algodao_product(object_today,
 
 #############################################################
 @pytest.fixture(scope = 'module')
-def algodao_product_manufacture(object_today, 
-    object_date,  
+def algodao_product_manufacture(received_date, 
+    manufacturing_date,  
     sample_fiscal_profile, 
     sample_purchase_tax_details
     ) -> Product:
@@ -656,8 +937,8 @@ def algodao_product_manufacture(object_today,
         unit_cost_amount = Decimal('3.20'),
         other_expenses_amount = Decimal('1.20'),
         use_by_date = None,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
@@ -666,8 +947,8 @@ def algodao_product_manufacture(object_today,
 
 #############################################################
 @pytest.fixture(scope = 'module')
-def algodao_product_manufacture_unstable(object_today, 
-    object_date,  
+def algodao_product_manufacture_unstable(received_date, 
+    manufacturing_date,  
     sample_fiscal_profile, 
     sample_purchase_tax_details
     ) -> Product:
@@ -690,8 +971,8 @@ def algodao_product_manufacture_unstable(object_today,
         unit_cost_amount = Decimal('3.20'),
         other_expenses_amount = Decimal('1.20'),
         use_by_date = None,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
@@ -700,8 +981,8 @@ def algodao_product_manufacture_unstable(object_today,
 
 #############################################################
 @pytest.fixture(scope = 'module')
-def algodao_product_manufacture_unstable(object_today, 
-    object_date,  
+def algodao_product_manufacture_unstable(received_date, 
+    manufacturing_date,  
     sample_fiscal_profile, 
     sample_purchase_tax_details
     ) -> Product:
@@ -724,8 +1005,8 @@ def algodao_product_manufacture_unstable(object_today,
         unit_cost_amount = Decimal('3.20'),
         other_expenses_amount = Decimal('1.20'),
         use_by_date = None,
-        manufacturing_date = object_date,
-        received_date = object_today,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
         taxation_details = sample_purchase_tax_details
     )
     product_instance.batch.append(batch_instance)
@@ -734,7 +1015,7 @@ def algodao_product_manufacture_unstable(object_today,
 
 ####### --- THIS FIXTURES WERE CREATED FOR NEW UPSERT LOGIC IN THE TEST_SAVE_PRODUCTS --- #######
 @pytest.fixture(scope = 'module')
-def product_A(object_date, 
+def product_A(manufacturing_date, 
     object_date_2, 
     sample_fiscal_profile, 
     sample_purchase_tax_details
@@ -759,7 +1040,7 @@ def product_A(object_date,
         unit_cost_amount = Decimal('10.99'),
         other_expenses_amount = Decimal('1.99'),
         use_by_date = object_date_2,
-        manufacturing_date = object_date,
+        manufacturing_date = manufacturing_date,
         received_date = date.today(),
         taxation_details = sample_purchase_tax_details
     )
@@ -769,7 +1050,7 @@ def product_A(object_date,
 
 #############
 @pytest.fixture(scope = 'module')
-def product_A(object_date, 
+def product_A(manufacturing_date, 
     object_date_2, 
     sample_fiscal_profile, 
     sample_purchase_tax_details
@@ -794,7 +1075,7 @@ def product_A(object_date,
         unit_cost_amount = Decimal('10.99'),
         other_expenses_amount = Decimal('1.99'),
         use_by_date = object_date_2,
-        manufacturing_date = object_date,
+        manufacturing_date = manufacturing_date,
         received_date = date.today(),
         taxation_details = sample_purchase_tax_details
     )
@@ -804,7 +1085,7 @@ def product_A(object_date,
 
 #############
 @pytest.fixture(scope = 'module')
-def product_A(object_date, 
+def product_A(manufacturing_date, 
     object_date_2, 
     sample_fiscal_profile, 
     sample_purchase_tax_details
@@ -829,7 +1110,7 @@ def product_A(object_date,
         unit_cost_amount = Decimal('10.99'),
         other_expenses_amount = Decimal('1.99'),
         use_by_date = object_date_2,
-        manufacturing_date = object_date,
+        manufacturing_date = manufacturing_date,
         received_date = date.today(),
         taxation_details = sample_purchase_tax_details
     )
@@ -844,6 +1125,33 @@ def product_A(object_date,
 def expected_list_products(dipirona_product: Product, vitamina_product: Product, algodao_product: Product) -> list[Product]:
     list = [
         dipirona_product, vitamina_product, algodao_product
+    ]
+    return list
+############################################################
+# --- EXCLUSIVE VARIANT FOR THE TEST XML PARSER
+############################################################
+@pytest.fixture(scope = 'module')
+def rich_products_list(clidamicina_teuto_farma: Product, bromazepan_teuto_gen: Product, celecoxibe_teuto_gen: Product) -> list[Product]:
+    list = [
+        clidamicina_teuto_farma,
+        bromazepan_teuto_gen,
+        celecoxibe_teuto_gen
+    ]
+    return list
+
+@pytest.fixture(scope = 'module')
+def rich_products_list_EAN_None(clidamicina_teuto_farma: Product, bromazepan_teuto_gen: Product, celecoxibe_teuto_gen_EAN_None: Product) -> list[Product]:
+    list = [
+        clidamicina_teuto_farma,
+        bromazepan_teuto_gen,
+        celecoxibe_teuto_gen_EAN_None
+    ]
+    return list
+
+@pytest.fixture(scope = 'module')
+def rich_products_list_only_one(clidamicina_teuto_farma: Product) -> list[Product]:
+    list = [
+        clidamicina_teuto_farma,
     ]
     return list
 

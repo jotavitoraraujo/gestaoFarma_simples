@@ -1,6 +1,7 @@
 ######## --- IMPORTS --- ########
 from system.models.product import Product
 from system.models.batch import Batch
+from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
 from system.utils.exceptions import MissingTagError, ConversionError
 from datetime import date
 from decimal import Decimal
@@ -44,20 +45,73 @@ class XMLParser:
         'find and pull of this knot det, all tags that will make use to Product instance and returns an dictionary'
         
         if isinstance(det, ET.Element):
-            
+            #############################################################################
+            # -- EXTRACT TO PRODUCT ATTRIBUTES
+            #############################################################################
             name_space: dict = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
-            supplier_code_xml: ET.Element = det.find('.//nfe:cProd', name_space)           
-            ean_xml: ET.Element = det.find('.//nfe:cEAN', name_space)
-            name_xml: ET.Element = det.find('.//nfe:xProd', name_space)
-            quantity_xml: ET.Element = det.find('.//nfe:qCom', name_space)    
-            cost_price_xml: ET.Element = det.find('.//nfe:vUnCom', name_space)
-        
+            supplier_code_xml: ET.Element = det.find('./nfe:cProd', name_space)           
+            ean_xml: ET.Element = det.find('./nfe:cEAN', name_space)
+            name_xml: ET.Element = det.find('./nfe:xProd', name_space)
+            anvisa_code_xml: ET.Element = det.find('./nfe:med/nfe:cProdANVISA', name_space)
+            max_consumer_price_xml: ET.Element = det.find('./nfe:med/nfe:vPMC', name_space)
+            #############################################################################
+            # -- EXTRACT TO BATCH ATTRIBUTES
+            #############################################################################
+            physical_id_xml: ET.Element = det.find('./nfe:rastro/nfe:nLote', name_space) 
+            quantity_xml: ET.Element = det.find('./nfe:qCom', name_space)  
+            unit_cost_amount_xml: ET.Element = det.find('./nfe:vUnCom', name_space)
+            other_expenses_amount_xml: ET.Element = det.find('./nfe:vOutro', name_space)
+            manufacturing_date_xml: ET.Element = det.find('./nfe:rastro/nfe:dFab', name_space)
+            use_by_date_xml: ET.Element = det.find('./nfe:rastro/nfe:dVal', name_space)
+            #############################################################################
+            # -- EXTRACT TO FISCAL PROFILE ATTRIBUTES
+            #############################################################################
+            ncm_xml: ET.Element = det.find('./nfe:NCM', name_space)
+            cest_xml: ET.Element = det.find('./nfe:CEST', name_space)
+            origin_code_xml: ET.Element = det.find('./nfe:imposto/nfe:ICMS/nfe:ICMS60/nfe:orig', name_space)
+            #############################################################################
+            # -- EXTRACT TO PURCHASE TAX DETAILS ATTRIBUTES
+            #############################################################################
+            cfop_xml: ET.Element = det.find('./nfe:CFOP', name_space)
+            icms_cst_xml: ET.Element = det.find('./nfe:imposto/nfe:ICMS/nfe:ICMS60/nfe:CST', name_space)
+            icms_st_base_amount_xml: ET.Element = det.find('./nfe:imposto/nfe:ICMS/nfe:ICMS60/nfe:vBCSTRet', name_space)
+            icms_st_percentage_xml: ET.Element = det.find('./nfe:imposto/nfe:ICMS/nfe:ICMS60/nfe:pST', name_space)
+            icms_st_retained_amount_xml: ET.Element = det.find('./nfe:imposto/nfe:ICMS/nfe:ICMS60/nfe:vICMSSTRet', name_space)
+            pis_cst_xml: ET.Element = det.find('./nfe:imposto/nfe:PIS/nfe:PISNT/nfe:CST', name_space)
+            cofins_cst_xml: ET.Element = det.find('./nfe:imposto/nfe:COFINS/nfe:COFINSNT/nfe:CST', name_space)
+            #############################################################################
+
             dict_tags: dict = {
+                ############################
+                # PRODUCT TAGS
                 'cProd': supplier_code_xml,
                 'cEAN': ean_xml,
-                'xProd': name_xml, 
+                'xProd': name_xml,
+                'cProdANVISA': anvisa_code_xml,
+                'vPMC': max_consumer_price_xml,
+                ############################
+                # BATCH TAGS
+                'nLote': physical_id_xml,
                 'qCom': quantity_xml, 
-                'vUnCom': cost_price_xml
+                'vUnCom': unit_cost_amount_xml,
+                'vOutro': other_expenses_amount_xml,
+                'dFab': manufacturing_date_xml,
+                'dVal': use_by_date_xml,
+                ############################
+                # FISCAL PROFILE TAGS
+                'NCM': ncm_xml,
+                'CEST': cest_xml,
+                'orig': origin_code_xml,
+                ############################
+                # PURCHASE TAX DETAILS TAGS
+                'CFOP': cfop_xml,
+                'CST_ICMS': icms_cst_xml,
+                'vBCSTRet': icms_st_base_amount_xml,
+                'pST': icms_st_percentage_xml,
+                'vICMSSTRet': icms_st_retained_amount_xml,
+                'CST_PIS': pis_cst_xml,
+                'CST_COFINS': cofins_cst_xml
+                ############################
             }
         return dict_tags
 
@@ -67,11 +121,11 @@ class XMLParser:
         verify if some tag from dict received of argument is equal a none and capture a nItem of the knot det to use within the except.
         this function or returns None or returns a raising the error MissingTagError.
         '''
-        
+
         if not isinstance(dict_tags, dict):
             raise ValueError
 
-        tags_mandatory: set = {'cProd', 'xProd', 'qCom', 'vUnCom'}
+        tags_mandatory: set = {'cProd', 'xProd', 'qCom', 'vUnCom', 'nLote', 'dVal', 'CFOP', 'NCM'}
         tags_missing: list = []
         for key_tag, element in dict_tags.items():
             if element is None and key_tag in tags_mandatory:
@@ -81,51 +135,145 @@ class XMLParser:
             det_nItem = det.attrib.get('nItem')
             raise MissingTagError('[ERRO] An mandatory tag is absent. Verify the content', tags_missing, det_nItem)
 
+    ######################################################
+    # -- METHODS TO CONVERT OBJECTS ELEMENT'S IN YOURS RESPECTIVE TYPES 
+    def _to_str(self, element: ET.Element) -> str | None:
+        if element is not None:
+            return element.text
+        else: return None
     ###########
+    def _to_decimal(self, element: ET.Element) -> Decimal | None:
+        if element is not None:
+            return Decimal(element.text)
+        else: return None
+    ###########
+    def _to_date(self, element: ET.Element) -> date | None:
+        if element is not None:
+            return date.fromisoformat(element.text)
+        else: return None
+    
+    ######################################################
     def _convertion_tags(self, tags: dict) -> tuple:
         'convert the tags in objetcs type string/float and manage a lift as error inside of except'
         
-        ean = None
         try:
-            supplier_code: str = tags['cProd'].text
-            
-            if tags['cEAN'] is not None:
-                ean = tags['cEAN'].text        
-            
-            name: str = tags['xProd'].text
-            quantity: Decimal = Decimal(tags['qCom'].text)
-            cost_price: Decimal = Decimal(tags['vUnCom'].text)
-            product_data: tuple = (supplier_code, ean, name, quantity, cost_price,)
-            return product_data
-        
+            ###################################
+            # -- VALUES TO PURCHASE TAX DETAILS
+            ###################################
+            cfop = self._to_str(tags['CFOP'])
+            icms_cst = self._to_str(tags['CST_ICMS'])
+            icms_st_base_amount = self._to_decimal(tags['vBCSTRet'])
+            icms_st_percentage = self._to_decimal(tags['pST'])
+            icms_st_retained_amount = self._to_decimal(tags['vICMSSTRet'])
+            pis_cst = self._to_str(tags['CST_PIS'])
+            cofins_cst = self._to_str(tags['CST_COFINS'])
+            ###################################
+            # -- VALUES TO FISCAL PROFILE
+            ###################################
+            ncm = self._to_str(tags['NCM'])
+            cest = self._to_str(tags['CEST'])
+            origin_code = self._to_str(tags['orig'])
+            ###################################
+            # -- VALUES TO BATCH
+            ###################################
+            physical_id = self._to_str(tags['nLote'])
+            quantity = self._to_decimal(tags['qCom'])
+            unit_cost_amount = self._to_decimal(tags['vUnCom'])
+            other_expenses_amount = self._to_decimal(tags['vOutro'])
+            use_by_date = self._to_date(tags['dVal'])
+            manufacturing_date = self._to_date(tags['dFab'])
+            ###################################
+            # -- VALUES TO PRODUCT
+            ###################################
+            supplier_code = self._to_str(tags['cProd'])
+            ean = self._to_str(tags['cEAN'])
+            name = self._to_str(tags['xProd'])
+            anvisa_code = self._to_str(tags['cProdANVISA'])
+            max_consumer_price = self._to_decimal(tags['vPMC'])
+            ###################################
+
+            clean_data = {
+                # Dados para PurchaseTaxDetails
+                'cfop': self._to_str(tags.get('CFOP')),
+                'icms_cst': self._to_str(tags.get('CST_ICMS')),
+                'icms_st_base_amount': self._to_decimal(tags.get('vBCSTRet')),
+                'icms_st_percentage': self._to_decimal(tags.get('pST')),
+                'icms_st_retained_amount': self._to_decimal(tags.get('vICMSSTRet')),
+                'pis_cst': self._to_str(tags.get('CST_PIS')),
+                'cofins_cst': self._to_str(tags.get('CST_COFINS')),
+                
+                # Dados para FiscalProfile
+                'ncm': self._to_str(tags.get('NCM')),
+                'cest': self._to_str(tags.get('CEST')),
+                'origin_code': self._to_str(tags.get('orig')),
+
+                # Dados para Batch
+                'physical_id': self._to_str(tags.get('nLote')),
+                'quantity': self._to_decimal(tags.get('qCom')),
+                'unit_cost_amount': self._to_decimal(tags.get('vUnCom')),
+                'other_expenses_amount': self._to_decimal(tags.get('vOutro')),
+                'use_by_date': self._to_date(tags.get('dVal')),
+                'manufacturing_date': self._to_date(tags.get('dFab')),
+
+                # Dados para Product
+                'supplier_code': self._to_str(tags.get('cProd')),
+                'ean': self._to_str(tags.get('cEAN')),
+                'name': self._to_str(tags.get('xProd')),
+                'anvisa_code': self._to_str(tags.get('cProdANVISA')),
+                'max_consumer_price': self._to_decimal(tags.get('vPMC')),
+            }
+            return clean_data
         except (ValueError) as conversion_error:
-            raise ConversionError('[ERRO] This conversion is fail. Verify of types of the values in your keys within dicionary', tags, ean) from conversion_error
+            raise ConversionError('[ERRO] This conversion is fail. Verify of types of the values in your keys within dicionary', tags) from conversion_error
 
     ###########
-    def _manufacture_product(self, product_data: tuple) -> Product:
-        'an simple function what instance a product'
+    def _manufacture_product(self, clean_data: dict) -> Product | None:
+        'a simple function which instanciate a product'
         
-        if len(product_data) == 5:
-            new_product = Product (
+        if not isinstance(clean_data, dict):
+            return None
+        else: 
+            purchase_tax_details = PurchaseTaxDetails(
                 id = None,
-                supplier_code = product_data[0],
-                ean = product_data[1],
-                name = product_data[2],
-                sale_price = None
+                cfop = clean_data['cfop'],
+                icms_cst = clean_data['icms_cst'],
+                icms_st_base_amount = clean_data['icms_st_base_amount'],
+                icms_st_percentage = clean_data['icms_st_percentage'],
+                icms_st_retained_amount = clean_data['icms_st_retained_amount'],
+                pis_cst = clean_data['pis_cst'],
+                cofins_cst = clean_data['cofins_cst']
             )
-            new_batch = Batch (
+            fiscal_profile = FiscalProfile(
+                id=None,
+                ncm=clean_data['ncm'],
+                cest=clean_data['cest'],
+                origin_code=clean_data['origin_code']
+            )
+            new_batch = Batch(
                 id = None,
-                physical_id = None,
-                product_id = new_product.id,
-                quantity = product_data[3],
-                unit_cost_amount = product_data[4],
-                use_by_date = None,
-                received_date = date.today()
+                physical_id = clean_data['physical_id'],
+                product_id = None,
+                quantity = clean_data['quantity'],
+                unit_cost_amount = clean_data['unit_cost_amount'],
+                other_expenses_amount = clean_data['other_expenses_amount'],
+                use_by_date = clean_data['use_by_date'],
+                manufacturing_date = clean_data['manufacturing_date'],
+                received_date = date.today(),
+                taxation_details = purchase_tax_details
             )
-
-            new_product.batch.append(new_batch)
-        return new_product
-
+            new_product = Product(
+                id = None,
+                supplier_code = clean_data['supplier_code'],
+                ean = clean_data['ean'],
+                name = clean_data['name'],
+                anvisa_code = clean_data['anvisa_code'],
+                sale_price = None,
+                max_consumer_price = clean_data['max_consumer_price'],
+                fiscal_profile = fiscal_profile
+            )
+            new_product.batch.insert(0, new_batch)
+            return new_product
+    
     ###########
     def process(self):
         'start the process of construction new products'

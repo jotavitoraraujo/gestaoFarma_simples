@@ -1,58 +1,17 @@
 ###### --- IMPORTS --- ######
-from system.modules.xml_parser import extract_xml_data
-from system.modules.xml_parser import extract_dets
-from system.modules.xml_parser import find_tags
-from system.modules.xml_parser import verify_integrity_tags
-from system.modules.xml_parser import convertion_tags
-from system.modules.xml_parser import manufacture_product
-from system.modules.xml_parser import manager_import
+from system.modules.xml_parser import XMLParser
 import xml.etree.ElementTree as ET
 import pytest
-pytestmark = pytest.mark.skip(reason = 'PAUSE')
 
-######################################################################################
-###### --- SESSION OF THE XML_PARSER.PY UNIT TESTS ISOLATEDS WITH FUNCTIONAL CONTENT OF THE XML --- ######
-def test_extract_xml_data(functional_xml):
-    result = extract_xml_data(functional_xml)
-    assert isinstance(result, ET.Element)
-
-######## --- EXTRACT LIST OF DETS FOR THE TEST --- ########
-def test_extract_dets(root_element):
-    result = extract_dets(root_element)
-    assert isinstance(result, list) and len(result) >= 1
-
-####### --- EXTRACT TAGS FROM A UNIQUE KNOT DET --- ########
-def test_find_tags(object_det):
-    result = find_tags(object_det)
-    assert isinstance(result, dict)
-
-####### --- VERIFY INTEGRITY OF THE TAGS --- #########
-def test_verify_integrity_tags(dict_tags, object_det):
-    result = verify_integrity_tags(dict_tags, object_det)
-    assert result is None
-
-###### --- CONVERT THE TAGS IN TYPES STRING AND FLOAT --- ########
-def test_convertion_tags(dict_tags):
-    result = convertion_tags(dict_tags)
-    assert isinstance(result, tuple)
-
-###### --- PRODUCTING A PRODUCT FROM THE FUNCTION MANUFACTURE OF PRODUCT --- #####
-def test_manufacture_product(tuple_product, dipirona_product_manufacture):
-    result = manufacture_product(tuple_product)
-    assert result == dipirona_product_manufacture
 
 ######################################################################################
 ##### --- TESTING FINAL PART OF DATA FLOW TO PARSING A XML, THE MANAGER. WITHIN SCOPE HAPPY PATH --- #####
 def test_manager_import(functional_xml, expected_list_products_manufacture):
     'the result it must be an list of products, where each product be perfectly instantiated'
-    result = manager_import(functional_xml, 
-        extract_xml_data,
-        extract_dets,
-        find_tags,
-        verify_integrity_tags,
-        convertion_tags,
-        manufacture_product
-        )
+
+    parser = XMLParser(functional_xml)
+    parser.process()
+    result = parser.get_complete_products()
     
     if isinstance(result, list) and len(result) == 3:
         assert result == expected_list_products_manufacture

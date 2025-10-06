@@ -221,438 +221,10 @@ def object_det_malformed() -> ET.Element:
     name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
     object_det = object_nfe.find('.//nfe:det', name_space)
     return object_det
-
-##############
-@pytest.fixture(scope = 'module')
-def root_element(functional_xml) -> ET.Element:
-        root_element: ET.Element = ET.fromstring(functional_xml)
-        return root_element
-
-##############
-@pytest.fixture(scope = 'module')
-def extracts_dets(root_element: ET.Element) -> list[ET.Element]:
-        name_space = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
-        list_dets: list[ET.Element] = root_element.findall('.//nfe:det', name_space)
-        return list_dets
-
-##############
-@pytest.fixture(scope = 'module')
-def dict_tags(object_det: ET.Element):
-        
-    name_space: dict = {'nfe': 'http://www.portalfiscal.inf.br/nfe'}
-    supplier_code_xml: ET.Element = object_det.find('.//nfe:cProd', name_space)           
-    ean_xml: ET.Element = object_det.find('.//nfe:cEAN', name_space)
-    name_xml: ET.Element = object_det.find('.//nfe:xProd', name_space)
-    quantity_xml: ET.Element = object_det.find('.//nfe:qCom', name_space)    
-    cost_price_xml: ET.Element = object_det.find('.//nfe:vUnCom', name_space)
-    
-    dict_tags: dict = {
-        'cProd': supplier_code_xml,
-        'cEAN': ean_xml,
-        'xProd': name_xml, 
-        'qCom': quantity_xml, 
-        'vUnCom': cost_price_xml
-    }
-    
-    return dict_tags
-
-##############
-@pytest.fixture(scope = 'module')
-def tuple_product(dict_tags):
-
-    ean = None
-    supplier_code: str = dict_tags['cProd'].text
-    
-    if dict_tags['cEAN'] is not None:
-        ean = dict_tags['cEAN'].text        
-    
-    name: str = dict_tags['xProd'].text
-    quantity: float = float(dict_tags['qCom'].text)
-    cost_price: float = float(dict_tags['vUnCom'].text)
-    tuple_product: tuple = (supplier_code, ean, name, quantity, cost_price,)
-    return tuple_product
-
-####################################################################
-### PRODUCTs, FISCAL PROFILE, PURCHASE TAX DETAILS AND BATCH, INSTANCES ###
-@pytest.fixture(scope = 'module')
-def dipirona_product(object_today, object_date) -> Product:
-    product_instance = Product (
-        id = None,
-        supplier_code = '12345',
-        ean = '7891020304050',
-        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
-        sale_price = None        
-    )
-    batch_instance = Batch (
-        id = 1,
-        physical_id = 'ABC123HI',
-        product_id = product_instance.id,
-        quantity = float(20.0),
-        unit_cost_amount = float(8.50),
-        use_by_date = object_date,
-        received_date = object_today
-    )
-    product_instance.batch.append(batch_instance)
-    dipirona_instance = product_instance    
-    return dipirona_instance
-    
-############################################################
-# --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
-@pytest.fixture(scope = 'module')
-def dipirona_product_2(object_today, object_date_2) -> Product:
-    product_instance = Product (
-        id = 2,
-        supplier_code = '12345',
-        ean = '7891020304051',
-        name = 'DIPIRONA 500MG COM 11 COMPRIMIDOS',
-        sale_price = None        
-    )
-    batch_instance = Batch (
-        id = 2,
-        physical_id = 'ABC123HJ',
-        product_id = product_instance.id,
-        quantity = float(20.0),
-        unit_cost_amount = float(8.50),
-        use_by_date = object_date_2,
-        received_date = object_today
-    )
-    product_instance.batch.append(batch_instance)
-    dipirona_instance = product_instance    
-    return dipirona_instance
-
-############################################################
-# --- EXCLUSIVE VARIANT FOR TESTING OF THE NEW FUNCTION MANUFACTURE PRODUCT --- #
-@pytest.fixture(scope = 'module')
-def dipirona_product_manufacture() -> Product:
-    product_instance = Product (
-        id = None,
-        supplier_code = '12345',
-        ean = '7891020304050',
-        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
-        sale_price = None        
-    )
-    batch_instance = Batch (
-        id = None,
-        physical_id = None,
-        product_id = product_instance.id,
-        quantity = float(20.0),
-        unit_cost_amount = float(8.50),
-        use_by_date = None,
-        received_date = date.today()
-    )
-    product_instance.batch.append(batch_instance)
-    dipirona_instance = product_instance    
-    return dipirona_instance
-
-#############################################################
-@pytest.fixture(scope = 'module')
-def dipirona_product_manufacture_unstable() -> Product:
-    product_instance = Product (
-        id = None,
-        supplier_code = '12345',
-        ean = None,
-        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
-        sale_price = None        
-    )
-    batch_instance = Batch (
-        id = None,
-        physical_id = None,
-        product_id = product_instance.id,
-        quantity = float(20.0),
-        unit_cost_amount = float(8.50),
-        use_by_date = None,
-        received_date = date.today()
-    )
-    product_instance.batch.append(batch_instance)
-    dipirona_instance = product_instance    
-    return dipirona_instance
-
-#############################################################
-@pytest.fixture(scope = 'module')
-def dipirona_product_manufacture_missing_tags() -> Product:
-    product_instance = Product (
-        id = None,
-        supplier_code = '12345',
-        ean = '7891020304050',
-        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
-        sale_price = None        
-    )
-    batch_instance = Batch (
-        id = None,
-        physical_id = None,
-        product_id = product_instance.id,
-        quantity = float(20.0),
-        unit_cost_amount = float(8.50),
-        use_by_date = None,
-        received_date = date.today()
-    )
-    product_instance.batch.append(batch_instance)
-    dipirona_instance = product_instance    
-    return dipirona_instance
-
-#############################################################
-@pytest.fixture(scope = 'module')
-def vitamina_product(object_today, object_date) -> Product:
-    product_instance = Product (
-        id = 2,
-        supplier_code = '67890',
-        ean = '7895040302010',
-        name = 'VITAMINA C EFERVESCENTE',
-        sale_price = None
-    )
-    batch_instance = Batch (
-        id = None,
-        physical_id = 'ABC123DE',
-        product_id = product_instance.id,
-        quantity = float(15.0),
-        unit_cost_amount = float(12.75),
-        use_by_date = object_date,
-        received_date = object_today
-    )
-    product_instance.batch.append(batch_instance)
-    vitamina_instance = product_instance
-    return vitamina_instance
-
-#############################################################
-@pytest.fixture(scope = 'module')
-def vitamina_product_manufacture() -> Product:
-    product_instance = Product (
-        id = None,
-        supplier_code = '67890',
-        ean = '7895040302010',
-        name = 'VITAMINA C EFERVESCENTE',
-        sale_price = None
-    )
-    batch_instance = Batch (
-        id = None,
-        physical_id = None,
-        product_id = product_instance.id,
-        quantity = float(15.0),
-        unit_cost_amount = float(12.75),
-        use_by_date = None,
-        received_date = date.today()
-    )
-    product_instance.batch.append(batch_instance)
-    vitamina_instance = product_instance
-    return vitamina_instance
-
-#############################################################
-@pytest.fixture(scope = 'module')
-def vitamina_product_manufacture_unstable() -> Product:
-    product_instance = Product (
-        id = None,
-        supplier_code = '67890',
-        ean = '7895040302010',
-        name = 'VITAMINA C EFERVESCENTE',
-        sale_price = None
-    )
-    batch_instance = Batch (
-        id = None,
-        physical_id = None,
-        product_id = product_instance.id,
-        quantity = float(15.0),
-        unit_cost_amount = float(12.75),
-        use_by_date = None,
-        received_date = date.today()
-    )
-    product_instance.batch.append(batch_instance)
-    vitamina_instance = product_instance
-    return vitamina_instance
-
-#############################################################
-@pytest.fixture(scope = 'module')
-def vitamina_product_manufacture_missing_tags() -> Product:
-    product_instance = Product (
-        id = None,
-        supplier_code = '67890',
-        ean = '7895040302010',
-        name = None,
-        sale_price = None
-    )
-    batch_instance = Batch (
-        id = None,
-        physical_id = None,
-        product_id = product_instance.id,
-        quantity = float(15.0),
-        unit_cost_amount = float(12.75),
-        use_by_date = None,
-        received_date = date.today()
-    )
-    product_instance.batch.append(batch_instance)
-    vitamina_instance = product_instance
-    return vitamina_instance
-
-#############################################################
-@pytest.fixture(scope = 'module')
-def algodao_product(object_today, object_date) -> Product:
-    product_instance = Product (
-        id = 3,
-        supplier_code = '101112',
-        ean = '7895040302015',
-        name = 'ALGODÃO HIDRÓFILO 50G',
-        sale_price = None
-    )
-    batch_instance = Batch (
-        id = None,
-        physical_id = 'ABC123FG',
-        product_id = product_instance.id,
-        quantity = float(30.0),
-        unit_cost_amount = float(3.20),
-        use_by_date = object_date,
-        received_date = object_today
-    )
-    product_instance.batch.append(batch_instance)
-    algodao_instance = product_instance
-    return algodao_instance
-
-#############################################################
-@pytest.fixture(scope = 'module')
-def algodao_product_manufacture() -> Product:
-    product_instance = Product (
-        id = None,
-        supplier_code = '101112',
-        ean = '7895040302015',
-        name = 'ALGODÃO HIDRÓFILO 50G',
-        sale_price = None
-    )
-    batch_instance = Batch (
-        id = None,
-        physical_id = None,
-        product_id = product_instance.id,
-        quantity = float(30.0),
-        unit_cost_amount = float(3.20),
-        use_by_date = None,
-        received_date = date.today()
-    )
-    product_instance.batch.append(batch_instance)
-    algodao_instance = product_instance
-    return algodao_instance
-
-#############################################################
-@pytest.fixture(scope = 'module')
-def algodao_product_manufacture_unstable() -> Product:
-    product_instance = Product (
-        id = None,
-        supplier_code = '101112',
-        ean = None,
-        name = 'ALGODÃO HIDRÓFILO 50G',
-        sale_price = None
-    )
-    batch_instance = Batch (
-        id = None,
-        physical_id = None,
-        product_id = product_instance.id,
-        quantity = float(30.0),
-        unit_cost_amount = float(3.20),
-        use_by_date = None,
-        received_date = date.today()
-    )
-    product_instance.batch.append(batch_instance)
-    algodao_instance = product_instance
-    return algodao_instance
-
-#############################################################
-@pytest.fixture(scope = 'module')
-def algodao_product_manufacture_missing_tags() -> Product:
-    product_instance = Product (
-        id = None,
-        supplier_code = None,
-        ean = None,
-        name = 'ALGODÃO HIDRÓFILO 50G',
-        sale_price = None
-    )
-    batch_instance = Batch (
-        id = None,
-        physical_id = None,
-        product_id = product_instance.id,
-        quantity = None,
-        unit_cost_amount = None,
-        use_by_date = None,
-        received_date = date.today()
-    )
-    product_instance.batch.append(batch_instance)
-    algodao_instance = product_instance
-    return algodao_instance
-
-####### --- THIS FIXTURES WERE CREATED FOR NEW UPSERT LOGIC IN THE TEST_SAVE_PRODUCTS --- #######
-@pytest.fixture(scope = 'module')
-def product_A(object_date: date) -> Product:
-
-    product_A = Product (
-        id = None,
-        supplier_code = '12345',
-        ean = 'TESTSAVEPRODUCTS123',
-        name = 'PRODUCT A',
-        sale_price = None
-    )
-
-    batch_A = Batch (
-        id = None,
-        physical_id = 'ABC123D',
-        product_id = 1,
-        quantity = 1,
-        unit_cost_amount = float(10.99),
-        use_by_date = object_date,
-        received_date = date.today()
-    )
-
-    product_A.batch.append(batch_A)
-    return product_A
-
-#############
-@pytest.fixture(scope = 'module')
-def product_B(object_date: date) -> Product:
-
-    product_B = Product (
-        id = None,
-        supplier_code = '123456',
-        ean = 'TESTSAVEPRODUCTS123',
-        name = 'PRODUCT B',
-        sale_price = None
-    )
-
-    batch_B = Batch (
-        id = None,
-        physical_id = 'ABC123D',
-        product_id = 2,
-        quantity = 1,
-        unit_cost_amount = float(10.99),
-        use_by_date = object_date,
-        received_date = date.today()
-    )
-
-    product_B.batch.append(batch_B)
-    return product_B
-
-#############
-@pytest.fixture(scope = 'module')
-def product_A_copy_diff(object_date: date) -> Product:
-
-    product_A = Product (
-        id = None,
-        supplier_code = '12345',
-        ean = 'TESTSAVEPRODUCTS123',
-        name = 'PRODUCT A COPY',
-        sale_price = None
-    )
-
-    batch_A = Batch (
-        id = None,
-        physical_id = 'ABC123E',
-        product_id = 3,
-        quantity = 2,
-        unit_cost_amount = float(11.99),
-        use_by_date = object_date,
-        received_date = date.today()
-    )
-
-    product_A.batch.append(batch_A)
-    return product_A
-
-################
+###############################################################################
 # --- SESSION TO UNIQUE INSTANCES FROM FISCAL PROFILES AND PURCHASE TAX DETAILS
 @pytest.fixture(scope = 'module')
-def fiscal_profile() -> FiscalProfile:
+def sample_fiscal_profile() -> FiscalProfile:
     fiscal_profile = FiscalProfile (
         id = 1,
         ncm = '1234',
@@ -662,7 +234,7 @@ def fiscal_profile() -> FiscalProfile:
     return fiscal_profile
 ##############
 @pytest.fixture(scope = 'module')
-def purchase_tax_details() -> PurchaseTaxDetails:
+def sample_purchase_tax_details() -> PurchaseTaxDetails:
     purchase_tax_details = PurchaseTaxDetails (
         id = 1,
         cfop = '1234',
@@ -674,7 +246,598 @@ def purchase_tax_details() -> PurchaseTaxDetails:
         cofins_cst = '1234'
     )
     return purchase_tax_details
+####################################################################
+### PRODUCTs, FISCAL PROFILE, PURCHASE TAX DETAILS AND BATCH, INSTANCES ###
+@pytest.fixture(scope = 'module')
+def dipirona_product(object_today, 
+    object_date, 
+    object_date_2, 
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = '7891020304050',
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+    batch_instance = Batch (
+        id = 1,
+        physical_id = 'ABC123HI',
+        product_id = product_instance.id,
+        quantity = Decimal('20.0'),
+        unit_cost_amount = Decimal('8.50'),
+        other_expenses_amount = Decimal('1.50'),
+        use_by_date = object_date_2,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
+    
+############################################################
+# --- EXCLUSIVE VARIANT FOR THE TEST REGISTER BATCH ALERT ---
+@pytest.fixture(scope = 'module')
+def dipirona_product_2(object_today, 
+    object_date, 
+    object_date_2, 
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = '7891020304051',
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+    batch_instance = Batch (
+        id = 1,
+        physical_id = 'ABC123HJ',
+        product_id = product_instance.id,
+        quantity = Decimal('20.0'),
+        unit_cost_amount = Decimal('8.50'),
+        other_expenses_amount = Decimal('1.50'),
+        use_by_date = object_date_2,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
 
+############################################################
+# --- EXCLUSIVE VARIANT FOR TESTING OF THE NEW FUNCTION MANUFACTURE PRODUCT --- #
+@pytest.fixture(scope = 'module')
+def dipirona_product(object_today, 
+    object_date, 
+    object_date_2, 
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = '7891020304050',
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+    batch_instance = Batch (
+        id = 1,
+        physical_id = 'ABC123HI',
+        product_id = product_instance.id,
+        quantity = Decimal('20.0'),
+        unit_cost_amount = Decimal('8.50'),
+        other_expenses_amount = Decimal('1.50'),
+        use_by_date = object_date_2,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
+
+@pytest.fixture(scope = 'module')
+def dipirona_product_manufacture(object_today, 
+    object_date, 
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = '7891020304050',
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+
+    batch_instance = Batch (
+        id = None,
+        physical_id = None,
+        product_id = product_instance.id,
+        quantity = Decimal('20.0'),
+        unit_cost_amount = Decimal('8.50'),
+        other_expenses_amount = Decimal('1.50'),
+        use_by_date = None,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def dipirona_product_manufacture_unstable(object_today, 
+    object_date,  
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = None,
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+
+    batch_instance = Batch (
+        id = None,
+        physical_id = None,
+        product_id = product_instance.id,
+        quantity = Decimal('20.0'),
+        unit_cost_amount = Decimal('8.50'),
+        other_expenses_amount = Decimal('1.50'),
+        use_by_date = None,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def dipirona_product_manufacture_missing_tags(object_today, 
+    object_date, 
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = '7891020304050',
+        name = 'DIPIRONA 500MG COM 10 COMPRIMIDOS',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+
+    batch_instance = Batch (
+        id = None,
+        physical_id = None,
+        product_id = product_instance.id,
+        quantity = Decimal('20.0'),
+        unit_cost_amount = Decimal('8.50'),
+        other_expenses_amount = Decimal('1.50'),
+        use_by_date = None,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    dipirona_instance = product_instance    
+    return dipirona_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def vitamina_product(object_today, 
+    object_date, 
+    object_date_2, 
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = 2,
+        supplier_code = '67890',
+        ean = '7895040302010',
+        name = 'VITAMINA C EFERVESCENTE',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+    batch_instance = Batch (
+        id = None,
+        physical_id = 'ABC123DE',
+        product_id = product_instance.id,
+        quantity = Decimal('15.0'),
+        unit_cost_amount = Decimal('12.75'),
+        other_expenses_amount = Decimal('10.75'),
+        use_by_date = object_date_2,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    vitamina_instance = product_instance
+    return vitamina_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def vitamina_product_manufacture(object_today, 
+    object_date,  
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = 2,
+        supplier_code = '67890',
+        ean = '7895040302010',
+        name = 'VITAMINA C EFERVESCENTE',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+    batch_instance = Batch (
+        id = None,
+        physical_id = None,
+        product_id = product_instance.id,
+        quantity = Decimal('15.0'),
+        unit_cost_amount = Decimal('12.75'),
+        other_expenses_amount = Decimal('10.75'),
+        use_by_date = None,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    vitamina_instance = product_instance
+    return vitamina_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def vitamina_product_manufacture_unstable(object_today, 
+    object_date,  
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = 2,
+        supplier_code = '67890',
+        ean = None,
+        name = 'VITAMINA C EFERVESCENTE',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+    batch_instance = Batch (
+        id = None,
+        physical_id = None,
+        product_id = product_instance.id,
+        quantity = Decimal('15.0'),
+        unit_cost_amount = Decimal('12.75'),
+        other_expenses_amount = Decimal('10.75'),
+        use_by_date = None,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    vitamina_instance = product_instance
+    return vitamina_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def vitamina_product_manufacture_missing_tags(object_today, 
+    object_date,  
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = 2,
+        supplier_code = '67890',
+        ean = None,
+        name = 'VITAMINA C EFERVESCENTE',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+    batch_instance = Batch (
+        id = None,
+        physical_id = None,
+        product_id = product_instance.id,
+        quantity = Decimal('15.0'),
+        unit_cost_amount = Decimal('12.75'),
+        other_expenses_amount = Decimal('10.75'),
+        use_by_date = None,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    vitamina_instance = product_instance
+    return vitamina_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def algodao_product(object_today, 
+    object_date, 
+    object_date_2, 
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = 3,
+        supplier_code = '101112',
+        ean = '7895040302015',
+        name = 'ALGODÃO HIDRÓFILO 50G',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+    batch_instance = Batch (
+        id = None,
+        physical_id = 'ABC123FG',
+        product_id = product_instance.id,
+        quantity = Decimal('30.0'),
+        unit_cost_amount = Decimal('3.20'),
+        other_expenses_amount = Decimal('1.20'),
+        use_by_date = object_date_2,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    algodao_instance = product_instance
+    return algodao_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def algodao_product_manufacture(object_today, 
+    object_date,  
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = 3,
+        supplier_code = '101112',
+        ean = '7895040302015',
+        name = 'ALGODÃO HIDRÓFILO 50G',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+    batch_instance = Batch (
+        id = None,
+        physical_id = None,
+        product_id = product_instance.id,
+        quantity = Decimal('30.0'),
+        unit_cost_amount = Decimal('3.20'),
+        other_expenses_amount = Decimal('1.20'),
+        use_by_date = None,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    algodao_instance = product_instance
+    return algodao_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def algodao_product_manufacture_unstable(object_today, 
+    object_date,  
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = 3,
+        supplier_code = '101112',
+        ean = None,
+        name = 'ALGODÃO HIDRÓFILO 50G',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+    batch_instance = Batch (
+        id = None,
+        physical_id = None,
+        product_id = product_instance.id,
+        quantity = Decimal('30.0'),
+        unit_cost_amount = Decimal('3.20'),
+        other_expenses_amount = Decimal('1.20'),
+        use_by_date = None,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    algodao_instance = product_instance
+    return algodao_instance
+
+#############################################################
+@pytest.fixture(scope = 'module')
+def algodao_product_manufacture_unstable(object_today, 
+    object_date,  
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+    
+    product_instance = Product (
+        id = 3,
+        supplier_code = None,
+        ean = None,
+        name = 'ALGODÃO HIDRÓFILO 50G',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+    batch_instance = Batch (
+        id = None,
+        physical_id = None,
+        product_id = product_instance.id,
+        quantity = Decimal('30.0'),
+        unit_cost_amount = Decimal('3.20'),
+        other_expenses_amount = Decimal('1.20'),
+        use_by_date = None,
+        manufacturing_date = object_date,
+        received_date = object_today,
+        taxation_details = sample_purchase_tax_details
+    )
+    product_instance.batch.append(batch_instance)
+    algodao_instance = product_instance
+    return algodao_instance
+
+####### --- THIS FIXTURES WERE CREATED FOR NEW UPSERT LOGIC IN THE TEST_SAVE_PRODUCTS --- #######
+@pytest.fixture(scope = 'module')
+def product_A(object_date, 
+    object_date_2, 
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+
+    product_A = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = 'TESTSAVEPRODUCTS123',
+        name = 'PRODUCT A',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+
+    batch_A = Batch (
+        id = None,
+        physical_id = 'ABC123D',
+        product_id = 1,
+        quantity = Decimal('1'),
+        unit_cost_amount = Decimal('10.99'),
+        other_expenses_amount = Decimal('1.99'),
+        use_by_date = object_date_2,
+        manufacturing_date = object_date,
+        received_date = date.today(),
+        taxation_details = sample_purchase_tax_details
+    )
+
+    product_A.batch.append(batch_A)
+    return product_A
+
+#############
+@pytest.fixture(scope = 'module')
+def product_A(object_date, 
+    object_date_2, 
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+
+    product_B = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = 'TESTSAVEPRODUCTS123',
+        name = 'PRODUCT B',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+
+    batch_B = Batch (
+        id = None,
+        physical_id = 'ABC123D',
+        product_id = 1,
+        quantity = Decimal('1'),
+        unit_cost_amount = Decimal('10.99'),
+        other_expenses_amount = Decimal('1.99'),
+        use_by_date = object_date_2,
+        manufacturing_date = object_date,
+        received_date = date.today(),
+        taxation_details = sample_purchase_tax_details
+    )
+
+    product_B.batch.append(batch_B)
+    return product_B
+
+#############
+@pytest.fixture(scope = 'module')
+def product_A(object_date, 
+    object_date_2, 
+    sample_fiscal_profile, 
+    sample_purchase_tax_details
+    ) -> Product:
+
+    product_A = Product (
+        id = None,
+        supplier_code = '12345',
+        ean = 'TESTSAVEPRODUCTS123',
+        name = 'PRODUCT A COPY',
+        anvisa_code = '1234',
+        sale_price = None,
+        max_consumer_price = None,
+        fiscal_profile = sample_fiscal_profile
+    )
+
+    batch_A = Batch (
+        id = None,
+        physical_id = 'ABC123E',
+        product_id = 3,
+        quantity = Decimal('2'),
+        unit_cost_amount = Decimal('10.99'),
+        other_expenses_amount = Decimal('1.99'),
+        use_by_date = object_date_2,
+        manufacturing_date = object_date,
+        received_date = date.today(),
+        taxation_details = sample_purchase_tax_details
+    )
+
+    product_A.batch.append(batch_A)
+    return product_A
+
+###############
 #############################################################
 ### LIST OF INSTANCE PRODUCTS ####
 @pytest.fixture(scope = 'module')

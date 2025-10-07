@@ -1,14 +1,13 @@
+### --- IMPORTS --- ###
+from system.modules.xml_parser import XMLParser
+from system.modules.nfe_importer import NFEImporter
+from system.ui import console_ui
 from system import database
 import logging
-from system.modules import settings_log
-from system.modules import users
-from system.modules import nfe_importer
-from system.modules import sales
 
 
 
-
-def exibir_menu():
+def display_menu():
     'Exibe o menu principal e retorna a escolha do usuário.'
     print('\n--- Sistema de Gestão da Farmácia ---')
     print('1. Importar Nota Fiscal (XML)')
@@ -20,43 +19,40 @@ def exibir_menu():
     
 
 def main():
-    'acesso as funções do menu principal'
-    connect_db = database.connect_db()
-    database.create_tables(connect_db)
-    settings_log.sistema_logs()
-
-    while True:
-        
-        escolha = exibir_menu()
-        
-        if escolha == '1':
-            produtos_nota = nfe_importer.importar_nfe()
+    'main menu'
+    with database.connect_db() as connection:
+        database.create_tables(connection)
+        while True:
+            choice = display_menu()
             
-            if produtos_nota is not None:
-                database.save_products(connect_db, produtos_nota)
-                logging.info('[INFO] A lista de produtos foi salva/atualizada, com sucesso.') 
-            else:
-                logging.error('[ERRO] A lista de produtos está vazia. Verifique a NF-e e tente novamente.')                           
+            if choice == '1':
+                persistence_func = lambda list: database.save_products(connection, list)
+                importer = NFEImporter(XMLParser, persistence_func)
+                xml_path = console_ui.get_xml_path()            
+                if xml_path is not None:
+                    importer.run_import(xml_path)
+                else:
+                    logging.warning(f'[ALERTA] O XML fornecido não foi encontrado ou não existe. Tente novamente.')
         
-        elif escolha == '2':
-            item = sales.adicionar_item()
-            if item is not None:
-                pass
-            else:
-                logging.error('[ERRO] Nenhum item encontrado. Tente novamente.' )            
+        # elif escolha == '2':
+        #     item = sales.adicionar_item()
+        #     if item is not None:
+        #         pass
+        #     else:
+        #         logging.error('[ERRO] Nenhum item encontrado. Tente novamente.' )            
         
-        elif escolha == '3':
-            print('\n [INFO] Função de relátorios ainda não implementada.')
+        # elif escolha == '3':
+        #     print('\n [INFO] Função de relátorios ainda não implementada.')
        
-        elif escolha == '4':
-            users.register_user(connect_db)            
+        # elif escolha == '4':
+        #     #users.register_user(connect_db)            
        
-        elif escolha == '0':
-            logging.info('\n[INFO] Sistema finalizado.')
-            break
+        # elif escolha == '0':
+        #     logging.info('\n[INFO] Sistema finalizado.')
+        #     break
        
-        else:
-            logging.error('\n [ERRO] Opção inválida. Tente novamente')
+        # else:
+        #     logging.error('\n [ERRO] Opção inválida. Tente novamente')
 
 if __name__ == '__main__':
     main()

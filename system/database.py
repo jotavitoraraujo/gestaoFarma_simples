@@ -22,8 +22,8 @@ def date_conversor(object_bytes: bytes) -> date:
     return adapter_format_date
 
 ###################### --- PATH FOR DATABASE 'farmacia.db' --- #############################
-pasta_sistema = Path(__file__).parent
-db_file = pasta_sistema.parent/'dados'/'farmacia.db'
+root_folder = Path(__file__).parent.parent
+db_file = root_folder/'data'/'farmacia.db'
 
 ###################### --- CONNECTION FUNCTION WITH DATABASE --- ###########################
 @contextlib.contextmanager
@@ -138,7 +138,6 @@ def create_tables(connect_db: Connection):
         FOREIGN KEY(id_lote_vendido) REFERENCES lotes(id_lote)
         )           
     ''')
-    connect_db.commit()
 
 def save_products(connect_db: Connection, list_products: list[Product]):
     'save an list of products in the database | insert a new or update it'

@@ -20,39 +20,43 @@ def display_menu():
 
 def main():
     'main menu'
-    with database.connect_db() as connection:
-        database.create_tables(connection)
-        while True:
-            choice = display_menu()
+    try:    
+        with database.connect_db() as connection:
+            database.create_tables(connection)
+            while True:
+                choice = display_menu()
+                
+                if choice == '1':
+                    persistence_func = lambda list_products_complete: database.save_products(connection, list_products_complete)
+                    importer = NFEImporter(XMLParser, persistence_func)
+                    xml_path = console_ui.get_xml_path()            
+                    if xml_path is not None:
+                        importer.run_import(xml_path)
+                    else:
+                        logging.warning(f'[ALERTA] O XML fornecido não foi encontrado ou não existe. Tente novamente.')
             
-            if choice == '1':
-                persistence_func = lambda list: database.save_products(connection, list)
-                importer = NFEImporter(XMLParser, persistence_func)
-                xml_path = console_ui.get_xml_path()            
-                if xml_path is not None:
-                    importer.run_import(xml_path)
+                # elif escolha == '2':
+                #     item = sales.adicionar_item()
+                #     if item is not None:
+                #         pass
+                #     else:
+                #         logging.error('[ERRO] Nenhum item encontrado. Tente novamente.' )            
+                
+                # elif escolha == '3':
+                #     print('\n [INFO] Função de relátorios ainda não implementada.')
+            
+                # elif escolha == '4':
+                #     #users.register_user(connect_db)            
+        
+                elif choice == '0':
+                    logging.info('\n[INFO] Sistema finalizado.')
+                    break
+        
                 else:
-                    logging.warning(f'[ALERTA] O XML fornecido não foi encontrado ou não existe. Tente novamente.')
-        
-        # elif escolha == '2':
-        #     item = sales.adicionar_item()
-        #     if item is not None:
-        #         pass
-        #     else:
-        #         logging.error('[ERRO] Nenhum item encontrado. Tente novamente.' )            
-        
-        # elif escolha == '3':
-        #     print('\n [INFO] Função de relátorios ainda não implementada.')
-       
-        # elif escolha == '4':
-        #     #users.register_user(connect_db)            
-       
-        # elif escolha == '0':
-        #     logging.info('\n[INFO] Sistema finalizado.')
-        #     break
-       
-        # else:
-        #     logging.error('\n [ERRO] Opção inválida. Tente novamente')
+                    logging.error('\n [ERRO] Opção inválida. Tente novamente')
+    except Exception as error:
+        logging.error(f'[FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.')
+        logging.error(f'[FATAL ERROR] :: Verifique o log de erros para mais detalhes. {error}')
 
 if __name__ == '__main__':
     main()

@@ -1,6 +1,5 @@
 ####### --- IMPORTS --- #######
 import pytest
-pytestmark = pytest.mark.skip(reason = 'PAUSE')
 from unittest.mock import patch
 from sqlite3 import Connection
 from system import database

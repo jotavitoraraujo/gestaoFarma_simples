@@ -8,8 +8,8 @@ from datetime import date
 class Batch:
     def __init__(self, 
         id: int, 
-        physical_id: str, 
-        product_id: int, 
+        product_id: int,
+        physical_id: str,
         quantity: Decimal, 
         unit_cost_amount: Decimal, 
         other_expenses_amount: Decimal,
@@ -20,8 +20,8 @@ class Batch:
         ):
         
         self.id = id
-        self.physical_id = physical_id
         self.product_id = product_id
+        self.physical_id = physical_id
         self.quantity = quantity
         self.unit_cost_amount = unit_cost_amount
         self.other_expenses_amount = other_expenses_amount

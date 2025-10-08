@@ -9,7 +9,7 @@ def test_manager_import(functional_xml_real, rich_products_list):
     'the result it must be an list of products, where each product be perfectly instantiated'
 
     parser = XMLParser(functional_xml_real)
-    parser.process()
+    parser.execute_process()
     result = parser.get_complete_products()
     
     assert len(result) == 3
@@ -24,7 +24,7 @@ def test_manager_import_unstable(unstable_xml_real, rich_products_list_EAN_None)
     the knot number 3 (most specifically the content in <cEAN></cEAN>) it is empty'''
     
     parser = XMLParser(unstable_xml_real)
-    parser.process()
+    parser.execute_process()
     result = parser.get_complete_products()
     result_2 = parser.get_quarantine_products()
     list_result = [result[0], result[1], result_2[0]]
@@ -39,7 +39,7 @@ def test_manager_import_unstable(unstable_xml_real, rich_products_list_EAN_None)
 def test_manager_import_missing_tags(missing_tags_xml_real, rich_products_list_only_one):
     'the result it must be an list with only a product where is instantiated perfectly, because the remaining data is completly absent'
     parser = XMLParser(missing_tags_xml_real)
-    parser.process()
+    parser.execute_process()
     result = parser.get_complete_products()
     errors = parser.get_errors()
 
@@ -54,7 +54,7 @@ def test_manager_import_missing_all_dets(missing_dets_xml_real):
     'the result it must be an empty list, because data in knot det dont exist'
     
     parser = XMLParser(missing_dets_xml_real)
-    parser.process()
+    parser.execute_process()
     result = parser.get_complete_products()
     result_2 = parser.get_quarantine_products()
     errors = parser.get_errors()
@@ -74,7 +74,7 @@ def test_manager_import_malformed_xml(malformed_xml_real):
     CORRECT: <qCom>2.000</qCom> -> A FLOAT TYPE NUMBER
     '''
     parser = XMLParser(malformed_xml_real)
-    parser.process()
+    parser.execute_process()
     result = parser.get_complete_products()
     result_2 = parser.get_quarantine_products()
     errors = parser.get_errors()
@@ -90,7 +90,7 @@ def test_manager_import_broken(broken_xml):
     'the result it must raised and captured an instance of ET.ParserError in case of the tags broken'
 
     parser = XMLParser(broken_xml)
-    parser.process()
+    parser.execute_process()
     result = parser.get_complete_products()
     result_2 = parser.get_quarantine_products()
     errors = parser.get_errors()

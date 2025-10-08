@@ -12,10 +12,10 @@ def get_xml_path() -> str | None:
     print('=' * 30)
     name_xml: str = input('[INFO] Arquivo: ')
     root_folder: Path = Path(__file__).parent.parent.parent #### FROM .PY -> GO TO UI FOLDER -> GO TO SYSTEM -> GET TO THE ROOT FOLDER
-    xml_file: Path = root_folder/'data'/f'{name_xml}'
-    if xml_file.exists():
-        xml_file = str(xml_file)
+    xml_file_path: Path = root_folder/'data'/f'{name_xml}'
+    if xml_file_path.exists():
+        xml_file_path = str(xml_file_path)
         logging.info(f'[INFO] Arquivo importado com sucesso.')
-        return xml_file
+        return xml_file_path
     else:
         logging.error(f'[ERRO] O nome do arquivo não existe ou não foi encontrado. Tente novamente.')

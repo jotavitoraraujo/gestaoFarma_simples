@@ -1,25 +1,38 @@
 #################### --- IMPORTS --- #######################
 from sqlite3 import Connection
 from pathlib import Path
+from datetime import date
+from decimal import Decimal
 from system.models.product import Product 
-from system.models.user import User
-from system.models.batch import Batch
-from datetime import datetime, date
+# from system.models.user import User
+# from system.models.batch import Batch
 import sqlite3
 import logging
 import contextlib
 
-#################### --- ADAPTERS AND CONVERSORS --- ####################
-def date_adapter(object_date: date) -> str:
+#################### --- ADAPTERS AND CONVERSORS FOR DATE --- ####################
+def date_to_str_adapter(value: date) -> str:
     'inject a object_date in the date translator to sql pattern'
-    adapter_format_str = object_date.strftime('%Y-%m-%d')
-    return adapter_format_str
+    value_string = value.strftime('%Y-%m-%d')
+    return value_string
 
-def date_conversor(object_bytes: bytes) -> date:
+def bytes_to_date_conversor(value: bytes) -> date:
     'inject a object_str in the date translator the of sql pattern to python object'
-    convert_object_str = object_bytes.decode()
-    adapter_format_date = date.fromisoformat(convert_object_str)
-    return adapter_format_date
+    value_decode = value.decode()
+    value_date = date.fromisoformat(value_decode)
+    return value_date
+
+#################### --- ADAPTERS AND CONVERSORS FOR DECIMALS --- ####################
+def decimal_to_str_adapter(value: Decimal) -> str:
+    'adapt the value of the an object decimal to an string for inputed in database'
+    value_string = str(value)
+    return value_string
+
+def bytes_to_decimal_conversor(value: bytes) -> Decimal:
+    'receives from the database a value that was previously bytes and is now converted to decimal'
+    value_decode = value.decode()
+    value_decimal = Decimal(f'{value_decode}')
+    return value_decimal
 
 ###################### --- PATH FOR DATABASE 'farmacia.db' --- #############################
 root_folder = Path(__file__).parent.parent
@@ -32,10 +45,12 @@ def connect_db():
     
     connect_db = None
     try:
-        ####### --- DATE OBJECT -> BYTES (STR) OBJECT --- #######
-        sqlite3.register_adapter(date, date_adapter)
-        ####### --- BYTES (STR) OBJECT -> DATE OBJECT --- #######
-        sqlite3.register_converter('date', date_conversor)
+        ####### --- ANY OBJECT -> BYTES (STR) OBJECT --- #######
+        sqlite3.register_adapter(date, date_to_str_adapter)
+        sqlite3.register_adapter(Decimal, decimal_to_str_adapter)
+        ####### --- BYTES (STR) OBJECT -> ANY OBJECT --- #######
+        sqlite3.register_converter('date', bytes_to_date_conversor)
+        sqlite3.register_converter('decimal', bytes_to_decimal_conversor)
 
         connect_db = sqlite3.connect(db_file, detect_types = sqlite3.PARSE_DECLTYPES)
         logging.warning(f'[ALERTA] Conexão com banco de dados iniciada.')
@@ -61,40 +76,71 @@ def create_tables(connect_db: Connection):
     'start a creating the of tables for structure in the database' 
     
     cursor = connect_db.cursor()
-
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS produtos (
+        CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_fiscal_profile INTEGER NOT NULL,
             supplier_code TEXT,
-            nome_produto TEXT NOT NULL,            
-            ean TEXT,
-            preco_venda REAL,            
-            estoque_minimo INTEGER,            
-            curva_abc TEXT
-        )
-    ''')    
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS produtos_pendentes (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            supplier_code TEXT,
-            nome_produto TEXT,
-            ean TEXT,
-            motivo_pendencia TEXT
-            preco_venda REAL
+            ean TEXT,            
+            name_product TEXT NOT NULL,
+            anvisa_code TEXT,
+            sale_price TEXT,
+            max_consumer_price TEXT,        
+            min_stock INTEGER,            
+            curva_abc TEXT,
+            FOREIGN KEY(id_fiscal_profile) REFERENCES fiscal_profile(id)
         )
     ''')
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS lotes (
-        id_lote INTEGER PRIMARY KEY AUTOINCREMENT,
-        id_lote_fisico TEXT NOT NULL,
-        produto_id INTEGER NOT NULL,        
-        quantidade INTEGER NOT NULL,        
-        preco_custo REAL NOT NULL,  
-        data_validade DATE NOT NULL,
-        data_entrada DATE NOT NULL,                           
-        FOREIGN KEY(produto_id) REFERENCES produtos(id)
-            
+        CREATE TABLE IF NOT EXISTS quarantine_products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_fiscal_profile INTEGER NOT NULL,
+            supplier_code TEXT,
+            ean TEXT,            
+            name_product TEXT,
+            anvisa_code TEXT,
+            sale_price TEXT,
+            max_consumer_price TEXT,        
+            min_stock INTEGER,            
+            curva_abc TEXT,
+            FOREIGN KEY(id_fiscal_profile) REFERENCES fiscal_profile(id)
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS fiscal_profile (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            ncm_code TEXT NOT NULL,
+            cest_code TEXT,
+            origin_code TEXT
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS batchs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_taxation_details INTEGER NOT NULL,
+            product_id INTEGER NOT NULL,
+            physical_id TEXT NOT NULL,  
+            quantity TEXT NOT NULL,        
+            unit_cost_amount TEXT NOT NULL,
+            other_expenses_amount TEXT, 
+            use_by_date DATE NOT NULL,
+            manufacturing_date DATE,
+            receive_date DATE NOT NULL,
+            FOREIGN KEY(product_id) REFERENCES products(id),
+            FOREIGN KEY(id_taxation_details) REFERENCES purchase_tax_details(id)
         )  
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS purchase_tax_details (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            cfop TEXT NOT NULL,
+            icms_cst TEXT,
+            icms_st_base_amount TEXT,
+            icms_st_percentage TEXT,
+            icms_st_retained_amount TEXT,
+            pis_cst TEXT,
+            cofins_cst TEXT
+        )
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS usuarios (
@@ -121,7 +167,7 @@ def create_tables(connect_db: Connection):
         quantidade_vendida INTEGER NOT NULL,
         pv_registrado REAL,
         FOREIGN KEY(pedido_id) REFERENCES pedidos(id_pedido),
-        FOREIGN KEY(lote_id) REFERENCES lotes(id_lote) 
+        FOREIGN KEY(lote_id) REFERENCES batchs(id)
         )
     ''')
     cursor.execute('''
@@ -134,200 +180,200 @@ def create_tables(connect_db: Connection):
         id_usuario INTEGER NOT NULL,
         data TEXT NOT NULL,
         negligencia INTEGER NOT NULL,
-        FOREIGN KEY(id_lote_correto) REFERENCES lotes(id_lote),
-        FOREIGN KEY(id_lote_vendido) REFERENCES lotes(id_lote)
+        FOREIGN KEY(id_lote_correto) REFERENCES batchs(id),
+        FOREIGN KEY(id_lote_vendido) REFERENCES batchs(id)
         )           
     ''')
 
-def save_products(connect_db: Connection, list_products: list[Product]):
-    'save an list of products in the database | insert a new or update it'
+# def save_products(connect_db: Connection, list_products: list[Product]):
+#     'save an list of products completes in the database | insert a new or update it'
     
-    if not list_products:
-        return None
-    cursor = connect_db.cursor()
-    for product in list_products: 
-        cursor.execute('''
-            SELECT id
-            FROM produtos
-            WHERE supplier_code = ? 
-            ''', 
-            (
-                product.supplier_code,
-            ))
-        response: tuple = cursor.fetchone()
-        if response is not None:
-            existed_id: int = response[0]
-            cursor.execute('''
-                INSERT INTO lotes (
-                id_lote_fisico,
-                produto_id,
-                quantidade,
-                preco_custo,
-                data_validade,
-                data_entrada
-                )
-                VALUES (?, ?, ?, ?, ?, ?)
-            ''',
-            (
-                product.batch[0].physical_id,
-                existed_id,
-                product.batch[0].quantity,
-                product.batch[0].unit_cost_amount,
-                product.batch[0].use_by_date,
-                product.batch[0].received_date,
-            ))
-        else:
-            cursor.execute('''
-                INSERT INTO produtos (
-                supplier_code, 
-                nome_produto, 
-                ean, 
-                preco_venda)
-                VALUES (?, ?, ?, ?)
-            ''',
-            (
-                product.supplier_code,
-                product.name,
-                product.ean,
-                product.sale_price,
-            ))
-            new_id_product: int = cursor.lastrowid
-            cursor.execute('''
-                INSERT INTO lotes (
-                id_lote_fisico, 
-                produto_id, 
-                quantidade, 
-                preco_custo,
-                data_validade,
-                data_entrada
-                )
+#     if not list_products:
+#         return None
+#     cursor = connect_db.cursor()
+#     for product in list_products: 
+#         cursor.execute('''
+#             SELECT id
+#             FROM produtos
+#             WHERE supplier_code = ? 
+#             ''', 
+#             (
+#                 product.supplier_code,
+#             ))
+#         response: tuple = cursor.fetchone()
+#         if response is not None:
+#             existed_id: int = response[0]
+#             cursor.execute('''
+#                 INSERT INTO lotes (
+#                 id_lote_fisico,
+#                 produto_id,
+#                 quantidade,
+#                 preco_custo,
+#                 data_validade,
+#                 data_entrada
+#                 )
+#                 VALUES (?, ?, ?, ?, ?, ?)
+#             ''',
+#             (
+#                 product.batch[0].physical_id,
+#                 existed_id,
+#                 product.batch[0].quantity,
+#                 product.batch[0].unit_cost_amount,
+#                 product.batch[0].use_by_date,
+#                 product.batch[0].received_date,
+#             ))
+#         else:
+#             cursor.execute('''
+#                 INSERT INTO produtos (
+#                 supplier_code, 
+#                 nome_produto, 
+#                 ean, 
+#                 preco_venda)
+#                 VALUES (?, ?, ?, ?)
+#             ''',
+#             (
+#                 product.supplier_code,
+#                 product.name,
+#                 product.ean,
+#                 product.sale_price,
+#             ))
+#             new_id_product: int = cursor.lastrowid
+#             cursor.execute('''
+#                 INSERT INTO lotes (
+#                 id_lote_fisico, 
+#                 produto_id, 
+#                 quantidade, 
+#                 preco_custo,
+#                 data_validade,
+#                 data_entrada
+#                 )
 
-                VALUES (?, ?, ?, ?, ?, ?)
-            ''',
-            (
-                product.batch[0].physical_id,
-                new_id_product,
-                product.batch[0].quantity,
-                product.batch[0].unit_cost_amount,
-                product.batch[0].use_by_date,
-                product.batch[0].received_date,
-            ))
+#                 VALUES (?, ?, ?, ?, ?, ?)
+#             ''',
+#             (
+#                 product.batch[0].physical_id,
+#                 new_id_product,
+#                 product.batch[0].quantity,
+#                 product.batch[0].unit_cost_amount,
+#                 product.batch[0].use_by_date,
+#                 product.batch[0].received_date,
+#             ))
     
-    logging.info(f'\n [INFO] {len(list_products)} produtos foram salvos ou atualizados no banco de dados.')
+#     logging.info(f'\n [INFO] {len(list_products)} produtos foram salvos ou atualizados no banco de dados.')
 
-def search_product(connect_db: Connection, product: Product):
-    'search for a product using an object -> Product'
+# def search_product(connect_db: Connection, product: Product):
+#     'search for a product using an object -> Product'
     
-    connector = connect_db.cursor()
+#     connector = connect_db.cursor()
 
-    connector.execute('''
+#     connector.execute('''
                      
-            SELECT id, nome_produto, preco_venda, data_validade 
-            FROM produtos 
-            JOIN lotes 
-            ON produtos.id = lotes.produto_id 
-            WHERE produtos.id = ? 
-            ORDER BY data_validade ASC 
-            LIMIT 1 
+#             SELECT id, nome_produto, preco_venda, data_validade 
+#             FROM produtos 
+#             JOIN lotes 
+#             ON produtos.id = lotes.produto_id 
+#             WHERE produtos.id = ? 
+#             ORDER BY data_validade ASC 
+#             LIMIT 1 
         
-        ''', 
-        (
-            product.id,
+#         ''', 
+#         (
+#             product.id,
             
-        ))
+#         ))
     
-    db_answer = connector.fetchone()
-    return db_answer
+#     db_answer = connector.fetchone()
+#     return db_answer
 
-def search_product_name(connect_db: Connection, search: str) -> list:
-    'search an product using the integer name or a part of the name of respective Product '
-    connector = connect_db.cursor()
+# def search_product_name(connect_db: Connection, search: str) -> list:
+#     'search an product using the integer name or a part of the name of respective Product '
+#     connector = connect_db.cursor()
 
-    connector.execute('''
+#     connector.execute('''
         
-        SELECT id, nome_produto, ean, preco_venda, id_lote, id_lote_fisico, produto_id, quantidade, preco_custo, data_validade, data_entrada
-        FROM produtos
-        JOIN lotes
-        ON produtos.id = lotes.produto_id
-        WHERE produtos.nome_produto LIKE ?
-        ORDER BY data_validade ASC        
+#         SELECT id, nome_produto, ean, preco_venda, id_lote, id_lote_fisico, produto_id, quantidade, preco_custo, data_validade, data_entrada
+#         FROM produtos
+#         JOIN lotes
+#         ON produtos.id = lotes.produto_id
+#         WHERE produtos.nome_produto LIKE ?
+#         ORDER BY data_validade ASC        
     
-    ''',
-    (
-        f'%{search}%',
-    ))
+#     ''',
+#     (
+#         f'%{search}%',
+#     ))
 
-    db_answer = connector.fetchall()    
-    return db_answer
+#     db_answer = connector.fetchall()    
+#     return db_answer
 
-def register_user_database(connect_db: Connection, user: User):
-    'register an new user on database'
+# def register_user_database(connect_db: Connection, user: User):
+#     'register an new user on database'
     
-    connector = connect_db.cursor()
+#     connector = connect_db.cursor()
 
-    connector.execute('''
-            INSERT INTO usuarios (nome_usuario, pin_usuario)
-            VALUES (?, ?)
-            ''',
-            (
-                user.user_name,
-                user.user_pin               
+#     connector.execute('''
+#             INSERT INTO usuarios (nome_usuario, pin_usuario)
+#             VALUES (?, ?)
+#             ''',
+#             (
+#                 user.user_name,
+#                 user.user_pin               
             
-            ))
+#             ))
 
-    connect_db.commit()
-    print('=' * 30)
-    logging.info(f'[INFO] O usuário, {user.user_name} foi cadastrado.')
-    print('=' * 30)
+#     connect_db.commit()
+#     print('=' * 30)
+#     logging.info(f'[INFO] O usuário, {user.user_name} foi cadastrado.')
+#     print('=' * 30)
 
-def search_user(connect_db: Connection, user: str) -> tuple:
-    'search an user by name, but the function returns all contained data in database'
+# def search_user(connect_db: Connection, user: str) -> tuple:
+#     'search an user by name, but the function returns all contained data in database'
 
-    connector = connect_db.cursor()
+#     connector = connect_db.cursor()
 
-    connector.execute('''
-            SELECT id_usuario, nome_usuario, pin_usuario
-            FROM usuarios
-            WHERE usuarios.nome_usuario = ?
-            LIMIT 1
+#     connector.execute('''
+#             SELECT id_usuario, nome_usuario, pin_usuario
+#             FROM usuarios
+#             WHERE usuarios.nome_usuario = ?
+#             LIMIT 1
             
-        ''',
-        (
-            user,
+#         ''',
+#         (
+#             user,
             
-        ))
+#         ))
     
-    db_answer = connector.fetchone()    
-    return db_answer
+#     db_answer = connector.fetchone()    
+#     return db_answer
   
-def register_batch_alert(connect_db: Connection, order_id, product: Product, user: User, batch_sold: Batch, batch_correct: Batch):
-    'register of alert of the batch sold incorretly'
+# def register_batch_alert(connect_db: Connection, order_id, product: Product, user: User, batch_sold: Batch, batch_correct: Batch):
+#     'register of alert of the batch sold incorretly'
 
-    today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+#     today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    if batch_sold != batch_correct:
-        neglect = 1
-    else:
-        neglect = 0
+#     if batch_sold != batch_correct:
+#         neglect = 1
+#     else:
+#         neglect = 0
 
-    connector = connect_db.cursor()
-    connector.execute('''
-        INSERT INTO alertas_lote (id_pedido, id_produto, id_usuario, id_lote_vendido, id_lote_correto, data, negligencia)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        ''',
-        (
-            order_id,
-            product.id,
-            user.user_id,
-            batch_sold.id,
-            batch_correct.id,
-            today,
-            neglect
-        ))
-    connect_db.commit()
+    # connector = connect_db.cursor()
+    # connector.execute('''
+    #     INSERT INTO alertas_lote (id_pedido, id_produto, id_usuario, id_lote_vendido, id_lote_correto, data, negligencia)
+    #     VALUES (?, ?, ?, ?, ?, ?, ?)
+    #     ''',
+    #     (
+    #         order_id,
+    #         product.id,
+    #         user.user_id,
+    #         batch_sold.id,
+    #         batch_correct.id,
+    #         today,
+    #         neglect
+    #     ))
+    # connect_db.commit()
 
-    print('=' * 30)
-    logging.info(f'[INFO] Os dados dessa venda foram registrados.')
-    print('=' * 30)
+    # print('=' * 30)
+    # logging.info(f'[INFO] Os dados dessa venda foram registrados.')
+    # print('=' * 30)
 
 ######################################################################################################################

@@ -1,6 +1,7 @@
 ### --- IMPORTS --- ###
-from system.modules.xml_parser import XMLParser
+from system.repositories.product_repository import ProductRepository
 from system.modules.nfe_importer import NFEImporter
+from system.modules.xml_parser import XMLParser
 from system.ui import console_ui
 from system import database
 import logging
@@ -23,12 +24,12 @@ def main():
     try:    
         with database.connect_db() as connection:
             database.create_tables(connection)
+            repo = ProductRepository(connection)
+            importer = NFEImporter(XMLParser, repo.save_complete_products)
             while True:
                 choice = display_menu()
                 
                 if choice == '1':
-                    persistence_func = lambda list_products_complete: database.save_products(connection, list_products_complete)
-                    importer = NFEImporter(XMLParser, persistence_func)
                     xml_path = console_ui.get_xml_path()            
                     if xml_path is not None:
                         importer.run_import(xml_path)

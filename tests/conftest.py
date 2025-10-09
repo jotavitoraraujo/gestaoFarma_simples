@@ -13,24 +13,36 @@ from system.models.user import User
 
 
 #################### --- ADAPTERS AND CONVERSORS --- ####################
-def date_adapter(object_date: date) -> str:
+def date_to_str_adapter(value: date) -> str:
     'inject a object_date in the date translator to sql pattern'
-    adapter_format_str = object_date.strftime('%Y-%m-%d')
+    adapter_format_str = value.strftime('%Y-%m-%d')
     return adapter_format_str
 
-##############
-def datetime_conversor(object_bytes: bytes) -> datetime:
-    'inject a object_str in the datetime translator the of sql pattern to python object'
-    convert_object_str = object_bytes.decode()
-    adapter_format_date = datetime.strptime(convert_object_str, '%Y-%m-%d %HH:%MM:SS')
-    return adapter_format_date
+# ##############
+# def datetime_conversor(object_bytes: bytes) -> datetime:
+#     'inject a object_str in the datetime translator the of sql pattern to python object'
+#     convert_object_str = object_bytes.decode()
+#     adapter_format_date = datetime.strptime(convert_object_str, '%Y-%m-%d %HH:%MM:SS')
+#     return adapter_format_date
 
 ##############
-def date_conversor(object_bytes: bytes) -> date:
+def bytes_to_date_conversor(value: bytes) -> date:
     'inject a object_str in the date translator the of sql pattern to python object'
-    convert_object_str = object_bytes.decode()
+    convert_object_str = value.decode()
     adapter_format_date = date.fromisoformat(convert_object_str)
     return adapter_format_date
+
+#################### --- ADAPTERS AND CONVERSORS FOR DECIMALS --- ####################
+def decimal_to_str_adapter(value: Decimal) -> str:
+    'adapt the value of the an object decimal to an string for inputed in database'
+    value_string = str(value)
+    return value_string
+
+def bytes_to_decimal_conversor(value: bytes) -> Decimal:
+    'receives from the database a value that was previously bytes and is now converted to decimal'
+    value_decode = value.decode()
+    value_decimal = Decimal(f'{value_decode}')
+    return value_decimal
 
 ########## --- FIXTURES UTILITS --- ###########
 @pytest.fixture(scope = 'session')
@@ -39,9 +51,11 @@ def db_connection():
     db_connection = None
     try:
         ####### --- DATE OBJECT -> BYTES (STR) OBJECT --- #######
-        sqlite3.register_adapter(date, date_adapter)
+        sqlite3.register_adapter(date, date_to_str_adapter)
+        sqlite3.register_adapter(Decimal, decimal_to_str_adapter)
         ####### --- BYTES (STR) OBJECT -> DATE OBJECT --- #######
-        sqlite3.register_converter('date', date_conversor)
+        sqlite3.register_converter('date', bytes_to_date_conversor)
+        sqlite3.register_converter('Decimal', bytes_to_decimal_conversor)
         
         db_connection = sqlite3.connect(':memory:', detect_types = sqlite3.PARSE_DECLTYPES)
         logging.warning(f'[ALERT] Test connection with database is on.')

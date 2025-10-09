@@ -273,7 +273,7 @@ class XMLParser:
                     except (MissingTagError, ConversionError) as error:
                         logging.warning(f'[ALERTA] O Item DET Nº: {nitem} da NF-e foi enviado a quarentena. Motivo: {error}')
                         self.list_errors.append(error)
-                        self.list_quarantine_products.append(final_product)
+                        continue
             else:
                 logging.warning(f'[ERRO] Conteúdo do XML vazio. Verifique o arquivo e tente novamente.')
         except ET.ParseError as error:

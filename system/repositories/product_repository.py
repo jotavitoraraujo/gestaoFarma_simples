@@ -31,27 +31,27 @@ class ProductRepository:
     def _insert_table_products(self, product: Product, fiscal_profile_id: FiscalProfile) -> int:
         cursor = self.connection_db.cursor()
         cursor.execute('''
-                INSERT INTO products (
-                    id_fiscal_profile,
-                    supplier_code,
-                    ean,
-                    name_product,
-                    anvisa_code,
-                    sale_price,
-                    max_consumer_price,
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-                ''',
-                (
-                    fiscal_profile_id,
-                    product.supplier_code,
-                    product.ean,
-                    product.name,
-                    product.anvisa_code,
-                    product.sale_price,
-                    product.max_consumer_price,
-                )
+            INSERT INTO products (
+                id_fiscal_profile,
+                supplier_code,
+                ean,
+                name_product,
+                anvisa_code,
+                sale_price,
+                max_consumer_price
             )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''',
+            (
+                fiscal_profile_id,
+                product.supplier_code,
+                product.ean,
+                product.name,
+                product.anvisa_code,
+                product.sale_price,
+                product.max_consumer_price,
+            )
+        )
         product_id: int = cursor.lastrowid
         return product_id
     
@@ -123,7 +123,7 @@ class ProductRepository:
                     SELECT id
                     FROM products
                     WHERE supplier_code = ?
-                ''',
+                    ''',
                     (
                         product.supplier_code,
                     )

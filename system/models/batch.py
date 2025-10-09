@@ -55,9 +55,9 @@ class Batch:
         1. Batch ID: {self.id}
         2. Pyshical Batch ID: {self.physical_id}
         3. Product ID: {self.product_id}
-        4. Quantity: {self.quantity:.0f}
-        5. Cost price: {self.unit_cost_amount:.2f}
-        6. Cost extras: {self.other_expenses_amount:.2f}
+        4. Quantity: {self.quantity}
+        5. Cost price: {self.unit_cost_amount}
+        6. Cost extras: {self.other_expenses_amount}
         7. Expiration date: {self.use_by_date}
         8. Manufacturing: {self.manufacturing_date}
         9. Entry date: {self.received_date}

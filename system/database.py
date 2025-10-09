@@ -50,7 +50,7 @@ def connect_db():
         sqlite3.register_adapter(Decimal, decimal_to_str_adapter)
         ####### --- BYTES (STR) OBJECT -> ANY OBJECT --- #######
         sqlite3.register_converter('date', bytes_to_date_conversor)
-        sqlite3.register_converter('decimal', bytes_to_decimal_conversor)
+        sqlite3.register_converter('Decimal', bytes_to_decimal_conversor)
 
         connect_db = sqlite3.connect(db_file, detect_types = sqlite3.PARSE_DECLTYPES)
         logging.warning(f'[ALERTA] Conexão com banco de dados iniciada.')
@@ -84,9 +84,9 @@ def create_tables(connect_db: Connection):
             ean TEXT,            
             name_product TEXT NOT NULL,
             anvisa_code TEXT,
-            sale_price TEXT,
-            max_consumer_price TEXT,        
-            min_stock INTEGER,            
+            sale_price DECIMAL,
+            max_consumer_price DECIMAL,
+            min_stock INTEGER,
             curva_abc TEXT,
             FOREIGN KEY(id_fiscal_profile) REFERENCES fiscal_profile(id)
         )
@@ -99,8 +99,8 @@ def create_tables(connect_db: Connection):
             ean TEXT,            
             name_product TEXT,
             anvisa_code TEXT,
-            sale_price TEXT,
-            max_consumer_price TEXT,        
+            sale_price DECIMAL,
+            max_consumer_price DECIMAL,        
             min_stock INTEGER,            
             curva_abc TEXT,
             FOREIGN KEY(id_fiscal_profile) REFERENCES fiscal_profile(id)
@@ -120,9 +120,9 @@ def create_tables(connect_db: Connection):
             id_taxation_details INTEGER NOT NULL,
             product_id INTEGER NOT NULL,
             physical_id TEXT NOT NULL,  
-            quantity TEXT NOT NULL,        
-            unit_cost_amount TEXT NOT NULL,
-            other_expenses_amount TEXT, 
+            quantity DECIMAL NOT NULL,        
+            unit_cost_amount DECIMAL NOT NULL,
+            other_expenses_amount DECIMAL, 
             use_by_date DATE NOT NULL,
             manufacturing_date DATE,
             receive_date DATE NOT NULL,
@@ -135,9 +135,9 @@ def create_tables(connect_db: Connection):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             cfop TEXT NOT NULL,
             icms_cst TEXT,
-            icms_st_base_amount TEXT,
-            icms_st_percentage TEXT,
-            icms_st_retained_amount TEXT,
+            icms_st_base_amount DECIMAL,
+            icms_st_percentage DECIMAL,
+            icms_st_retained_amount DECIMAL,
             pis_cst TEXT,
             cofins_cst TEXT
         )
@@ -184,82 +184,6 @@ def create_tables(connect_db: Connection):
         FOREIGN KEY(id_lote_vendido) REFERENCES batchs(id)
         )           
     ''')
-
-# def save_products(connect_db: Connection, list_products: list[Product]):
-#     'save an list of products completes in the database | insert a new or update it'
-    
-#     if not list_products:
-#         return None
-#     cursor = connect_db.cursor()
-#     for product in list_products: 
-#         cursor.execute('''
-#             SELECT id
-#             FROM produtos
-#             WHERE supplier_code = ? 
-#             ''', 
-#             (
-#                 product.supplier_code,
-#             ))
-#         response: tuple = cursor.fetchone()
-#         if response is not None:
-#             existed_id: int = response[0]
-#             cursor.execute('''
-#                 INSERT INTO lotes (
-#                 id_lote_fisico,
-#                 produto_id,
-#                 quantidade,
-#                 preco_custo,
-#                 data_validade,
-#                 data_entrada
-#                 )
-#                 VALUES (?, ?, ?, ?, ?, ?)
-#             ''',
-#             (
-#                 product.batch[0].physical_id,
-#                 existed_id,
-#                 product.batch[0].quantity,
-#                 product.batch[0].unit_cost_amount,
-#                 product.batch[0].use_by_date,
-#                 product.batch[0].received_date,
-#             ))
-#         else:
-#             cursor.execute('''
-#                 INSERT INTO produtos (
-#                 supplier_code, 
-#                 nome_produto, 
-#                 ean, 
-#                 preco_venda)
-#                 VALUES (?, ?, ?, ?)
-#             ''',
-#             (
-#                 product.supplier_code,
-#                 product.name,
-#                 product.ean,
-#                 product.sale_price,
-#             ))
-#             new_id_product: int = cursor.lastrowid
-#             cursor.execute('''
-#                 INSERT INTO lotes (
-#                 id_lote_fisico, 
-#                 produto_id, 
-#                 quantidade, 
-#                 preco_custo,
-#                 data_validade,
-#                 data_entrada
-#                 )
-
-#                 VALUES (?, ?, ?, ?, ?, ?)
-#             ''',
-#             (
-#                 product.batch[0].physical_id,
-#                 new_id_product,
-#                 product.batch[0].quantity,
-#                 product.batch[0].unit_cost_amount,
-#                 product.batch[0].use_by_date,
-#                 product.batch[0].received_date,
-#             ))
-    
-#     logging.info(f'\n [INFO] {len(list_products)} produtos foram salvos ou atualizados no banco de dados.')
 
 # def search_product(connect_db: Connection, product: Product):
 #     'search for a product using an object -> Product'

@@ -88,21 +88,8 @@ def create_tables(connect_db: Connection):
             max_consumer_price DECIMAL,
             min_stock INTEGER,
             curva_abc TEXT,
-            FOREIGN KEY(id_fiscal_profile) REFERENCES fiscal_profile(id)
-        )
-    ''')
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS quarantine_products (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_fiscal_profile INTEGER NOT NULL,
-            supplier_code TEXT,
-            ean TEXT,            
-            name_product TEXT,
-            anvisa_code TEXT,
-            sale_price DECIMAL,
-            max_consumer_price DECIMAL,        
-            min_stock INTEGER,            
-            curva_abc TEXT,
+            status TEXT NOT NULL,
+            quarantine_reason TEXT,
             FOREIGN KEY(id_fiscal_profile) REFERENCES fiscal_profile(id)
         )
     ''')

@@ -12,8 +12,7 @@ import logging
 class XMLParser:
     def __init__(self, xml_content: str):
         self.xml_content: str = xml_content
-        self.list_complete_products: list = []
-        self.list_quarantine_products: list[tuple] = []
+        self.list_products: list = []
         self.list_errors: list = []
 
     def _extract_xml_data(self) -> ET.Element:
@@ -264,12 +263,8 @@ class XMLParser:
                         self._check_presence_mandatory_tags(dict_tags, det)
                         clean_data: dict = self._conversion_of_tag_dict_key_values(dict_tags)
                         final_product: Product = self._manufacture_product(clean_data)
+                        self.list_products.append(final_product)
 
-                        if final_product.ean is not None:
-                            self.list_complete_products.append(final_product)
-                        else:
-                            self.list_quarantine_products.append(final_product)
-                    
                     except (MissingTagError, ConversionError) as error:
                         logging.warning(f'[ALERTA] O Item DET Nº: {nitem} da NF-e foi enviado a quarentena. Motivo: {error}')
                         self.list_errors.append(error)
@@ -287,13 +282,9 @@ class XMLParser:
             self.list_errors.append(error)
     
     ######### --- METHODS TO RETURNS RESULTS OF THIS OPERATION --- #########
-    def get_complete_products(self) -> tuple:
+    def get_products(self) -> tuple:
         'returns tuple of products complete'
-        return (self.list_complete_products)
-    
-    def get_quarantine_products(self) -> tuple:
-        'returns tuple of products incomplete'
-        return (self.list_quarantine_products)
+        return (self.list_products)
 
     def get_errors(self) -> tuple:
         'returns a tuple with the erros generated within process'

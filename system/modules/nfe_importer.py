@@ -24,8 +24,7 @@ class NFEImporter:
             # -- INSTANCIATED PARSER, EXECUTE IMPORTATIN AND GET PRODUCTS COMPLETE/INCOMPLETE AND ERROS
             parser_instance: XMLParser = self.parser(xml_content)
             parser_instance.execute_process()
-            list_complete_products: list = parser_instance.get_complete_products()
-            list_quarantine_products: list = parser_instance.get_quarantine_products()
+            list_complete_products: list = parser_instance.get_products()
             list_errors_raised: list = parser_instance.get_errors()
             ###############################################################################
             # -- SAVE THE PRODUCTS COMPLETE IN DATABASE USING DATABASE.SAVE_PRODUCTS(*ARG, COMPLETE PRODUCTS)
@@ -34,13 +33,6 @@ class NFEImporter:
                 logging.info(f'[INFO] Produtos importados com sucesso!')
             else:
                 logging.warning(f'[ALERTA] Nenhum produto foi importado. Verifique o log de ocorrências.')
-            ###############################################################################
-            # -- SAVE THE PRODUCTS INCOMPLETE IN DATABASE TABLE OF QUARANTINE USING DATABASE.SAVE_PRODUCTS_QUARANTINE
-            if list_quarantine_products:
-                # -> AQUI VIRÁ A FUNÇÃO QUE SALVARÁ ESSES PRODUTOS NA TABELA produtos_pendentes
-                logging.warning(f'[ALERTA] Foram importados {len(list_quarantine_products)} para a quarentena. Favor completar o cadastro.')
-            else:
-                logging.info(f'[INFO] Nenhum produto foi enviado a quarentena.')
             ###############################################################################
             if list_errors_raised:
                 logging.error(f'[ERRO] Foram detectados {len(list_errors_raised)} erros. Detalhes abaixo.')

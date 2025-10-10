@@ -111,7 +111,7 @@ class ProductRepository:
             )
         )
 
-    def save_complete_products(self, list_products: list[Product]):
+    def save_products(self, list_products: list[Product]):
         'save a many quantity of products in the table products in database'
         try:
             if not list_products:

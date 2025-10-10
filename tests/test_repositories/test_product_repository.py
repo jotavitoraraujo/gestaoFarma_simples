@@ -14,7 +14,7 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
     #### --- PHASE ARRANGE --- ####
     database.create_tables(db_connection)
     repo = ProductRepository(db_connection)
-    repo.save_complete_products(rich_products_list)
+    repo.save_products(rich_products_list)
     cursor = db_connection.cursor()
     
     ### --- PHASE ACT TO PRODUCTS --- ###
@@ -239,3 +239,5 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
     #### --- ASSERTION TO SEE IF THE DATABASE RETURN WILL BUILD THE SAME PRODUCT AS THE ARGUMENT LIST --- ####
     assert clindamicina_db == clindamicina_list
     assert clindamicina_db.batch == clindamicina_list.batch
+
+#def test_prod_repo_quarantine_products(db_connection: Connection, rich_products_list_EAN_None: list[Product]):

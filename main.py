@@ -25,7 +25,7 @@ def main():
         with database.connect_db() as connection:
             database.create_tables(connection)
             repo = ProductRepository(connection)
-            importer = NFEImporter(XMLParser, repo.save_complete_products)
+            importer = NFEImporter(XMLParser, repo.save_products)
             while True:
                 choice = display_menu()
                 

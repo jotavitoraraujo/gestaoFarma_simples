@@ -10,7 +10,7 @@ def test_manager_import(functional_xml_real, rich_products_list):
 
     parser = XMLParser(functional_xml_real)
     parser.execute_process()
-    result = parser.get_complete_products()
+    result = parser.get_products()
     
     assert len(result) == 3
     assert len(parser.get_quarantine_products()) == 0
@@ -25,7 +25,7 @@ def test_manager_import_unstable(unstable_xml_real, rich_products_list_EAN_None)
     
     parser = XMLParser(unstable_xml_real)
     parser.execute_process()
-    result = parser.get_complete_products()
+    result = parser.get_products()
     result_2 = parser.get_quarantine_products()
     list_result = [result[0], result[1], result_2[0]]
 
@@ -40,7 +40,7 @@ def test_manager_import_missing_tags(missing_tags_xml_real, rich_products_list_o
     'the result it must be an list with only a product where is instantiated perfectly, because the remaining data is completly absent'
     parser = XMLParser(missing_tags_xml_real)
     parser.execute_process()
-    result = parser.get_complete_products()
+    result = parser.get_products()
     errors = parser.get_errors()
 
     assert len(result) == 1
@@ -55,7 +55,7 @@ def test_manager_import_missing_all_dets(missing_dets_xml_real):
     
     parser = XMLParser(missing_dets_xml_real)
     parser.execute_process()
-    result = parser.get_complete_products()
+    result = parser.get_products()
     result_2 = parser.get_quarantine_products()
     errors = parser.get_errors()
 
@@ -75,7 +75,7 @@ def test_manager_import_malformed_xml(malformed_xml_real):
     '''
     parser = XMLParser(malformed_xml_real)
     parser.execute_process()
-    result = parser.get_complete_products()
+    result = parser.get_products()
     result_2 = parser.get_quarantine_products()
     errors = parser.get_errors()
 
@@ -91,7 +91,7 @@ def test_manager_import_broken(broken_xml):
 
     parser = XMLParser(broken_xml)
     parser.execute_process()
-    result = parser.get_complete_products()
+    result = parser.get_products()
     result_2 = parser.get_quarantine_products()
     errors = parser.get_errors()
 

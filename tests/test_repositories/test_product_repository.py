@@ -10,7 +10,6 @@ from system.repositories.product_repository import ProductRepository
 #######################
 
 def test_prod_repo_complete_products(db_connection: Connection, rich_products_list: list[Product]):
-
     #### --- PHASE ARRANGE --- ####
     database.create_tables(db_connection)
     repo = ProductRepository(db_connection)
@@ -194,34 +193,34 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
     )
     #######################################################################
     fiscal_profile = FiscalProfile (
-        id = response_complete[10],
-        ncm = response_complete[11],
-        cest = response_complete[12],
-        origin_code = response_complete[13]
+        id = response_complete[12],
+        ncm = response_complete[13],
+        cest = response_complete[14],
+        origin_code = response_complete[15]
     )
     #######################################################################
     batch = Batch (
-        id = response_complete[14],
-        product_id = response_complete[16],
-        physical_id = response_complete[17],
-        quantity = response_complete[18],
-        unit_cost_amount = response_complete[19],
-        other_expenses_amount = response_complete[20],
-        use_by_date = response_complete[21],
-        manufacturing_date = response_complete[22],
-        received_date = response_complete[23],
+        id = response_complete[16],
+        product_id = response_complete[18],
+        physical_id = response_complete[19],
+        quantity = response_complete[20],
+        unit_cost_amount = response_complete[21],
+        other_expenses_amount = response_complete[22],
+        use_by_date = response_complete[23],
+        manufacturing_date = response_complete[24],
+        received_date = response_complete[25],
         taxation_details = None
     )
     #######################################################################
     taxation_details = PurchaseTaxDetails (
-        id = response_complete[24],
-        cfop = response_complete[25],
-        icms_cst = response_complete[26],
-        icms_st_base_amount = response_complete[27],
-        icms_st_percentage = response_complete[28],
-        icms_st_retained_amount = response_complete[29],
-        pis_cst = response_complete[30],
-        cofins_cst = response_complete[31]
+        id = response_complete[26],
+        cfop = response_complete[27],
+        icms_cst = response_complete[28],
+        icms_st_base_amount = response_complete[29],
+        icms_st_percentage = response_complete[30],
+        icms_st_retained_amount = response_complete[31],
+        pis_cst = response_complete[32],
+        cofins_cst = response_complete[33]
     )
     #######################################################################
     product.fiscal_profile = fiscal_profile
@@ -239,5 +238,66 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
     #### --- ASSERTION TO SEE IF THE DATABASE RETURN WILL BUILD THE SAME PRODUCT AS THE ARGUMENT LIST --- ####
     assert clindamicina_db == clindamicina_list
     assert clindamicina_db.batch == clindamicina_list.batch
+    assert response_complete[10] == 'ACTIVE' # INDEX 10 == STATUS OF PRODUCT
+    assert response_complete[11] == None # INDEX 11 == QUARANTINE REASON OF PRODUCT
 
-#def test_prod_repo_quarantine_products(db_connection: Connection, rich_products_list_EAN_None: list[Product]):
+def test_prod_repo_status_quarantine_products(db_connection: Connection, list_status_quarantine: list[Product]):
+    
+    #### --- PHASE ARRANGE --- ####
+    database.create_tables(db_connection)
+    repo = ProductRepository(db_connection)
+    repo.save_products(list_status_quarantine)
+    cursor = db_connection.cursor()
+
+    #### --- PHASE ARRANGE FOR SELECT AND PUT IT ALL TOGETHER --- ####
+    cursor.execute('''
+        SELECT *
+        FROM products
+        JOIN fiscal_profile ON products.id_fiscal_profile = fiscal_profile.id
+        JOIN batchs ON products.id = batchs.product_id
+        JOIN purchase_tax_details ON batchs.id_taxation_details = purchase_tax_details.id
+        WHERE products.id = 1
+    ''')
+    response_complete: tuple = cursor.fetchone()
+    print(response_complete)
+    assert response_complete[10] == 'QUARANTINE'
+    assert response_complete[11] == '[ALERT] Missing Mandatory Fields: supplier_code, name, physical_id, quantity, unit_cost_amount, use_by_date, ncm, cfop'
+
+def test_prod_repo_update_in_database(db_connection: Connection, rich_products_list: list[Product], list_update: list[Product]):
+
+    #######################################################
+    #### --- PHASE ARRANGE --- ####
+    clinda_active_prod: Product = rich_products_list[0]
+    list_clinda_active: list = [clinda_active_prod]
+    clinda_quarantine_prod: Product = list_update[0]
+    list_clinda_quarantine: list = [clinda_quarantine_prod]
+    #######################################################
+    database.create_tables(db_connection)
+    repo = ProductRepository(db_connection)
+    repo.save_products(list_clinda_active)
+    #######################################################
+    cursor = db_connection.cursor()
+    cursor.execute('''
+        SELECT status
+        FROM products
+    ''')
+    response: tuple = cursor.fetchone()
+    if response is not None:
+        status = response[0]
+    #######################################################
+    assert status == 'ACTIVE'
+    #######################################################
+    repo.save_products(list_clinda_quarantine)
+    #######################################################
+    cursor.execute('''
+        SELECT status, quarantine_reason
+        FROM products
+        WHERE id == 1
+    ''')
+    response_1: tuple = cursor.fetchone()
+    print(response_1, type(response_1))
+    if response is not None:
+        status_1, reason_1 = response_1
+    #######################################################
+    assert status_1 == 'QUARANTINE'
+    assert reason_1 == '[ALERT] Missing Mandatory Fields: name'

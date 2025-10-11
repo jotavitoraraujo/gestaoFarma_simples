@@ -2,7 +2,7 @@
 from system.models.product import Product
 from system.models.batch import Batch
 from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
-from system.utils.exceptions import MissingTagError, ConversionError
+from system.utils.exceptions import ConversionError
 from datetime import date
 from decimal import Decimal, InvalidOperation
 import xml.etree.ElementTree as ET
@@ -114,31 +114,14 @@ class XMLParser:
             }
         return dict_tags
 
-    ###########
-    def _check_presence_mandatory_tags(self, dict_tags: dict, det: ET.Element) -> None:
-        '''
-        verify if some tag from dict received of argument is equal a none and capture a nItem of the knot det to use within the except.
-        this function or returns None or returns a raising the error MissingTagError.
-        '''
-
-        if not isinstance(dict_tags, dict):
-            raise ValueError
-
-        tags_mandatory: set = {'cProd', 'xProd', 'qCom', 'vUnCom', 'nLote', 'dVal', 'CFOP', 'NCM'}
-        tags_missing: list = []
-        for key_tag, element in dict_tags.items():
-            if element is None and key_tag in tags_mandatory:
-                tags_missing.append(key_tag)
-
-        if tags_missing:
-            det_nItem = det.attrib.get('nItem')
-            raise MissingTagError('[ERRO] An mandatory tag is absent. Verify the content', tags_missing, det_nItem)
-
     ######################################################
     # -- METHODS TO CONVERT OBJECTS ELEMENT'S IN YOURS RESPECTIVE TYPES 
     def _to_str(self, element: ET.Element) -> str | None:
         if element is not None:
-            return element.text
+            try:
+                return element.text
+            except:
+               raise (ValueError, TypeError)
         else: return None
     ###########
     def _to_decimal(self, element: ET.Element) -> Decimal | None:
@@ -260,13 +243,12 @@ class XMLParser:
                     nitem = det.attrib.get('nItem')
                     try:
                         dict_tags: dict = self._find_tags_in_xml(det)
-                        self._check_presence_mandatory_tags(dict_tags, det)
                         clean_data: dict = self._conversion_of_tag_dict_key_values(dict_tags)
                         final_product: Product = self._manufacture_product(clean_data)
                         self.list_products.append(final_product)
 
-                    except (MissingTagError, ConversionError) as error:
-                        logging.warning(f'[ALERTA] O Item DET Nº: {nitem} da NF-e foi enviado a quarentena. Motivo: {error}')
+                    except (ConversionError) as error:
+                        logging.warning(f'[ALERTA] O Item DET Nº: {nitem} da NF-e apresentou um erro de conversão. Motivo: {error}')
                         self.list_errors.append(error)
                         continue
             else:

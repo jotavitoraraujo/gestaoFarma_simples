@@ -45,7 +45,7 @@ def bytes_to_decimal_conversor(value: bytes) -> Decimal:
     return value_decimal
 
 ########## --- FIXTURES UTILITS --- ###########
-@pytest.fixture(scope = 'session')
+@pytest.fixture(scope = 'function')
 def db_connection():
 
     db_connection = None
@@ -331,10 +331,35 @@ def fiscal_profile_clindamicina() -> FiscalProfile:
     return fiscal_profile
 ##########################
 @pytest.fixture(scope = 'module')
+def fiscal_profile_clindamicina_status_quarantine() -> FiscalProfile:
+    fiscal_profile = FiscalProfile (
+        id = None,
+        ncm = None,
+        cest = '1300300',
+        origin_code = '0' 
+    )
+    return fiscal_profile
+##########################
+@pytest.fixture(scope = 'module')
 def taxation_details_clindamicina() -> PurchaseTaxDetails:
     purchase_tax_details = PurchaseTaxDetails (
         id = None,
         cfop = '5405',
+        icms_cst = '60',
+        icms_st_base_amount = Decimal('43.86'),
+        icms_st_percentage = Decimal('18.00'),
+        icms_st_retained_amount = Decimal('2.57'),
+        pis_cst = '04',
+        cofins_cst = '04'
+    )
+    return purchase_tax_details
+
+##########################
+@pytest.fixture(scope = 'module')
+def taxation_details_clindamicina_status_quarantine() -> PurchaseTaxDetails:
+    purchase_tax_details = PurchaseTaxDetails (
+        id = None,
+        cfop = None,
         icms_cst = '60',
         icms_st_base_amount = Decimal('43.86'),
         icms_st_percentage = Decimal('18.00'),
@@ -538,6 +563,78 @@ def clidamicina_teuto_farma(use_by_date,
     )
     product_instance.batch.append(batch_instance)
     clidamin_instance = product_instance    
+    return clidamin_instance
+
+############################################################
+@pytest.fixture(scope = 'module')
+def clidamicina_teuto_farma_update(use_by_date, 
+    manufacturing_date,
+    received_date, 
+    fiscal_profile_clindamicina, 
+    taxation_details_clindamicina
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = '0101465',
+        ean = '7896112196846',
+        name = None,
+        anvisa_code = '1037006270012',
+        sale_price = None,
+        max_consumer_price = Decimal('93.47'),
+        fiscal_profile = fiscal_profile_clindamicina
+    )
+
+    batch_instance = Batch (
+        id = None,
+        physical_id = '9684082',
+        product_id = product_instance.id,
+        quantity = Decimal('3.0'),
+        unit_cost_amount = Decimal('15.59'),
+        other_expenses_amount = Decimal('3.95'),
+        use_by_date = use_by_date,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
+        taxation_details = taxation_details_clindamicina
+    )
+    product_instance.batch.append(batch_instance)
+    clidamin_instance = product_instance    
+    return clidamin_instance
+
+############################################################
+@pytest.fixture(scope = 'module')
+def clidamicina_status_quarantine( 
+    manufacturing_date,
+    received_date, 
+    fiscal_profile_clindamicina_status_quarantine, 
+    taxation_details_clindamicina_status_quarantine
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = None,
+        ean = '7896112196846',
+        name = None,
+        anvisa_code = '1037006270012',
+        sale_price = None,
+        max_consumer_price = Decimal('93.47'),
+        fiscal_profile = fiscal_profile_clindamicina_status_quarantine
+    )
+
+    batch_instance = Batch (
+        id = None,
+        physical_id = None,
+        product_id = product_instance.id,
+        quantity = None,
+        unit_cost_amount = None,
+        other_expenses_amount = Decimal('2.95'),
+        use_by_date = None,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
+        taxation_details = taxation_details_clindamicina_status_quarantine
+    )
+    product_instance.batch.append(batch_instance)
+    clidamin_instance = product_instance
     return clidamin_instance
 ############################################################
 # -- THIS VARIANT IS OF EXCLUSIVE USE NEW SUITE TEST FOR CLASS XML_PARSER
@@ -1153,6 +1250,7 @@ def rich_products_list(clidamicina_teuto_farma: Product, bromazepan_teuto_gen: P
     ]
     return list
 
+############################################################
 @pytest.fixture(scope = 'module')
 def rich_products_list_EAN_None(clidamicina_teuto_farma: Product, bromazepan_teuto_gen: Product, celecoxibe_teuto_gen_EAN_None: Product) -> list[Product]:
     list = [
@@ -1162,10 +1260,19 @@ def rich_products_list_EAN_None(clidamicina_teuto_farma: Product, bromazepan_teu
     ]
     return list
 
+############################################################
 @pytest.fixture(scope = 'module')
-def rich_products_list_only_one(clidamicina_teuto_farma: Product) -> list[Product]:
+def list_status_quarantine(clidamicina_status_quarantine: Product) -> list[Product]:
     list = [
-        clidamicina_teuto_farma,
+        clidamicina_status_quarantine,
+    ]
+    return list
+
+############################################################
+@pytest.fixture(scope = 'module')
+def list_update(clidamicina_teuto_farma_update: Product) -> list[Product]:
+    list = [
+        clidamicina_teuto_farma_update,
     ]
     return list
 

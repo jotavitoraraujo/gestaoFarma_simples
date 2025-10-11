@@ -13,7 +13,7 @@ def test_nfe_importer(mock_file_handle: Mock, rich_products_list: list[Product],
     mock_xml_parser_instance = MagicMock() # XMLPARSER Instance
     mock_xml_parser.return_value = mock_xml_parser_instance # RETURN OF CLASS = INSTANCE
     #########################
-    mock_xml_parser_instance.get_complete_products.return_value = rich_products_list # CALL AND RETURN OF METHOD
+    mock_xml_parser_instance.get_products.return_value = rich_products_list # CALL AND RETURN OF METHOD
     #########################
     mock_persistence = MagicMock() # INSTANCE PRODUCT_REPOSITORY
     #########################

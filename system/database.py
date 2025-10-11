@@ -82,7 +82,7 @@ def create_tables(connect_db: Connection):
             id_fiscal_profile INTEGER NOT NULL,
             supplier_code TEXT,
             ean TEXT,            
-            name_product TEXT NOT NULL,
+            name_product TEXT,
             anvisa_code TEXT,
             sale_price DECIMAL,
             max_consumer_price DECIMAL,
@@ -96,7 +96,7 @@ def create_tables(connect_db: Connection):
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS fiscal_profile (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            ncm_code TEXT NOT NULL,
+            ncm_code TEXT,
             cest_code TEXT,
             origin_code TEXT
         )
@@ -106,11 +106,11 @@ def create_tables(connect_db: Connection):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             id_taxation_details INTEGER NOT NULL,
             product_id INTEGER NOT NULL,
-            physical_id TEXT NOT NULL,  
-            quantity DECIMAL NOT NULL,        
-            unit_cost_amount DECIMAL NOT NULL,
+            physical_id TEXT,  
+            quantity DECIMAL,        
+            unit_cost_amount DECIMAL,
             other_expenses_amount DECIMAL, 
-            use_by_date DATE NOT NULL,
+            use_by_date DATE,
             manufacturing_date DATE,
             receive_date DATE NOT NULL,
             FOREIGN KEY(product_id) REFERENCES products(id),
@@ -120,7 +120,7 @@ def create_tables(connect_db: Connection):
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS purchase_tax_details (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            cfop TEXT NOT NULL,
+            cfop TEXT,
             icms_cst TEXT,
             icms_st_base_amount DECIMAL,
             icms_st_percentage DECIMAL,

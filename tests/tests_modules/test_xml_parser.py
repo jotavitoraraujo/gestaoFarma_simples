@@ -1,6 +1,7 @@
 ###### --- IMPORTS --- ######
 from system.modules.xml_parser import XMLParser
 from system.utils.exceptions import ConversionError
+from system.models.product import Product
 import xml.etree.ElementTree as ET
 
 ######################################################################################
@@ -13,40 +14,37 @@ def test_manager_import(functional_xml_real, rich_products_list):
     result = parser.get_products()
     
     assert len(result) == 3
-    assert len(parser.get_quarantine_products()) == 0
     assert len(parser.get_errors()) == 0
     assert result == rich_products_list
 
 ######################################################################################
 ###### --- SESSION OF THE XML_PARSER.PY TESTS TO THE UNSTABLE PATH --- ######
 def test_manager_import_unstable(unstable_xml_real, rich_products_list_EAN_None):
-    '''the result it must be a list of products completes containing 2 items and a list of incomplete products containing 1 item,
-    the knot number 3 (most specifically the content in <cEAN></cEAN>) it is empty'''
+    '''the result it must be a list of products containing 3 items, but index 2 it has the attribute .ean absent
+    det number 3 (most specifically, the content in <cEAN></cEAN>) it is empty'''
     
     parser = XMLParser(unstable_xml_real)
     parser.execute_process()
     result = parser.get_products()
-    result_2 = parser.get_quarantine_products()
-    list_result = [result[0], result[1], result_2[0]]
+    list_result = [result[0], result[1], result[2]]
 
-    assert len(result) == 2
-    assert len(result_2) == 1
+    assert len(result) == 3
     assert len(parser.get_errors()) == 0
     assert list_result == rich_products_list_EAN_None
 
 ######################################################################################
 ###### --- SESSION OF THE XML_PARSER.PY TESTS TO THE MISSING TAGS PATH --- ######
-def test_manager_import_missing_tags(missing_tags_xml_real, rich_products_list_only_one):
-    'the result it must be an list with only a product where is instantiated perfectly, because the remaining data is completly absent'
+def test_manager_import_missing_tags(missing_tags_xml_real):
+    'the result it must be an list complete where is instantiated perfectly, same with mandatory data absent'
     parser = XMLParser(missing_tags_xml_real)
     parser.execute_process()
-    result = parser.get_products()
+    result: tuple[Product] = parser.get_products()
     errors = parser.get_errors()
 
-    assert len(result) == 1
-    assert parser.get_quarantine_products() == []
-    assert len(errors) == 2
-    assert result == rich_products_list_only_one
+    assert len(result) == 3
+    assert len(errors) == 0
+    assert result[1].name == None
+    assert result[2].name == None
 
 ######################################################################################
 ###### --- SESSION OF THE XML_PARSER.PY TESTS TO THE MISSING DETS PATH --- ######
@@ -56,11 +54,9 @@ def test_manager_import_missing_all_dets(missing_dets_xml_real):
     parser = XMLParser(missing_dets_xml_real)
     parser.execute_process()
     result = parser.get_products()
-    result_2 = parser.get_quarantine_products()
     errors = parser.get_errors()
 
     assert result == []
-    assert result_2 == []
     assert errors == []
 
 ######################################################################################
@@ -76,11 +72,9 @@ def test_manager_import_malformed_xml(malformed_xml_real):
     parser = XMLParser(malformed_xml_real)
     parser.execute_process()
     result = parser.get_products()
-    result_2 = parser.get_quarantine_products()
     errors = parser.get_errors()
 
     assert len(result) == 2
-    assert len(result_2) == 0
     assert len(errors) == 1
     assert isinstance(errors[0], ConversionError) 
 
@@ -92,11 +86,9 @@ def test_manager_import_broken(broken_xml):
     parser = XMLParser(broken_xml)
     parser.execute_process()
     result = parser.get_products()
-    result_2 = parser.get_quarantine_products()
     errors = parser.get_errors()
 
     assert len(result) == 0
-    assert len(result_2) == 0
     assert len(errors) == 1
     assert isinstance(errors[0], ET.ParseError)
 

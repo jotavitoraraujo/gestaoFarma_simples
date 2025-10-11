@@ -28,7 +28,7 @@ class ProductRepository:
         fiscal_profile_id: int = cursor.lastrowid
         return fiscal_profile_id
     
-    def _insert_table_products(self, product: Product, fiscal_profile_id: FiscalProfile) -> int:
+    def _insert_table_products(self, product: Product, fiscal_profile_id: FiscalProfile, status: str, quarantine_reason: str = None) -> int:
         cursor = self.connection_db.cursor()
         cursor.execute('''
             INSERT INTO products (
@@ -38,9 +38,11 @@ class ProductRepository:
                 name_product,
                 anvisa_code,
                 sale_price,
-                max_consumer_price
+                max_consumer_price,
+                status,
+                quarantine_reason                       
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''',
             (
                 fiscal_profile_id,
@@ -50,6 +52,8 @@ class ProductRepository:
                 product.anvisa_code,
                 product.sale_price,
                 product.max_consumer_price,
+                status,
+                quarantine_reason
             )
         )
         product_id: int = cursor.lastrowid
@@ -111,6 +115,65 @@ class ProductRepository:
             )
         )
 
+    def _update_table_products(self, status: str, reason: str | None,  product_id: int):
+        'update the status that determine the product as active or in quarantine'
+
+        ###########################################################
+        cursor = self.connection_db.cursor()
+        cursor.execute('''
+            UPDATE products
+            SET status = ?, quarantine_reason = ?
+            WHERE id = ?
+        ''',
+            (
+                status,
+                reason,
+                product_id
+            )
+        )
+
+    def _determine_product_status(self, product: Product) -> tuple[str, str | None]:
+        'determinate if a product has a attribute mandatory as none'
+
+        result: list = []
+        ##################################
+        # PRODUCT VERIFY
+        if product.supplier_code is None:
+            result.append('supplier_code')
+        if product.name is None:
+            result.append('name')
+        ##################################
+        batch: Batch = product.batch[0]
+        ##################################
+        # BATCH VERIFY
+        if batch.physical_id is None:
+            result.append('physical_id')
+        if batch.quantity is None:
+            result.append('quantity')
+        if batch.unit_cost_amount is None:
+            result.append('unit_cost_amount')
+        if batch.use_by_date is None:
+            result.append('use_by_date')
+        ##################################
+        fiscal_profile: FiscalProfile = product.fiscal_profile
+        ##################################
+        # FISCAL PROFILE VERIFY
+        if fiscal_profile.ncm is None:
+            result.append('ncm')
+        ##################################
+        taxation_details: PurchaseTaxDetails = batch.taxation_details
+        ##################################
+        # PURCHASE TAX DETAILS VERIFY
+        if taxation_details.cfop is None:
+            result.append('cfop')
+        ##################################
+
+        if result:
+            reason = f'[ALERT] Missing Mandatory Fields: {", ".join(result)}'
+            return ('QUARANTINE', reason)
+        else:
+            return ('ACTIVE', None)          
+
     def save_products(self, list_products: list[Product]):
         'save a many quantity of products in the table products in database'
         try:
@@ -119,6 +182,12 @@ class ProductRepository:
             ###########################################################
             cursor = self.connection_db.cursor()
             for product in list_products:
+                status, reason = self._determine_product_status(product)
+                    ######
+                fiscal_profile: FiscalProfile = product.fiscal_profile
+                batch: Batch = product.batch[0]
+                taxation_tax_details: PurchaseTaxDetails = batch.taxation_details          
+            ###########################################################   
                 cursor.execute('''
                     SELECT id
                     FROM products
@@ -130,15 +199,13 @@ class ProductRepository:
                 )
                 response: tuple = cursor.fetchone()
             ###########################################################
-                if response is not None:
-                    product_id: int = response[0]
-                else:
-                    fiscal_profile: FiscalProfile = product.fiscal_profile
+                if response is None:
                     fiscal_profile_id: int = self._insert_table_fiscal_profile(fiscal_profile)
-                    product_id: int = self._insert_table_products(product, fiscal_profile_id)
+                    product_id: int = self._insert_table_products(product, fiscal_profile_id, status, reason)
+                else:
+                    product_id: int = response[0]
+                    self._update_table_products(status, reason, product_id)
             ###########################################################
-                batch: Batch = product.batch[0]
-                taxation_tax_details: PurchaseTaxDetails = batch.taxation_details
                 taxation_tax_details_id = self._insert_table_purchase_tax_details(taxation_tax_details)
                 self._insert_table_batchs(batch, taxation_tax_details_id, product_id)
             ###########################################################

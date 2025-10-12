@@ -9,7 +9,7 @@ import logging
 class ProductRepository:
     def __init__(self, connection_db: Connection):
         self.connection_db = connection_db
-    
+###########################################################    
     def _insert_table_fiscal_profile(self, fiscal_profile: FiscalProfile) -> int:
         cursor = self.connection_db.cursor()
         cursor.execute('''
@@ -27,7 +27,7 @@ class ProductRepository:
             ))
         fiscal_profile_id: int = cursor.lastrowid
         return fiscal_profile_id
-    
+###########################################################    
     def _insert_table_products(self, product: Product, fiscal_profile_id: FiscalProfile, status: str, quarantine_reason: str = None) -> int:
         cursor = self.connection_db.cursor()
         cursor.execute('''
@@ -58,7 +58,7 @@ class ProductRepository:
         )
         product_id: int = cursor.lastrowid
         return product_id
-    
+###########################################################    
     def _insert_table_purchase_tax_details(self, taxation_tax_details: PurchaseTaxDetails) -> int:
         cursor = self.connection_db.cursor()
         cursor.execute('''
@@ -85,7 +85,7 @@ class ProductRepository:
         )
         taxation_tax_details_id: int = cursor.lastrowid
         return taxation_tax_details_id
-    
+###########################################################   
     def _insert_table_batchs(self, batch: Batch, taxation_tax_details_id: int, product_id: int):
         cursor = self.connection_db.cursor()
         cursor.execute('''
@@ -114,7 +114,7 @@ class ProductRepository:
                 batch.received_date,
             )
         )
-
+###########################################################
     def _update_table_products(self, status: str, reason: str | None,  product_id: int):
         'update the status that determine the product as active or in quarantine'
 
@@ -131,40 +131,40 @@ class ProductRepository:
                 product_id
             )
         )
-
+###########################################################
     def _determine_product_status(self, product: Product) -> tuple[str, str | None]:
         'determinate if a product has a attribute mandatory as none'
 
         result: list = []
         ##################################
         # PRODUCT VERIFY
-        if product.supplier_code is None:
+        if not product.supplier_code:
             result.append('supplier_code')
-        if product.name is None:
+        if not product.name:
             result.append('name')
         ##################################
         batch: Batch = product.batch[0]
         ##################################
         # BATCH VERIFY
-        if batch.physical_id is None:
+        if not batch.physical_id:
             result.append('physical_id')
-        if batch.quantity is None:
+        if not batch.quantity:
             result.append('quantity')
-        if batch.unit_cost_amount is None:
+        if not batch.unit_cost_amount:
             result.append('unit_cost_amount')
-        if batch.use_by_date is None:
+        if not batch.use_by_date:
             result.append('use_by_date')
         ##################################
         fiscal_profile: FiscalProfile = product.fiscal_profile
         ##################################
         # FISCAL PROFILE VERIFY
-        if fiscal_profile.ncm is None:
+        if not fiscal_profile.ncm:
             result.append('ncm')
         ##################################
         taxation_details: PurchaseTaxDetails = batch.taxation_details
         ##################################
         # PURCHASE TAX DETAILS VERIFY
-        if taxation_details.cfop is None:
+        if not taxation_details.cfop:
             result.append('cfop')
         ##################################
 
@@ -173,42 +173,70 @@ class ProductRepository:
             return ('QUARANTINE', reason)
         else:
             return ('ACTIVE', None)          
+###########################################################
+    def _search_supplier_code(self, product: Product) -> tuple[int | None]:
+        'search in db by the supplier_code from product that has receives as argument and return the product_id'
 
-    def save_products(self, list_products: list[Product]):
-        'save a many quantity of products in the table products in database'
+        supplier_code: str = product.supplier_code
+        cursor = self.connection_db.cursor()
+        cursor.execute('''
+            SELECT id
+            FROM products
+            WHERE supplier_code = ?
+        ''',
+            (
+                supplier_code,
+            )
+        )
+        product_id: tuple = cursor.fetchone()
+        return product_id
+###########################################################    
+    def _save_single_product(self, product: Product) -> str:
+        'estructure procedural that insert just one product at a time in database, calling the private responsible methods. Returns your status to use foward'
+
         try:
-            if not list_products:
-                return None
             ###########################################################
-            cursor = self.connection_db.cursor()
-            for product in list_products:
-                status, reason = self._determine_product_status(product)
-                    ######
+            product_id_tuple: tuple | None = self._search_supplier_code(product)
+            status, reason = self._determine_product_status(product)
+            if product_id_tuple is None:
+                ######
                 fiscal_profile: FiscalProfile = product.fiscal_profile
-                batch: Batch = product.batch[0]
-                taxation_tax_details: PurchaseTaxDetails = batch.taxation_details          
-            ###########################################################   
-                cursor.execute('''
-                    SELECT id
-                    FROM products
-                    WHERE supplier_code = ?
-                    ''',
-                    (
-                        product.supplier_code,
-                    )
-                )
-                response: tuple = cursor.fetchone()
+                ######
+                fiscal_profile_id: int = self._insert_table_fiscal_profile(fiscal_profile)
+                product_id: int = self._insert_table_products(product, fiscal_profile_id, status, reason)
+            else:
+                product_id = product_id_tuple[0]
+                self._update_table_products(status, reason, product_id)
             ###########################################################
-                if response is None:
-                    fiscal_profile_id: int = self._insert_table_fiscal_profile(fiscal_profile)
-                    product_id: int = self._insert_table_products(product, fiscal_profile_id, status, reason)
-                else:
-                    product_id: int = response[0]
-                    self._update_table_products(status, reason, product_id)
+            batch = product.batch[0]
+            taxation_details = batch.taxation_details
+            ######
+            taxation_tax_details_id = self._insert_table_purchase_tax_details(taxation_details)
+            self._insert_table_batchs(batch, taxation_tax_details_id, product_id)
             ###########################################################
-                taxation_tax_details_id = self._insert_table_purchase_tax_details(taxation_tax_details)
-                self._insert_table_batchs(batch, taxation_tax_details_id, product_id)
-            ###########################################################
+            return status
         except Exception as error:
-            logging.error(f'[ERRO] Unexpected erro is ocurred. Verify the log: {error}')
             raise error
+###########################################################
+    def save_products(self, list_products: list[Product]) -> dict:
+        'save a many quantity of products in the table products in database'
+        
+        active_count = 0
+        quarantined_count = 0
+        
+        if not list_products:
+            return None
+        ###########################################################
+        else:
+            for product in list_products:
+                try:
+                    status = self._save_single_product(product)
+                    if status == 'ACTIVE':
+                        active_count += 1
+                    else:
+                        quarantined_count += 1
+                except Exception as error:
+                    logging.error(f'[ERRO] Unexpected erro is ocurred. Verify the log: {error}')
+                    continue
+            return {'ACTIVE': active_count, 'QUARANTINE': quarantined_count}
+        ###########################################################

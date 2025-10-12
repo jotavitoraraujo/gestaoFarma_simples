@@ -13,9 +13,14 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
     #### --- PHASE ARRANGE --- ####
     database.create_tables(db_connection)
     repo = ProductRepository(db_connection)
-    repo.save_products(rich_products_list)
+    dict_status: dict = repo.save_products(rich_products_list)
     cursor = db_connection.cursor()
     
+    #### --- ASSERT IF THE DICTIONARY THAT CONTAINS THE VALUE OF THE STATUS RETURNED OF REPO.SAVE_PRODUCTS() IS CORRECT 
+    #### USING DETERMINED LIST AS ARGUMENT --- ###
+    assert dict_status['ACTIVE'] == 3
+    assert dict_status['QUARANTINE'] == 0
+
     ### --- PHASE ACT TO PRODUCTS --- ###
     cursor.execute('''
         SELECT *
@@ -246,7 +251,7 @@ def test_prod_repo_status_quarantine_products(db_connection: Connection, list_st
     #### --- PHASE ARRANGE --- ####
     database.create_tables(db_connection)
     repo = ProductRepository(db_connection)
-    repo.save_products(list_status_quarantine)
+    dict_status: dict = repo.save_products(list_status_quarantine)
     cursor = db_connection.cursor()
 
     #### --- PHASE ARRANGE FOR SELECT AND PUT IT ALL TOGETHER --- ####
@@ -259,9 +264,13 @@ def test_prod_repo_status_quarantine_products(db_connection: Connection, list_st
         WHERE products.id = 1
     ''')
     response_complete: tuple = cursor.fetchone()
-    print(response_complete)
+    ### --- PHASE ASSERT --- ###
     assert response_complete[10] == 'QUARANTINE'
     assert response_complete[11] == '[ALERT] Missing Mandatory Fields: supplier_code, name, physical_id, quantity, unit_cost_amount, use_by_date, ncm, cfop'
+    #### --- ASSERT IF THE DICTIONARY THAT CONTAINS THE VALUE OF THE STATUS RETURNED OF REPO.SAVE_PRODUCTS() IS CORRECT 
+    #### USING DETERMINED LIST AS ARGUMENT --- ###
+    assert dict_status['ACTIVE'] == 0
+    assert dict_status['QUARANTINE'] == 1
 
 def test_prod_repo_update_in_database(db_connection: Connection, rich_products_list: list[Product], list_update: list[Product]):
 
@@ -274,7 +283,11 @@ def test_prod_repo_update_in_database(db_connection: Connection, rich_products_l
     #######################################################
     database.create_tables(db_connection)
     repo = ProductRepository(db_connection)
-    repo.save_products(list_clinda_active)
+    dict_status: dict = repo.save_products(list_clinda_active)
+    #### --- ASSERT IF THE DICTIONARY THAT CONTAINS THE VALUE OF THE STATUS RETURNED OF REPO.SAVE_PRODUCTS() IS CORRECT 
+    #### USING DETERMINED LIST AS ARGUMENT --- ###
+    assert dict_status['ACTIVE'] == 1
+    assert dict_status['QUARANTINE'] == 0
     #######################################################
     cursor = db_connection.cursor()
     cursor.execute('''
@@ -287,7 +300,11 @@ def test_prod_repo_update_in_database(db_connection: Connection, rich_products_l
     #######################################################
     assert status == 'ACTIVE'
     #######################################################
-    repo.save_products(list_clinda_quarantine)
+    dict_status_2: dict = repo.save_products(list_clinda_quarantine)
+    #### --- ASSERT IF THE DICTIONARY THAT CONTAINS THE VALUE OF THE STATUS RETURNED OF REPO.SAVE_PRODUCTS() IS CORRECT 
+    #### USING DETERMINED LIST AS ARGUMENT --- ###
+    assert dict_status_2['ACTIVE'] == 0
+    assert dict_status_2['QUARANTINE'] == 1
     #######################################################
     cursor.execute('''
         SELECT status, quarantine_reason
@@ -295,7 +312,6 @@ def test_prod_repo_update_in_database(db_connection: Connection, rich_products_l
         WHERE id == 1
     ''')
     response_1: tuple = cursor.fetchone()
-    print(response_1, type(response_1))
     if response is not None:
         status_1, reason_1 = response_1
     #######################################################

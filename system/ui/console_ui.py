@@ -15,7 +15,8 @@ def get_xml_path() -> str | None:
     xml_file_path: Path = root_folder/'data'/f'{name_xml}'
     if xml_file_path.exists():
         xml_file_path = str(xml_file_path)
-        logging.info(f'[INFO] Arquivo importado com sucesso.')
         return xml_file_path
     else:
-        logging.error(f'[ERRO] O nome do arquivo não existe ou não foi encontrado. Tente novamente.')
+        logging.info(f'=' * 30)
+        logging.warning(f'[ERRO] O nome do arquivo não existe ou não foi encontrado. Tente novamente.')
+        logging.info(f'=' * 30)

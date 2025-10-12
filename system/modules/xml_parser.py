@@ -14,7 +14,7 @@ class XMLParser:
         self.xml_content: str = xml_content
         self.list_products: list = []
         self.list_errors: list = []
-
+######################################################
     def _extract_xml_data(self) -> ET.Element:
         'extract data of the xml and transform he at a object ET as root for the use'
 
@@ -24,8 +24,7 @@ class XMLParser:
                 return root_element
         else:
             return None
-    
-    ###########
+######################################################
     def _extract_dets(self, root_element: ET.Element) -> list[ET.Element]:
         '''
         create a list of the ET objects from argument this function and returns an list of the knots for the tratament
@@ -38,8 +37,7 @@ class XMLParser:
             return list_dets
         else:
             None
-
-    ###########
+######################################################
     def _find_tags_in_xml(self, det: ET.Element) -> dict:
         'find and pull of this knot det, all tags that will make use to Product instance and returns an dictionary'
         
@@ -113,8 +111,7 @@ class XMLParser:
                 ############################
             }
         return dict_tags
-
-    ######################################################
+######################################################
     # -- METHODS TO CONVERT OBJECTS ELEMENT'S IN YOURS RESPECTIVE TYPES 
     def _to_str(self, element: ET.Element) -> str | None:
         if element is not None:
@@ -138,9 +135,8 @@ class XMLParser:
                 return date.fromisoformat(element.text)
             except:
                 raise (ValueError, TypeError)
-        else: return None
-    
-    ######################################################
+        else: return None  
+######################################################
     def _conversion_of_tag_dict_key_values(self, dict_tags: dict) -> dict:
         'convert the tags in objetcs type string/decimal/date and manage a lift as error inside of except'
         try:
@@ -183,8 +179,7 @@ class XMLParser:
             return converted_data_for_attrib_product
         except (ValueError) as conversion_error:
             raise ConversionError('[ERRO] This conversion is fail. Verify of types of the values in your keys within dicionary', dict_tags) from conversion_error
-
-    ###########
+######################################################
     def _manufacture_product(self, data_converted: dict) -> Product | None:
         'a simple function which instanciate a product'
         
@@ -230,9 +225,8 @@ class XMLParser:
                 fiscal_profile = fiscal_profile
             )
             new_product.batch.insert(0, new_batch)
-            return new_product
-    
-    ###########
+            return new_product   
+######################################################
     def execute_process(self):
         'start the process of construction new products'
         try:
@@ -261,9 +255,8 @@ class XMLParser:
                 Dados do Erro: {error}
                 '''
                 )
-            self.list_errors.append(error)
-    
-    ######### --- METHODS TO RETURNS RESULTS OF THIS OPERATION --- #########
+            self.list_errors.append(error)   
+######### --- METHODS TO RETURNS RESULTS OF THIS OPERATION --- #########
     def get_products(self) -> tuple:
         'returns tuple of products complete'
         return (self.list_products)

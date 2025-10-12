@@ -1,27 +1,24 @@
+### --- IMPORTS --- ###
 import logging
 from pathlib import Path
-caminho_arquivo_log = Path(__file__).parent.parent.parent / 'dados' / 'gestao_farma.log'
+##########################
+path_log_file = Path(__file__).parent.parent.parent/'data'/'gestao_farma.log'
 
-def sistema_logs():
-    'cria e configura um sistema de logs, onde o usuario o enxerga no terminal e a função o registra internamente num arquivo .log'
+def log_system():
+    'creates and setup one system logs, where the user sees in terminal logs the type INFO or above and the function register internaly only types WARNING or above in file .log'
     
-    ######## ---USUARIO--- #########
+    ######## --- USER --- #########
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
-    
-    terminal_controlador = logging.StreamHandler()
-    terminal_formatado = logging.Formatter('%(message)s')
+    terminal_controller = logging.StreamHandler()
+    terminal_controller.setLevel(logging.INFO)
+    terminal_formated = logging.Formatter('%(message)s')
+    terminal_controller.setFormatter(terminal_formated)
+    logger.addHandler(terminal_controller)
 
-    terminal_controlador.setFormatter(terminal_formatado)
-
-    logger.addHandler(terminal_controlador)
-
-    ######## ---ARQUIVO .LOG--- #########
-
-    arquivo_controlador = logging.FileHandler(caminho_arquivo_log, encoding = 'utf-8')
-    arquivo_controlador.setLevel(logging.WARNING)
-
-    arquivo_formatado = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s - %(message)s')
-    arquivo_controlador.setFormatter(arquivo_formatado)
-
-    logger.addHandler(arquivo_controlador)
+    ######## --- FILE .LOG --- #########
+    file_controller = logging.FileHandler(path_log_file, encoding = 'utf-8')
+    file_controller.setLevel(logging.WARNING)
+    file_formated = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s - %(message)s')
+    file_controller.setFormatter(file_formated)
+    logger.addHandler(file_controller)

@@ -51,25 +51,31 @@ def connect_db():
         ####### --- BYTES (STR) OBJECT -> ANY OBJECT --- #######
         sqlite3.register_converter('date', bytes_to_date_conversor)
         sqlite3.register_converter('Decimal', bytes_to_decimal_conversor)
-
+        ######################################################
         connect_db = sqlite3.connect(db_file, detect_types = sqlite3.PARSE_DECLTYPES)
+        logging.info('\n')
+        logging.info(f'*' * 50)
         logging.warning(f'[ALERTA] Conexão com banco de dados iniciada.')
+        logging.info(f'*' * 50)
         yield connect_db
-    
+        ######################################################
     except Exception as instance_error:
         logging.error(f'[ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: {type(instance_error)}')
         if connect_db:
             connect_db.rollback()
         raise instance_error
-    
+        ######################################################
     else:
         if connect_db:
             connect_db.commit()
-    
+        ######################################################
     finally:
         if connect_db:
             connect_db.close()
+            logging.info('\n')
+            logging.info(f'*' * 50)
             logging.warning(f'[ALERTA] Conexão com o banco de dados finalizada.')
+            logging.info(f'*' * 50)
 
 ###################### --- ALL FUNCTIONALITYS (UNTIL NOW) OF THE MODULE 'DATABASE' --- ########################
 def create_tables(connect_db: Connection):

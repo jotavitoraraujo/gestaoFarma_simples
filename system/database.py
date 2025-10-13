@@ -94,8 +94,6 @@ def create_tables(connect_db: Connection):
             max_consumer_price DECIMAL,
             min_stock INTEGER,
             curva_abc TEXT,
-            status TEXT NOT NULL,
-            quarantine_reason TEXT,
             FOREIGN KEY(id_fiscal_profile) REFERENCES fiscal_profile(id)
         )
     ''')
@@ -119,6 +117,9 @@ def create_tables(connect_db: Connection):
             use_by_date DATE,
             manufacturing_date DATE,
             receive_date DATE NOT NULL,
+            status TEXT NOT NULL,
+            quarantine_reason TEXT,
+            UNIQUE (product_id, physical_id),
             FOREIGN KEY(product_id) REFERENCES products(id),
             FOREIGN KEY(id_taxation_details) REFERENCES purchase_tax_details(id)
         )  

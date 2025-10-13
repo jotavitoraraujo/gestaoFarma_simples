@@ -110,10 +110,12 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
     assert batch_clinda[4] == Decimal('2.0') # Quantity
     assert batch_clinda[5] == Decimal('14.59') # Unit Cost
     assert batch_clinda[6] == Decimal('2.95') # Other Expenses
-    assert batch_clinda[7] == date(2045, 8, 31)
-    assert batch_clinda[8] == date(2035, 8, 31)
-    assert batch_clinda[9] == date.today()
-    #assert batch_clinda[10] == None
+    assert batch_clinda[7] == date(2045, 8, 31) # Use by date
+    assert batch_clinda[8] == date(2035, 8, 31) # Manufacturing Date
+    assert batch_clinda[9] == date.today() # Receive date
+    assert batch_clinda[10] == 'ACTIVE' # Status
+    assert batch_clinda[11] == None # Reason
+
     #### BATCH FROM BROMAZEPAN PRODUCT
     assert batch_broma[0] == 2
     assert batch_broma[1] == 2
@@ -198,22 +200,22 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
     )
     #######################################################################
     fiscal_profile = FiscalProfile (
-        id = response_complete[12],
-        ncm = response_complete[13],
-        cest = response_complete[14],
-        origin_code = response_complete[15]
+        id = response_complete[10],
+        ncm = response_complete[11],
+        cest = response_complete[12],
+        origin_code = response_complete[13]
     )
     #######################################################################
     batch = Batch (
-        id = response_complete[16],
-        product_id = response_complete[18],
-        physical_id = response_complete[19],
-        quantity = response_complete[20],
-        unit_cost_amount = response_complete[21],
-        other_expenses_amount = response_complete[22],
-        use_by_date = response_complete[23],
-        manufacturing_date = response_complete[24],
-        received_date = response_complete[25],
+        id = response_complete[14],
+        product_id = response_complete[16],
+        physical_id = response_complete[17],
+        quantity = response_complete[18],
+        unit_cost_amount = response_complete[19],
+        other_expenses_amount = response_complete[20],
+        use_by_date = response_complete[21],
+        manufacturing_date = response_complete[22],
+        received_date = response_complete[23],
         taxation_details = None
     )
     #######################################################################
@@ -243,8 +245,8 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
     #### --- ASSERTION TO SEE IF THE DATABASE RETURN WILL BUILD THE SAME PRODUCT AS THE ARGUMENT LIST --- ####
     assert clindamicina_db == clindamicina_list
     assert clindamicina_db.batch == clindamicina_list.batch
-    assert response_complete[10] == 'ACTIVE' # INDEX 10 == STATUS OF PRODUCT
-    assert response_complete[11] == None # INDEX 11 == QUARANTINE REASON OF PRODUCT
+    assert response_complete[24] == 'ACTIVE' # INDEX 10 == STATUS OF PRODUCT
+    assert response_complete[25] == None # INDEX 11 == QUARANTINE REASON OF PRODUCT
 
 def test_prod_repo_status_quarantine_products(db_connection: Connection, list_status_quarantine: list[Product]):
     
@@ -265,8 +267,8 @@ def test_prod_repo_status_quarantine_products(db_connection: Connection, list_st
     ''')
     response_complete: tuple = cursor.fetchone()
     ### --- PHASE ASSERT --- ###
-    assert response_complete[10] == 'QUARANTINE'
-    assert response_complete[11] == '[ALERT] Missing Mandatory Fields: supplier_code, name, physical_id, quantity, unit_cost_amount, use_by_date, ncm, cfop'
+    assert response_complete[24] == 'QUARANTINE'
+    assert response_complete[25] == '[ALERT] Missing Mandatory Fields: supplier_code, name, physical_id, quantity, unit_cost_amount, use_by_date, ncm, cfop'
     #### --- ASSERT IF THE DICTIONARY THAT CONTAINS THE VALUE OF THE STATUS RETURNED OF REPO.SAVE_PRODUCTS() IS CORRECT 
     #### USING DETERMINED LIST AS ARGUMENT --- ###
     assert dict_status['ACTIVE'] == 0
@@ -292,7 +294,7 @@ def test_prod_repo_update_in_database(db_connection: Connection, rich_products_l
     cursor = db_connection.cursor()
     cursor.execute('''
         SELECT status
-        FROM products
+        FROM batchs
     ''')
     response: tuple = cursor.fetchone()
     if response is not None:
@@ -308,8 +310,8 @@ def test_prod_repo_update_in_database(db_connection: Connection, rich_products_l
     #######################################################
     cursor.execute('''
         SELECT status, quarantine_reason
-        FROM products
-        WHERE id == 1
+        FROM batchs
+        WHERE id == 2
     ''')
     response_1: tuple = cursor.fetchone()
     if response is not None:

@@ -1,5 +1,6 @@
 ### --- IMPORTS --- ###
 from sqlite3 import Connection
+from decimal import Decimal
 from system.models.product import Product
 from system.models.batch import Batch
 from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
@@ -28,7 +29,7 @@ class ProductRepository:
         fiscal_profile_id: int = cursor.lastrowid
         return fiscal_profile_id
 ###########################################################    
-    def _insert_table_products(self, product: Product, fiscal_profile_id: FiscalProfile, status: str, quarantine_reason: str = None) -> int:
+    def _insert_table_products(self, product: Product, fiscal_profile_id: FiscalProfile) -> int:
         cursor = self.connection_db.cursor()
         cursor.execute('''
             INSERT INTO products (
@@ -38,11 +39,9 @@ class ProductRepository:
                 name_product,
                 anvisa_code,
                 sale_price,
-                max_consumer_price,
-                status,
-                quarantine_reason                       
+                max_consumer_price                    
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             ''',
             (
                 fiscal_profile_id,
@@ -52,8 +51,6 @@ class ProductRepository:
                 product.anvisa_code,
                 product.sale_price,
                 product.max_consumer_price,
-                status,
-                quarantine_reason
             )
         )
         product_id: int = cursor.lastrowid
@@ -86,7 +83,7 @@ class ProductRepository:
         taxation_tax_details_id: int = cursor.lastrowid
         return taxation_tax_details_id
 ###########################################################   
-    def _insert_table_batchs(self, batch: Batch, taxation_tax_details_id: int, product_id: int):
+    def _insert_table_batchs(self, batch: Batch, taxation_tax_details_id: int, product_id: int, status: str, reason: str):
         cursor = self.connection_db.cursor()
         cursor.execute('''
             INSERT INTO batchs (
@@ -98,9 +95,11 @@ class ProductRepository:
                 other_expenses_amount,
                 use_by_date,
                 manufacturing_date,
-                receive_date                                    
+                receive_date,
+                status,
+                quarantine_reason                                  
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''',
             (
                 taxation_tax_details_id,
@@ -112,27 +111,28 @@ class ProductRepository:
                 batch.use_by_date,
                 batch.manufacturing_date,
                 batch.received_date,
+                status,
+                reason,
             )
         )
 ###########################################################
-    def _update_table_products(self, status: str, reason: str | None,  product_id: int):
-        'update the status that determine the product as active or in quarantine'
+    def _update_table_batchs(self, new_quantity: Decimal, batch_id: int):
+        'update the status that determine the batch as active or in quarantine'
 
         ###########################################################
         cursor = self.connection_db.cursor()
         cursor.execute('''
-            UPDATE products
-            SET status = ?, quarantine_reason = ?
+            UPDATE batchs
+            SET quantity = quantity + ?
             WHERE id = ?
         ''',
             (
-                status,
-                reason,
-                product_id
+                new_quantity,
+                batch_id,
             )
         )
 ###########################################################
-    def _determine_product_status(self, product: Product) -> tuple[str, str | None]:
+    def _determine_batch_status(self, product: Product) -> tuple[str, str | None]:
         'determinate if a product has a attribute mandatory as none'
 
         result: list = []
@@ -190,6 +190,25 @@ class ProductRepository:
         )
         product_id: tuple = cursor.fetchone()
         return product_id
+###########################################################
+    def _search_batch_id(self, product_id: int, product: Product) -> tuple[int | None]:
+        'search in db by the prod and physical id to verify your existance'
+
+        physical_id: str = product.batch[0].physical_id
+        
+        cursor = self.connection_db.cursor()
+        cursor.execute('''
+            SELECT id
+            FROM batchs
+            WHERE product_id = ? AND physical_id = ? 
+        ''',
+            (
+                product_id,
+                physical_id,
+            )
+        )
+        verification: tuple = cursor.fetchone()
+        return verification
 ###########################################################    
     def _save_single_product(self, product: Product) -> str:
         'estructure procedural that insert just one product at a time in database, calling the private responsible methods. Returns your status to use foward'
@@ -197,22 +216,28 @@ class ProductRepository:
         try:
             ###########################################################
             product_id_tuple: tuple | None = self._search_supplier_code(product)
-            status, reason = self._determine_product_status(product)
-            if product_id_tuple is None:
+            if product_id_tuple is None: # -> NEW PRODUCT
                 ######
                 fiscal_profile: FiscalProfile = product.fiscal_profile
                 ######
                 fiscal_profile_id: int = self._insert_table_fiscal_profile(fiscal_profile)
-                product_id: int = self._insert_table_products(product, fiscal_profile_id, status, reason)
-            else:
+                product_id: int = self._insert_table_products(product, fiscal_profile_id)
+            else:           # -> EXISTING
                 product_id = product_id_tuple[0]
-                self._update_table_products(status, reason, product_id)
             ###########################################################
             batch = product.batch[0]
-            taxation_details = batch.taxation_details
+            tax_details = batch.taxation_details
+            ###########################################################
+            status, reason = self._determine_batch_status(product)
+            batch_id_tuple: tuple = self._search_batch_id(product_id, product)
             ######
-            taxation_tax_details_id = self._insert_table_purchase_tax_details(taxation_details)
-            self._insert_table_batchs(batch, taxation_tax_details_id, product_id)
+            if batch_id_tuple is None: # -> NEW BATCH
+                tax_details_id = self._insert_table_purchase_tax_details(tax_details)
+                self._insert_table_batchs(batch, tax_details_id, product_id, status, reason)
+            else:         # -> EXISTING
+                batch_id = batch_id_tuple[0] 
+                new_quantity = batch.quantity
+                self._update_table_batchs(new_quantity, batch_id)
             ###########################################################
             return status
         except Exception as error:

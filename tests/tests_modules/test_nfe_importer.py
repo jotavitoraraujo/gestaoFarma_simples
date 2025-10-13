@@ -16,6 +16,7 @@ def test_nfe_importer(mock_file_handle: Mock, rich_products_list: list[Product],
     mock_xml_parser_instance.get_products.return_value = rich_products_list # CALL AND RETURN OF METHOD
     #########################
     mock_persistence = MagicMock() # INSTANCE PRODUCT_REPOSITORY
+    mock_persistence.return_value = {'ACTIVE': 3, 'QUARANTINE': 0}
     #########################
     
     ### --- PHASE ACT --- ###

@@ -117,8 +117,6 @@ def create_tables(connect_db: Connection):
             use_by_date DATE,
             manufacturing_date DATE,
             receive_date DATE NOT NULL,
-            status TEXT NOT NULL,
-            quarantine_reason TEXT,
             UNIQUE (product_id, physical_id),
             FOREIGN KEY(product_id) REFERENCES products(id),
             FOREIGN KEY(id_taxation_details) REFERENCES purchase_tax_details(id)
@@ -135,6 +133,20 @@ def create_tables(connect_db: Connection):
             pis_cst TEXT,
             cofins_cst TEXT
         )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS events (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp DATE NOT NULL,
+            event_type TEXT NOT NULL,
+            user_id INTEGER,
+            product_id INTEGER,
+            batch_id INTEGER,
+            details TEXT NOT NULL                   
+        )
+        CREATE INDEX idx_events_user_id ON events(user_id);
+        CREATE INDEX idx_events_product_id ON events(product_id);
+        CREATE INDEX idx_events_batch_id ON events(batch_id);
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS usuarios (
@@ -163,20 +175,6 @@ def create_tables(connect_db: Connection):
         FOREIGN KEY(pedido_id) REFERENCES pedidos(id_pedido),
         FOREIGN KEY(lote_id) REFERENCES batchs(id)
         )
-    ''')
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS alertas_lote (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        id_pedido INTEGER NOT NULL,
-        id_produto INTEGER NOT NULL,
-        id_lote_correto INTEGER NOT NULL, 
-        id_lote_vendido INTEGER NOT NULL,
-        id_usuario INTEGER NOT NULL,
-        data TEXT NOT NULL,
-        negligencia INTEGER NOT NULL,
-        FOREIGN KEY(id_lote_correto) REFERENCES batchs(id),
-        FOREIGN KEY(id_lote_vendido) REFERENCES batchs(id)
-        )           
     ''')
 
 # def search_product(connect_db: Connection, product: Product):

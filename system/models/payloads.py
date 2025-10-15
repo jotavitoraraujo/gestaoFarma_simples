@@ -7,6 +7,10 @@ class QuarantinePayLoad:
         self.reason = reason
         self.emitter_cnpj = emitter_cnpj
         self.emitter_name = emitter_name
+    
+    def to_dict(self) -> dict:
+        class_dict: dict = self.__dict__
+        return class_dict
 
 class SalesDeviationPayload:
     def __init__(self, user_id: int, order_id: int, sold_batch_id: int, correct_batch_id: int):
@@ -14,3 +18,7 @@ class SalesDeviationPayload:
         self.order_id = order_id
         self.sold_batch_id = sold_batch_id
         self.correct_batch_id = correct_batch_id
+
+    def to_dict(self) -> dict:
+        class_dict: dict = self.__dict__
+        return class_dict

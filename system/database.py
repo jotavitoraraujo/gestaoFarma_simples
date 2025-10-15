@@ -149,31 +149,31 @@ def create_tables(connect_db: Connection):
         CREATE INDEX idx_events_batch_id ON events(batch_id);
     ''')
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS usuarios (
-        id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome_usuario TEXT NOT NULL,
-        pin_usuario TEXT NOT NULL
+        CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_name TEXT NOT NULL,
+        user_pin TEXT NOT NULL
         
         )
     ''')
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS pedidos (
-        id_pedido INTEGER PRIMARY KEY AUTOINCREMENT,
-        usuario_id INTEGER NOT NULL,
-        data_pedido DATE NOT NULL,
-        valor_total REAL NOT NULL,
-        FOREIGN KEY(usuario_id) REFERENCES usuarios(id_usuario)
+        CREATE TABLE IF NOT EXISTS orders (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        order_date DATE NOT NULL,
+        total_value REAL NOT NULL,
+        FOREIGN KEY(user_id) REFERENCES users(id)
         )
     ''')
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS itens_pedido (
-        id_item INTEGER PRIMARY KEY AUTOINCREMENT,
-        pedido_id INTEGER NOT NULL,
-        lote_id INTEGER NOT NULL,
-        quantidade_vendida INTEGER NOT NULL,
-        pv_registrado REAL,
-        FOREIGN KEY(pedido_id) REFERENCES pedidos(id_pedido),
-        FOREIGN KEY(lote_id) REFERENCES batchs(id)
+        CREATE TABLE IF NOT EXISTS order_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        order_id INTEGER NOT NULL,
+        batch_id INTEGER NOT NULL,
+        quantity_sold INTEGER NOT NULL,
+        sale_price_register REAL,
+        FOREIGN KEY(order_id) REFERENCES orders(id),
+        FOREIGN KEY(batch_id) REFERENCES batchs(id)
         )
     ''')
 

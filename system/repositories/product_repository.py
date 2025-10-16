@@ -1,9 +1,13 @@
 ### --- IMPORTS --- ###
 from sqlite3 import Connection
 from decimal import Decimal
+from datetime import datetime
 from system.models.product import Product
 from system.models.batch import Batch
+from system.models.payloads import QuarantinePayLoad
+from system.models.audit_event import AuditEvent
 from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
+import json
 import logging
 ################################
 
@@ -83,7 +87,7 @@ class ProductRepository:
         taxation_tax_details_id: int = cursor.lastrowid
         return taxation_tax_details_id
 ###########################################################   
-    def _insert_table_batchs(self, batch: Batch, taxation_tax_details_id: int, product_id: int, status: str, reason: str):
+    def _insert_table_batchs(self, batch: Batch, taxation_tax_details_id: int, product_id: int) -> int:
         cursor = self.connection_db.cursor()
         cursor.execute('''
             INSERT INTO batchs (
@@ -95,11 +99,9 @@ class ProductRepository:
                 other_expenses_amount,
                 use_by_date,
                 manufacturing_date,
-                receive_date,
-                status,
-                quarantine_reason                                  
+                receive_date,                                
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''',
             (
                 taxation_tax_details_id,
@@ -111,8 +113,32 @@ class ProductRepository:
                 batch.use_by_date,
                 batch.manufacturing_date,
                 batch.received_date,
-                status,
-                reason,
+            )
+        )
+        batch_id: int = cursor.lastrowid
+        return batch_id
+###########################################################
+    def _insert_table_events(self, timestamp: datetime, event_type: str, user_id: int, product_id: int, batch_id: int, details_json: json):
+        
+        cursor = self.connection_db.cursor()
+        cursor.execute('''
+            INSERT INTO events (
+                timestamp,
+                event_type,
+                user_id,
+                product_id,
+                batch_id,
+                details
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''',
+            (
+                timestamp,
+                event_type,
+                user_id,
+                product_id,
+                batch_id,
+                details_json,
             )
         )
 ###########################################################
@@ -135,6 +161,10 @@ class ProductRepository:
     def _determine_batch_status(self, product: Product) -> tuple[str, str | None]:
         'determinate if a product has a attribute mandatory as none'
 
+        if not product.batch:
+            reason = f'[ALERT] The batch for this product is False.'
+            return ('QUARANTINE', reason)  
+        
         result: list = []
         ##################################
         # PRODUCT VERIFY
@@ -172,7 +202,8 @@ class ProductRepository:
             reason = f'[ALERT] Missing Mandatory Fields: {", ".join(result)}'
             return ('QUARANTINE', reason)
         else:
-            return ('ACTIVE', None)          
+            return ('ACTIVE', None)
+   
 ###########################################################
     def _search_supplier_code(self, product: Product) -> tuple[int | None]:
         'search in db by the supplier_code from product that has receives as argument and return the product_id'
@@ -210,36 +241,86 @@ class ProductRepository:
         verification: tuple = cursor.fetchone()
         return verification
 ###########################################################    
-    def _save_single_product(self, product: Product) -> str:
-        'estructure procedural that insert just one product at a time in database, calling the private responsible methods. Returns your status to use foward'
+    def _create_event(self, product_id: int, batch_id: int, reason: str | None) -> AuditEvent:
+        'create an event from the status receives as argument'
 
+        payload = QuarantinePayLoad (
+            product_id = product_id, 
+            batch_id = batch_id,
+            reason = reason,
+            emitter_cnpj = None,
+            emitter_name = None
+        )
+        event = AuditEvent (
+            id = None,
+            timestamp = datetime.now(),
+            event_type = 'QUARANTINE_ADDED',
+            payload = payload
+        )
+        return event
+###########################################################
+    def _persist_event(self, event: AuditEvent, user_id: int, product_id: int, batch_id: int):
+        'register an event within database as a json string'
+        
+        payload: QuarantinePayLoad = event.payload
+        payload_dict: dict = payload.to_dict()
+        details_json: json = json.dumps(payload_dict)
+
+        self._insert_table_events(event.timestamp, event.event_type, user_id, product_id, batch_id, details_json)
+###########################################################
+    def _get_product_id(self, product: Product) -> int:
+        'get product id using private methods using the object product as argument'
+
+        response: tuple | None = self._search_supplier_code(product)
+        
+        if response is None: # -> Is a new product
+            fiscal_profile: FiscalProfile = product.fiscal_profile
+            fiscal_profile_id: int = self._insert_table_fiscal_profile(fiscal_profile)
+            product_id: int = self._insert_table_products(product, fiscal_profile_id)
+        
+        else: # -> is existing product
+            product_id: int = response[0]
+        
+        return product_id
+###########################################################
+    def _get_batch_id(self, batch: Batch, tax_id: int, product_id: int) -> int:
+        'get batch_id with private method using the arguments'
+
+        batch_id: int = self._insert_table_batchs(batch, tax_id, product_id)
+        return batch_id
+###########################################################
+    def _save_single_batch(self, product_id: int, product: Product) -> int:
+        'process to saving in database a single new batch or update an existing'
+
+        batch: Batch = product.batch[0]
+        taxation_tax_details: PurchaseTaxDetails = batch.taxation_details
+        response: tuple | None = self._search_batch_id(product_id, product)
+
+        if response is None: # -> is a new batch
+            tax_id = self._insert_table_purchase_tax_details(taxation_tax_details)
+            batch_id: int = self._get_batch_id(batch, tax_id, product_id)
+        
+        else: # -> is existing batch
+            batch_id: int = response[0]
+            new_quantity: int = batch.quantity
+            self._update_table_batchs(new_quantity, batch_id)
+        
+        return batch_id
+###########################################################    
+    def _save_single_product(self, product: Product) -> str:
+        'process to saving a single product in database, defined the status of the same and record the result in events table'
         try:
-            ###########################################################
-            product_id_tuple: tuple | None = self._search_supplier_code(product)
-            if product_id_tuple is None: # -> NEW PRODUCT
-                ######
-                fiscal_profile: FiscalProfile = product.fiscal_profile
-                ######
-                fiscal_profile_id: int = self._insert_table_fiscal_profile(fiscal_profile)
-                product_id: int = self._insert_table_products(product, fiscal_profile_id)
-            else:           # -> EXISTING
-                product_id = product_id_tuple[0]
-            ###########################################################
-            batch = product.batch[0]
-            tax_details = batch.taxation_details
-            ###########################################################
+            product_id: int = self._get_product_id(product)
+            batch_id: int = self._save_single_batch(product_id, product)
             status, reason = self._determine_batch_status(product)
-            batch_id_tuple: tuple = self._search_batch_id(product_id, product)
-            ######
-            if batch_id_tuple is None: # -> NEW BATCH
-                tax_details_id = self._insert_table_purchase_tax_details(tax_details)
-                self._insert_table_batchs(batch, tax_details_id, product_id, status, reason)
-            else:         # -> EXISTING
-                batch_id = batch_id_tuple[0] 
-                new_quantity = batch.quantity
-                self._update_table_batchs(new_quantity, batch_id)
-            ###########################################################
-            return status
+            
+            if status == 'QUARANTINE':
+                user_id = None
+                event: AuditEvent = self._create_event(product_id, batch_id, reason)
+                self._persist_event(event, user_id, product_id, batch_id)
+                return status
+            else:
+                return status
         except Exception as error:
             raise error
 ###########################################################

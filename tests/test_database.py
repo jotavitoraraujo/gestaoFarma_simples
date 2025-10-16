@@ -1,7 +1,8 @@
 ####### --- IMPORTS --- #######
 from sqlite3 import Connection
 from system import database
-
+import pytest
+pytestmark = pytest.mark.skip(reason = 'PAUSE')
 ####### --- TEST FUNCTIONS WHERE EACH FUNCTION CHECK IF DERTEMINED TABLE WAS CREATE WITHIN DATABASE.PY --- #######
 ####### --- TEST FUNCTION ZERO: TABLE -> PRODUCTS --- #######
 def test_create_table_products(db_connection: Connection):

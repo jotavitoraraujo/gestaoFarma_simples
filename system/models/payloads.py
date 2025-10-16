@@ -2,7 +2,8 @@
 
 #######################
 class QuarantinePayLoad:
-    def __init__(self, batch_id: int, reason: str, emitter_cnpj: str, emitter_name: str):
+    def __init__(self, product_id: int, batch_id: int, reason: str, emitter_cnpj: str, emitter_name: str):
+        self.product_id = product_id
         self.batch_id = batch_id
         self.reason = reason
         self.emitter_cnpj = emitter_cnpj
@@ -12,7 +13,7 @@ class QuarantinePayLoad:
         class_dict: dict = self.__dict__
         return class_dict
 
-class SalesDeviationPayload:
+class SalesDeviationPayload: # -> REFATORAR E INCLUIR ATRIBUTOS COMO USER, PRODUCT IDS (SE NECESSÁRIO)
     def __init__(self, user_id: int, order_id: int, sold_batch_id: int, correct_batch_id: int):
         self.user_id = user_id
         self.order_id = order_id

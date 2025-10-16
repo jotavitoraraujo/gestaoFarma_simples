@@ -142,12 +142,14 @@ def create_tables(connect_db: Connection):
             user_id INTEGER,
             product_id INTEGER,
             batch_id INTEGER,
-            details TEXT NOT NULL                   
+            details TEXT NOT NULL           
         )
-        CREATE INDEX idx_events_user_id ON events(user_id);
-        CREATE INDEX idx_events_product_id ON events(product_id);
-        CREATE INDEX idx_events_batch_id ON events(batch_id);
     ''')
+    
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_user_id ON events(user_id);')
+    cursor.execute('CREATE INDEX idx_events_product_id ON events(product_id);')
+    cursor.execute('CREATE INDEX idx_events_batch_id ON events(batch_id);')
+    
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -7,6 +7,7 @@ from system.models.batch import Batch
 from system.models.payloads import QuarantinePayLoad
 from system.models.audit_event import AuditEvent
 from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
+from system.models.dtos import EventPersistenceDTO
 import json
 import logging
 ################################
@@ -14,7 +15,7 @@ import logging
 class ProductRepository:
     def __init__(self, connection_db: Connection):
         self.connection_db = connection_db
-###########################################################    
+    
     def _insert_table_fiscal_profile(self, fiscal_profile: FiscalProfile) -> int:
         cursor = self.connection_db.cursor()
         cursor.execute('''
@@ -32,7 +33,7 @@ class ProductRepository:
             ))
         fiscal_profile_id: int = cursor.lastrowid
         return fiscal_profile_id
-###########################################################    
+    
     def _insert_table_products(self, product: Product, fiscal_profile_id: FiscalProfile) -> int:
         cursor = self.connection_db.cursor()
         cursor.execute('''
@@ -59,7 +60,7 @@ class ProductRepository:
         )
         product_id: int = cursor.lastrowid
         return product_id
-###########################################################    
+    
     def _insert_table_purchase_tax_details(self, taxation_tax_details: PurchaseTaxDetails) -> int:
         cursor = self.connection_db.cursor()
         cursor.execute('''
@@ -86,7 +87,7 @@ class ProductRepository:
         )
         taxation_tax_details_id: int = cursor.lastrowid
         return taxation_tax_details_id
-###########################################################   
+   
     def _insert_table_batchs(self, batch: Batch, taxation_tax_details_id: int, product_id: int) -> int:
         cursor = self.connection_db.cursor()
         cursor.execute('''
@@ -117,8 +118,8 @@ class ProductRepository:
         )
         batch_id: int = cursor.lastrowid
         return batch_id
-###########################################################
-    def _insert_table_events(self, timestamp: datetime, event_type: str, user_id: int, product_id: int, batch_id: int, details_json: json):
+
+    def _insert_table_events(self, event: EventPersistenceDTO):
         
         cursor = self.connection_db.cursor()
         cursor.execute('''
@@ -133,15 +134,15 @@ class ProductRepository:
             VALUES (?, ?, ?, ?, ?, ?)
         ''',
             (
-                timestamp,
-                event_type,
-                user_id,
-                product_id,
-                batch_id,
-                details_json,
+                event.timestamp,
+                event.event_type,
+                event.user_id,
+                event.product_id,
+                event.batch_id,
+                event.details_json,
             )
         )
-###########################################################
+
     def _update_table_batchs(self, new_quantity: Decimal, batch_id: int):
         'update the status that determine the batch as active or in quarantine'
 
@@ -157,7 +158,7 @@ class ProductRepository:
                 batch_id,
             )
         )
-###########################################################
+
     def _determine_batch_status(self, product: Product) -> tuple[str, str | None]:
         'determinate if a product has a attribute mandatory as none'
 
@@ -203,8 +204,7 @@ class ProductRepository:
             return ('QUARANTINE', reason)
         else:
             return ('ACTIVE', None)
-   
-###########################################################
+
     def _search_supplier_code(self, product: Product) -> tuple[int | None]:
         'search in db by the supplier_code from product that has receives as argument and return the product_id'
 
@@ -221,7 +221,7 @@ class ProductRepository:
         )
         product_id: tuple = cursor.fetchone()
         return product_id
-###########################################################
+
     def _search_batch_id(self, product_id: int, product: Product) -> tuple[int | None]:
         'search in db by the prod and physical id to verify your existance'
 
@@ -240,7 +240,7 @@ class ProductRepository:
         )
         verification: tuple = cursor.fetchone()
         return verification
-###########################################################    
+    
     def _create_event(self, product_id: int, batch_id: int, reason: str | None) -> AuditEvent:
         'create an event from the status receives as argument'
 
@@ -258,7 +258,7 @@ class ProductRepository:
             payload = payload
         )
         return event
-###########################################################
+
     def _persist_event(self, event: AuditEvent, user_id: int, product_id: int, batch_id: int):
         'register an event within database as a json string'
         
@@ -267,7 +267,7 @@ class ProductRepository:
         details_json: json = json.dumps(payload_dict)
 
         self._insert_table_events(event.timestamp, event.event_type, user_id, product_id, batch_id, details_json)
-###########################################################
+
     def _get_product_id(self, product: Product) -> int:
         'get product id using private methods using the object product as argument'
 
@@ -282,16 +282,19 @@ class ProductRepository:
             product_id: int = response[0]
         
         return product_id
-###########################################################
+
     def _get_batch_id(self, batch: Batch, tax_id: int, product_id: int) -> int:
         'get batch_id with private method using the arguments'
 
         batch_id: int = self._insert_table_batchs(batch, tax_id, product_id)
         return batch_id
-###########################################################
-    def _save_single_batch(self, product_id: int, product: Product) -> int:
-        'process to saving in database a single new batch or update an existing'
 
+    def _save_single_batch(self, product_id: int, product: Product) -> int | None:
+        'process to saving in database a single new batch or update an existing -> returns batch_id'
+
+        if not product.batch:
+            return None
+        
         batch: Batch = product.batch[0]
         taxation_tax_details: PurchaseTaxDetails = batch.taxation_details
         response: tuple | None = self._search_batch_id(product_id, product)
@@ -306,7 +309,7 @@ class ProductRepository:
             self._update_table_batchs(new_quantity, batch_id)
         
         return batch_id
-###########################################################    
+    
     def _save_single_product(self, product: Product) -> str:
         'process to saving a single product in database, defined the status of the same and record the result in events table'
         try:
@@ -323,7 +326,7 @@ class ProductRepository:
                 return status
         except Exception as error:
             raise error
-###########################################################
+
     def save_products(self, list_products: list[Product]) -> dict:
         'save a many quantity of products in the table products in database'
         

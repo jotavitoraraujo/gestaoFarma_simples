@@ -12,5 +12,3 @@ class EventPersistenceDTO:
     product_id: int | None
     batch_id: int | None
     details_json: str
-    reason: str | None
-    status: str

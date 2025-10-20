@@ -499,3 +499,342 @@
 2025-10-16 17:24:27,827 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
 2025-10-16 17:24:27,827 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
 2025-10-16 17:24:30,209 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:05:44,147 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:05:44,211 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-10-20 12:05:44,212 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:05:44,212 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-20 12:05:44,212 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. ProductRepository.__init__() missing 1 required positional argument: 'event_repository'
+2025-10-20 12:07:09,376 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:07:09,378 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'sqlite3.OperationalError'>
+2025-10-20 12:07:09,379 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:07:09,379 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-20 12:07:09,379 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. index idx_events_product_id already exists
+2025-10-20 12:07:50,588 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:07:58,182 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,182 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,183 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,183 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,183 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,184 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,184 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,184 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,185 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,185 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,185 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,185 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,186 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,186 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,186 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,187 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,187 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,187 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,187 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,188 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,188 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,188 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,189 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,189 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,189 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,189 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,190 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,190 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,190 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,191 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,191 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,191 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,191 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:07:58,193 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:07:58,193 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:08:03,535 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:08:41,566 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:08:48,530 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,531 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,531 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,531 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,532 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,532 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,533 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,533 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,533 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,534 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,534 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,534 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,534 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,535 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,535 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,535 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,535 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,536 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,536 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,536 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,537 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,537 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,537 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,537 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,538 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,538 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,538 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,538 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,539 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,539 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,539 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,539 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,539 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:08:48,540 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:08:48,540 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:09:04,771 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:09:04,771 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:09:04,772 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:09:04,773 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:09:04,773 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:09:04,773 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:09:04,774 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:09:04,775 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:09:16,649 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:09:55,001 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:10:00,251 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,251 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,252 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,252 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,252 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,253 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,253 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,253 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,254 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,254 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,254 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,255 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,255 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,255 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,255 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,256 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,256 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,256 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,256 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,256 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,257 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,257 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,257 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,257 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,257 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,257 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,258 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,258 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,258 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,258 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,258 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,259 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,259 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:10:00,259 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:10:00,259 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:10:03,224 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:10:36,953 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:10:36,954 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'sqlite3.OperationalError'>
+2025-10-20 12:10:36,955 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:10:36,956 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-20 12:10:36,956 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. near "(": syntax error
+2025-10-20 12:12:29,620 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:12:34,643 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,643 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,644 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,644 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,644 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,645 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,645 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,645 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,645 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,645 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,646 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,646 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,646 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,646 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,647 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,647 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,647 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,647 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,647 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,648 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,648 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,648 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,648 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,649 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,649 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,649 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,649 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,650 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,650 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,650 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,650 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,650 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,651 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:12:34,651 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:12:34,652 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:12:39,680 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:17:46,019 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:17:51,016 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,017 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,017 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,017 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,017 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,018 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,018 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,018 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,018 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,019 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,019 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,019 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,020 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,020 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,020 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,020 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,021 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,021 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,021 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,021 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,022 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,022 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,022 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,022 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,022 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,023 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,023 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,023 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,023 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,024 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,024 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,024 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,024 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:17:51,025 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:17:51,026 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:21:11,599 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:21:13,566 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:21:17,678 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,679 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,679 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,680 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,680 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,680 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,681 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,681 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,681 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,682 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,682 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,683 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,683 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,683 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,684 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,684 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,685 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,685 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,685 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,685 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,686 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,686 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,686 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,686 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,687 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,687 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,687 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,687 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,688 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,688 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,688 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,688 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,689 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:21:17,690 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:21:17,691 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:24:23,798 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:24:25,200 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:24:30,331 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,331 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,332 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,332 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,332 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,333 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,333 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,333 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,333 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,334 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,334 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,334 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,334 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,334 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,335 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,335 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,335 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,335 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,336 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,336 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,336 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,336 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,336 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,337 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,337 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,337 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,337 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,338 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,338 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,338 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,338 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,338 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,339 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:24:30,339 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:24:30,339 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:24:32,670 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:25:15,896 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:25:21,208 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,208 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,209 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,209 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,209 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,209 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,210 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,210 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,210 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,210 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,211 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,211 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,211 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,211 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,212 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,212 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,212 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,212 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,212 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,213 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,213 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,213 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,213 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,213 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,214 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,214 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,214 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,214 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,214 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,214 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,215 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,215 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,215 - ERROR - product_repository - [ERRO] Unexpected erro is ocurred. Verify the log: near ")": syntax error
+2025-10-20 12:25:21,216 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:25:21,216 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:25:23,118 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:30:14,817 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:30:23,745 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:30:23,745 - WARNING - nfe_importer - [INFO] 6 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:30:23,746 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2025-10-20 12:30:30,284 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:32:07,763 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:32:17,389 - ERROR - main - [ERRO] Opção inválida. Tente novamente
+2025-10-20 12:32:20,687 - WARNING - nfe_importer - [INFO] 33 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:32:20,687 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:32:32,571 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:32:32,571 - WARNING - nfe_importer - [INFO] 6 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:32:32,572 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2025-10-20 12:32:34,196 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-20 12:33:11,323 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-20 12:33:16,396 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:33:16,397 - WARNING - nfe_importer - [INFO] 6 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:33:16,397 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2025-10-20 12:33:23,447 - WARNING - nfe_importer - [INFO] 33 produto(s) estão com status *ATIVOS*.
+2025-10-20 12:33:23,447 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-10-20 12:33:25,307 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.

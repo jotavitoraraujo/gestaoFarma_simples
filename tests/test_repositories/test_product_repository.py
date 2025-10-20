@@ -1,5 +1,6 @@
 ### --- IMPORTS --- ###
 from sqlite3 import Connection
+from unittest.mock import MagicMock
 from datetime import date
 from system import database
 from decimal import Decimal
@@ -7,20 +8,19 @@ from system.models.product import Product
 from system.models.batch import Batch
 from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
 from system.repositories.product_repository import ProductRepository
+from system.repositories.event_repository import EventRepository
 #######################
 
 def test_prod_repo_complete_products(db_connection: Connection, rich_products_list: list[Product]):
     #### --- PHASE ARRANGE --- ####
     database.create_tables(db_connection)
-    repo = ProductRepository(db_connection)
+    event_repo = MagicMock(spec = EventRepository)
+    repo = ProductRepository(db_connection, event_repo)
     dict_status: dict = repo.save_products(rich_products_list)
     cursor = db_connection.cursor()
     
     #### --- ASSERT IF THE DICTIONARY THAT CONTAINS THE VALUE OF THE STATUS RETURNED OF REPO.SAVE_PRODUCTS() IS CORRECT 
     #### USING DETERMINED LIST AS ARGUMENT --- ###
-    assert dict_status['ACTIVE'] == 3
-    assert dict_status['QUARANTINE'] == 0
-
     ### --- PHASE ACT TO PRODUCTS --- ###
     cursor.execute('''
         SELECT *
@@ -113,9 +113,6 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
     assert batch_clinda[7] == date(2045, 8, 31) # Use by date
     assert batch_clinda[8] == date(2035, 8, 31) # Manufacturing Date
     assert batch_clinda[9] == date.today() # Receive date
-    assert batch_clinda[10] == 'ACTIVE' # Status
-    assert batch_clinda[11] == None # Reason
-
     #### BATCH FROM BROMAZEPAN PRODUCT
     assert batch_broma[0] == 2
     assert batch_broma[1] == 2
@@ -220,14 +217,14 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
     )
     #######################################################################
     taxation_details = PurchaseTaxDetails (
-        id = response_complete[26],
-        cfop = response_complete[27],
-        icms_cst = response_complete[28],
-        icms_st_base_amount = response_complete[29],
-        icms_st_percentage = response_complete[30],
-        icms_st_retained_amount = response_complete[31],
-        pis_cst = response_complete[32],
-        cofins_cst = response_complete[33]
+        id = response_complete[24],
+        cfop = response_complete[25],
+        icms_cst = response_complete[26],
+        icms_st_base_amount = response_complete[27],
+        icms_st_percentage = response_complete[28],
+        icms_st_retained_amount = response_complete[29],
+        pis_cst = response_complete[30],
+        cofins_cst = response_complete[31]
     )
     #######################################################################
     product.fiscal_profile = fiscal_profile
@@ -245,77 +242,21 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
     #### --- ASSERTION TO SEE IF THE DATABASE RETURN WILL BUILD THE SAME PRODUCT AS THE ARGUMENT LIST --- ####
     assert clindamicina_db == clindamicina_list
     assert clindamicina_db.batch == clindamicina_list.batch
-    assert response_complete[24] == 'ACTIVE' # INDEX 10 == STATUS OF PRODUCT
-    assert response_complete[25] == None # INDEX 11 == QUARANTINE REASON OF PRODUCT
-
-def test_prod_repo_status_quarantine_products(db_connection: Connection, list_status_quarantine: list[Product]):
-    
-    #### --- PHASE ARRANGE --- ####
-    database.create_tables(db_connection)
-    repo = ProductRepository(db_connection)
-    dict_status: dict = repo.save_products(list_status_quarantine)
-    cursor = db_connection.cursor()
-
-    #### --- PHASE ARRANGE FOR SELECT AND PUT IT ALL TOGETHER --- ####
-    cursor.execute('''
-        SELECT *
-        FROM products
-        JOIN fiscal_profile ON products.id_fiscal_profile = fiscal_profile.id
-        JOIN batchs ON products.id = batchs.product_id
-        JOIN purchase_tax_details ON batchs.id_taxation_details = purchase_tax_details.id
-        WHERE products.id = 1
-    ''')
-    response_complete: tuple = cursor.fetchone()
-    ### --- PHASE ASSERT --- ###
-    assert response_complete[24] == 'QUARANTINE'
-    assert response_complete[25] == '[ALERT] Missing Mandatory Fields: supplier_code, name, physical_id, quantity, unit_cost_amount, use_by_date, ncm, cfop'
-    #### --- ASSERT IF THE DICTIONARY THAT CONTAINS THE VALUE OF THE STATUS RETURNED OF REPO.SAVE_PRODUCTS() IS CORRECT 
-    #### USING DETERMINED LIST AS ARGUMENT --- ###
-    assert dict_status['ACTIVE'] == 0
-    assert dict_status['QUARANTINE'] == 1
-
-def test_prod_repo_update_in_database(db_connection: Connection, rich_products_list: list[Product], list_update: list[Product]):
-
-    #######################################################
-    #### --- PHASE ARRANGE --- ####
-    clinda_active_prod: Product = rich_products_list[0]
-    list_clinda_active: list = [clinda_active_prod]
-    clinda_quarantine_prod: Product = list_update[0]
-    list_clinda_quarantine: list = [clinda_quarantine_prod]
-    #######################################################
-    database.create_tables(db_connection)
-    repo = ProductRepository(db_connection)
-    dict_status: dict = repo.save_products(list_clinda_active)
-    #### --- ASSERT IF THE DICTIONARY THAT CONTAINS THE VALUE OF THE STATUS RETURNED OF REPO.SAVE_PRODUCTS() IS CORRECT 
-    #### USING DETERMINED LIST AS ARGUMENT --- ###
-    assert dict_status['ACTIVE'] == 1
+    assert dict_status['ACTIVE'] == 3
     assert dict_status['QUARANTINE'] == 0
-    #######################################################
-    cursor = db_connection.cursor()
-    cursor.execute('''
-        SELECT status
-        FROM batchs
-    ''')
-    response: tuple = cursor.fetchone()
-    if response is not None:
-        status = response[0]
-    #######################################################
-    assert status == 'ACTIVE'
-    #######################################################
-    dict_status_2: dict = repo.save_products(list_clinda_quarantine)
-    #### --- ASSERT IF THE DICTIONARY THAT CONTAINS THE VALUE OF THE STATUS RETURNED OF REPO.SAVE_PRODUCTS() IS CORRECT 
-    #### USING DETERMINED LIST AS ARGUMENT --- ###
-    assert dict_status_2['ACTIVE'] == 0
-    assert dict_status_2['QUARANTINE'] == 1
-    #######################################################
-    cursor.execute('''
-        SELECT status, quarantine_reason
-        FROM batchs
-        WHERE id == 2
-    ''')
-    response_1: tuple = cursor.fetchone()
-    if response is not None:
-        status_1, reason_1 = response_1
-    #######################################################
-    assert status_1 == 'QUARANTINE'
-    assert reason_1 == '[ALERT] Missing Mandatory Fields: name'
+    event_repo.record_event.assert_not_called()
+
+def test_prod_repo_incomplete_products(db_connection: Connection, rich_products_list_supplier_None: list[Product]):
+
+    ### --- ARRANGE PHASE --- ###
+    database.create_tables(db_connection)
+    event_repo_mock = MagicMock(spec = EventRepository)
+    prod_repo = ProductRepository(db_connection, event_repo_mock)
+    dict_status: dict = prod_repo.save_products(rich_products_list_supplier_None)
+
+    assert dict_status['ACTIVE'] == 2
+    assert dict_status['QUARANTINE'] == 1
+    event_repo_mock.record_event.assert_called()
+
+
+

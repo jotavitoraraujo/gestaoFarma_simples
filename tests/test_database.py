@@ -1,8 +1,6 @@
 ####### --- IMPORTS --- #######
 from sqlite3 import Connection
 from system import database
-import pytest
-pytestmark = pytest.mark.skip(reason = 'PAUSE')
 ####### --- TEST FUNCTIONS WHERE EACH FUNCTION CHECK IF DERTEMINED TABLE WAS CREATE WITHIN DATABASE.PY --- #######
 ####### --- TEST FUNCTION ZERO: TABLE -> PRODUCTS --- #######
 def test_create_table_products(db_connection: Connection):
@@ -18,7 +16,7 @@ def test_create_table_products(db_connection: Connection):
     real_result = cursor.fetchone()
     assert real_result == expected_result
 
-####### --- TEST FUNCTION TWO: TABLE -> FISCAL PROFILE --- #######
+####### --- TEST FUNCTION ONE: TABLE -> FISCAL PROFILE --- #######
 def test_create_table_fiscal_profile(db_connection: Connection):
     
     expected_result = ('fiscal_profile',)
@@ -32,7 +30,7 @@ def test_create_table_fiscal_profile(db_connection: Connection):
     real_result = cursor.fetchone()
     assert real_result == expected_result
 
-####### --- TEST FUNCTION THREE: TABLE -> BATCHS --- #######
+####### --- TEST FUNCTION TWO: TABLE -> BATCHS --- #######
 def test_create_table_batchs(db_connection: Connection):
 
     expected_result = ('batchs',)
@@ -46,7 +44,7 @@ def test_create_table_batchs(db_connection: Connection):
     real_result = cursor.fetchone()
     assert real_result == expected_result
 
-####### --- TEST FUNCTION FOUR: TABLE -> OUTSTANDING PRODUCTS --- #######
+####### --- TEST FUNCTION THREE: TABLE -> OUTSTANDING PRODUCTS --- #######
 def test_create_table_purchase_tax_details(db_connection: Connection):
     
     expected_result = ('purchase_tax_details',)
@@ -60,16 +58,30 @@ def test_create_table_purchase_tax_details(db_connection: Connection):
     real_result = cursor.fetchone()
     assert real_result == expected_result
 
-####### --- TEST FUNCTION FIVE: TABLE -> USERS --- #######
+####### --- TEST FUNCTION FOUR: TABLE -> EVENTS --- #######
 def test_create_table_users(db_connection: Connection):
 
-    expected_result = ('usuarios',)
+    expected_result = ('events',)
     database.create_tables(db_connection)
     cursor = db_connection.cursor()
     cursor.execute('''
         SELECT name
         FROM sqlite_schema
-        WHERE type = 'table' AND name = 'usuarios'
+        WHERE type = 'table' AND name = 'events'
+    ''')
+    real_result = cursor.fetchone()
+    assert real_result == expected_result
+
+####### --- TEST FUNCTION FIVE: TABLE -> USERS --- #######
+def test_create_table_users(db_connection: Connection):
+
+    expected_result = ('users',)
+    database.create_tables(db_connection)
+    cursor = db_connection.cursor()
+    cursor.execute('''
+        SELECT name
+        FROM sqlite_schema
+        WHERE type = 'table' AND name = 'users'
     ''')
     real_result = cursor.fetchone()
     assert real_result == expected_result
@@ -77,13 +89,13 @@ def test_create_table_users(db_connection: Connection):
 ####### --- TEST FUNCTION SIX: TABLE -> ORDERS --- #######
 def test_create_table_orders(db_connection: Connection):
 
-    expected_result = ('pedidos',)
+    expected_result = ('orders',)
     database.create_tables(db_connection)
     cursor = db_connection.cursor()
     cursor.execute('''
         SELECT name
         FROM sqlite_schema
-        WHERE type = 'table' AND name = 'pedidos'
+        WHERE type = 'table' AND name = 'orders'
     ''')
     real_result = cursor.fetchone()
     assert real_result == expected_result
@@ -91,27 +103,13 @@ def test_create_table_orders(db_connection: Connection):
 ####### --- TEST FUNCTION SEVEN: TABLE -> ITEMS_ORDERS --- #######
 def test_create_table_items_orders(db_connection: Connection):
 
-    expected_result = ('itens_pedido',)
+    expected_result = ('order_items',)
     database.create_tables(db_connection)
     cursor = db_connection.cursor()
     cursor.execute('''
         SELECT name
         FROM sqlite_schema
-        WHERE type = 'table' AND name = 'itens_pedido'
-    ''')
-    real_result = cursor.fetchone()
-    assert real_result == expected_result
-
-####### --- TEST FUNCTION EIGHT: TABLE -> BATCH_ALERTS --- #######
-def test_create_table_batch_alerts(db_connection: Connection):
-
-    expected_result = ('alertas_lote',)
-    database.create_tables(db_connection)
-    cursor = db_connection.cursor()
-    cursor.execute('''
-        SELECT name
-        FROM sqlite_schema
-        WHERE type = 'table' AND name = 'alertas_lote'
+        WHERE type = 'table' AND name = 'order_items'
     ''')
     real_result = cursor.fetchone()
     assert real_result == expected_result
@@ -125,10 +123,10 @@ def test_create_all_tables(db_connection: Connection):
         'fiscal_profile',
         'batchs',
         'purchase_tax_details',
-        'usuarios',
-        'pedidos',
-        'itens_pedido',
-        'alertas_lote',
+        'events',
+        'users',
+        'orders',
+        'order_items',
     ]
     database.create_tables(db_connection)
     cursor = db_connection.cursor()

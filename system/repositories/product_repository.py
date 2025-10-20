@@ -8,13 +8,16 @@ from system.models.payloads import QuarantinePayLoad
 from system.models.audit_event import AuditEvent
 from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
 from system.models.dtos import EventPersistenceDTO
+from system.repositories.event_repository import EventRepository
 import json
 import logging
 ################################
 
 class ProductRepository:
-    def __init__(self, connection_db: Connection):
+    'an object construction to perform the repository pattern'
+    def __init__(self, connection_db: Connection, event_repository: EventRepository):
         self.connection_db = connection_db
+        self.event_repository = event_repository
     
     def _insert_table_fiscal_profile(self, fiscal_profile: FiscalProfile) -> int:
         cursor = self.connection_db.cursor()
@@ -100,7 +103,7 @@ class ProductRepository:
                 other_expenses_amount,
                 use_by_date,
                 manufacturing_date,
-                receive_date,                                
+                receive_date                               
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''',
@@ -118,30 +121,6 @@ class ProductRepository:
         )
         batch_id: int = cursor.lastrowid
         return batch_id
-
-    def _insert_table_events(self, event: EventPersistenceDTO):
-        
-        cursor = self.connection_db.cursor()
-        cursor.execute('''
-            INSERT INTO events (
-                timestamp,
-                event_type,
-                user_id,
-                product_id,
-                batch_id,
-                details
-            )
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''',
-            (
-                event.timestamp,
-                event.event_type,
-                event.user_id,
-                event.product_id,
-                event.batch_id,
-                event.details_json,
-            )
-        )
 
     def _update_table_batchs(self, new_quantity: Decimal, batch_id: int):
         'update the status that determine the batch as active or in quarantine'
@@ -241,8 +220,8 @@ class ProductRepository:
         verification: tuple = cursor.fetchone()
         return verification
     
-    def _create_event(self, product_id: int, batch_id: int, reason: str | None) -> AuditEvent:
-        'create an event from the status receives as argument'
+    def _create_audit_event(self, product_id: int, batch_id: int, reason: str | None) -> AuditEvent:
+        'create an audit_event from the status receives as argument'
 
         payload = QuarantinePayLoad (
             product_id = product_id, 
@@ -259,14 +238,23 @@ class ProductRepository:
         )
         return event
 
-    def _persist_event(self, event: AuditEvent, user_id: int, product_id: int, batch_id: int):
+    def _create_DTO(self, event: AuditEvent) -> EventPersistenceDTO:
         'register an event within database as a json string'
         
         payload: QuarantinePayLoad = event.payload
         payload_dict: dict = payload.to_dict()
-        details_json: json = json.dumps(payload_dict)
+        details_json: str = json.dumps(payload_dict)
 
-        self._insert_table_events(event.timestamp, event.event_type, user_id, product_id, batch_id, details_json)
+        event_dto = EventPersistenceDTO (
+            timestamp = event.timestamp,
+            event_type = event.event_type,
+            user_id = None,
+            product_id = payload.product_id,
+            batch_id = payload.batch_id,
+            details_json = details_json
+        )
+
+        return event_dto
 
     def _get_product_id(self, product: Product) -> int:
         'get product id using private methods using the object product as argument'
@@ -318,9 +306,9 @@ class ProductRepository:
             status, reason = self._determine_batch_status(product)
             
             if status == 'QUARANTINE':
-                user_id = None
-                event: AuditEvent = self._create_event(product_id, batch_id, reason)
-                self._persist_event(event, user_id, product_id, batch_id)
+                event: AuditEvent = self._create_audit_event(product_id, batch_id, reason)
+                event_dto: EventPersistenceDTO = self._create_DTO(event)
+                self.event_repository.record_event(event_dto)
                 return status
             else:
                 return status
@@ -340,10 +328,10 @@ class ProductRepository:
             for product in list_products:
                 try:
                     status = self._save_single_product(product)
-                    if status == 'ACTIVE':
-                        active_count += 1
-                    else:
+                    if status == 'QUARANTINE':
                         quarantined_count += 1
+                    else:
+                        active_count += 1
                 except Exception as error:
                     logging.error(f'[ERRO] Unexpected erro is ocurred. Verify the log: {error}')
                     continue

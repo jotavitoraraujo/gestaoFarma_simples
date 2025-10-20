@@ -110,17 +110,17 @@ def create_tables(connect_db: Connection):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             id_taxation_details INTEGER NOT NULL,
             product_id INTEGER NOT NULL,
-            physical_id TEXT,  
-            quantity DECIMAL,        
+            physical_id TEXT,
+            quantity DECIMAL,
             unit_cost_amount DECIMAL,
-            other_expenses_amount DECIMAL, 
+            other_expenses_amount DECIMAL,
             use_by_date DATE,
             manufacturing_date DATE,
             receive_date DATE NOT NULL,
             UNIQUE (product_id, physical_id),
             FOREIGN KEY(product_id) REFERENCES products(id),
             FOREIGN KEY(id_taxation_details) REFERENCES purchase_tax_details(id)
-        )  
+        )
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS purchase_tax_details (
@@ -146,36 +146,35 @@ def create_tables(connect_db: Connection):
         )
     ''')
     
-    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_user_id ON events(user_id);')
-    cursor.execute('CREATE INDEX idx_events_product_id ON events(product_id);')
-    cursor.execute('CREATE INDEX idx_events_batch_id ON events(batch_id);')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_user_id ON events(user_id)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_product_id ON events(product_id)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_batch_id ON events(batch_id)')
     
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_name TEXT NOT NULL,
-        user_pin TEXT NOT NULL
-        
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_name TEXT NOT NULL,
+            user_pin TEXT NOT NULL
         )
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS orders (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER NOT NULL,
-        order_date DATE NOT NULL,
-        total_value REAL NOT NULL,
-        FOREIGN KEY(user_id) REFERENCES users(id)
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            order_date DATE NOT NULL,
+            total_value REAL NOT NULL,
+            FOREIGN KEY(user_id) REFERENCES users(id)
         )
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS order_items (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        order_id INTEGER NOT NULL,
-        batch_id INTEGER NOT NULL,
-        quantity_sold INTEGER NOT NULL,
-        sale_price_register REAL,
-        FOREIGN KEY(order_id) REFERENCES orders(id),
-        FOREIGN KEY(batch_id) REFERENCES batchs(id)
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            order_id INTEGER NOT NULL,
+            batch_id INTEGER NOT NULL,
+            quantity_sold INTEGER NOT NULL,
+            sale_price_register REAL,
+            FOREIGN KEY(order_id) REFERENCES orders(id),
+            FOREIGN KEY(batch_id) REFERENCES batchs(id)
         )
     ''')
 

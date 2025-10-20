@@ -746,6 +746,42 @@ def celecoxibe_teuto_gen_EAN_None(use_by_date,
     bromazepan_instance = product_instance    
     return bromazepan_instance
 ############################################################
+
+@pytest.fixture(scope = 'module')
+def celecoxibe_teuto_gen_supplier_None(use_by_date, 
+    manufacturing_date,
+    received_date, 
+    fiscal_profile_celecoxibe,
+    taxation_details_celecoxibe
+    ) -> Product:
+    
+    product_instance = Product (
+        id = None,
+        supplier_code = None,
+        ean = '1234',
+        name = 'Celecoxibe 200mg 10cps Gen / Teuto Gen. / *(1,2)',
+        anvisa_code = '1037005980091',
+        sale_price = None,
+        max_consumer_price = Decimal('43.13'),
+        fiscal_profile = fiscal_profile_celecoxibe
+    )
+
+    batch_instance = Batch (
+        id = None,
+        physical_id = '46470014',
+        product_id = product_instance.id,
+        quantity = Decimal('3.0'),
+        unit_cost_amount = Decimal('5.59'),
+        other_expenses_amount = Decimal('1.00'),
+        use_by_date = use_by_date,
+        manufacturing_date = manufacturing_date,
+        received_date = received_date,
+        taxation_details = taxation_details_celecoxibe
+    )
+    product_instance.batch.append(batch_instance)
+    bromazepan_instance = product_instance    
+    return bromazepan_instance
+############################################################
 @pytest.fixture(scope = 'module')
 def dipirona_product_manufacture(received_date, 
     manufacturing_date,  
@@ -1257,6 +1293,16 @@ def rich_products_list_EAN_None(clidamicina_teuto_farma: Product, bromazepan_teu
         clidamicina_teuto_farma,
         bromazepan_teuto_gen,
         celecoxibe_teuto_gen_EAN_None
+    ]
+    return list
+
+############################################################
+@pytest.fixture(scope = 'module')
+def rich_products_list_supplier_None(clidamicina_teuto_farma: Product, bromazepan_teuto_gen: Product, celecoxibe_teuto_gen_supplier_None: Product) -> list[Product]:
+    list = [
+        clidamicina_teuto_farma,
+        bromazepan_teuto_gen,
+        celecoxibe_teuto_gen_supplier_None
     ]
     return list
 

@@ -1,5 +1,6 @@
 ### --- IMPORTS --- ###
 from system.repositories.product_repository import ProductRepository
+from system.repositories.event_repository import EventRepository
 from system.modules.nfe_importer import NFEImporter
 from system.modules.xml_parser import XMLParser
 from system.modules import settings_log
@@ -24,8 +25,9 @@ def main():
         ######################################################
         with database.connect_db() as connection:
             database.create_tables(connection)
-            repo = ProductRepository(connection)
-            importer = NFEImporter(XMLParser, repo.save_products)
+            event_repo = EventRepository(connection)
+            prod_repo = ProductRepository(connection, event_repo)
+            importer = NFEImporter(XMLParser, prod_repo.save_products)
         ######################################################   
             while True:
                 choice = display_menu()

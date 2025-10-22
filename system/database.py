@@ -146,15 +146,14 @@ def create_tables(connect_db: Connection):
         )
     ''')
     
-    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_user_id ON events(user_id)')
-    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_product_id ON events(product_id)')
-    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_batch_id ON events(batch_id)')
+
     
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_name TEXT NOT NULL,
-            user_pin TEXT NOT NULL
+            pin_hash TEXT NOT NULL,
+            salt BLOB NOT NULL
         )
     ''')
     cursor.execute('''
@@ -177,6 +176,12 @@ def create_tables(connect_db: Connection):
             FOREIGN KEY(batch_id) REFERENCES batchs(id)
         )
     ''')
+    ### --- INDEX'S TABLE EVENTS --- ###
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_user_id ON events(user_id)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_product_id ON events(product_id)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_batch_id ON events(batch_id)')
+    ### --- INDEX'S TABLE USERS --- ###
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_users_user_name ON users(user_name)')
 
 # def search_product(connect_db: Connection, product: Product):
 #     'search for a product using an object -> Product'
@@ -222,75 +227,5 @@ def create_tables(connect_db: Connection):
 
 #     db_answer = connector.fetchall()    
 #     return db_answer
-
-# def register_user_database(connect_db: Connection, user: User):
-#     'register an new user on database'
-    
-#     connector = connect_db.cursor()
-
-#     connector.execute('''
-#             INSERT INTO usuarios (nome_usuario, pin_usuario)
-#             VALUES (?, ?)
-#             ''',
-#             (
-#                 user.user_name,
-#                 user.user_pin               
-            
-#             ))
-
-#     connect_db.commit()
-#     print('=' * 30)
-#     logging.info(f'[INFO] O usuário, {user.user_name} foi cadastrado.')
-#     print('=' * 30)
-
-# def search_user(connect_db: Connection, user: str) -> tuple:
-#     'search an user by name, but the function returns all contained data in database'
-
-#     connector = connect_db.cursor()
-
-#     connector.execute('''
-#             SELECT id_usuario, nome_usuario, pin_usuario
-#             FROM usuarios
-#             WHERE usuarios.nome_usuario = ?
-#             LIMIT 1
-            
-#         ''',
-#         (
-#             user,
-            
-#         ))
-    
-#     db_answer = connector.fetchone()    
-#     return db_answer
-  
-# def register_batch_alert(connect_db: Connection, order_id, product: Product, user: User, batch_sold: Batch, batch_correct: Batch):
-#     'register of alert of the batch sold incorretly'
-
-#     today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-#     if batch_sold != batch_correct:
-#         neglect = 1
-#     else:
-#         neglect = 0
-
-    # connector = connect_db.cursor()
-    # connector.execute('''
-    #     INSERT INTO alertas_lote (id_pedido, id_produto, id_usuario, id_lote_vendido, id_lote_correto, data, negligencia)
-    #     VALUES (?, ?, ?, ?, ?, ?, ?)
-    #     ''',
-    #     (
-    #         order_id,
-    #         product.id,
-    #         user.user_id,
-    #         batch_sold.id,
-    #         batch_correct.id,
-    #         today,
-    #         neglect
-    #     ))
-    # connect_db.commit()
-
-    # print('=' * 30)
-    # logging.info(f'[INFO] Os dados dessa venda foram registrados.')
-    # print('=' * 30)
 
 ######################################################################################################################

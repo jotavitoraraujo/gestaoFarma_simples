@@ -1,11 +1,10 @@
 
 class User:
-    def __init__(self, user_id, user_name, user_pin):
+    def __init__(self, user_id: int, user_name: str):
         self.user_id = user_id
         self.user_name = user_name
-        self.user_pin = user_pin
+        self.roles: list[str] = []
 
-    
     def __eq__(self, other) -> bool:
         'dunder method able the if comparate with yourself'
 
@@ -13,7 +12,6 @@ class User:
             return (
                 other.user_id == self.user_id
                 and other.user_name == self.user_name
-                and other.user_pin == self.user_pin
             )
         else:
             return False
@@ -25,7 +23,6 @@ class User:
         --- User Stats ---
         1. ID: {self.user_id}
         2. Name: {self.user_name}
-        3. Hash: {self.user_pin}
         '''
     
     def __str__(self) -> str:
@@ -35,5 +32,4 @@ class User:
         --- User Stats ---
         1. ID: {self.user_id}
         2. Name: {self.user_name}
-        3. Hash: {self.user_pin}
         '''

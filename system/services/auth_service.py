@@ -26,24 +26,23 @@ class AuthService:
         user: User = self._create_user(user_name)
         self.user_repository.add(user, pin_hash, salt)
 
-    def authenticate(self, user_name: str, pin: str) -> User | None:
+    def authenticate(self, user_name: str, provided_pin: str) -> User | None:
         'authenticate the user in system'
 
-        response: tuple = self.user_repository.find_by_username(user_name)
+        user_name: str = self.user_repository.find_by_username(user_name)
         
-        if response is not None:
-            user_id: int | None = response[0]
-            user_name: str | None = response[1]
-            pin_hash: str | None = response[2]
-            salt: bytes | None = response[3]
+        if user_name is not None:
+            stored_hash: str = self.user_repository.get_pin_hash(user_name)
+            stored_salt: bytes = self.user_repository.get_salt(user_name)
+        
+        if isinstance(provided_pin, str):
             func_compare: Callable = security.compare_pin
-            result: bool = security.verify_pin(pin_hash, salt, pin, func_compare())
+            result: bool = security.verify_pin(stored_hash, stored_salt, provided_pin, func_compare)
         
-        if result:
-            user = User (
-                user_id = user_id,
-                user_name = user_name
-            )
+        if result is True:
+            user = self._create_user(user_name)
             return user
-        else:
-            return None
+        
+        #### -> ENVIAR MENSAGEM GENERICA NA UI QUANDO CHAMADO COMO METODO DE SEGURANÇA
+        #### -> "NOME DE USUARIO OU SENHA INCORRETOS."
+        

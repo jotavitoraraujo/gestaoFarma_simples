@@ -19,18 +19,18 @@ def hash_pin(pin: str, salt: bytes) -> str:
     hash_hex: str = hash_bytes.hex()
     return hash_hex
 
-def compare_pin(provided_hex: str, stored_hex: str) -> bool:
+def compare_pin(provided_hash_hex: str, stored_hash: str) -> bool:
     'compare the stored hex in databasbe with a new calculate hash hex'
 
-    result: bool = compare_digest(provided_hex, stored_hex)
+    result: bool = compare_digest(provided_hash_hex, stored_hash)
     return result
 
-def verify_pin(stored_hex: str,  stored_salt: bytes, provided_pin: str, func_compare: Callable[[bytes, bytes], bool]) -> bool:
+def verify_pin(stored_hash: str,  stored_salt: bytes, provided_pin: str, func_compare: Callable[[bytes, bytes], bool]) -> bool:
     'verify if a pin is same the provided pin from user'
 
     provided_hash: bytes = pbkdf2_hmac('sha256', provided_pin, stored_salt, 100000)
-    provided_hex: str = provided_hash.hex()
-    result: bool = func_compare(provided_hex, stored_hex)
+    provided_hash_hex: str = provided_hash.hex()
+    result: bool = func_compare(provided_hash_hex, stored_hash)
 
     return result
 

@@ -181,7 +181,10 @@ def create_tables(connect_db: Connection):
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_product_id ON events(product_id)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_batch_id ON events(batch_id)')
     ### --- INDEX'S TABLE USERS --- ###
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_users_id ON users(user_name)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_users_user_name ON users(user_name)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_users_user_name ON users(pin_hash)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_users_user_name ON users(salt)')
 
 # def search_product(connect_db: Connection, product: Product):
 #     'search for a product using an object -> Product'

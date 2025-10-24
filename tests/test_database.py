@@ -6,7 +6,7 @@ from system import database
 def test_create_table_products(db_connection: Connection):
     
     expected_result = ('products',)
-    database.create_tables(db_connection)
+    database.starter_schema(db_connection)
     cursor = db_connection.cursor()   
     cursor.execute('''
         SELECT name
@@ -20,7 +20,7 @@ def test_create_table_products(db_connection: Connection):
 def test_create_table_fiscal_profile(db_connection: Connection):
     
     expected_result = ('fiscal_profile',)
-    database.create_tables(db_connection)
+    database.starter_schema(db_connection)
     cursor = db_connection.cursor()   
     cursor.execute('''
         SELECT name
@@ -34,7 +34,7 @@ def test_create_table_fiscal_profile(db_connection: Connection):
 def test_create_table_batchs(db_connection: Connection):
 
     expected_result = ('batchs',)
-    database.create_tables(db_connection)
+    database.starter_schema(db_connection)
     cursor = db_connection.cursor()
     cursor.execute('''
         SELECT name
@@ -48,7 +48,7 @@ def test_create_table_batchs(db_connection: Connection):
 def test_create_table_purchase_tax_details(db_connection: Connection):
     
     expected_result = ('purchase_tax_details',)
-    database.create_tables(db_connection)
+    database.starter_schema(db_connection)
     cursor = db_connection.cursor()   
     cursor.execute('''
         SELECT name
@@ -62,7 +62,7 @@ def test_create_table_purchase_tax_details(db_connection: Connection):
 def test_create_table_users(db_connection: Connection):
 
     expected_result = ('events',)
-    database.create_tables(db_connection)
+    database.starter_schema(db_connection)
     cursor = db_connection.cursor()
     cursor.execute('''
         SELECT name
@@ -76,7 +76,7 @@ def test_create_table_users(db_connection: Connection):
 def test_create_table_users(db_connection: Connection):
 
     expected_result = ('users',)
-    database.create_tables(db_connection)
+    database.starter_schema(db_connection)
     cursor = db_connection.cursor()
     cursor.execute('''
         SELECT name
@@ -90,7 +90,7 @@ def test_create_table_users(db_connection: Connection):
 def test_create_table_orders(db_connection: Connection):
 
     expected_result = ('orders',)
-    database.create_tables(db_connection)
+    database.starter_schema(db_connection)
     cursor = db_connection.cursor()
     cursor.execute('''
         SELECT name
@@ -104,7 +104,7 @@ def test_create_table_orders(db_connection: Connection):
 def test_create_table_items_orders(db_connection: Connection):
 
     expected_result = ('order_items',)
-    database.create_tables(db_connection)
+    database.starter_schema(db_connection)
     cursor = db_connection.cursor()
     cursor.execute('''
         SELECT name
@@ -128,7 +128,7 @@ def test_create_all_tables(db_connection: Connection):
         'orders',
         'order_items',
     ]
-    database.create_tables(db_connection)
+    database.starter_schema(db_connection)
     cursor = db_connection.cursor()
     cursor.execute('''
         SELECT name

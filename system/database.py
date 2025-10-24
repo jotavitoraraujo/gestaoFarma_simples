@@ -1,11 +1,8 @@
 #################### --- IMPORTS --- #######################
-from sqlite3 import Connection
+from sqlite3 import Connection, Cursor
 from pathlib import Path
 from datetime import date
 from decimal import Decimal
-from system.models.product import Product 
-# from system.models.user import User
-# from system.models.batch import Batch
 import sqlite3
 import logging
 import contextlib
@@ -76,12 +73,10 @@ def connect_db():
             logging.info(f'*' * 50)
             logging.warning(f'[ALERTA] Conexão com o banco de dados finalizada.')
             logging.info(f'*' * 50)
+##############################################
+def _create_product_schema(cursor: Cursor):
+    'create schema to the model product in database'
 
-###################### --- ALL FUNCTIONALITYS (UNTIL NOW) OF THE MODULE 'DATABASE' --- ########################
-def create_tables(connect_db: Connection):
-    'start a creating the of tables for structure in the database' 
-    
-    cursor = connect_db.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -134,20 +129,10 @@ def create_tables(connect_db: Connection):
             cofins_cst TEXT
         )
     ''')
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS events (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            timestamp DATE NOT NULL,
-            event_type TEXT NOT NULL,
-            user_id INTEGER,
-            product_id INTEGER,
-            batch_id INTEGER,
-            details TEXT NOT NULL           
-        )
-    ''')
-    
 
-    
+def _create_auth_schema(cursor: Cursor):
+    'create schema to authenticate in database'
+
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -156,6 +141,42 @@ def create_tables(connect_db: Connection):
             salt BLOB NOT NULL
         )
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS roles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            role_name TEXT NOT NULL,
+            UNIQUE(role_name)
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS permissions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            permission_name TEXT NOT NULL,
+            UNIQUE(permission_name)
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS role_permissions (
+            role_id INTEGER NOT NULL,
+            permission_id INTEGER NOT NULL,
+            PRIMARY KEY (role_id, permission_id),
+            FOREIGN(role_id) REFERENCES roles(id),
+            FOREIGN(permission_id) REFERENCES permissions(id)
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS user_roles (
+            user_id INTEGER NOT NULL,
+            role_id INTEGER NOT NULL,
+            PRIMARY KEY (user_id, role_id),
+            FOREIGN(user_id) REFERENCES users(id),
+            FOREIGN(role_id) REFERENCES roles(id)
+        )
+    ''')
+
+def _create_sales_schema(cursor: Cursor):
+    'create the sales schema'
+
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS orders (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -176,15 +197,53 @@ def create_tables(connect_db: Connection):
             FOREIGN KEY(batch_id) REFERENCES batchs(id)
         )
     ''')
-    ### --- INDEX'S TABLE EVENTS --- ###
-    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_user_id ON events(user_id)')
-    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_product_id ON events(product_id)')
-    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_batch_id ON events(batch_id)')
+
+def _create_events_schema(cursor: Cursor):
+    'create the schema for events'
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS events (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp DATE NOT NULL,
+            event_type TEXT NOT NULL,
+            user_id INTEGER,
+            product_id INTEGER,
+            batch_id INTEGER,
+            details TEXT NOT NULL           
+        )
+    ''')
+
+def _create_idx_users_schema(cursor: Cursor):
+    'create the indexes for schema users'
+
     ### --- INDEX'S TABLE USERS --- ###
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_users_id ON users(user_name)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_users_user_name ON users(user_name)')
-    cursor.execute('CREATE INDEX IF NOT EXISTS idx_users_user_name ON users(pin_hash)')
-    cursor.execute('CREATE INDEX IF NOT EXISTS idx_users_user_name ON users(salt)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_users_pin_hash ON users(pin_hash)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_users_salt ON users(salt)')
+
+def _create_idx_events_schema(cursor: Cursor):
+    'create the indexes for schema events'
+
+    ### --- INDEX'S TABLE EVENTS --- ### 
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_user_id ON events(user_id)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_product_id ON events(product_id)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_batch_id ON events(batch_id)')
+
+def starter_schema(connect_db: Connection):
+    'start a creating the of tables for structure in the database' 
+    
+    cursor = connect_db.cursor()
+    
+    ### -- SCHEMAS -- ## 
+    _create_product_schema(cursor)
+    _create_auth_schema(cursor)
+    _create_sales_schema(cursor)
+    _create_events_schema(cursor)
+
+    ### -- INDEXES -- ##
+    _create_idx_users_schema(cursor)
+    _create_idx_events_schema(cursor)
 
 # def search_product(connect_db: Connection, product: Product):
 #     'search for a product using an object -> Product'

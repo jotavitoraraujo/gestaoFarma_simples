@@ -24,7 +24,7 @@ def main():
     try:    
         ######################################################
         with database.connect_db() as connection:
-            database.create_tables(connection)
+            database.starter_schema(connection)
             event_repo = EventRepository(connection)
             prod_repo = ProductRepository(connection, event_repo)
             importer = NFEImporter(XMLParser, prod_repo.save_products)

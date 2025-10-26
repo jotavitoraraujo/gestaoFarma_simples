@@ -73,6 +73,7 @@ def connect_db():
             logging.info(f'*' * 50)
             logging.warning(f'[ALERTA] Conexão com o banco de dados finalizada.')
             logging.info(f'*' * 50)
+
 ##############################################
 def _create_product_schema(cursor: Cursor):
     'create schema to the model product in database'
@@ -230,10 +231,41 @@ def _create_idx_events_schema(cursor: Cursor):
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_product_id ON events(product_id)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_batch_id ON events(batch_id)')
 
+def _seed_initial_data(cursor: Cursor):
+    'instanciated the initial data in database'
+
+    role_list: list[tuple] = [('Admin',), ('Seller',)]
+    cursor.executemany('''
+        INSERT OR IGNORE INTO roles (role_name)
+        VALUES (?)
+    ''',
+        (
+            role_list,
+        )
+    )
+    permission_list: list[tuple] = [
+        ('user:manage',),
+        ('stock:import_nfe',),
+        ('stock:view_all',),
+        ('product:view_cost_price',),
+        ('product:edit_sale_price',),
+        ('sale:create',),
+        ('sale:apply_discount',),
+        ('sale:override_discount_limit',),
+        ('report:view_financial',)    
+    ]
+    cursor.executemany('''
+        INSERT OR IGNORE INTO permissions (permission_name) VALUES (?)
+    ''',
+        (
+            permission_list,
+        )
+    )
+
 def starter_schema(connect_db: Connection):
     'start a creating the of tables for structure in the database' 
     
-    cursor = connect_db.cursor()
+    cursor: Cursor = connect_db.cursor()
     
     ### -- SCHEMAS -- ## 
     _create_product_schema(cursor)
@@ -244,6 +276,20 @@ def starter_schema(connect_db: Connection):
     ### -- INDEXES -- ##
     _create_idx_users_schema(cursor)
     _create_idx_events_schema(cursor)
+
+    ### -- PERMISSIONS -- ##
+    _seed_initial_data(cursor)
+
+##############################################
+
+
+
+
+
+
+
+
+
 
 # def search_product(connect_db: Connection, product: Product):
 #     'search for a product using an object -> Product'

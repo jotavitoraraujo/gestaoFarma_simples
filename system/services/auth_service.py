@@ -8,7 +8,7 @@ from typing import Callable
 class AuthService:
     def __init__(self, user_repository: UserRepository):
         self.user_repository = user_repository
-
+    
     def _create_user(self, user_name: str) -> User:
         'instanciated an object User'
 
@@ -24,7 +24,8 @@ class AuthService:
         salt: bytes = security.generate_salt()
         pin_hash: str = security.hash_pin(pin, salt)
         user: User = self._create_user(user_name)
-        self.user_repository.add(user, pin_hash, salt)
+        user_id: int = self.user_repository.add(user, pin_hash, salt)
+        self.user_repository.assign_user_role('Admin', user_id)
 
     def authenticate(self, user_name: str, provided_pin: str) -> User | None:
         'authenticate the user in system'

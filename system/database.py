@@ -231,18 +231,16 @@ def _create_idx_events_schema(cursor: Cursor):
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_product_id ON events(product_id)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_batch_id ON events(batch_id)')
 
-def _seed_initial_data(cursor: Cursor):
-    'instanciated the initial data in database'
+##############################################
+def _role_list() -> list[tuple]:
+    'instanciated a role list'
 
     role_list: list[tuple] = [('Admin',), ('Seller',)]
-    cursor.executemany('''
-        INSERT OR IGNORE INTO roles (role_name)
-        VALUES (?)
-    ''',
-        (
-            role_list,
-        )
-    )
+    return role_list
+
+def _permission_list() -> list[tuple]:
+    'instanciated a permission list'
+    
     permission_list: list[tuple] = [
         ('user:manage',),
         ('stock:import_nfe',),
@@ -254,7 +252,25 @@ def _seed_initial_data(cursor: Cursor):
         ('sale:override_discount_limit',),
         ('report:view_financial',)    
     ]
+    return permission_list
+
+##############################################
+def _insert_role_list_in_roles_table(cursor: Cursor):
+    
+    role_list: list[tuple] = _role_list()
     cursor.executemany('''
+        INSERT OR IGNORE INTO roles (role_name)
+        VALUES (?)
+    ''',
+        (
+            role_list,
+        )
+    )
+
+def _insert_permission_list_in_permissions_table(cursor: Cursor):
+        
+        permission_list: list[tuple] = _permission_list()
+        cursor.executemany('''
         INSERT OR IGNORE INTO permissions (permission_name) VALUES (?)
     ''',
         (
@@ -262,6 +278,55 @@ def _seed_initial_data(cursor: Cursor):
         )
     )
 
+def _insert_permission_name_in_role_permissions_table(cursor: Cursor):
+
+    cursor.execute('''
+        INSERT OR IGNORE INTO role_permissions (role_id, permission_id)
+        SELECT (
+            SELECT id
+            FROM roles
+            WHERE role_name = 'Admin'
+        ),
+            p.id
+        FROM permissions p
+        WHERE p.permission_name IN (
+            'user:manage',
+            'stock:import_nfe',
+            'stock:view_all',
+            'product:view_cost_price',
+            'product:edit_sale_price',
+            'sale:create',
+            'sale:apply_discount',
+            'sale:override_discount_limit',
+            'report:view_financial'
+        );
+    ''')
+    cursor.execute('''
+        INSERT OR IGNORE INTO role_permissions (role_id, permission_id)
+        SELECT (
+            SELECT id
+            FROM roles
+            WHERE role_name = 'Seller'
+        ),
+            p.id
+        FROM permissions p
+        WHERE p.permission_name IN (
+            'stock:import_nfe',
+            'stock:view_all',
+            'sale:create',
+            'sale:apply_discount',
+        );
+    ''')
+
+##############################################
+def _seed_initial_data(cursor: Cursor):
+    'instanciated the initial data in database'
+
+    _insert_role_list_in_roles_table(cursor)
+    _insert_permission_list_in_permissions_table(cursor)
+    _insert_permission_name_in_role_permissions_table(cursor)
+
+##############################################
 def starter_schema(connect_db: Connection):
     'start a creating the of tables for structure in the database' 
     

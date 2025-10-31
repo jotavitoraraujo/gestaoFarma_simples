@@ -1,6 +1,7 @@
 ### --- IMPORTS --- ###
 from system.utils.exceptions import ConversionError
 from datetime import date
+from typing import Any
 
 ### --- CONVERSORS FUNCTIONS --- ###
 def price_str_conversor(price_str: str) -> float:
@@ -56,4 +57,6 @@ def user_name_conversor(user_name: str) -> str:
 
     except (ValueError, TypeError) as conversion_error:
         raise ConversionError(f'[ERRO] Os dados fornecediso estão corrompidos ou são incompátiveis.', conversion_error, user_name) from conversion_error
-    
+
+def return_value(value: Any) -> Any:
+    return value

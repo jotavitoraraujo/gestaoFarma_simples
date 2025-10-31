@@ -838,3 +838,86 @@
 2025-10-20 12:33:23,447 - WARNING - nfe_importer - [INFO] 33 produto(s) estão com status *ATIVOS*.
 2025-10-20 12:33:23,447 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
 2025-10-20 12:33:25,307 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-30 16:23:53,847 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-30 16:23:53,865 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'sqlite3.OperationalError'>
+2025-10-30 16:23:53,866 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-30 16:23:53,866 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-30 16:23:53,866 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. near "(": syntax error
+2025-10-31 11:10:16,896 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 11:10:16,901 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'sqlite3.OperationalError'>
+2025-10-31 11:10:16,902 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 11:10:16,902 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-31 11:10:16,902 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. near "(": syntax error
+2025-10-31 11:12:42,131 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 11:12:42,133 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'sqlite3.OperationalError'>
+2025-10-31 11:12:42,133 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 11:12:42,134 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-31 11:12:42,134 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. near "(": syntax error
+2025-10-31 11:13:23,162 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 11:13:23,163 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'sqlite3.OperationalError'>
+2025-10-31 11:13:23,164 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 11:13:23,165 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-31 11:13:23,165 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. near "(": syntax error
+2025-10-31 11:27:24,655 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 11:27:24,657 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'sqlite3.OperationalError'>
+2025-10-31 11:27:24,658 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 11:27:24,658 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-31 11:27:24,659 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. near "(": syntax error
+2025-10-31 11:44:04,598 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 11:44:04,600 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'sqlite3.OperationalError'>
+2025-10-31 11:44:04,601 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 11:44:04,601 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-31 11:44:04,601 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. near "(": syntax error
+2025-10-31 11:49:56,735 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 11:49:56,740 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'sqlite3.OperationalError'>
+2025-10-31 11:49:56,742 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 11:49:56,742 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-31 11:49:56,742 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. near "(": syntax error
+2025-10-31 11:50:13,619 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 11:50:13,621 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'sqlite3.OperationalError'>
+2025-10-31 11:50:13,621 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 11:50:13,622 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-31 11:50:13,622 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. near "(": syntax error
+2025-10-31 11:53:39,087 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 11:53:39,089 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'sqlite3.OperationalError'>
+2025-10-31 11:53:39,090 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 12:01:42,611 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 12:01:42,637 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'sqlite3.OperationalError'>
+2025-10-31 12:01:42,637 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 12:06:02,470 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 12:06:09,184 - ERROR - console_ui - [ERRO] O nome de usuário deve conter apenas caracteres alfabeticos.
+2025-10-31 12:06:22,336 - WARNING - console_ui - [ALERTA] PIN Inválido. Por favor, tente novamente.
+2025-10-31 12:06:22,336 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-10-31 12:06:22,339 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 12:06:41,767 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 12:06:47,113 - ERROR - console_ui - [ERRO] O nome de usuário deve conter apenas caracteres alfabeticos.
+2025-10-31 12:06:54,712 - WARNING - console_ui - [ALERTA] PIN Inválido. Por favor, tente novamente.
+2025-10-31 12:06:54,712 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-10-31 12:06:54,714 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 12:06:54,714 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-31 12:06:54,715 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. object of type 'int' has no len()
+2025-10-31 12:07:21,903 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 12:07:35,240 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-10-31 12:07:35,242 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 12:07:35,242 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-31 12:07:35,242 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. object of type 'int' has no len()
+2025-10-31 12:07:51,897 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 12:07:56,096 - WARNING - console_ui - [ALERTA] PIN Inválido. Por favor, tente novamente.
+2025-10-31 12:07:56,096 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-10-31 12:07:56,098 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 12:07:56,099 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-31 12:07:56,099 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. object of type 'int' has no len()
+2025-10-31 12:41:31,671 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 12:41:42,424 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-10-31 12:41:42,426 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 12:41:42,427 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-10-31 12:41:42,427 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. collect_user_name() takes 0 positional arguments but 1 was given
+2025-10-31 12:45:44,454 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 12:45:53,494 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 15:31:15,417 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 15:31:20,646 - ERROR - io_collectors - [ERRO] Os dados inseridos são inválidos. Tente novamente.
+2025-10-31 15:31:22,550 - ERROR - io_collectors - [ERRO] Os dados inseridos são inválidos. Tente novamente.
+2025-10-31 15:31:25,392 - ERROR - io_collectors - [ERRO] Os dados inseridos são inválidos. Tente novamente.
+2025-10-31 15:31:32,245 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-10-31 16:16:36,515 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-10-31 16:16:51,436 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.

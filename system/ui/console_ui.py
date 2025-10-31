@@ -1,4 +1,5 @@
 ### --- IMPORTS --- ###
+from system.utils import io_collectors as io
 from pathlib import Path
 import logging
 #######################
@@ -20,3 +21,22 @@ def get_xml_path() -> str | None:
         logging.info(f'=' * 30)
         logging.warning(f'[ERRO] O nome do arquivo não existe ou não foi encontrado. Tente novamente.')
         logging.info(f'=' * 30)
+
+def get_username() -> str:
+
+    user_name: str = io.collect_user_name()
+    if user_name:
+        print('[INFO] Nome de usuário inserido com sucesso.')
+        return user_name
+
+def get_pin() -> str:
+
+    pin: str = io.collect_user_pin()
+    if pin:
+        print('[INFO] Senha cadastrada com sucesso.')
+        return pin
+
+
+
+    
+

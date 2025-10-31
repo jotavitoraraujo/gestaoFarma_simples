@@ -78,7 +78,7 @@ def collect_user_pin() -> str:
     print('[ALERTA] O padrão de definição de senhas do GestãoFarma Simples é: 4 digitos numéricos [EX: 1234]')
     print('=' * 30)
 
-    converter = security.password_for_hash_conversor
+    converter = converters.return_value
     validator = validators.user_pass_validator
     mask_pass = pwinput
 

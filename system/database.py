@@ -161,8 +161,8 @@ def _create_auth_schema(cursor: Cursor):
             role_id INTEGER NOT NULL,
             permission_id INTEGER NOT NULL,
             PRIMARY KEY (role_id, permission_id),
-            FOREIGN(role_id) REFERENCES roles(id),
-            FOREIGN(permission_id) REFERENCES permissions(id)
+            FOREIGN KEY(role_id) REFERENCES roles(id),
+            FOREIGN KEY(permission_id) REFERENCES permissions(id)
         )
     ''')
     cursor.execute('''
@@ -170,8 +170,8 @@ def _create_auth_schema(cursor: Cursor):
             user_id INTEGER NOT NULL,
             role_id INTEGER NOT NULL,
             PRIMARY KEY (user_id, role_id),
-            FOREIGN(user_id) REFERENCES users(id),
-            FOREIGN(role_id) REFERENCES roles(id)
+            FOREIGN KEY(user_id) REFERENCES users(id),
+            FOREIGN KEY(role_id) REFERENCES roles(id)
         )
     ''')
 
@@ -261,10 +261,7 @@ def _insert_role_list_in_roles_table(cursor: Cursor):
     cursor.executemany('''
         INSERT OR IGNORE INTO roles (role_name)
         VALUES (?)
-    ''',
-        (
-            role_list,
-        )
+    ''', role_list
     )
 
 def _insert_permission_list_in_permissions_table(cursor: Cursor):
@@ -272,10 +269,7 @@ def _insert_permission_list_in_permissions_table(cursor: Cursor):
         permission_list: list[tuple] = _permission_list()
         cursor.executemany('''
         INSERT OR IGNORE INTO permissions (permission_name) VALUES (?)
-    ''',
-        (
-            permission_list,
-        )
+    ''', permission_list
     )
 
 def _insert_permission_name_in_role_permissions_table(cursor: Cursor):
@@ -286,7 +280,7 @@ def _insert_permission_name_in_role_permissions_table(cursor: Cursor):
             SELECT id
             FROM roles
             WHERE role_name = 'Admin'
-        ),
+            ),
             p.id
         FROM permissions p
         WHERE p.permission_name IN (
@@ -307,14 +301,14 @@ def _insert_permission_name_in_role_permissions_table(cursor: Cursor):
             SELECT id
             FROM roles
             WHERE role_name = 'Seller'
-        ),
+            ),
             p.id
         FROM permissions p
         WHERE p.permission_name IN (
             'stock:import_nfe',
             'stock:view_all',
             'sale:create',
-            'sale:apply_discount',
+            'sale:apply_discount'
         );
     ''')
 

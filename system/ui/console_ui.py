@@ -1,6 +1,7 @@
 ### --- IMPORTS --- ###
 from system.utils import io_collectors as io
 from pathlib import Path
+import pwinput
 import logging
 #######################
 
@@ -22,19 +23,51 @@ def get_xml_path() -> str | None:
         logging.warning(f'[ERRO] O nome do arquivo não existe ou não foi encontrado. Tente novamente.')
         logging.info(f'=' * 30)
 
-def get_username() -> str:
-
+def get_username_to_register() -> str:
+    
+    print('=' * 30)
+    print('NOME DE USUÁRIO')
+    print('[ALERTA] O padrão para nomes de usuário no GestãoFarma Simples é: NOMESOBRENOME [EX: MARIASILVA]')
+    print('=' * 30)
     user_name: str = io.collect_user_name()
-    if user_name:
-        print('[INFO] Nome de usuário inserido com sucesso.')
-        return user_name
+    print('[INFO] Nome de usuário inserido com sucesso.')
+    return user_name
 
-def get_pin() -> str:
+def get_pin_to_register() -> str:
 
+    print('=' * 30)
+    print('DEFINIÇÃO DE SENHA')
+    print('[ALERTA] O padrão de definição de senhas do GestãoFarma Simples é: 4 digitos numéricos [EX: 1234]')
+    print('=' * 30)
     pin: str = io.collect_user_pin()
-    if pin:
-        print('[INFO] Senha cadastrada com sucesso.')
-        return pin
+    print('[INFO] Senha cadastrada com sucesso.')
+    return pin
+
+def get_username_to_auth() -> str:
+
+    print('=' * 30)
+    print('--- GESTÃO FARMA LOGIN ---')
+    print('=' * 30)
+    user_name: str = io.collect_user_name()
+    return user_name
+
+def get_pin_to_auth() -> str:
+
+    print('\n')
+    print('=' * 30)
+    print('--- GESTÃO FARMA LOGIN --- ')
+    pin: str = io.collect_user_pin()
+    return pin
+
+def display_menu_auth():
+    'display menu to authenticated in the system'
+
+    print('\n --- Sistema de Gestão da Farmácia ---')
+    print('Autenticação no Sistema')
+    print('1. Login')
+    print('2. Registrar')
+    print('0. Sair')
+    return input('Escolha uma opção: ')
 
 
 

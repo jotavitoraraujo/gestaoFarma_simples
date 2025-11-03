@@ -35,9 +35,9 @@ def _collector_generic_input(ask: str,
 
 ### --- INPUT/OUTPUT COLLECTORS FUNCTIONS --- ###
 def collect_price() -> float:
-    print('=' * 30)
-    print('APLICAR PREÇO')
-    print('=' * 30)
+    # print('=' * 30)
+    # print('APLICAR PREÇO')
+    # print('=' * 30)
 
     converter = converters.price_str_conversor
     validator = validators.price_validator
@@ -47,10 +47,10 @@ def collect_price() -> float:
     return price    
 
 def collect_expiration_date() -> date:
-    print('=' * 30)
-    print('DEFINIÇÃO DE DATA')
-    print('[ALERTA] O padrão para definições de data no GestãoFarma Simples é: DD/MM/AAAA')
-    print('=' * 30)
+    # print('=' * 30)
+    # print('DEFINIÇÃO DE DATA')
+    # print('[ALERTA] O padrão para definições de data no GestãoFarma Simples é: DD/MM/AAAA')
+    # print('=' * 30)
 
     converter = converters.expiration_date_str_conversor
     validator = validators.batch_expiration_date_validator
@@ -60,10 +60,10 @@ def collect_expiration_date() -> date:
     return expiration
 
 def collect_user_name() -> str: 
-    print('=' * 30)
-    print('NOME DE USUÁRIO')
-    print('[ALERTA] O padrão para nomes de usuário no GestãoFarma Simples é: NOMESOBRENOME [EX: MARIASILVA]')
-    print('=' * 30)
+    # print('=' * 30)
+    # print('NOME DE USUÁRIO')
+    # print('[ALERTA] O padrão para nomes de usuário no GestãoFarma Simples é: NOMESOBRENOME [EX: MARIASILVA]')
+    # print('=' * 30)
 
     converter = converters.user_name_conversor
     validator = validators.user_name_validator
@@ -73,10 +73,10 @@ def collect_user_name() -> str:
     return user_name
 
 def collect_user_pin() -> str:
-    print('=' * 30)
-    print('DEFINIÇÃO DE SENHA')
-    print('[ALERTA] O padrão de definição de senhas do GestãoFarma Simples é: 4 digitos numéricos [EX: 1234]')
-    print('=' * 30)
+    # print('=' * 30)
+    # print('DEFINIÇÃO DE SENHA')
+    # print('[ALERTA] O padrão de definição de senhas do GestãoFarma Simples é: 4 digitos numéricos [EX: 1234]')
+    # print('=' * 30)
 
     converter = converters.return_value
     validator = validators.user_pass_validator
@@ -87,9 +87,9 @@ def collect_user_pin() -> str:
     return user_pass
 
 def collect_quantity() -> int:
-    print('=' * 30)
-    print('INSERÇÃO DE QUANTIDADE')
-    print('=' * 30)
+    # print('=' * 30)
+    # print('INSERÇÃO DE QUANTIDADE')
+    # print('=' * 30)
 
     conversor = converters.batch_quantity_conversor
     validator = validators.batch_quantity_validator
@@ -99,12 +99,12 @@ def collect_quantity() -> int:
     return quantity
 
 def collect_batch_physical() -> str:
-    print('=' * 30)
-    print('REGISTRO DE LOTE FISICO')
-    print('''[ALERTA] O lote físico solicitado é o lote impresso na caixa do produto.
-    \nGeralmente em um padrão Alphanumerico [EX: LOTE123FISICO]' 
-    ''')
-    print('=' * 30)
+    # print('=' * 30)
+    # print('REGISTRO DE LOTE FISICO')
+    # print('''[ALERTA] O lote físico solicitado é o lote impresso na caixa do produto.
+    # \nGeralmente em um padrão Alphanumerico [EX: LOTE123FISICO]' 
+    # ''')
+    # print('=' * 30)
 
     conversor = return_value
     validator = validators.batch_physical_validator    

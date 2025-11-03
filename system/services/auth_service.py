@@ -36,14 +36,17 @@ class AuthService:
             stored_hash: str = self.user_repository.get_pin_hash(user_name)
             stored_salt: bytes = self.user_repository.get_salt(user_name)
         
-        if isinstance(provided_pin, str):
-            func_compare: Callable = security.compare_pin
-            result: bool = security.verify_pin(stored_hash, stored_salt, provided_pin, func_compare)
+            if isinstance(provided_pin, str):
+                func_compare: Callable = security.compare_pin
+                result: bool = security.verify_pin(stored_hash, stored_salt, provided_pin, func_compare)
         
-        if result is True:
-            user = self._create_user(user_name)
-            return user
+            if result is True:
+                user = self._create_user(user_name)
+                return user
         
+            else:
+                return None
+            
         #### -> ENVIAR MENSAGEM GENERICA NA UI QUANDO CHAMADO COMO METODO DE SEGURANÇA
         #### -> "NOME DE USUARIO OU SENHA INCORRETOS."
         

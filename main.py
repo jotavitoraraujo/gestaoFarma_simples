@@ -6,6 +6,7 @@ from system.services.auth_service import AuthService
 from system.modules.nfe_importer import NFEImporter
 from system.modules.xml_parser import XMLParser
 from system.modules import settings_log
+from system.models.user import User
 from system.ui import console_ui
 from system import database
 import logging
@@ -20,6 +21,7 @@ def display_menu():
     print('0. Sair')
     return input('Escolha uma opção: ')
 ######################################################
+
 def main():
     settings_log.log_system()
     'main menu'
@@ -33,9 +35,33 @@ def main():
             auth_service = AuthService (user_repo)
             importer = NFEImporter(XMLParser, prod_repo.save_products)
         ######################################################
-            while True:
+            
+            user_auth = None
+            while user_auth is None:
+                choice = console_ui.display_menu_auth()
+                if choice == '1':
+                    user_name: str = console_ui.get_username_to_auth()
+                    pin: str = console_ui.get_pin_to_auth()
+                    user_auth: User = auth_service.authenticate(user_name, pin)
+                    if user_auth is not None:
+                        logging.info(f'[INFO] Seja bem vindo {user_auth.user_name}, tenha um bom trabalho!')
+                        break
+                    else:
+                        logging.warning('[ALERTA] Nome de usuário ou PIN incorretos. Tente novamente.')
+                
+                if choice == '2':
+                    user_name: str = console_ui.get_username_to_register()
+                    pin: str = console_ui.get_pin_to_register()
+                    auth_service.register(user_name, pin)
+                
+                if choice == '0':
+                    logging.info('=' * 30)
+                    logging.info('[INFO] Sistema finalizado.')
+                    logging.info('=' * 30)
+                    break
+        
+            while user_auth is not None:
                 choice = display_menu()
-
                 if choice == '1':
                     xml_path: str = console_ui.get_xml_path()
                     if xml_path is not None:
@@ -51,10 +77,10 @@ def main():
                 # elif escolha == '3':
                 #     print('\n [INFO] Função de relátorios ainda não implementada.')
         ######################################################
-                elif choice == '4':
-                    user_name: str = console_ui.get_username()
-                    pin: str = console_ui.get_pin()
-                    auth_service.register(user_name, pin)
+                # elif choice == '4':
+                #     user_name: str = console_ui.get_username()
+                #     pin: str = console_ui.get_pin()
+                #     auth_service.register(user_name, pin)
         ######################################################
                 elif choice == '0':
                     logging.info('=' * 30)
@@ -68,6 +94,7 @@ def main():
     except Exception as error:
         logging.error(f'[FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.')
         logging.error(f'[FATAL ERROR] :: Verifique o log de erros para mais detalhes. {error}')
+        raise error
 ######################################################
 if __name__ == '__main__':
     main()

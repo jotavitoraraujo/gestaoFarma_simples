@@ -44,7 +44,9 @@ def main():
                     pin: str = console_ui.get_pin_to_auth()
                     user_auth: User = auth_service.authenticate(user_name, pin)
                     if user_auth is not None:
+                        print('=' * 30)
                         logging.info(f'[INFO] Seja bem vindo {user_auth.user_name}, tenha um bom trabalho!')
+                        print('=' * 30)
                         break
                     else:
                         logging.warning('[ALERTA] Nome de usuário ou PIN incorretos. Tente novamente.')

@@ -28,7 +28,8 @@ def compare_pin(provided_hash_hex: str, stored_hash: str) -> bool:
 def verify_pin(stored_hash: str,  stored_salt: bytes, provided_pin: str, func_compare: Callable[[bytes, bytes], bool]) -> bool:
     'verify if a pin is same the provided pin from user'
 
-    provided_hash: bytes = pbkdf2_hmac('sha256', provided_pin, stored_salt, 100000)
+    provided_pin_bytes: bytes = provided_pin.encode('utf-8')
+    provided_hash: bytes = pbkdf2_hmac('sha256', provided_pin_bytes, stored_salt, 100000)
     provided_hash_hex: str = provided_hash.hex()
     result: bool = func_compare(provided_hash_hex, stored_hash)
 

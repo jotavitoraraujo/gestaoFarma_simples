@@ -10,3 +10,21 @@
 2025-11-03 16:09:22,166 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
 2025-11-03 16:09:22,166 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
 2025-11-03 16:09:22,166 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. a bytes-like object is required, not 'str'
+2025-11-05 14:36:56,321 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-05 14:37:12,103 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-05 14:37:16,191 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-05 14:37:20,840 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-11-05 14:37:20,842 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-05 14:37:20,842 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-11-05 14:37:20,842 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. a bytes-like object is required, not 'str'
+2025-11-05 14:42:11,777 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-05 14:42:17,475 - WARNING - main - [ALERTA] Nome de usuário ou PIN incorretos. Tente novamente.
+2025-11-05 14:43:59,373 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-05 14:44:02,732 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-05 14:44:12,690 - WARNING - main - [ALERTA] Nome de usuário ou PIN incorretos. Tente novamente.
+2025-11-05 14:48:12,036 - WARNING - nfe_importer - [INFO] 33 produto(s) estão com status *ATIVOS*.
+2025-11-05 14:48:12,036 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-05 14:48:18,655 - ERROR - main - [ERRO] Opção inválida. Tente novamente
+2025-11-05 14:48:23,726 - ERROR - main - [ERRO] Opção inválida. Tente novamente
+2025-11-05 14:48:26,566 - ERROR - main - [ERRO] Opção inválida. Tente novamente
+2025-11-05 14:48:29,397 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.

@@ -139,7 +139,8 @@ def _create_auth_schema(cursor: Cursor):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_name TEXT NOT NULL,
             pin_hash TEXT NOT NULL,
-            salt BLOB NOT NULL
+            salt BLOB NOT NULL,
+            UNIQUE(user_name)
         )
     ''')
     cursor.execute('''

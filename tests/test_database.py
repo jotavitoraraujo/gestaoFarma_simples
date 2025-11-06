@@ -86,6 +86,62 @@ def test_create_table_users(db_connection: Connection):
     real_result = cursor.fetchone()
     assert real_result == expected_result
 
+    ####### --- TEST FUNCTION SIX: TABLE -> ROLES --- #######
+def test_create_table_roles(db_connection: Connection):
+
+    expected_result = ('roles',)
+    database.starter_schema(db_connection)
+    cursor = db_connection.cursor()
+    cursor.execute('''
+        SELECT name
+        FROM sqlite_schema
+        WHERE type = 'table' AND name = 'roles'
+    ''')
+    real_result = cursor.fetchone()
+    assert real_result == expected_result
+
+####### --- TEST FUNCTION SEVEN: TABLE -> PERMISSIONS --- #######
+def test_create_table_users(db_connection: Connection):
+
+    expected_result = ('permissions',)
+    database.starter_schema(db_connection)
+    cursor = db_connection.cursor()
+    cursor.execute('''
+        SELECT name
+        FROM sqlite_schema
+        WHERE type = 'table' AND name = 'permissions'
+    ''')
+    real_result = cursor.fetchone()
+    assert real_result == expected_result
+
+####### --- TEST FUNCTION EIGTH: TABLE -> ROLE_PERMISSIONS --- #######
+def test_create_table_users(db_connection: Connection):
+
+    expected_result = ('role_permissions',)
+    database.starter_schema(db_connection)
+    cursor = db_connection.cursor()
+    cursor.execute('''
+        SELECT name
+        FROM sqlite_schema
+        WHERE type = 'table' AND name = 'role_permissions'
+    ''')
+    real_result = cursor.fetchone()
+    assert real_result == expected_result
+
+####### --- TEST FUNCTION FIVE: TABLE -> USER_ROLES --- #######
+def test_create_table_users(db_connection: Connection):
+
+    expected_result = ('user_roles',)
+    database.starter_schema(db_connection)
+    cursor = db_connection.cursor()
+    cursor.execute('''
+        SELECT name
+        FROM sqlite_schema
+        WHERE type = 'table' AND name = 'user_roles'
+    ''')
+    real_result = cursor.fetchone()
+    assert real_result == expected_result
+
 ####### --- TEST FUNCTION SIX: TABLE -> ORDERS --- #######
 def test_create_table_orders(db_connection: Connection):
 
@@ -123,10 +179,14 @@ def test_create_all_tables(db_connection: Connection):
         'fiscal_profile',
         'batchs',
         'purchase_tax_details',
-        'events',
         'users',
+        'roles',
+        'permissions',
+        'role_permissions',
+        'user_roles',
         'orders',
         'order_items',
+        'events'
     ]
     database.starter_schema(db_connection)
     cursor = db_connection.cursor()

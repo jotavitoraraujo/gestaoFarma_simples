@@ -2,7 +2,6 @@
 from sqlite3 import Connection, Cursor
 from system.models.user import User
 from system.models.rbac import Role, Permission
-import logging
 ############################
 
 class UserRepository:

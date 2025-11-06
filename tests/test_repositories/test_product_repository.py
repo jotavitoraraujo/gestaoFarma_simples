@@ -13,7 +13,7 @@ from system.repositories.event_repository import EventRepository
 
 def test_prod_repo_complete_products(db_connection: Connection, rich_products_list: list[Product]):
     #### --- PHASE ARRANGE --- ####
-    database.create_tables(db_connection)
+    database.starter_schema(db_connection)
     event_repo = MagicMock(spec = EventRepository)
     repo = ProductRepository(db_connection, event_repo)
     dict_status: dict = repo.save_products(rich_products_list)
@@ -249,7 +249,7 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
 def test_prod_repo_incomplete_products(db_connection: Connection, rich_products_list_supplier_None: list[Product]):
 
     ### --- ARRANGE PHASE --- ###
-    database.create_tables(db_connection)
+    database.starter_schema(db_connection)
     event_repo_mock = MagicMock(spec = EventRepository)
     prod_repo = ProductRepository(db_connection, event_repo_mock)
     dict_status: dict = prod_repo.save_products(rich_products_list_supplier_None)

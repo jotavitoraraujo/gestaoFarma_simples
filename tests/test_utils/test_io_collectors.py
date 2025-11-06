@@ -87,7 +87,7 @@ def test_public_functions(mock_generic_input: MagicMock, public_func, conversor_
     [
         (
             io_collectors.collect_user_pin,
-            security.password_for_hash_conversor,
+            converters.return_value,
             validators.user_pass_validator,
         )
     ]

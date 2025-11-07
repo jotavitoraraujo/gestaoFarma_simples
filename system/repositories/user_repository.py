@@ -145,7 +145,7 @@ class UserRepository:
         'join multiple tables and get the id and permission name using user_id'
 
         self.cursor.execute('''
-            SELECT permissions.id, permissions.permission_name
+            SELECT DISTINCT permissions.id, permissions.permission_name
             FROM users
             JOIN user_roles ON users.id = user_roles.user_id
             JOIN roles ON user_roles.role_id = roles.id
@@ -206,7 +206,7 @@ class UserRepository:
         if response is not None: 
             role_id: int = response[0]
             self._insert_table_user_roles(user_id, role_id)
-        else: return None
+        else: raise ValueError(f'[ERRO] Role Inexisting: {role_name}')
 
     def find_roles_by_userID(self, user_id: int) -> list[Role]:
         'find the roles the an user using user_id'

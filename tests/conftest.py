@@ -10,7 +10,9 @@ from system.models.product import Product
 from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
 from system.models.batch import Batch
 from system.models.user import User
-
+from unittest.mock import MagicMock
+from system.repositories.user_repository import UserRepository
+from system.services.auth_service import AuthService
 
 #################### --- ADAPTERS AND CONVERSORS --- ####################
 def date_to_str_adapter(value: date) -> str:
@@ -1467,3 +1469,15 @@ def hash_list_test() -> list[str]:
         '7ad8dbe5dbed0dcda5e2fa713de5ddb5b6db23d8b7f4fc0ed2650b5b071107c7'  # HASH OF: letters
     ]
     return hash_list
+
+@pytest.fixture(scope = 'module')
+def mock_user_repo():
+
+    mock_user_repo: UserRepository = MagicMock(spec = UserRepository)
+    return mock_user_repo
+
+@pytest.fixture(scope = 'module')
+def auth_service(mock_user_repo):
+
+    auth_service = AuthService(mock_user_repo)
+    return auth_service

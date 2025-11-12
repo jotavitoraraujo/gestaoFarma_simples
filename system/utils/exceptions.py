@@ -1,6 +1,6 @@
 ### --- IMPORTS --- ###
-import xml.etree.ElementTree as ET
 from datetime import datetime
+from typing import Any
 
 ### --- CLASS CONVERSION ERROR --- ###
 class ConversionError(Exception):
@@ -49,4 +49,29 @@ class MissingTagError(ValueError):
             [ERRO]: The DET Number with missing tag data is: {self.nItem_det}
             '''
         )
+        return info_message
+
+class UserAlreadyExistsError(ValueError):
+
+    def __init__(self, error_message: str, error_input: str = None, error_original: Any = None):
+        super().__init__(error_message)
+        self.error_input = error_input
+        self.error_original = error_original
+        self.timestamp = datetime.now()
+
+    def __str__(self):
+        main_message = self.args[0]
+        timestamp_formated: datetime = self.timestamp.strftime('%d/%m/%Y, %H:%M:%S')
+        info_message: str = (
+            f'''
+            [ERRO]: Timestamp: {timestamp_formated}
+            [ERRO]: UserAlredyExistsError: {main_message}
+            [ERRO]: Username Used: {self.error_input}
+            '''
+        )
+
+        if self.error_original:
+            type_original_error: Any = type(self.error_original).__name__
+            info_message += f'[ERRO] Main Cause: {type_original_error}'
+        
         return info_message

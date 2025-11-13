@@ -1470,13 +1470,13 @@ def hash_list_test() -> list[str]:
     ]
     return hash_list
 
-@pytest.fixture(scope = 'module')
+@pytest.fixture(scope = 'function')
 def mock_user_repo():
 
     mock_user_repo: UserRepository = MagicMock(spec = UserRepository)
     return mock_user_repo
 
-@pytest.fixture(scope = 'module')
+@pytest.fixture(scope = 'function')
 def auth_service(mock_user_repo):
 
     auth_service = AuthService(mock_user_repo)

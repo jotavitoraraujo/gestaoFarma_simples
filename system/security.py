@@ -25,7 +25,7 @@ def compare_pin(provided_hash_hex: str, stored_hash: str) -> bool:
     result: bool = compare_digest(provided_hash_hex, stored_hash)
     return result
 
-def verify_pin(stored_hash: str,  stored_salt: bytes, provided_pin: str, func_compare: Callable[[bytes, bytes], bool]) -> bool:
+def verify_pin(stored_hash: str,  stored_salt: bytes, provided_pin: str, func_compare: Callable[[str, str], bool]) -> bool:
     'verify if a pin is same the provided pin from user'
 
     provided_pin_bytes: bytes = provided_pin.encode('utf-8')
@@ -34,5 +34,3 @@ def verify_pin(stored_hash: str,  stored_salt: bytes, provided_pin: str, func_co
     result: bool = func_compare(provided_hash_hex, stored_hash)
 
     return result
-
-

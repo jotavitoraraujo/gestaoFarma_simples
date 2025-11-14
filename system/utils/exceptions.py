@@ -1,77 +1,39 @@
-### --- IMPORTS --- ###
 from datetime import datetime
 from typing import Any
 
-### --- CLASS CONVERSION ERROR --- ###
-class ConversionError(Exception):
-    'an exclusive class for custom erros'
-
-    def __init__(self, error_message: str, error_input = None, error_original = None):
-        super().__init__(error_message)
+class GestaoFarmaBaseError(Exception):
+    def __init__(self, message: str, error_input: Any = None, error_original: Any = None):
+        super().__init__(message)
         self.error_input = error_input
         self.error_original = error_original
         self.timestamp = datetime.now()
 
     def __str__(self):
-        main_message = self.args[0]
-        timestamp_formated = self.timestamp.strftime('%d/%m/%Y, %H:%M:%S')
-        info_message = (
+        main_message: str = self.args[0]
+        timestamp_fmt: datetime = self.timestamp.strftime('%d/%m/%Y, %H:%M:%S')
+        class_name = self.__class__.__name__
+        report: str = (
             f'''
-            [ERROR]: Timestamp: {timestamp_formated}
-            [ERROR]: Conversion Error: {main_message}
-            [ERROR]: Corrupted Data is: {self.error_input}
-            '''
-            )
-        if self.error_original:
-            type_error_original = type(self.error_original).__name__
-            info_message += f'[ERROR]: Main Cause: {type_error_original}'
-        
-        return info_message
-
-### --- CLASS MISSING TAG ERROR --- ###
-class MissingTagError(ValueError):
-    'an exclusive class for missing tags of the xml'
-
-    def __init__(self, error_message: str, missing_tag: list[str] = None, nItem_det: str = None):
-        super().__init__(error_message)
-        self.missing_tag = missing_tag
-        self.nItem_det = nItem_det
-        self.timestamp = datetime.now()
-
-    def __str__(self):
-        main_message = self.args[0]
-        timestamp_formated = self.timestamp.strftime('%d/%m/%Y, %H:%M:%S')
-        info_message = (
-            f'''
-            [ERRO]: Timestamp: {timestamp_formated}
-            [ERRO]: Tag Error: {main_message}
-            [ERRO]: The elements of the list with tags missing data is: {self.missing_tag}
-            [ERRO]: The DET Number with missing tag data is: {self.nItem_det}
+                \n[ERRO]: Timestamp: {timestamp_fmt}
+                \n[ERRO]: Exceptoion Type: {class_name}
+                \n[ERRO]: Message: {main_message}
             '''
         )
-        return info_message
+        if hasattr(self, 'error_input') and self.error_input is not None:
+            report += f'\n[ERRO] Context Data (Input): {self.error_input}'
+        if hasattr(self, 'error_original') and self.error_original is not None:
+            original_type: Any = type(self.error_original).__name__
+            report += f'\n[ERRO] Root Cause: {original_type} -> {self.error_original}'
+        return report
 
-class UserAlreadyExistsError(ValueError):
-
-    def __init__(self, error_message: str, error_input: str = None, error_original: Any = None):
-        super().__init__(error_message)
+class ConversionError(GestaoFarmaBaseError):
+    def __init__(self, message: str, error_input: Any = None, error_original: Any = None):
+        super().__init__(message)
         self.error_input = error_input
         self.error_original = error_original
-        self.timestamp = datetime.now()
 
-    def __str__(self):
-        main_message = self.args[0]
-        timestamp_formated: datetime = self.timestamp.strftime('%d/%m/%Y, %H:%M:%S')
-        info_message: str = (
-            f'''
-            [ERRO]: Timestamp: {timestamp_formated}
-            [ERRO]: UserAlredyExistsError: {main_message}
-            [ERRO]: Username Used: {self.error_input}
-            '''
-        )
-
-        if self.error_original:
-            type_original_error: Any = type(self.error_original).__name__
-            info_message += f'[ERRO] Main Cause: {type_original_error}'
-        
-        return info_message
+class UserAlreadyExistsError(GestaoFarmaBaseError):
+    def __init__(self, message: str, error_input: Any = None, error_original: Any = None):
+        super().__init__(message)
+        self.error_input = error_input
+        self.error_original = error_original

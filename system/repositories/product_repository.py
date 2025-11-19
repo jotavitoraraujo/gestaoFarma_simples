@@ -1,23 +1,22 @@
 ### --- IMPORTS --- ###
-from sqlite3 import Connection
-from decimal import Decimal
-from datetime import datetime
+from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
+from system.models.payloads import QuarantinePayLoad
+from system.models.dtos import EventPersistenceDTO
+from system.models.audit_event import AuditEvent
+from system.models.event_types import EventType
 from system.models.product import Product
 from system.models.batch import Batch
-from system.models.payloads import QuarantinePayLoad
-from system.models.audit_event import AuditEvent
-from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
-from system.models.dtos import EventPersistenceDTO
-from system.repositories.event_repository import EventRepository
-import json
+from sqlite3 import Connection
+from datetime import datetime
+from decimal import Decimal
 import logging
+import json
 ################################
 
 class ProductRepository:
     'an object construction to perform the repository pattern'
-    def __init__(self, connection_db: Connection, event_repository: EventRepository):
+    def __init__(self, connection_db: Connection):
         self.connection_db = connection_db
-        self.event_repository = event_repository
     
     def _insert_table_fiscal_profile(self, fiscal_profile: FiscalProfile) -> int:
         cursor = self.connection_db.cursor()
@@ -138,7 +137,7 @@ class ProductRepository:
             )
         )
 
-    def _determine_batch_status(self, product: Product) -> tuple[str, str | None]:
+    def _determine_batch_status(self, product: Product) -> tuple[EventType, str] | tuple[str, None]:
         'determinate if a product has a attribute mandatory as none'
 
         if not product.batch:
@@ -179,8 +178,8 @@ class ProductRepository:
         ##################################
 
         if result:
-            reason = f'[ALERT] Missing Mandatory Fields: {", ".join(result)}'
-            return ('QUARANTINE', reason)
+            reason: str = f'[ALERT] Missing Mandatory Fields: {", ".join(result)}'
+            return (EventType, reason)
         else:
             return ('ACTIVE', None)
 
@@ -223,38 +222,19 @@ class ProductRepository:
     def _create_audit_event(self, product_id: int, batch_id: int, reason: str | None) -> AuditEvent:
         'create an audit_event from the status receives as argument'
 
-        payload = QuarantinePayLoad (
-            product_id = product_id, 
-            batch_id = batch_id,
-            reason = reason,
-            emitter_cnpj = None,
-            emitter_name = None
-        )
-        event = AuditEvent (
+        audit_event = AuditEvent (
             id = None,
             timestamp = datetime.now(),
-            event_type = 'QUARANTINE_ADDED',
-            payload = payload
+            event_type = EventType.QUARANTINE,
+            payload = QuarantinePayLoad (
+                product_id = product_id, 
+                batch_id = batch_id,
+                reason = reason,
+                emitter_cnpj = None,
+                emitter_name = None
+            )
         )
-        return event
-
-    def _create_DTO(self, event: AuditEvent) -> EventPersistenceDTO:
-        'register an event within database as a json string'
-        
-        payload: QuarantinePayLoad = event.payload
-        payload_dict: dict = payload.to_dict()
-        details_json: str = json.dumps(payload_dict)
-
-        event_dto = EventPersistenceDTO (
-            timestamp = event.timestamp,
-            event_type = event.event_type,
-            user_id = None,
-            product_id = payload.product_id,
-            batch_id = payload.batch_id,
-            details_json = details_json
-        )
-
-        return event_dto
+        return audit_event
 
     def _get_product_id(self, product: Product) -> int:
         'get product id using private methods using the object product as argument'
@@ -298,28 +278,30 @@ class ProductRepository:
         
         return batch_id
     
-    def _save_single_product(self, product: Product) -> str:
+    def _save_single_product(self, product: Product) -> str | AuditEvent:
         'process to saving a single product in database, defined the status of the same and record the result in events table'
         try:
             product_id: int = self._get_product_id(product)
             batch_id: int = self._save_single_batch(product_id, product)
-            status, reason = self._determine_batch_status(product)
+            result: tuple = self._determine_batch_status(product)
+            status: EventType | str = result[0]
+            reason: str | None
+
+            if isinstance(status, EventType):
+                audit_event: AuditEvent = self._create_audit_event(product_id, batch_id, reason)
+                return audit_event
             
-            if status == 'QUARANTINE':
-                event: AuditEvent = self._create_audit_event(product_id, batch_id, reason)
-                event_dto: EventPersistenceDTO = self._create_DTO(event)
-                self.event_repository.record_event(event_dto)
+            if isinstance(status, str):
                 return status
-            else:
-                return status
+        
         except Exception as error:
             raise error
 
-    def save_products(self, list_products: list[Product]) -> dict:
+    def save_products(self, list_products: list[Product]) -> tuple[dict, list[AuditEvent]] | tuple[dict]:
         'save a many quantity of products in the table products in database'
-        
-        active_count = 0
-        quarantined_count = 0
+                
+        status_count: dict = {'ACTIVE': 0, 'QUARANTINE': 0}
+        list_payloads: list[AuditEvent] = []
         
         if not list_products:
             return None
@@ -327,13 +309,18 @@ class ProductRepository:
         else:
             for product in list_products:
                 try:
-                    status = self._save_single_product(product)
-                    if status == 'QUARANTINE':
-                        quarantined_count += 1
-                    else:
-                        active_count += 1
+                    result: AuditEvent | str = self._save_single_product(product)
+                    
+                    if isinstance(result, AuditEvent):
+                        status_count['QUARANTINE'] += 1
+                        list_payloads.append(result)
+                    
+                    if isinstance(result, str):
+                        status_count['ACTIVE'] += 1
+
                 except Exception as error:
                     logging.error(f'[ERRO] Unexpected erro is ocurred. Verify the log: {error}')
                     continue
-            return {'ACTIVE': active_count, 'QUARANTINE': quarantined_count}
+            if list_payloads: return (status_count, list_payloads)
+            else: return (status_count, [])
         ###########################################################

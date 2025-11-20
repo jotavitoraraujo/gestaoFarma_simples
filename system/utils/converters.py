@@ -2,6 +2,7 @@
 from system.utils.exceptions import ConversionError
 from datetime import date
 from typing import Any
+import json
 
 ### --- CONVERSORS FUNCTIONS --- ###
 def price_str_conversor(price_str: str) -> float:
@@ -60,3 +61,6 @@ def user_name_conversor(user_name: str) -> str:
 
 def return_value(value: Any) -> Any:
     return value
+
+def to_json(data: dict[str, Any]) -> str:
+    return json.dumps(data, default = str)

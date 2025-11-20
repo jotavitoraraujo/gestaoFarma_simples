@@ -28,3 +28,64 @@
 2025-11-05 14:48:23,726 - ERROR - main - [ERRO] Opção inválida. Tente novamente
 2025-11-05 14:48:26,566 - ERROR - main - [ERRO] Opção inválida. Tente novamente
 2025-11-05 14:48:29,397 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 12:49:00,951 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 12:49:01,104 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 12:49:12,502 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 12:49:12,730 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 12:49:15,153 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 12:49:20,275 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 12:49:21,320 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 12:49:25,789 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 12:49:27,248 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 12:49:33,032 - WARNING - console_ui - [ERRO] O nome do arquivo não existe ou não foi encontrado. Tente novamente.
+2025-11-20 12:49:33,032 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 12:49:41,216 - ERROR - main - [ERRO] Opção inválida. Tente novamente
+2025-11-20 12:49:44,008 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 12:49:45,468 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-20 12:49:45,468 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-20 12:49:45,479 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 13:23:12,213 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 13:23:12,227 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 13:23:14,034 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 13:23:18,292 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 13:23:21,353 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 13:23:28,974 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-20 13:23:28,974 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-20 13:23:28,985 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 13:23:31,921 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 13:23:38,956 - WARNING - nfe_importer - [INFO] 33 produto(s) estão com status *ATIVOS*.
+2025-11-20 13:23:38,956 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-20 13:23:38,968 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 13:23:44,769 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 13:23:52,153 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-20 13:23:52,154 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-20 13:23:52,164 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 13:23:54,753 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 13:23:59,359 - WARNING - nfe_importer - [INFO] 24 produto(s) estão com status *ATIVOS*.
+2025-11-20 13:23:59,359 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-20 13:23:59,370 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 13:24:10,440 - ERROR - main - [ERRO] Opção inválida. Tente novamente
+2025-11-20 13:24:12,593 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 13:24:13,655 - WARNING - nfe_importer - [INFO] 32 produto(s) estão com status *ATIVOS*.
+2025-11-20 13:24:13,656 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-20 13:24:13,666 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 13:25:37,897 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 13:25:44,562 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-20 13:25:44,563 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-20 13:25:44,574 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 13:26:30,817 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 13:26:35,662 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-20 13:26:35,662 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-20 13:26:35,673 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 13:26:38,610 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 13:26:42,455 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-20 13:26:42,455 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-20 13:26:42,466 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 13:26:45,466 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 13:26:48,186 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-20 13:26:48,187 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-20 13:26:48,198 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-20 13:26:53,953 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-20 13:26:56,844 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-20 13:26:56,844 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-20 13:26:56,855 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.

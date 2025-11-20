@@ -1,6 +1,8 @@
 ### --- IMPORTS --- ###
-from sqlite3 import Connection
 from system.models.dtos import EventPersistenceDTO
+from system.utils import converters
+from sqlite3 import Connection
+from typing import Any
 ########################
 
 class EventRepository:
@@ -9,7 +11,7 @@ class EventRepository:
     def __init__(self, connection_db: Connection):
         self.connection_db = connection_db
     
-    def _insert_table_events(self, event_dto: EventPersistenceDTO):
+    def _insert_table_events(self, dto: EventPersistenceDTO):
         cursor = self.connection_db.cursor()
         cursor.execute('''
             INSERT INTO events (
@@ -23,14 +25,16 @@ class EventRepository:
             VALUES (?, ?, ?, ?, ?, ?)
         ''',
             (
-                event_dto.timestamp,
-                event_dto.event_type,
-                event_dto.user_id,
-                event_dto.product_id,
-                event_dto.batch_id,
-                event_dto.details_json,
+                dto.timestamp,
+                dto.event_type,
+                dto.user_id,
+                dto.product_id,
+                dto.batch_id,
+                dto.details_data,
             )
         )
     
-    def record_event(self, event_dto):
-        self._insert_table_events(event_dto)
+    def record_event(self, dto: EventPersistenceDTO):
+        
+        dto.details_data = converters.to_json(dto.details_data)
+        self._insert_table_events(dto)

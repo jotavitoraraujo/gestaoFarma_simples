@@ -2,10 +2,13 @@
 from system.repositories.product_repository import ProductRepository
 from system.repositories.event_repository import EventRepository
 from system.repositories.user_repository import UserRepository
+from system.services.dispatcher_service import DispatcherService
+from system.services.product_service import ProductService
 from system.services.auth_service import AuthService
 from system.modules.nfe_importer import NFEImporter
 from system.modules.xml_parser import XMLParser
 from system.modules import settings_log
+from system.models.event_types import EventType
 from system.models.user import User
 from system.ui import console_ui
 from system import database
@@ -71,10 +74,13 @@ def main():
         while user_auth is not None:
             choice = display_menu()
             if choice == '1':
-                with database.connect_db() as connection_import:    
+                with database.connect_db() as connection_import:                      
                     event_repo_import = EventRepository(connection_import)
-                    prod_repo_import = ProductRepository(connection_import, event_repo_import)
-                    importer = NFEImporter(XMLParser, prod_repo_import.save_products)
+                    prod_service = ProductService(event_repo_import)
+                    dispacher = DispatcherService()
+                    dispacher.subscribe(EventType.QUARANTINE, prod_service.handle_quarantine_event)
+                    prod_repo_import = ProductRepository(connection_import).save_products
+                    importer = NFEImporter(XMLParser, dispacher, prod_repo_import)
                     xml_path: str = console_ui.get_xml_path()
                     if xml_path is not None:
                         importer.run_import(xml_path)

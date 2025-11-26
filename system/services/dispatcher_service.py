@@ -18,8 +18,16 @@ class DispatcherService:
     def publish(self, event: EventType, payload: Any) -> None:
 
         if not self.subscribers.get(event):
-            logging.error('[ERRO] This subscribe does not exists or not found.')
-        
+            logging.warning(f'[AVISO] No subscribers found for event: {event}')
+            return
         else:
             for handler in self.subscribers[event]:
-                handler(payload)
+                try:
+                    handler(payload)
+                except Exception as error:
+                    handler_name: str = getattr(handler, '__name__', str(handler))
+                    logging.error(f'=' * 30)
+                    logging.error(f'[ERRO] Fail send the event: {event}.')
+                    logging.error(f'Subscriber: {handler_name}')
+                    logging.error(f'Reason: {error}')
+                    logging.error(f'=' * 30)

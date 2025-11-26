@@ -19,7 +19,7 @@ class DispatcherService:
 
         if not self.subscribers.get(event):
             logging.warning(f'[AVISO] No subscribers found for event: {event}')
-            return
+            return None
         else:
             for handler in self.subscribers[event]:
                 try:

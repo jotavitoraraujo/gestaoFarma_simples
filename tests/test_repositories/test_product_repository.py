@@ -1,22 +1,23 @@
 ### --- IMPORTS --- ###
-from sqlite3 import Connection
-from unittest.mock import MagicMock
-from datetime import date
-from system import database
-from decimal import Decimal
+from system.repositories.product_repository import ProductRepository
+from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
+from system.models.payloads import QuarantinePayLoad
+from system.models.audit_event import AuditEvent
 from system.models.product import Product
 from system.models.batch import Batch
-from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
-from system.repositories.product_repository import ProductRepository
-from system.repositories.event_repository import EventRepository
+from system import database
+from sqlite3 import Connection
+from datetime import date
+from decimal import Decimal
 #######################
 
 def test_prod_repo_complete_products(db_connection: Connection, rich_products_list: list[Product]):
     #### --- PHASE ARRANGE --- ####
     database.starter_schema(db_connection)
-    event_repo = MagicMock(spec = EventRepository)
-    repo = ProductRepository(db_connection, event_repo)
-    dict_status: dict = repo.save_products(rich_products_list)
+    repo = ProductRepository(db_connection)
+    result_tuple: tuple = repo.save_products(rich_products_list)
+    dict_status: dict = result_tuple[0]
+    list_events: list[AuditEvent] = result_tuple[1]
     cursor = db_connection.cursor()
     
     #### --- ASSERT IF THE DICTIONARY THAT CONTAINS THE VALUE OF THE STATUS RETURNED OF REPO.SAVE_PRODUCTS() IS CORRECT 
@@ -244,19 +245,23 @@ def test_prod_repo_complete_products(db_connection: Connection, rich_products_li
     assert clindamicina_db.batch == clindamicina_list.batch
     assert dict_status['ACTIVE'] == 3
     assert dict_status['QUARANTINE'] == 0
-    event_repo.record_event.assert_not_called()
+    assert len(list_events) == 0
 
 def test_prod_repo_incomplete_products(db_connection: Connection, rich_products_list_supplier_None: list[Product]):
 
     ### --- ARRANGE PHASE --- ###
     database.starter_schema(db_connection)
-    event_repo_mock = MagicMock(spec = EventRepository)
-    prod_repo = ProductRepository(db_connection, event_repo_mock)
-    dict_status: dict = prod_repo.save_products(rich_products_list_supplier_None)
+    prod_repo = ProductRepository(db_connection)
+    result_tuple: tuple = prod_repo.save_products(rich_products_list_supplier_None)
+    dict_status: dict = result_tuple[0]
+    list_events: list[AuditEvent] = result_tuple[1]
+    payload: QuarantinePayLoad = list_events[0].payload
+    product_id: int = payload.product_id
 
     assert dict_status['ACTIVE'] == 2
     assert dict_status['QUARANTINE'] == 1
-    event_repo_mock.record_event.assert_called()
+    assert len(list_events) == 1
+    assert product_id is not None
 
 
 

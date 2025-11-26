@@ -142,7 +142,7 @@ class ProductRepository:
 
         if not product.batch:
             reason = f'[ALERT] The batch for this product is False.'
-            return ('QUARANTINE', reason)  
+            return (EventType.QUARANTINE, reason)  
         
         result: list = []
         ##################################
@@ -179,7 +179,7 @@ class ProductRepository:
 
         if result:
             reason: str = f'[ALERT] Missing Mandatory Fields: {", ".join(result)}'
-            return (EventType, reason)
+            return (EventType.QUARANTINE, reason)
         else:
             return ('ACTIVE', None)
 
@@ -285,7 +285,7 @@ class ProductRepository:
             batch_id: int = self._save_single_batch(product_id, product)
             result: tuple = self._determine_batch_status(product)
             status: EventType | str = result[0]
-            reason: str | None
+            reason: str | None = result[1]
 
             if isinstance(status, EventType):
                 audit_event: AuditEvent = self._create_audit_event(product_id, batch_id, reason)

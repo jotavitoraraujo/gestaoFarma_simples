@@ -37,3 +37,15 @@ class UserAlreadyExistsError(GestaoFarmaBaseError):
         super().__init__(message)
         self.error_input = error_input
         self.error_original = error_original
+    
+class ProductNotFoundError(GestaoFarmaBaseError):
+    def __init__(self, message: str, error_input: Any = None, error_original: Any = None):
+        super().__init__(message)
+        self.error_input = error_input
+        self.error_original
+
+class InsufficientStockError(GestaoFarmaBaseError):
+    def __init__(self, message: str, error_input: Any = None, error_original: Any = None):
+        super().__init__(message)
+        self.error_input = error_input
+        self.error_original = error_original

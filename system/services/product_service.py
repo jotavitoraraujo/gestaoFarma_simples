@@ -1,15 +1,18 @@
 ### --- IMPORTS --- ###
+from system.repositories.product_repository import ProductRepository
 from system.repositories.event_repository import EventRepository
 from system.models.payloads import QuarantinePayLoad
 from system.models.dtos import EventPersistenceDTO
 from system.models.event_types import EventType
+from system.models.product import Product
 from datetime import datetime
 from typing import Any
 #######################
 
 class ProductService:
-    def __init__(self, repo: EventRepository):
-        self.repo = repo
+    def __init__(self, prod_repo: ProductRepository, event_repo: EventRepository):
+        self.prod_repo = prod_repo
+        self.repo = event_repo
 
     def handle_quarantine_event(self, payload: QuarantinePayLoad):
 
@@ -23,3 +26,10 @@ class ProductService:
         )
         self.repo.record_event(quarantine_dto)
 
+    def find_product_by_ean(self, ean: str) -> Product | None:
+        
+        product: Product = self.prod_repo.find_ean(ean)
+        if product is not None:
+            return product
+        else:
+            return None

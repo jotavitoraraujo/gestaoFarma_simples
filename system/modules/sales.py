@@ -1,13 +1,13 @@
 import logging
 from system import database
-from system.models.sale_item import SaleItem
+from system.models.item import Item
 from system.models.product import Product
 from system.models.batch import Batch
 from system.models.user import User
 from system.utils import validators
 
 
-def adicionar_item() -> SaleItem:
+def adicionar_item() -> Item:
     'cria um item após uma busca por nome do produto'
 
     print('\n')
@@ -62,7 +62,7 @@ def adicionar_item() -> SaleItem:
                     received_date = 'AVULSO'
                 )
 
-                item_avulso = SaleItem (
+                item_avulso = Item (
                     product = produto_avulso,
                     batch = lote_avulso,
                     quantity_sold = quantidade
@@ -122,7 +122,7 @@ def adicionar_item() -> SaleItem:
 
             item_selecionado = _menu_lista(lista_busca)
             
-            def _construir_item_selecionado(item_selecionado: tuple) -> SaleItem:
+            def _construir_item_selecionado(item_selecionado: tuple) -> Item:
                 
                                 
                 # desemcapsulando a tupla
@@ -147,7 +147,7 @@ def adicionar_item() -> SaleItem:
 
                 input_quantidade = validators.batch_quantity_validator()
                         
-                item = SaleItem (
+                item = Item (
                     product = produto_selecionado,
                     batch = lote_selecionado,
                     quantity_sold = input_quantidade

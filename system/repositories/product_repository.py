@@ -1,16 +1,15 @@
 ### --- IMPORTS --- ###
 from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
 from system.models.payloads import QuarantinePayLoad
-from system.models.dtos import EventPersistenceDTO
 from system.models.audit_event import AuditEvent
 from system.models.event_types import EventType
 from system.models.product import Product
 from system.models.batch import Batch
-from sqlite3 import Connection
+from sqlite3 import Connection, Cursor
 from datetime import datetime
 from decimal import Decimal
 import logging
-import json
+
 ################################
 
 class ProductRepository:
@@ -236,6 +235,57 @@ class ProductRepository:
         )
         return audit_event
 
+    def _create_product(self, data: tuple) -> Product:
+        'create a product from result the search by EAN in database'
+
+        product = Product (
+            id = data[0], ### --- INDEX 1 = ID FISCAL PROFILE
+            supplier_code = data[2],
+            ean = data[3],
+            name = data[4],
+            anvisa_code = data[5],
+            sale_price = data[6],
+            max_consumer_price = data[7],
+            fiscal_profile = None
+        )
+
+        fiscal_profile = FiscalProfile (
+            id = data[10],
+            ncm = data[11],
+            cest = data[12],
+            origin_code = data[13]
+        )
+
+        batch = Batch (
+            id = data[14],
+            product_id = data[16],
+            physical_id = data[17],
+            quantity = data[18],
+            unit_cost_amount = data[19],
+            other_expenses_amount = data[20],
+            use_by_date = data[21],
+            manufacturing_date = data[22],
+            received_date = data[23],
+            taxation_details = None
+        )
+
+        taxation_details = PurchaseTaxDetails (
+            id = data[24],
+            cfop = data[25],
+            icms_cst = data[26],
+            icms_st_base_amount = data[27],
+            icms_st_percentage = data[28],
+            icms_st_retained_amount = data[29],
+            pis_cst = data[30],
+            cofins_cst = data[31]
+        )
+
+        product.fiscal_profile = fiscal_profile
+        batch.taxation_details = taxation_details
+        product.batch.append(batch)
+
+        return product
+
     def _get_product_id(self, product: Product) -> int:
         'get product id using private methods using the object product as argument'
 
@@ -324,3 +374,26 @@ class ProductRepository:
             if list_payloads: return (status_count, list_payloads)
             else: return (status_count, [])
         ###########################################################
+
+    def find_ean(self, ean: str) -> Product | None:
+
+        cursor: Cursor = self.connection_db.cursor()
+        cursor.execute('''
+            SELECT *
+            FROM products
+            JOIN fiscal_profile ON products.id_fiscal_profile = fiscal_profile.id
+            JOIN batchs ON products.id = batchs.product_id
+            JOIN purchase_tax_details ON batchs.id_taxation_details = purchase_tax_details.id
+            WHERE products.ean = ?
+            ORDER BY batchs.use_by_date ASC
+        ''',
+            (
+                ean,
+            )
+        )
+        response: tuple = cursor.fetchone()
+        if response is not None:
+            product: Product = self._create_product(response)
+            return product
+        else:
+            return None

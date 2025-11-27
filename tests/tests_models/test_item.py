@@ -3,7 +3,7 @@ pytestmark = pytest.mark.skip(reason = 'PAUSE')
 from datetime import date
 from system.models.product import Product
 from system.models.product import Batch
-from system.models.sale_item import SaleItem
+from system.models.item import Item
 
 ######################################### --- OBJECTS INSTANCES ---############################################################
 def date_instance():
@@ -31,7 +31,7 @@ def item_instance():
         received_date = date.today()
     )
 
-    item  = SaleItem (
+    item  = Item (
         product = produto,
         batch = lote,
         quantity_sold = 3
@@ -80,7 +80,7 @@ def test_get_discounted_price(current_date: date, expiration_date: date, product
             received_date = '01/01/2026'
         )
 
-        item_test = SaleItem (
+        item_test = Item (
             product = product_instance,
             batch = batch_instance,
             quantity_sold = 1

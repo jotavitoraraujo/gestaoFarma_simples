@@ -1,6 +1,7 @@
 ### --- IMPORTS --- ###
-from pandas import DataFrame, ExcelFile
+from pandas import DataFrame
 from typing import Final
+from pathlib import Path
 import pandas as pd
 
 ### --- SETUP BACKEND PANDAS --- ###
@@ -8,7 +9,7 @@ pd.options.mode.dtype_backend = 'pyarrow'
 ###############################
 
 class CMEDParser:
-    def __init__(self, excel_file: ExcelFile):
+    def __init__(self, excel_file: Path):
         self.excel_file = excel_file
         self.CURRENT_ICMS_ZONE: Final = '18%'
         self.COLUMNS: Final = {
@@ -31,11 +32,11 @@ class CMEDParser:
                 dataframe[column] = dataframe[column].astype('string[pyarrow]')
         return dataframe
 
-    def _load_cmed(self, excel_file: ExcelFile) -> DataFrame:
+    def _load_cmed(self) -> DataFrame:
         'load a sheet cmed of an ExcelFile to a Dataframe'
 
         dataframe_main: DataFrame = pd.read_excel(
-            excel_file,
+            self.excel_file,
             header = 41,
             dtype = self.COLUMNS
         )

@@ -122,3 +122,86 @@
 2025-11-26 17:18:37,474 - WARNING - nfe_importer - [INFO] 6 produto(s) estão com status *QUARENTENA*.
 2025-11-26 17:18:37,475 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
 2025-11-26 17:18:37,481 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:40:35,995 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:40:36,108 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:40:39,541 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:40:44,592 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:40:45,565 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:40:49,167 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:40:51,099 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:41:02,268 - ERROR - cmed_importer - [ERRO] Falha na importação da CMED.
+2025-12-09 15:41:02,268 - ERROR - cmed_importer - [ERRO] Algo inexperado aconteceu. Contato o Administrador ou tente novamente.
+2025-12-09 15:41:02,269 - ERROR - cmed_importer - [ERRO] Causa raiz: CMEDParser._load_cmed() takes 1 positional argument but 2 were given
+2025-12-09 15:41:02,269 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-12-09 15:41:02,270 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:41:02,270 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-12-09 15:41:02,270 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. CMEDParser._load_cmed() takes 1 positional argument but 2 were given
+2025-12-09 15:41:58,203 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:41:58,212 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:41:59,916 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:42:04,645 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:42:06,043 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:42:23,655 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:42:34,660 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:42:34,661 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-12-09 15:42:34,662 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:42:34,662 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-12-09 15:42:34,663 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. ProductService.__init__() missing 1 required positional argument: 'event_repo'
+2025-12-09 15:44:23,914 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:44:23,932 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:44:35,483 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:44:35,493 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:44:36,787 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:44:41,298 - ERROR - io_collectors - [ERRO] Os dados inseridos são inválidos. Tente novamente.
+2025-12-09 15:44:44,227 - ERROR - io_collectors - [ERRO] Os dados inseridos são inválidos. Tente novamente.
+2025-12-09 15:44:45,898 - WARNING - main - [ALERTA] Nome de usuário ou PIN incorretos. Tente novamente.
+2025-12-09 15:44:45,899 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:44:50,388 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:44:54,003 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:44:55,947 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:44:55,948 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-12-09 15:44:55,949 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:44:55,949 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-12-09 15:44:55,950 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. ProductService.__init__() missing 1 required positional argument: 'event_repo'
+2025-12-09 15:46:58,301 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:46:58,309 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:46:59,692 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:47:02,722 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:47:03,715 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:47:28,889 - WARNING - nfe_importer - [INFO] 33 produto(s) estão com status *ATIVOS*.
+2025-12-09 15:47:28,889 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-12-09 15:47:28,894 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:47:32,780 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:47:38,362 - WARNING - nfe_importer - [INFO] 32 produto(s) estão com status *ATIVOS*.
+2025-12-09 15:47:38,362 - WARNING - nfe_importer - [INFO] 1 produto(s) estão com status *QUARENTENA*.
+2025-12-09 15:47:38,363 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2025-12-09 15:47:38,369 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 15:47:42,051 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 15:47:45,767 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-12-09 15:47:45,767 - WARNING - nfe_importer - [INFO] 6 produto(s) estão com status *QUARENTENA*.
+2025-12-09 15:47:45,767 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2025-12-09 15:47:45,773 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 16:00:45,874 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 16:00:45,883 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 16:00:47,770 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 16:00:51,022 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 16:00:52,528 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 16:01:09,901 - ERROR - cmed_importer - [ERRO] Falha na importação da CMED.
+2025-12-09 16:01:09,901 - ERROR - cmed_importer - [ERRO] Algo inexperado aconteceu. Contate o Administrador ou tente novamente.
+2025-12-09 16:01:09,901 - ERROR - cmed_importer - [ERRO] Causa raiz: Usecols do not match columns, columns expected but not found: ['PMC 18%'] (sheet: 0)
+2025-12-09 16:01:09,902 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'ValueError'>
+2025-12-09 16:01:09,902 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 16:01:09,903 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-12-09 16:01:09,903 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. Usecols do not match columns, columns expected but not found: ['PMC 18%'] (sheet: 0)
+2025-12-09 16:02:48,990 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 16:02:49,005 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 16:02:51,554 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 16:02:54,221 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 16:02:55,359 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 16:03:13,320 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 16:28:06,101 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 16:28:06,115 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 16:28:08,334 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 16:28:11,471 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-09 16:28:12,948 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-09 16:28:31,425 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.

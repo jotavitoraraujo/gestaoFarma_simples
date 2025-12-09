@@ -1,13 +1,13 @@
 ### --- IMPORTS --- ###
 from system.modules.cmed_parser import CMEDParser
 from pandas import DataFrame
-from typing import Callable, Type, Any
+from typing import Callable, Any
 from pathlib import Path
 import logging as log
 #######################
 
 class CMEDImporter:
-    def __init__(self, parser: Type[CMEDParser], save_cmed: Callable[[Any], None]):
+    def __init__(self, parser: type[CMEDParser], save_cmed: Callable[[Any], None]):
         'CMEDImporter depending on your persistence strategy, he accepts a callable'
         self.parser = parser
         self.save_cmed = save_cmed
@@ -23,6 +23,6 @@ class CMEDImporter:
 
         except Exception as error:
             log.error(f'[ERRO] Falha na importação da CMED.')
-            log.error(f'[ERRO] Algo inexperado aconteceu. Contato o Administrador ou tente novamente.')
+            log.error(f'[ERRO] Algo inexperado aconteceu. Contate o Administrador ou tente novamente.')
             log.error(f'[ERRO] Causa raiz: {error}')
             raise error

@@ -6,6 +6,7 @@ from system.models.event_types import EventType
 from system.models.audit_event import AuditEvent
 from system.modules.xml_parser import XMLParser
 from system.models.product import Product
+from pathlib import Path
 from typing import Callable
 import logging
 ###############################################
@@ -15,12 +16,12 @@ class NFEImporter:
     NFEImporter is an object with single responsability
     execute the process of importation
     '''
-    def __init__(self, parser: XMLParser, service: DispatcherService, save_prod: Callable):
+    def __init__(self, parser: type[XMLParser], service: type[DispatcherService], save_prod: Callable):
         self.parser = parser
         self.service = service
         self.save_prod = save_prod
 
-    def run_import(self, xml_file_path: str):
+    def run_import(self, xml_file_path: Path):
         'starts the process of importation'
         
         try:

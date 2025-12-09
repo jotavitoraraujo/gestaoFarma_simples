@@ -1,17 +1,15 @@
 ### --- IMPORTS --- ###
+from system.utils import decorators as d
 from pandas import DataFrame
 from typing import Final
 from pathlib import Path
 import pandas as pd
-
-### --- SETUP BACKEND PANDAS --- ###
-pd.options.mode.dtype_backend = 'pyarrow'
 ###############################
 
 class CMEDParser:
     def __init__(self, excel_file: Path):
         self.excel_file = excel_file
-        self.CURRENT_ICMS_ZONE: Final = '18%'
+        self.CURRENT_ICMS_ZONE: Final = '18 %'
         self.COLUMNS: Final = {
             'PRODUTO': str,
             'SUBSTÂNCIA': str,
@@ -38,15 +36,17 @@ class CMEDParser:
         dataframe_main: DataFrame = pd.read_excel(
             self.excel_file,
             header = 41,
-            dtype = self.COLUMNS
+            dtype = self.COLUMNS,
+            usecols = list(self.COLUMNS.keys())
         )
 
         dataframe_main: DataFrame = self._to_pyarrow(dataframe_main)
         dataframe_clean: DataFrame = dataframe_main.dropna(subset = ['EAN 1'])
         return dataframe_clean
     
+    @d.timer
     def get_dataframe(self) -> DataFrame:
         'get a already clean dataframe'
 
-        dataframe: DataFrame = self._load_cmed(self.excel_file)
+        dataframe: DataFrame = self._load_cmed()
         return dataframe

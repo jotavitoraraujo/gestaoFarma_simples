@@ -1,4 +1,5 @@
 ### --- IMPORTS --- ###
+from system.utils import decorators as d
 from sqlite3 import Connection
 from typing import Callable, Any
 #######################
@@ -7,7 +8,8 @@ class CMEDRepository:
     def __init__(self, connection_db: Connection):
         self.connection_db = connection_db
 
-    def save_cmed(self, persist_method: Callable[[Any]] = None):
+    @d.timer
+    def save_cmed(self, persist_method: Callable[[Any], None] = None):
         'this function uses the persist method of your choice to save in db, currently df.tosql()'
 
         persist_method(

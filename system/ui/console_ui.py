@@ -6,18 +6,39 @@ import logging
 #######################
 
 # PURE FUNCTION
-def get_xml_path() -> str | None:
-    'get the path of a xml file by an input from user'
+
+def display_menu() -> str | None:
+    'Exibe o menu principal e retorna a escolha do usuário.'
+    print('\n--- Sistema de Gestão da Farmácia ---')
+    print('1. Importar Nota Fiscal (.XML)')
+    print('2. Importar Tabela CMED (.XLSX)')
+    print('3. Registrar Venda')
+    print('4. Ver Relátorios')
+    print('5. Cadastrar Novo Usuário')
+    print('0. Sair')
+    return input('Escolha uma opção: ')
+
+def display_menu_auth() -> str | None:
+    'display menu to authenticated in the system'
+
+    print('\n --- Sistema de Gestão da Farmácia ---')
+    print('Autenticação no Sistema')
+    print('1. Login')
+    print('2. Registrar')
+    print('0. Sair')
+    return input('Escolha uma opção: ')
+
+def get_file_path() -> Path | None:
+    'get the path of a file by an input from user'
     
     print('=' * 30)
-    print('[INFO] Por favor insira o nome do arquivo .xml abaixo. [EXEMPLO]: nome_arquivo.xml')
+    print('[INFO] Por favor insira o nome do arquivo abaixo. [EXEMPLO]: nome_arquivo.xml | nome_arquivo.xlsx')
     print('=' * 30)
-    name_xml: str = input('[INFO] Arquivo: ')
+    file_name: str = input('[INFO] Arquivo: ')
     root_folder: Path = Path(__file__).parent.parent.parent #### FROM .PY -> GO TO UI FOLDER -> GO TO SYSTEM -> GET TO THE ROOT FOLDER
-    xml_file_path: Path = root_folder/'data'/f'{name_xml}'
-    if xml_file_path.exists():
-        xml_file_path = str(xml_file_path)
-        return xml_file_path
+    file_path: Path = root_folder/'data'/f'{file_name}'
+    if file_path.exists():
+        return file_path
     else:
         logging.info(f'=' * 30)
         logging.warning(f'[ERRO] O nome do arquivo não existe ou não foi encontrado. Tente novamente.')
@@ -58,18 +79,3 @@ def get_pin_to_auth() -> str:
     print('--- GESTÃO FARMA LOGIN --- ')
     pin: str = io.collect_user_pin()
     return pin
-
-def display_menu_auth():
-    'display menu to authenticated in the system'
-
-    print('\n --- Sistema de Gestão da Farmácia ---')
-    print('Autenticação no Sistema')
-    print('1. Login')
-    print('2. Registrar')
-    print('0. Sair')
-    return input('Escolha uma opção: ')
-
-
-
-    
-

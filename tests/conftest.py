@@ -1,4 +1,6 @@
 ########### --- IMPORTS --- ##########
+from pandas import DataFrame as df
+import pandas as pd
 import pytest
 import logging
 import sqlite3
@@ -1481,3 +1483,31 @@ def auth_service(mock_user_repo):
 
     auth_service = AuthService(mock_user_repo)
     return auth_service
+
+@pytest.fixture(scope = 'module')
+def test_cmed_table(path) -> df:
+
+    columns: dict = {
+        'PRODUTO': str,
+        'SUBSTÂNCIA': str,
+        'APRESENTAÇÃO': str,
+        'CLASSE TERAPÊUTICA': str,
+        'TIPO DE PRODUTO (STATUS DO PRODUTO)': str,
+        'LABORATÓRIO': str,
+        'EAN 1': str,
+        'REGISTRO': str,
+        'PMC 18 %': str
+    }
+    dataframe: df = pd.read_excel(
+        path,
+        header = 0,
+        dtype = columns,
+        usecols = list(columns.keys())
+    )
+
+    for col in columns.keys():
+        if col in df.columns:
+            dataframe[columns] = dataframe[columns].astype('string[pyarrow]')
+    
+    df_clean: df = dataframe.dropna(subset = ['EAN 1'])
+    return df_clean

@@ -1,4 +1,4 @@
-#################### --- IMPORTS --- #######################
+### --- IMPORTS --- ###
 from sqlite3 import Connection, Cursor
 from pathlib import Path
 from datetime import date
@@ -7,7 +7,7 @@ import sqlite3
 import logging
 import contextlib
 
-#################### --- ADAPTERS AND CONVERSORS FOR DATE --- ####################
+### --- ADAPTERS AND CONVERSORS FOR DATE --- ###
 def date_to_str_adapter(value: date) -> str:
     'inject a object_date in the date translator to sql pattern'
     value_string = value.strftime('%Y-%m-%d')
@@ -19,7 +19,7 @@ def bytes_to_date_conversor(value: bytes) -> date:
     value_date = date.fromisoformat(value_decode)
     return value_date
 
-#################### --- ADAPTERS AND CONVERSORS FOR DECIMALS --- ####################
+### --- ADAPTERS AND CONVERSORS FOR DECIMALS --- ###
 def decimal_to_str_adapter(value: Decimal) -> str:
     'adapt the value of the an object decimal to an string for inputed in database'
     value_string = str(value)
@@ -31,41 +31,42 @@ def bytes_to_decimal_conversor(value: bytes) -> Decimal:
     value_decimal = Decimal(f'{value_decode}')
     return value_decimal
 
-###################### --- PATH FOR DATABASE 'farmacia.db' --- #############################
+### --- PATH FOR DATABASE 'farmacia.db' --- ###
 root_folder = Path(__file__).parent.parent
 db_file = root_folder/'data'/'farmacia.db'
 
-###################### --- CONNECTION FUNCTION WITH DATABASE --- ###########################
+### --- CONNECTION FUNCTION WITH DATABASE --- ###
 @contextlib.contextmanager
 def connect_db():
     'database connection control'
     
     connect_db = None
     try:
-        ####### --- ANY OBJECT -> BYTES (STR) OBJECT --- #######
+        ### --- ADAPTERS --- ###
         sqlite3.register_adapter(date, date_to_str_adapter)
         sqlite3.register_adapter(Decimal, decimal_to_str_adapter)
-        ####### --- BYTES (STR) OBJECT -> ANY OBJECT --- #######
+        
+        ### --- CONVERTERS --- ###
         sqlite3.register_converter('date', bytes_to_date_conversor)
         sqlite3.register_converter('Decimal', bytes_to_decimal_conversor)
-        ######################################################
+        
         connect_db = sqlite3.connect(db_file, detect_types = sqlite3.PARSE_DECLTYPES)
+        connect_db.execute('PRAGMA journal_mode = WAL')
+        connect_db.execute('PRAGMA busy_timeout = 5000')
+        connect_db.execute('PRAGMA synchronous = NORMAL')
         logging.info('\n')
         logging.info(f'*' * 50)
         logging.warning(f'[ALERTA] Conexão com banco de dados iniciada.')
         logging.info(f'*' * 50)
         yield connect_db
-        ######################################################
     except Exception as instance_error:
         logging.error(f'[ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: {type(instance_error)}')
         if connect_db:
             connect_db.rollback()
         raise instance_error
-        ######################################################
     else:
         if connect_db:
             connect_db.commit()
-        ######################################################
     finally:
         if connect_db:
             connect_db.close()
@@ -327,73 +328,17 @@ def starter_schema(connect_db: Connection):
     
     cursor: Cursor = connect_db.cursor()
     
-    ### -- SCHEMAS -- ## 
+    ### -- SCHEMAS -- ###
     _create_product_schema(cursor)
     _create_auth_schema(cursor)
     _create_sales_schema(cursor)
     _create_events_schema(cursor)
 
-    ### -- INDEXES -- ##
+    ### -- INDEXES -- ###
     _create_idx_users_schema(cursor)
     _create_idx_events_schema(cursor)
 
-    ### -- PERMISSIONS -- ##
+    ### -- PERMISSIONS -- ###
     _seed_initial_data(cursor)
 
 ##############################################
-
-
-
-
-
-
-
-
-
-
-# def search_product(connect_db: Connection, product: Product):
-#     'search for a product using an object -> Product'
-    
-#     connector = connect_db.cursor()
-
-#     connector.execute('''
-                     
-#             SELECT id, nome_produto, preco_venda, data_validade 
-#             FROM produtos 
-#             JOIN lotes 
-#             ON produtos.id = lotes.produto_id 
-#             WHERE produtos.id = ? 
-#             ORDER BY data_validade ASC 
-#             LIMIT 1 
-        
-#         ''', 
-#         (
-#             product.id,
-            
-#         ))
-    
-#     db_answer = connector.fetchone()
-#     return db_answer
-
-# def search_product_name(connect_db: Connection, search: str) -> list:
-#     'search an product using the integer name or a part of the name of respective Product '
-#     connector = connect_db.cursor()
-
-#     connector.execute('''
-        
-#         SELECT id, nome_produto, ean, preco_venda, id_lote, id_lote_fisico, produto_id, quantidade, preco_custo, data_validade, data_entrada
-#         FROM produtos
-#         JOIN lotes
-#         ON produtos.id = lotes.produto_id
-#         WHERE produtos.nome_produto LIKE ?
-#         ORDER BY data_validade ASC        
-    
-#     ''',
-#     (
-#         f'%{search}%',
-#     ))
-
-#     db_answer = connector.fetchall()    
-#     return db_answer
-
-######################################################################################################################

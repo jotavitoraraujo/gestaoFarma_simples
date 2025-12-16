@@ -214,3 +214,48 @@
 2025-12-15 15:02:39,427 - WARNING - nfe_importer - [INFO] 31 produto(s) estão com status *QUARENTENA*.
 2025-12-15 15:02:39,427 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
 2025-12-15 15:02:39,437 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-25 04:04:58,760 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-25 04:04:58,833 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-25 04:05:02,959 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-25 04:05:07,626 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-25 04:05:08,840 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-25 04:05:13,130 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-25 04:05:16,527 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-25 04:05:20,419 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-25 04:05:20,420 - WARNING - nfe_importer - [INFO] 31 produto(s) estão com status *QUARENTENA*.
+2025-11-25 04:05:20,421 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2025-11-25 04:05:20,444 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-25 04:05:35,544 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-25 04:05:39,844 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-25 04:05:39,844 - WARNING - nfe_importer - [INFO] 20 produto(s) estão com status *QUARENTENA*.
+2025-11-25 04:05:39,845 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2025-11-25 04:05:39,863 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-25 04:05:44,322 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-25 04:05:48,071 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-25 04:05:48,071 - WARNING - nfe_importer - [INFO] 10 produto(s) estão com status *QUARENTENA*.
+2025-11-25 04:05:48,072 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2025-11-25 04:05:48,088 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-25 04:05:50,801 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-25 04:05:54,322 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-25 04:05:54,322 - WARNING - nfe_importer - [INFO] 15 produto(s) estão com status *QUARENTENA*.
+2025-11-25 04:05:54,324 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2025-11-25 04:05:54,345 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-25 04:06:03,535 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-25 04:06:09,443 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-11-25 04:06:09,443 - WARNING - nfe_importer - [INFO] 8 produto(s) estão com status *QUARENTENA*.
+2025-11-25 04:06:09,444 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2025-11-25 04:06:09,472 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-25 04:06:11,627 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-25 04:06:15,249 - WARNING - nfe_importer - [INFO] 33 produto(s) estão com status *ATIVOS*.
+2025-11-25 04:06:15,249 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2025-11-25 04:06:15,271 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-11-25 04:06:20,922 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-11-25 04:06:52,842 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-15 20:41:33,382 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-15 20:41:33,626 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-15 20:41:36,352 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-15 20:41:39,450 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-15 20:41:40,662 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-15 20:41:45,700 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-15 20:41:48,904 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-15 20:42:14,902 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.

@@ -18,7 +18,7 @@ class CMEDImporter:
         try:
             parser_instance: CMEDParser = self.parser(cmed_file_path)
             dataframe: DataFrame = parser_instance.get_dataframe()
-            self.save_cmed(dataframe.to_sql)
+            self.save_cmed(dataframe.to_sql, dataframe)
             log.info(f'[INFO] Tabela CMED importada com sucesso! {cmed_file_path.name}')
 
         except Exception as error:

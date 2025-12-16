@@ -37,7 +37,8 @@ class CMEDParser:
             self.excel_file,
             header = 41,
             dtype = self.COLUMNS,
-            usecols = list(self.COLUMNS.keys())
+            usecols = list(self.COLUMNS.keys()),
+            engine = 'calamine'
         )
 
         dataframe_main: DataFrame = self._to_pyarrow(dataframe_main)

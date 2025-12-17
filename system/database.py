@@ -50,7 +50,7 @@ def connect_db():
         sqlite3.register_converter('date', bytes_to_date_conversor)
         sqlite3.register_converter('Decimal', bytes_to_decimal_conversor)
         
-        connect_db = sqlite3.connect(db_file, detect_types = sqlite3.PARSE_DECLTYPES)
+        connect_db: Connection = sqlite3.connect(db_file, detect_types = sqlite3.PARSE_DECLTYPES, check_same_thread = False)
         connect_db.execute('PRAGMA journal_mode = WAL')
         connect_db.execute('PRAGMA busy_timeout = 5000')
         connect_db.execute('PRAGMA synchronous = NORMAL')

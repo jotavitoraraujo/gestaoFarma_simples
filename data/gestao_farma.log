@@ -259,3 +259,163 @@
 2025-12-15 20:41:45,700 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
 2025-12-15 20:41:48,904 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
 2025-12-15 20:42:14,902 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-16 09:43:27,300 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-16 09:43:27,313 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-16 09:43:29,387 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-16 09:43:32,701 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-16 09:43:38,908 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-16 09:43:42,190 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-16 09:43:58,131 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-16 09:44:03,257 - ERROR - cmed_importer - [ERRO] Falha na importação da CMED.
+2025-12-16 09:44:03,257 - ERROR - cmed_importer - [ERRO] Algo inexperado aconteceu. Contate o Administrador ou tente novamente.
+2025-12-16 09:44:03,258 - ERROR - cmed_importer - [ERRO] Causa raiz: Missing optional dependency 'python-calamine'.  Use pip or conda to install python-calamine.
+2025-12-16 09:44:03,258 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'ImportError'>
+2025-12-16 09:44:03,259 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-16 09:44:03,260 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-12-16 09:44:03,260 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. Missing optional dependency 'python-calamine'.  Use pip or conda to install python-calamine.
+2025-12-16 09:47:33,909 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-16 09:47:33,922 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-16 09:47:35,587 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-16 09:47:38,846 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-16 09:47:40,114 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-16 09:47:47,591 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-16 09:51:20,083 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-16 09:51:25,348 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-12-16 09:51:25,348 - WARNING - nfe_importer - [INFO] 31 produto(s) estão com status *QUARENTENA*.
+2025-12-16 09:51:25,349 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2025-12-16 09:51:25,356 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-16 09:51:28,830 - ERROR - main - [ERRO] Opção inválida. Tente novamente
+2025-12-16 09:51:31,639 - ERROR - main - [ERRO] Opção inválida. Tente novamente
+2025-12-16 09:51:35,102 - ERROR - main - [ERRO] Opção inválida. Tente novamente
+2025-12-16 17:28:15,826 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-16 17:28:15,837 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-16 17:28:21,147 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-16 17:28:26,925 - ERROR - io_collectors - [ERRO] Os dados inseridos são inválidos. Tente novamente.
+2025-12-16 17:28:29,651 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-16 17:28:30,815 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-16 17:28:41,066 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:29:56,216 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:29:56,224 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:29:59,307 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:30:02,533 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:30:03,241 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:30:09,896 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-12-17 14:30:09,899 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:30:09,900 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-12-17 14:30:09,900 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. 'NoneType' object is not callable
+2025-12-17 14:32:28,539 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:32:28,549 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:32:29,987 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:32:33,651 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:32:34,609 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:32:37,814 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-12-17 14:32:37,817 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:32:37,818 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-12-17 14:32:37,819 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. 'NoneType' object is not callable
+2025-12-17 14:33:27,537 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:33:27,547 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:34:21,797 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:34:21,806 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:34:39,557 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:34:39,565 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:37:08,662 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:37:08,670 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:44:57,463 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:44:57,470 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:45:01,287 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:45:05,249 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:45:06,806 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:45:11,644 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-12-17 14:45:11,646 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:45:11,646 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-12-17 14:45:11,647 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. Logger._log() got an unexpected keyword argument 'end'
+2025-12-17 14:46:13,992 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:46:13,999 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:46:15,122 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:46:18,984 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:46:20,047 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:46:23,988 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'TypeError'>
+2025-12-17 14:46:23,990 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:46:23,991 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-12-17 14:46:23,991 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. Logger._log() got an unexpected keyword argument 'flush'
+2025-12-17 14:46:36,330 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:46:36,337 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:46:37,191 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:46:40,375 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:46:41,175 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:46:47,474 - ERROR - cmed_importer - [ERRO] Falha na importação da CMED.
+2025-12-17 14:46:47,475 - ERROR - cmed_importer - [ERRO] Algo inexperado aconteceu. Contate o Administrador ou tente novamente.
+2025-12-17 14:46:47,475 - ERROR - cmed_importer - [ERRO] Causa raiz: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 20704 and this is thread id 15760.
+2025-12-17 14:46:47,475 - ERROR - decorators - [FATAL ERROR] The task executed by the thread failed. SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 20704 and this is thread id 15760.
+2025-12-17 14:46:47,779 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:47:46,735 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:47:46,742 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:47:47,462 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:47:50,657 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:47:51,525 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:47:59,226 - ERROR - cmed_importer - [ERRO] Falha na importação da CMED.
+2025-12-17 14:47:59,226 - ERROR - cmed_importer - [ERRO] Algo inexperado aconteceu. Contate o Administrador ou tente novamente.
+2025-12-17 14:47:59,227 - ERROR - cmed_importer - [ERRO] Causa raiz: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 9332 and this is thread id 3040.
+2025-12-17 14:47:59,227 - ERROR - decorators - [FATAL ERROR] The task executed by the thread failed. SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 9332 and this is thread id 3040.
+2025-12-17 14:47:59,284 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:49:30,778 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:49:30,785 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:49:31,687 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:49:33,921 - ERROR - io_collectors - [ERRO] Os dados inseridos são inválidos. Tente novamente.
+2025-12-17 14:49:36,303 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:49:37,149 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:49:45,249 - ERROR - cmed_importer - [ERRO] Falha na importação da CMED.
+2025-12-17 14:49:45,249 - ERROR - cmed_importer - [ERRO] Algo inexperado aconteceu. Contate o Administrador ou tente novamente.
+2025-12-17 14:49:45,250 - ERROR - cmed_importer - [ERRO] Causa raiz: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 23220 and this is thread id 3428.
+2025-12-17 14:49:45,250 - ERROR - decorators - [FATAL ERROR] The task executed by the thread failed.
+2025-12-17 14:49:45,250 - ERROR - decorators - [FATAL ERROR] Cause: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 23220 and this is thread id 3428.
+2025-12-17 14:49:45,305 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:50:12,085 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:50:12,092 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:50:13,487 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:50:16,416 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:50:17,869 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:50:24,130 - ERROR - cmed_importer - [ERRO] Falha na importação da CMED.
+2025-12-17 14:50:24,130 - ERROR - cmed_importer - [ERRO] Algo inexperado aconteceu. Contate o Administrador ou tente novamente.
+2025-12-17 14:50:24,131 - ERROR - cmed_importer - [ERRO] Causa raiz: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 23500 and this is thread id 11440.
+2025-12-17 14:50:24,131 - ERROR - decorators - [FATAL ERROR] The task executed by the thread failed.
+2025-12-17 14:50:24,131 - ERROR - decorators - [FATAL ERROR] Cause: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 23500 and this is thread id 11440.
+2025-12-17 14:50:24,533 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:50:46,988 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:50:46,995 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:50:48,133 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:50:50,456 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 14:50:50,965 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 14:50:57,794 - ERROR - cmed_importer - [ERRO] Falha na importação da CMED.
+2025-12-17 14:50:57,794 - ERROR - cmed_importer - [ERRO] Algo inexperado aconteceu. Contate o Administrador ou tente novamente.
+2025-12-17 14:50:57,794 - ERROR - cmed_importer - [ERRO] Causa raiz: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 24016 and this is thread id 13480.
+2025-12-17 14:50:57,794 - ERROR - decorators - [FATAL ERROR] The task executed by the thread failed.
+2025-12-17 14:50:57,795 - ERROR - decorators - [FATAL ERROR] Cause: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 24016 and this is thread id 13480.
+2025-12-17 14:50:58,252 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 15:04:46,707 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 15:04:46,714 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 15:04:47,501 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 15:04:50,516 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 15:04:51,626 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 15:04:58,492 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 15:08:13,119 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 15:08:13,133 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 15:08:14,195 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 15:08:17,159 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 15:08:18,202 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 15:08:28,204 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 15:14:26,402 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 15:14:26,409 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 15:14:27,179 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 15:14:31,333 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 15:14:32,506 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 15:14:35,660 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'AttributeError'>
+2025-12-17 15:14:35,663 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 15:14:35,663 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2025-12-17 15:14:35,664 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. 'Thread' object has no attribute 'isalive'
+2025-12-17 15:15:01,517 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 15:15:01,525 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 15:15:03,802 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 15:15:06,601 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-17 15:15:06,976 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-17 15:15:16,482 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.

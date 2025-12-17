@@ -1,5 +1,6 @@
 ### --- IMPORTS --- ###
 from system.modules.cmed_parser import CMEDParser
+from system.utils import decorators as d
 from pandas import DataFrame
 from typing import Callable, Any
 from pathlib import Path
@@ -12,6 +13,7 @@ class CMEDImporter:
         self.parser = parser
         self.save_cmed = save_cmed
 
+    @d.run_background
     def run_import(self, cmed_file_path: Path) -> None:
         'start the importation of cmed table'
 

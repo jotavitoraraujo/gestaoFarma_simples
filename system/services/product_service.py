@@ -1,7 +1,7 @@
 ### --- IMPORTS --- ###
 from system.repositories.product_repository import ProductRepository
 from system.repositories.event_repository import EventRepository
-from system.models.payloads import QuarantinePayLoad
+from system.models.payloads import QuarantinePayload
 from system.models.dtos import EventPersistenceDTO
 from system.models.event_types import EventType
 from system.models.product import Product
@@ -14,7 +14,7 @@ class ProductService:
         self.prod_repo = prod_repo
         self.repo = event_repo
 
-    def handle_quarantine_event(self, payload: QuarantinePayLoad):
+    def handle_quarantine_event(self, payload: QuarantinePayload):
 
         quarantine_dto = EventPersistenceDTO (
             timestamp = datetime.now(),

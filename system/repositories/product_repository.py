@@ -1,6 +1,6 @@
 ### --- IMPORTS --- ###
 from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
-from system.models.payloads import QuarantinePayLoad
+from system.models.payloads import QuarantinePayload
 from system.models.audit_event import AuditEvent
 from system.models.event_types import EventType
 from system.models.product import Product
@@ -225,7 +225,7 @@ class ProductRepository:
             id = None,
             timestamp = datetime.now(),
             event_type = EventType.QUARANTINE,
-            payload = QuarantinePayLoad (
+            payload = QuarantinePayload (
                 product_id = product_id, 
                 batch_id = batch_id,
                 reason = reason,

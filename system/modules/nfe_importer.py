@@ -1,7 +1,7 @@
 ###############################################
 ### --- IMPORTS --- ###
 from system.services.dispatcher_service import DispatcherService
-from system.models.payloads import QuarantinePayLoad
+from system.models.payloads import QuarantinePayload
 from system.models.event_types import EventType
 from system.models.audit_event import AuditEvent
 from system.modules.xml_parser import XMLParser
@@ -39,7 +39,7 @@ class NFEImporter:
                 list_payloads: list[AuditEvent] = result[1]
                 
                 for audit_event in list_payloads:
-                    payload: QuarantinePayLoad = audit_event.payload
+                    payload: QuarantinePayload = audit_event.payload
                     self.service.publish(EventType.QUARANTINE, payload)
                 
                 logging.info(f'=' * 30)

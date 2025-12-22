@@ -1,7 +1,7 @@
 ### --- IMPORTS --- ###
 from system.repositories.product_repository import ProductRepository
 from system.models.fiscal import FiscalProfile, PurchaseTaxDetails
-from system.models.payloads import QuarantinePayLoad
+from system.models.payloads import QuarantinePayload
 from system.models.audit_event import AuditEvent
 from system.models.product import Product
 from system.models.batch import Batch
@@ -255,7 +255,7 @@ def test_prod_repo_incomplete_products(db_connection: Connection, rich_products_
     result_tuple: tuple = prod_repo.save_products(rich_products_list_supplier_None)
     dict_status: dict = result_tuple[0]
     list_events: list[AuditEvent] = result_tuple[1]
-    payload: QuarantinePayLoad = list_events[0].payload
+    payload: QuarantinePayload = list_events[0].payload
     product_id: int = payload.product_id
 
     assert dict_status['ACTIVE'] == 2

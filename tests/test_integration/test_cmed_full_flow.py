@@ -1,21 +1,26 @@
 ### --- IMPORTS --- ###
+from system.services.dispatcher_service import DispatcherService
 from system.repositories.cmed_repository import CMEDRepository
 from system.modules.cmed_importer import CMEDImporter
 from system.modules.cmed_parser import CMEDParser
-from pathlib import Path
 from sqlite3 import Connection, Cursor
-
+from unittest.mock import MagicMock
+from threading import Thread
+from pathlib import Path
+########################
 
 def test_cmed_happy_path(db_connection: Connection):
 
     ### --- PHASE ARRANGE --- ###
     func_save = CMEDRepository(db_connection).save_cmed
     path: Path = Path(__file__).parent.parent/'data_tests'/'test_cmed_table.xlsx'
-    importer = CMEDImporter(CMEDParser, func_save)
+    dispatcher = MagicMock(DispatcherService)
+    importer = CMEDImporter(CMEDParser, dispatcher, func_save)
     cursor: Cursor = db_connection.cursor()
     
     ### --- PHASE ACT --- ###
-    importer.run_import(path)
+    side_thread: Thread = importer.run_import(path)
+    side_thread.join()
     cursor.execute('''
         SELECT COUNT (*)
         FROM cmed_table
@@ -32,11 +37,13 @@ def test_cmed_EAN_return_string(db_connection: Connection):
     ### --- PHASE ARRANGE --- ###
     func_save = CMEDRepository(db_connection).save_cmed
     path: Path = Path(__file__).parent.parent/'data_tests'/'test_cmed_table.xlsx'
-    importer = CMEDImporter(CMEDParser, func_save)
+    dispatcher = MagicMock(DispatcherService)
+    importer = CMEDImporter(CMEDParser, dispatcher, func_save)
     cursor: Cursor = db_connection.cursor()
 
     ### --- PHASE ACT --- ###
-    importer.run_import(path)
+    side_thread: Thread = importer.run_import(path)
+    side_thread.join()
     cursor.execute('''
         SELECT "EAN 1"
         FROM cmed_table
@@ -55,11 +62,13 @@ def test_cmed_import_idempotency(db_connection: Connection):
     ### --- PHASE ARRANGE --- ###
     func_save = CMEDRepository(db_connection).save_cmed
     path: Path = Path(__file__).parent.parent/'data_tests'/'test_cmed_table.xlsx'
-    importer = CMEDImporter(CMEDParser, func_save)
+    dispatcher = MagicMock(DispatcherService)
+    importer = CMEDImporter(CMEDParser, dispatcher, func_save)
     cursor: Cursor = db_connection.cursor()
 
     ### --- PHASE ACT --- ###
-    importer.run_import(path)
+    side_thread: Thread = importer.run_import(path)
+    side_thread.join()
     cursor.execute('''
         SELECT COUNT (*)
         FROM cmed_table
@@ -72,7 +81,8 @@ def test_cmed_import_idempotency(db_connection: Connection):
     assert total_lines == 3
 
     ### --- PHASE ACT 2 --- ###
-    importer.run_import(path)
+    side_thread: Thread = importer.run_import(path)
+    side_thread.join()
     cursor.execute('''
         SELECT COUNT (*)
         FROM cmed_table

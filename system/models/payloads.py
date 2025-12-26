@@ -27,7 +27,7 @@ class SalesDeviationPayload: # -> REFATORAR E INCLUIR ATRIBUTOS COMO USER, PRODU
 class ImportationFinishedPayload:
     def __init__(self, status: str, file_name: str, total_records: int):
         self.status = status
-        self.file = file_name
+        self.file_name = file_name
         self.total_records = total_records
 
     def to_dict(self) -> dict:

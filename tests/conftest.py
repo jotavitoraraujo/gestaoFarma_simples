@@ -61,7 +61,7 @@ def db_connection():
         sqlite3.register_converter('date', bytes_to_date_conversor)
         sqlite3.register_converter('Decimal', bytes_to_decimal_conversor)
         
-        db_connection = sqlite3.connect(':memory:', detect_types = sqlite3.PARSE_DECLTYPES)
+        db_connection = sqlite3.connect(':memory:', detect_types = sqlite3.PARSE_DECLTYPES, check_same_thread = False)
         logging.warning(f'[ALERT] Test connection with database is on.')
         yield db_connection
     

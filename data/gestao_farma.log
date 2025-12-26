@@ -419,3 +419,65 @@
 2025-12-17 15:15:06,601 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
 2025-12-17 15:15:06,976 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
 2025-12-17 15:15:16,482 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:26:08,703 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:26:08,711 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:26:26,644 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:26:26,656 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:26:28,735 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:26:32,204 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:26:33,537 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:26:37,775 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:26:40,990 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:26:46,165 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2025-12-26 12:26:46,165 - WARNING - nfe_importer - [INFO] 31 produto(s) estão com status *QUARENTENA*.
+2025-12-26 12:26:46,166 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2025-12-26 12:26:46,174 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:26:48,984 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:27:01,995 - ERROR - cmed_importer - [ERRO] Falha na importação da CMED.
+2025-12-26 12:27:01,995 - ERROR - cmed_importer - [ERRO] Algo inexperado aconteceu. Contate o Administrador ou tente novamente.
+2025-12-26 12:27:01,996 - ERROR - cmed_importer - [ERRO] Causa raiz: 'WindowsPath' object has no attribute '__name__'
+2025-12-26 12:27:01,996 - ERROR - decorators - [FATAL ERROR] The task executed by the thread failed.
+2025-12-26 12:27:01,996 - ERROR - decorators - [FATAL ERROR] Cause: 'WindowsPath' object has no attribute '__name__'
+2025-12-26 12:27:03,501 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:28:22,217 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:28:22,224 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:28:23,399 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:28:28,586 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:28:33,471 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:28:42,277 - ERROR - cmed_importer - [ERRO] Falha na importação da CMED.
+2025-12-26 12:28:42,277 - ERROR - cmed_importer - [ERRO] Algo inexperado aconteceu. Contate o Administrador ou tente novamente.
+2025-12-26 12:28:42,277 - ERROR - cmed_importer - [ERRO] Causa raiz: 'WindowsPath' object has no attribute '__name__'
+2025-12-26 12:28:42,277 - ERROR - decorators - [FATAL ERROR] The task executed by the thread failed.
+2025-12-26 12:28:42,278 - ERROR - decorators - [FATAL ERROR] Cause: 'WindowsPath' object has no attribute '__name__'
+2025-12-26 12:28:42,487 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:31:31,216 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:31:31,223 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:31:32,689 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:31:35,376 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:31:36,068 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:31:43,202 - ERROR - cmed_importer - [ERRO] Falha na importação da CMED.
+2025-12-26 12:31:43,203 - ERROR - cmed_importer - [ERRO] Algo inexperado aconteceu. Contate o Administrador ou tente novamente.
+2025-12-26 12:31:43,203 - ERROR - cmed_importer - [ERRO] Causa raiz: 'WindowsPath' object has no attribute '__name__'
+2025-12-26 12:31:43,203 - ERROR - decorators - [FATAL ERROR] The task executed by the thread failed.
+2025-12-26 12:31:43,203 - ERROR - decorators - [FATAL ERROR] Cause: 'WindowsPath' object has no attribute '__name__'
+2025-12-26 12:31:43,740 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:37:30,505 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:37:30,513 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:37:32,270 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:37:35,680 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:37:36,475 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:38:02,986 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:39:38,859 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:39:38,873 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:39:40,052 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:39:43,165 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:39:44,085 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:39:46,935 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:39:58,428 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:40:06,197 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:42:32,309 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:42:32,316 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:42:33,813 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:42:39,126 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2025-12-26 12:42:40,363 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2025-12-26 12:42:48,100 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.

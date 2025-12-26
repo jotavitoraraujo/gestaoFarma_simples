@@ -19,7 +19,7 @@ class CMEDImporter:
         self.dispatcher = dispatcher
         self.save_cmed = save_cmed
     
-    def _create_audit_event(self, cmed_file_path: str, dataframe: DataFrame) -> AuditEvent:
+    def _create_audit_event(self, cmed_file_path: Path, dataframe: DataFrame) -> AuditEvent:
 
         event = AuditEvent (
             id = None,
@@ -27,7 +27,7 @@ class CMEDImporter:
             event_type = EventType.IMPORTATION_FINISHED,
             payload = ImportationFinishedPayload (
                 status = 'SUCESS',
-                file_name = cmed_file_path.__name__,
+                file_name = cmed_file_path.name,
                 total_records = len(dataframe)
             )
         )

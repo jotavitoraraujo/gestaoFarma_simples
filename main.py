@@ -12,9 +12,9 @@ from system.modules.nfe_importer import NFEImporter
 from system.modules.cmed_parser import CMEDParser
 from system.modules.xml_parser import XMLParser
 from system.models.event_types import EventType
+from system.ui.console_ui import ConsoleUI
 from system.modules import settings_log
 from system.models.user import User
-from system.ui import console_ui
 from system import database
 from typing import Callable
 from pathlib import Path
@@ -23,6 +23,8 @@ import logging as log
 
 def main():
     settings_log.log_system()
+    dispatcher = DispatcherService()
+    ui = ConsoleUI(dispatcher)
     'main menu'
     try:
         with database.connect_db() as connection_start:
@@ -30,13 +32,13 @@ def main():
             
         user_auth = None
         while user_auth is None:
-            choice = console_ui.display_menu_auth()
+            choice = ui.display_menu_auth()
             if choice == '1':
                 with database.connect_db() as connection_auth:
                     user_repo_login = UserRepository(connection_auth)
                     auth_service_login = AuthService(user_repo_login)
-                    user_name: str = console_ui.get_username_to_auth()
-                    pin: str = console_ui.get_pin_to_auth()
+                    user_name: str = ui.get_username_to_auth()
+                    pin: str = ui.get_pin_to_auth()
                     user_auth: User = auth_service_login.authenticate(user_name, pin)
                     if user_auth is not None:
                         print('=' * 30)
@@ -50,8 +52,8 @@ def main():
                 with database.connect_db() as connection_register:
                     user_repo_register = UserRepository(connection_register)
                     auth_service_register = AuthService(user_repo_register)
-                    user_name: str = console_ui.get_username_to_register()
-                    pin: str = console_ui.get_pin_to_register()
+                    user_name: str = ui.get_username_to_register()
+                    pin: str = ui.get_pin_to_register()
                     auth_service_register.register(user_name, pin)
             
             if choice == '0':
@@ -61,16 +63,15 @@ def main():
                 break
     
         while user_auth is not None:
-            choice = console_ui.display_menu()
+            choice = ui.display_menu()
             if choice == '1':
                 with database.connect_db() as connection_import_nfe:                      
                     event_repo_import = EventRepository(connection_import_nfe)
                     prod_repo_import = ProductRepository(connection_import_nfe)
                     prod_service = ProductService(prod_repo_import, event_repo_import)
-                    dispacher = DispatcherService()
-                    dispacher.subscribe(EventType.QUARANTINE, prod_service.handle_quarantine_event)
-                    importer = NFEImporter(XMLParser, dispacher, prod_repo_import.save_products)
-                    xml_path: str = console_ui.get_file_path()
+                    dispatcher.subscribe(EventType.QUARANTINE, prod_service.handle_quarantine_event)
+                    importer = NFEImporter(XMLParser, dispatcher, prod_repo_import.save_products)
+                    xml_path: str = ui.get_file_path()
                     if xml_path is not None:
                         importer.run_import(xml_path)
             
@@ -78,10 +79,10 @@ def main():
                 with database.connect_db() as connection_import_cmed:
                     cmed_repo = CMEDRepository(connection_import_cmed)
                     save_cmed: Callable = cmed_repo.save_cmed
-                    cmed_path: Path = console_ui.get_file_path()
+                    cmed_path: Path = ui.get_file_path()
                     if cmed_path is not None:
-                        importer = CMEDImporter(CMEDParser, save_cmed)
-                        importer.run_import(cmed_path)
+                        importer = CMEDImporter(CMEDParser, dispatcher, save_cmed)
+                        ui.run_async_task(importer.run_import, cmed_path)
 
             elif choice == '0':
                 log.info('=' * 30)

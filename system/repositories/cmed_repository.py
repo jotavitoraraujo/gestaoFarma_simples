@@ -1,8 +1,10 @@
 ### --- IMPORTS --- ###
 from system.utils import decorators as d
-from sqlite3 import Connection, sqlite_version_info
+from sqlite3 import Connection, Cursor, sqlite_version_info
 from typing import Callable, Any, Final
 from pandas import DataFrame
+from decimal import Decimal
+from collections.abc import Iterator
 #######################
 
 class CMEDRepository:
@@ -49,6 +51,35 @@ class CMEDRepository:
             chunksize: int = MAX_VARS // column_number
             return chunksize
 
+    def _get_pmc_chunk(self, chunk: list[str]) -> list[tuple[str, Decimal] | None]:
+        'get pmc from table CMED'
+
+        cursor: Cursor = self.connection_db.cursor()
+        placeholders: str = ', '.join(['?'] * len(chunk))
+        query: str = (f'''
+            SELECT "EAN 1", "PMC 18%"
+            FROM cmed_table
+            WHERE "EAN 1" IN ({placeholders})
+        ''')
+        cursor.execute(query, chunk)
+        result: list[tuple] = cursor.fetchall()
+        return result
+    
+    def get_pmc_map_by_eans(self, ean_list: list[str]) -> dict[str, Decimal]:
+        'get pmc using a chunk of the list of eans provides by database'
+
+        version_db: tuple[int, int, int] = self._get_version_db()
+        chunksize: int = self._define_chunksize(version_db)
+        fullmap: dict[str, Decimal] = {}
+        
+        for ean in range(0, len(ean_list), chunksize): 
+            chunk = ean_list[ean: ean + chunksize]
+            if chunk: 
+                list_pmc: list[tuple[str, Decimal]] = self._get_pmc_chunk(chunk)
+                fullmap.update(dict(list_pmc))
+        
+        return fullmap
+
     @d.timer
     def save_cmed(self, persist_method: Callable[[Any], None] = None, dataframe: DataFrame = None) -> None:
         'this function uses the persist method of your choice to save in db, currently df.tosql()'
@@ -61,4 +92,3 @@ class CMEDRepository:
             chunksize = chunksize,
             index = False
         )
-

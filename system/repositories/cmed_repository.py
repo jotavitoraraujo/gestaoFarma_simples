@@ -57,13 +57,14 @@ class CMEDRepository:
         cursor: Cursor = self.connection_db.cursor()
         placeholders: str = ', '.join(['?'] * len(chunk))
         query: str = (f'''
-            SELECT "EAN 1", "PMC 18%"
+            SELECT "EAN 1", "PMC 18 %"
             FROM cmed_table
             WHERE "EAN 1" IN ({placeholders})
         ''')
         cursor.execute(query, chunk)
         result: list[tuple] = cursor.fetchall()
-        return result
+        clean_result: list[tuple[str, Decimal]] = [(ean, Decimal(f'{price}')) for ean, price in result if price is not None]
+        return clean_result
     
     def get_pmc_map_by_eans(self, ean_list: list[str]) -> dict[str, Decimal]:
         'get pmc using a chunk of the list of eans provides by database'

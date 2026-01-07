@@ -1,10 +1,8 @@
 ### --- IMPORTS --- ###
-from system.utils import decorators as d
 from sqlite3 import Connection, Cursor, sqlite_version_info
 from typing import Callable, Any, Final
 from pandas import DataFrame
 from decimal import Decimal
-from collections.abc import Iterator
 #######################
 
 class CMEDRepository:
@@ -51,37 +49,50 @@ class CMEDRepository:
             chunksize: int = MAX_VARS // column_number
             return chunksize
 
-    def _get_pmc_chunk(self, chunk: list[str]) -> list[tuple[str, Decimal] | None]:
+    def _get_pmc_chunk(self, chunks_ean: list[str]) -> list[tuple]:
         'get pmc from table CMED'
 
         cursor: Cursor = self.connection_db.cursor()
-        placeholders: str = ', '.join(['?'] * len(chunk))
+        placeholders: str = ', '.join(['?'] * len(chunks_ean))
         query: str = (f'''
-            SELECT "EAN 1", "PMC 18 %"
+            SELECT "EAN 1", "PMC 18 %", "TIPO DE PRODUTO (STATUS DO PRODUTO)"
             FROM cmed_table
             WHERE "EAN 1" IN ({placeholders})
         ''')
-        cursor.execute(query, chunk)
+        cursor.execute(query, chunks_ean)
         result: list[tuple] = cursor.fetchall()
-        clean_result: list[tuple[str, Decimal]] = [(ean, Decimal(f'{price}')) for ean, price in result if price is not None]
-        return clean_result
+        return result
+        
+    def _cleaning(self, result: list[tuple]) -> list[tuple[str, Decimal, str]] | None:
+        'clean the result from the db'
+
+        clean_result: list[tuple[str, Decimal, str]] = [   
+            (
+                str(ean), 
+                Decimal(str(pmc)), 
+                str(prod_type) if prod_type is not None else 'DEFAULT'
+            ) 
+            for ean, pmc, prod_type in result
+        ]
+        if clean_result: return clean_result
+        else: return []
     
-    def get_pmc_map_by_eans(self, ean_list: list[str]) -> dict[str, Decimal]:
+    def get_pmc_map_by_eans(self, ean_list: list[str]) -> dict[str, tuple[Decimal, str]]:
         'get pmc using a chunk of the list of eans provides by database'
 
         version_db: tuple[int, int, int] = self._get_version_db()
         chunksize: int = self._define_chunksize(version_db)
-        fullmap: dict[str, Decimal] = {}
+        fullmap_pmc: dict[str, tuple[Decimal, str]] = {}
         
-        for ean in range(0, len(ean_list), chunksize): 
-            chunk = ean_list[ean: ean + chunksize]
-            if chunk: 
-                list_pmc: list[tuple[str, Decimal]] = self._get_pmc_chunk(chunk)
-                fullmap.update(dict(list_pmc))
-        
-        return fullmap
+        for ean in range(0, len(ean_list), chunksize):
+            chunks_ean: list[str] = ean_list[ean: ean + chunksize]
+            if chunks_ean: 
+                result: list[tuple] = self._get_pmc_chunk(chunks_ean)
+                list_ean: list[tuple[str, Decimal, str]] | None = self._cleaning(result)
+                pmc_map: dict[str[Decimal, str]] = {ean: (pmc, prod_type) for ean, pmc, prod_type in list_ean if list_ean}
+                fullmap_pmc.update(dict(pmc_map))
+        return fullmap_pmc
 
-    @d.timer
     def save_cmed(self, persist_method: Callable[[Any], None] = None, dataframe: DataFrame = None) -> None:
         'this function uses the persist method of your choice to save in db, currently df.tosql()'
 

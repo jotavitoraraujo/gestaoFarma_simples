@@ -17,16 +17,19 @@ def test_chunking_capacity(mockfunc_define_chunksize, db_connection: Connection,
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS cmed_table (
             "EAN 1" TEXT,
-            "PMC 18 %" TEXT
+            "PMC 18 %" TEXT,
+            "TIPO DE PRODUTO (STATUS DO PRODUTO)"
         )
     ''')
-    list_tuple_eanANDprice: list[tuple[str, Decimal]] = [(product.ean, product.max_consumer_price) for product in rich_products_list]
+    prod_type: str = 'DEFAULT TEST'
+    list_tuple_eanANDprice: list[tuple[str, Decimal]] = [(product.ean, product.max_consumer_price, prod_type) for product in rich_products_list]
     cursor.executemany('''
         INSERT INTO cmed_table (
             "EAN 1",
-            "PMC 18 %"
+            "PMC 18 %",
+            "TIPO DE PRODUTO (STATUS DO PRODUTO)"
         )
-        VALUES (?, ?)
+        VALUES (?, ?, ?)
     ''',
         (
             list_tuple_eanANDprice
@@ -45,13 +48,13 @@ def test_chunking_capacity(mockfunc_define_chunksize, db_connection: Connection,
     list_ean: list[str] = [row[0] for row in cursor.fetchall()]
     
     ### --- PHASE ACT --- ###
-    result: dict[str, Decimal] = cmed_repo.get_pmc_map_by_eans(list_ean)
+    result: dict[str, tuple[Decimal, str]] = cmed_repo.get_pmc_map_by_eans(list_ean)
     
     ### --- PHASE ASSERT --- ###
     assert len(result) == 3
-    assert result[list_ean[0]] == rich_products_list[0].max_consumer_price
+    assert result[list_ean[0]] == (rich_products_list[0].max_consumer_price, prod_type)
     assert list_ean[0] == rich_products_list[0].ean
-    print(f'Result of the dict: {result} \nResult of the list: {list_ean}')
+    print(f'\nResult of the dict: {result} \nResult of the list: {list_ean}')
 
     
 

@@ -10,7 +10,7 @@ class PricingService:
         self.cmed_repo = cmed_repo
         self.profit: dict[str, Decimal] = {
             'SAFETY': Decimal('0.20'),
-            'DEFAULT': Decimal('0.50'),
+            'DEFAULT': Decimal('0.50'),                                                                                                                                   
             'Biológico': Decimal('0.25'),
             'Novo': Decimal('0.25'),
             'Similar': Decimal('3.0'),
@@ -29,11 +29,25 @@ class PricingService:
         }
         return data
 
-    
-    def price_all_prod(self, products: list[Product]):
-        'price all injected products as an argument'
+    def _target_price(self, product: Product, margin: Decimal) -> Decimal:
+        'FORMULA: cost price * (1 + margin + safety)'
+
+        cost_price: Decimal = product.batch[0].unit_cost_amount
+        result: Decimal = cost_price * (1 + margin + self.profit['SAFETY'])
+        return result
+
+
+    def _EANs(self, products: list[Product]) -> list[str]:
+        'build a list of EANs from of list of products using attribute .ean'
 
         ean_list: list[str] = [prod.ean for prod in products]
+        return ean_list
+
+    
+    def price_all_prod(self, products: list[Product]) -> list[dict]:
+        'price all injected products as an argument'
+
+        ean_list: list[str] = self._EANs(products)
         pmc_map: dict[str, tuple[Decimal, str]] = self.cmed_repo.get_pmc_map_by_eans(ean_list)
         list_dicts: list[dict] = []
         
@@ -48,12 +62,13 @@ class PricingService:
 
             margin_key: str = prod_type if prod_type in self.profit.keys() else 'DEFAULT'
             margin: Decimal = self.profit[margin_key]
-            target_price: Decimal = prod.batch[0].unit_cost_amount * (1 + margin + self.profit['SAFETY'])
+            target_price: Decimal = self._target_price(prod, margin)
             if pmc is not None:
                 if target_price > pmc:
                     final_price: Decimal = min(target_price, pmc)
                     capped = True
                 else: final_price = target_price
+            else: final_price = target_price
             dict_data: dict[str, str | Decimal | bool | None] = self._to_list_dicts(prod, final_price, prod_type, capped)
             list_dicts.append(dict_data)
         return list_dicts

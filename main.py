@@ -5,6 +5,7 @@ from system.repositories.event_repository import EventRepository
 from system.repositories.user_repository import UserRepository
 from system.services.dispatcher_service import DispatcherService
 from system.repositories.cmed_repository import CMEDRepository
+from system.services.pricing_service import PricingService
 from system.services.product_service import ProductService
 from system.modules.cmed_importer import CMEDImporter
 from system.services.auth_service import AuthService
@@ -67,10 +68,12 @@ def main():
             if choice == '1':
                 with database.connect_db() as connection_import_nfe:                      
                     event_repo_import = EventRepository(connection_import_nfe)
+                    cmed_repo_import = CMEDRepository(connection_import_nfe)
                     prod_repo_import = ProductRepository(connection_import_nfe)
                     prod_service = ProductService(prod_repo_import, event_repo_import)
                     dispatcher.subscribe(EventType.QUARANTINE, prod_service.handle_quarantine_event)
-                    importer = NFEImporter(XMLParser, dispatcher, prod_repo_import.save_products)
+                    pricing = PricingService(cmed_repo_import)
+                    importer = NFEImporter(XMLParser, dispatcher, pricing, prod_repo_import.save_products)
                     xml_path: str = ui.get_file_path()
                     if xml_path is not None:
                         importer.run_import(xml_path)

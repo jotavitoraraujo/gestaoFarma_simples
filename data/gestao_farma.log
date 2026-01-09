@@ -506,3 +506,475 @@
 2026-01-02 17:37:42,287 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
 2026-01-02 17:37:49,702 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
 2026-01-02 17:38:03,031 - ERROR - main - [ERRO] Opção inválida. Tente novamente
+2026-01-09 09:49:21,210 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 09:49:21,217 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 09:49:27,181 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 09:49:30,828 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 09:49:32,548 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 09:49:39,932 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 09:49:39,932 - WARNING - nfe_importer - [INFO] 10 produto(s) estão com status *QUARENTENA*.
+2026-01-09 09:49:39,933 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 09:49:39,941 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 09:49:43,253 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 09:49:46,997 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 09:49:46,997 - WARNING - nfe_importer - [INFO] 15 produto(s) estão com status *QUARENTENA*.
+2026-01-09 09:49:46,997 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 09:49:47,006 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 09:49:50,181 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 09:49:53,460 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 09:49:53,460 - WARNING - nfe_importer - [INFO] 8 produto(s) estão com status *QUARENTENA*.
+2026-01-09 09:49:53,460 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 09:49:53,467 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 09:49:54,652 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 09:49:57,583 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 09:49:57,585 - WARNING - nfe_importer - [INFO] 33 produto(s) estão com status *ATIVOS*.
+2026-01-09 09:49:57,585 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 09:49:57,592 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 09:50:03,801 - ERROR - main - [ERRO] Opção inválida. Tente novamente
+2026-01-09 09:50:06,085 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 09:50:07,241 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 09:50:07,242 - WARNING - nfe_importer - [INFO] 6 produto(s) estão com status *QUARENTENA*.
+2026-01-09 09:50:07,242 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 09:50:07,250 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 09:50:08,461 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 09:50:11,515 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 09:50:11,518 - WARNING - nfe_importer - [INFO] 24 produto(s) estão com status *ATIVOS*.
+2026-01-09 09:50:11,518 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 09:50:11,526 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 09:50:12,892 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 09:50:16,435 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 09:50:16,438 - WARNING - nfe_importer - [INFO] 24 produto(s) estão com status *ATIVOS*.
+2026-01-09 09:50:16,438 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 09:50:16,446 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 09:50:17,445 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 09:50:22,242 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 09:50:22,244 - WARNING - nfe_importer - [INFO] 14 produto(s) estão com status *ATIVOS*.
+2026-01-09 09:50:22,245 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 09:50:22,252 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:11:30,762 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:11:30,774 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:11:32,617 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:11:35,401 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:11:35,952 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:11:38,731 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:11:40,382 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:11:46,771 - WARNING - dispatcher_service - [AVISO] No subscribers found for event: IMPORTATION_FINISHED
+2026-01-09 10:11:47,325 - ERROR - console_ui - [ERRO] A importação foi interrompida inesperadamente. Comunique ao administrador.
+2026-01-09 10:11:47,328 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:12:50,766 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:12:55,419 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:12:55,419 - WARNING - nfe_importer - [INFO] 31 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:12:55,420 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 10:12:55,428 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:12:59,456 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:13:02,976 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:13:02,976 - WARNING - nfe_importer - [INFO] 20 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:13:02,976 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 10:13:02,990 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:13:05,960 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:13:08,791 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:13:08,791 - WARNING - nfe_importer - [INFO] 10 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:13:08,792 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 10:13:08,800 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:13:09,424 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:13:12,398 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:13:12,398 - WARNING - nfe_importer - [INFO] 15 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:13:12,399 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 10:13:12,407 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:13:12,912 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:13:15,848 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:13:15,848 - WARNING - nfe_importer - [INFO] 8 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:13:15,849 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 10:13:15,856 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:13:16,544 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:13:19,680 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:13:19,683 - WARNING - nfe_importer - [INFO] 33 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:13:19,683 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:13:19,692 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:13:20,368 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:13:23,524 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:13:23,524 - WARNING - nfe_importer - [INFO] 6 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:13:23,525 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 10:13:23,532 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:13:24,447 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:13:28,812 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:13:28,812 - WARNING - nfe_importer - [INFO] 6 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:13:28,813 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 10:13:28,820 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:13:30,144 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:13:34,089 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:13:34,096 - WARNING - nfe_importer - [INFO] 24 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:13:34,096 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:13:34,106 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:13:34,936 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:13:39,078 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:13:39,081 - WARNING - nfe_importer - [INFO] 24 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:13:39,082 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:13:39,089 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:13:40,376 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:13:43,311 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:13:43,313 - WARNING - nfe_importer - [INFO] 14 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:13:43,313 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:13:43,320 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:23:53,932 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:23:53,941 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:23:55,574 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:23:59,185 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:24:00,149 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:24:02,757 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:24:02,757 - WARNING - nfe_importer - [INFO] 31 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:24:02,757 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 10:24:02,765 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:24:08,262 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:24:13,467 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:24:13,468 - WARNING - nfe_importer - [INFO] 14 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:24:13,468 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:24:13,475 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:26:06,853 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:26:06,862 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:26:08,310 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:26:10,856 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:26:11,644 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:26:14,155 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:26:14,156 - WARNING - nfe_importer - [INFO] 14 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:26:14,157 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:26:14,164 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:28:08,010 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:28:08,019 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:28:09,172 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:28:11,965 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:28:12,803 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:28:15,275 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:28:15,277 - WARNING - nfe_importer - [INFO] 14 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:28:15,278 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:28:15,284 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:30:24,739 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:30:24,747 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:30:26,172 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:30:30,584 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:30:32,061 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:30:34,979 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:30:34,981 - WARNING - nfe_importer - [INFO] 14 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:30:34,981 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:30:34,987 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:33:08,826 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:33:08,833 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:33:10,228 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:33:13,463 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:33:15,619 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:33:19,047 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:33:19,048 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'decimal.InvalidOperation'>
+2026-01-09 10:33:19,049 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:33:19,050 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2026-01-09 10:33:19,050 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:35:34,846 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:35:34,854 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:35:40,499 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:35:48,140 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:35:48,803 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:35:51,545 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:35:51,545 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'decimal.InvalidOperation'>
+2026-01-09 10:35:51,547 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:35:51,547 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2026-01-09 10:35:51,547 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:38:32,732 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:38:32,740 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:38:34,386 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:38:38,431 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:38:39,641 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:38:43,684 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:38:43,684 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'decimal.InvalidOperation'>
+2026-01-09 10:38:43,686 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:38:43,686 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2026-01-09 10:38:43,686 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:39:22,440 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:39:22,447 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:39:24,044 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:39:27,571 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:39:29,417 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:39:33,435 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:39:33,435 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'decimal.InvalidOperation'>
+2026-01-09 10:39:33,437 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:39:33,438 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2026-01-09 10:39:33,438 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:52:11,884 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:52:11,892 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:52:13,400 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:52:16,278 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:52:17,440 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:52:21,065 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:52:21,065 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'decimal.InvalidOperation'>
+2026-01-09 10:52:21,067 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:52:21,067 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2026-01-09 10:52:21,068 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:55:01,608 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:55:01,616 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:55:03,383 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:55:13,993 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:55:15,318 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:55:18,190 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:55:18,191 - ERROR - database - [ERRO] Um erro inesperado foi detectado, para preservar a integridade do banco de dados as alterações não foram efetivadas. Detalhes: <class 'decimal.InvalidOperation'>
+2026-01-09 10:55:18,193 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:55:18,193 - ERROR - main - [FATAL ERROR] :: Ocorreu um erro inesperado e a operação não pode ser concluída. O programa será finalizado.
+2026-01-09 10:55:18,193 - ERROR - main - [FATAL ERROR] :: Verifique o log de erros para mais detalhes. [<class 'decimal.ConversionSyntax'>]
+2026-01-09 10:56:25,433 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:56:25,440 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:56:26,881 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:56:30,608 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 10:56:31,445 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 10:56:33,999 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004726229 teve o preço teto aplicado: R$ 61.25
+2026-01-09 10:56:33,999 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7895296281010 teve o preço teto aplicado: R$ 60.69
+2026-01-09 10:56:34,000 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004737218 teve o preço teto aplicado: R$ 341.48
+2026-01-09 10:56:34,000 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7895296254014 teve o preço teto aplicado: R$ 17.13
+2026-01-09 10:56:34,001 - WARNING - nfe_importer - [INFO] 14 produto(s) estão com status *ATIVOS*.
+2026-01-09 10:56:34,002 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 10:56:34,011 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:00:00,040 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:00:00,052 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:00:02,190 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:00:05,846 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:00:06,646 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:00:09,656 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:00:12,309 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:00:20,221 - WARNING - dispatcher_service - [AVISO] No subscribers found for event: IMPORTATION_FINISHED
+2026-01-09 11:00:20,802 - ERROR - console_ui - [ERRO] A importação foi interrompida inesperadamente. Comunique ao administrador.
+2026-01-09 11:00:20,805 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:04:11,248 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:04:11,263 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:04:12,742 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:04:17,418 - ERROR - io_collectors - [ERRO] Os dados inseridos são inválidos. Tente novamente.
+2026-01-09 11:04:18,458 - ERROR - io_collectors - [ERRO] Os dados inseridos são inválidos. Tente novamente.
+2026-01-09 11:04:20,570 - WARNING - main - [ALERTA] Nome de usuário ou PIN incorretos. Tente novamente.
+2026-01-09 11:04:20,572 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:04:23,044 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:04:26,136 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:04:27,933 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:04:32,378 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:04:33,252 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:04:41,008 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:04:45,605 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:04:53,077 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004726229 teve o preço teto aplicado: R$ 61.25
+2026-01-09 11:04:53,077 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7895296281010 teve o preço teto aplicado: R$ 60.69
+2026-01-09 11:04:53,077 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004737218 teve o preço teto aplicado: R$ 341.48
+2026-01-09 11:04:53,077 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7895296254014 teve o preço teto aplicado: R$ 17.13
+2026-01-09 11:04:53,080 - WARNING - nfe_importer - [INFO] 14 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:04:53,080 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:04:53,088 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:05:52,852 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:05:56,459 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:05:56,460 - WARNING - nfe_importer - [INFO] 31 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:05:56,460 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:05:56,468 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:06:11,741 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:06:17,296 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:06:17,296 - WARNING - nfe_importer - [INFO] 20 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:06:17,296 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:06:17,304 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:06:18,157 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:06:20,907 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:06:20,907 - WARNING - nfe_importer - [INFO] 10 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:06:20,908 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:06:20,915 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:06:22,264 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:06:25,551 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:06:25,551 - WARNING - nfe_importer - [INFO] 15 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:06:25,552 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:06:25,559 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:06:28,844 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:06:31,867 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:06:31,867 - WARNING - nfe_importer - [INFO] 8 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:06:31,867 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:06:31,875 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:06:32,245 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:06:34,904 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7891317158408 teve o preço teto aplicado: R$ 30.63
+2026-01-09 11:06:34,904 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7891317020552 teve o preço teto aplicado: R$ 51.12
+2026-01-09 11:06:34,904 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7898014566932 teve o preço teto aplicado: R$ 48.01
+2026-01-09 11:06:34,904 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004702216 teve o preço teto aplicado: R$ 34.35
+2026-01-09 11:06:34,905 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004715278 teve o preço teto aplicado: R$ 38.74
+2026-01-09 11:06:34,905 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004714004 teve o preço teto aplicado: R$ 34.34
+2026-01-09 11:06:34,905 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004755496 teve o preço teto aplicado: R$ 38.58
+2026-01-09 11:06:34,905 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7899095230309 teve o preço teto aplicado: R$ 34.42
+2026-01-09 11:06:34,905 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7897848502406 teve o preço teto aplicado: R$ 29.79
+2026-01-09 11:06:34,905 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7897848502499 teve o preço teto aplicado: R$ 38.87
+2026-01-09 11:06:34,906 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896714215204 teve o preço teto aplicado: R$ 26.06
+2026-01-09 11:06:34,906 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7897595633309 teve o preço teto aplicado: R$ 96.48
+2026-01-09 11:06:34,906 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7895296292016 teve o preço teto aplicado: R$ 35.62
+2026-01-09 11:06:34,906 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7895296444033 teve o preço teto aplicado: R$ 81.83
+2026-01-09 11:06:34,906 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896472521715 teve o preço teto aplicado: R$ 43.30
+2026-01-09 11:06:34,906 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004703428 teve o preço teto aplicado: R$ 89.33
+2026-01-09 11:06:34,907 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004703732 teve o preço teto aplicado: R$ 19.99
+2026-01-09 11:06:34,907 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7894916143868 teve o preço teto aplicado: R$ 229.54
+2026-01-09 11:06:34,907 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7894916341301 teve o preço teto aplicado: R$ 307.77
+2026-01-09 11:06:34,907 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7897076912299 teve o preço teto aplicado: R$ 63.23
+2026-01-09 11:06:34,910 - WARNING - nfe_importer - [INFO] 33 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:06:34,911 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:06:34,918 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:06:35,853 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:06:38,910 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:06:38,910 - WARNING - nfe_importer - [INFO] 6 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:06:38,910 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:06:38,917 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:06:39,846 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:06:52,397 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896112113584 teve o preço teto aplicado: R$ 28.26
+2026-01-09 11:06:52,397 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7897917000178 teve o preço teto aplicado: R$ 26.44
+2026-01-09 11:06:52,398 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7899095230224 teve o preço teto aplicado: R$ 24.28
+2026-01-09 11:06:52,398 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7895296254014 teve o preço teto aplicado: R$ 17.13
+2026-01-09 11:06:52,398 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7891317490003 teve o preço teto aplicado: R$ 79.35
+2026-01-09 11:06:52,398 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896015517045 teve o preço teto aplicado: R$ 30.73
+2026-01-09 11:06:52,398 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896015518370 teve o preço teto aplicado: R$ 30.73
+2026-01-09 11:06:52,399 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896015560300 teve o preço teto aplicado: R$ 30.73
+2026-01-09 11:06:52,399 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896112126669 teve o preço teto aplicado: R$ 15.72
+2026-01-09 11:06:52,402 - WARNING - nfe_importer - [INFO] 24 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:06:52,402 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:06:52,411 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:06:53,591 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:06:58,117 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7893454300115 teve o preço teto aplicado: R$ 24.01
+2026-01-09 11:06:58,117 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7898920500372 teve o preço teto aplicado: R$ 25.52
+2026-01-09 11:06:58,118 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7898920500396 teve o preço teto aplicado: R$ 11.83
+2026-01-09 11:06:58,118 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7898095343125 teve o preço teto aplicado: R$ 30.77
+2026-01-09 11:06:58,118 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896094921344 teve o preço teto aplicado: R$ 33.11
+2026-01-09 11:06:58,118 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896422506427 teve o preço teto aplicado: R$ 72.72
+2026-01-09 11:06:58,118 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896112424444 teve o preço teto aplicado: R$ 44.47
+2026-01-09 11:06:58,119 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896112194576 teve o preço teto aplicado: R$ 16.91
+2026-01-09 11:06:58,119 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7893736010053 teve o preço teto aplicado: R$ 22.58
+2026-01-09 11:06:58,119 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896112189107 teve o preço teto aplicado: R$ 24.32
+2026-01-09 11:06:58,119 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896714224688 teve o preço teto aplicado: R$ 31.85
+2026-01-09 11:06:58,120 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7897595901033 teve o preço teto aplicado: R$ 17.36
+2026-01-09 11:06:58,120 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7898014560268 teve o preço teto aplicado: R$ 25.02
+2026-01-09 11:06:58,123 - WARNING - nfe_importer - [INFO] 24 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:06:58,123 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:06:58,131 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:08:35,423 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:08:35,429 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:08:36,748 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:08:39,455 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:08:40,916 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:08:44,725 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:08:44,725 - WARNING - nfe_importer - [INFO] 8 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:08:44,725 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:08:44,734 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:10:05,690 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:10:05,697 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:10:06,404 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:10:09,226 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:10:10,367 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:10:13,234 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:10:13,234 - WARNING - nfe_importer - [INFO] 8 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:10:13,235 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:10:13,244 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:15:53,027 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:15:53,034 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:15:53,507 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:15:57,622 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:15:58,683 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:16:01,468 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:16:01,468 - WARNING - nfe_importer - [INFO] 8 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:16:01,469 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:16:01,477 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:21:47,743 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:21:47,752 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:21:48,266 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:21:51,212 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:21:52,464 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:21:56,496 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:21:56,496 - WARNING - nfe_importer - [INFO] 8 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:21:56,497 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:21:56,505 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:23:54,904 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:23:54,911 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:23:56,377 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:24:01,883 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:24:03,025 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:24:06,696 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: [<class 'decimal.ConversionSyntax'>]
+2026-01-09 11:24:06,698 - WARNING - nfe_importer - [INFO] 14 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:24:06,698 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:24:06,708 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:24:39,660 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:24:39,667 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:24:40,553 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:24:43,634 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:24:44,776 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:24:47,735 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004726229 teve o preço teto aplicado: R$ 61.25
+2026-01-09 11:24:47,736 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7895296281010 teve o preço teto aplicado: R$ 60.69
+2026-01-09 11:24:47,736 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004737218 teve o preço teto aplicado: R$ 341.48
+2026-01-09 11:24:47,736 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7895296254014 teve o preço teto aplicado: R$ 17.13
+2026-01-09 11:24:47,739 - WARNING - nfe_importer - [INFO] 14 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:24:47,739 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:24:47,746 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:26:29,040 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:26:29,052 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:26:30,752 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:26:32,133 - ERROR - io_collectors - [ERRO] Os dados inseridos são inválidos. Tente novamente.
+2026-01-09 11:26:35,883 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:26:36,561 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:26:39,322 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:26:40,527 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:26:44,617 - ERROR - nfe_importer - [PRICING CRITICAL] Failed to calculate prices. Products will be saved without a price. Error: no such table: cmed_table
+2026-01-09 11:26:44,619 - WARNING - nfe_importer - [INFO] 14 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:26:44,619 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:26:44,626 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:26:57,832 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:26:57,843 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:26:59,089 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:27:01,945 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:27:02,682 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:27:05,293 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:27:06,815 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:27:15,252 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:27:21,144 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:27:24,134 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004726229 teve o preço teto aplicado: R$ 61.25
+2026-01-09 11:27:24,134 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7895296281010 teve o preço teto aplicado: R$ 60.69
+2026-01-09 11:27:24,134 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896004737218 teve o preço teto aplicado: R$ 341.48
+2026-01-09 11:27:24,134 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7895296254014 teve o preço teto aplicado: R$ 17.13
+2026-01-09 11:27:24,136 - WARNING - nfe_importer - [INFO] 14 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:27:24,137 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:27:24,145 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:37:33,447 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:37:33,455 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:37:34,710 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:37:37,353 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:37:38,605 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:37:41,267 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:37:41,268 - WARNING - nfe_importer - [INFO] 31 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:37:41,268 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:37:41,276 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:53:29,919 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:53:29,926 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:53:32,979 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:53:35,605 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:53:36,683 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:53:42,072 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:53:42,072 - WARNING - nfe_importer - [INFO] 6 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:53:42,073 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:53:42,080 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:54:04,447 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:54:04,454 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:54:09,395 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:54:11,836 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:54:12,538 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:54:15,609 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:54:15,609 - WARNING - nfe_importer - [INFO] 10 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:54:15,610 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:54:15,618 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:54:29,618 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:54:33,802 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:54:33,802 - WARNING - nfe_importer - [INFO] 15 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:54:33,803 - WARNING - nfe_importer - [ALERTA] O sistema recomenda verificar a integridade dos dados dos produtos em Quarentena.
+2026-01-09 11:54:33,810 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-09 11:54:48,650 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-09 11:54:51,913 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7893454300115 teve o preço teto aplicado: R$ 24.01
+2026-01-09 11:54:51,913 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7898920500372 teve o preço teto aplicado: R$ 25.52
+2026-01-09 11:54:51,914 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7898920500396 teve o preço teto aplicado: R$ 11.83
+2026-01-09 11:54:51,914 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7898095343125 teve o preço teto aplicado: R$ 30.77
+2026-01-09 11:54:51,914 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896094921344 teve o preço teto aplicado: R$ 33.11
+2026-01-09 11:54:51,915 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896422506427 teve o preço teto aplicado: R$ 72.72
+2026-01-09 11:54:51,915 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896112424444 teve o preço teto aplicado: R$ 44.47
+2026-01-09 11:54:51,915 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896112194576 teve o preço teto aplicado: R$ 16.91
+2026-01-09 11:54:51,915 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7893736010053 teve o preço teto aplicado: R$ 22.58
+2026-01-09 11:54:51,916 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896112189107 teve o preço teto aplicado: R$ 24.32
+2026-01-09 11:54:51,916 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7896714224688 teve o preço teto aplicado: R$ 31.85
+2026-01-09 11:54:51,916 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7897595901033 teve o preço teto aplicado: R$ 17.36
+2026-01-09 11:54:51,916 - WARNING - nfe_importer - [PRECIFICAÇÃO] O EAN: 7898014560268 teve o preço teto aplicado: R$ 25.02
+2026-01-09 11:54:51,919 - WARNING - nfe_importer - [INFO] 24 produto(s) estão com status *ATIVOS*.
+2026-01-09 11:54:51,920 - WARNING - nfe_importer - [INFO] 0 produto(s) estão com status *QUARENTENA*.
+2026-01-09 11:54:51,931 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.

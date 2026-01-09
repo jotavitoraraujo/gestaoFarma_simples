@@ -24,8 +24,6 @@ import logging as log
 
 def main():
     settings_log.log_system()
-    dispatcher = DispatcherService()
-    ui = ConsoleUI(dispatcher)
     'main menu'
     try:
         with database.connect_db() as connection_start:
@@ -33,6 +31,8 @@ def main():
             
         user_auth = None
         while user_auth is None:
+            dispatcher = DispatcherService()
+            ui = ConsoleUI(dispatcher)
             choice = ui.display_menu_auth()
             if choice == '1':
                 with database.connect_db() as connection_auth:
@@ -64,6 +64,8 @@ def main():
                 break
     
         while user_auth is not None:
+            dispatcher = DispatcherService()
+            ui = ConsoleUI(dispatcher)
             choice = ui.display_menu()
             if choice == '1':
                 with database.connect_db() as connection_import_nfe:                      

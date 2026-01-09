@@ -69,7 +69,7 @@ class CMEDRepository:
         clean_result: list[tuple[str, Decimal, str]] = [   
             (
                 str(ean), 
-                Decimal(str(pmc)), 
+                Decimal(str(pmc.replace(',', '.'))), 
                 str(prod_type) if prod_type is not None else 'DEFAULT'
             ) 
             for ean, pmc, prod_type in result

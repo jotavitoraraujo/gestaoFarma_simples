@@ -10,11 +10,16 @@ class PricingService:
         self.cmed_repo = cmed_repo
         self.profit: dict[str, Decimal] = {
             'SAFETY': Decimal('0.20'),
-            'DEFAULT': Decimal('0.50'),                                                                                                                                   
+            'DEFAULT': Decimal('0.50'),
             'Biológico': Decimal('0.25'),
+            'BIOLOGICO': Decimal('0.25'),
             'Novo': Decimal('0.25'),
+            'NOVO': Decimal('0.25'),
             'Similar': Decimal('3.0'),
-            'Genérico': Decimal('5.0')
+            'SIMILAR': Decimal('3.0'),
+            'Genérico': Decimal('5.0'),
+            'GENÉRICO': Decimal('5.0'),
+            'GENERICO': Decimal('5.0')
         }
 
     def _to_list_dicts(self, prod: Product, final_price: Decimal, prod_type: str, capped: bool = None) -> dict[str, str | Decimal | bool | None]:

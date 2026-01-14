@@ -6,6 +6,19 @@ from datetime import date
 ##########
 # --- CLASS BATCH SETUP --- #
 class Batch:
+    __slots__ = (
+        'id', 
+        'product_id', 
+        'physical_id', 
+        'quantity', 
+        'unit_cost_amount', 
+        'other_expenses_amount', 
+        'use_by_date', 
+        'manufacturing_date', 
+        'received_date', 
+        'taxation_details'
+    )
+    
     def __init__(self, 
         id: int, 
         product_id: int,

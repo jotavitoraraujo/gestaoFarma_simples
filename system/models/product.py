@@ -6,6 +6,18 @@ from decimal import Decimal
 #########
 # --- CLASS PRODUCT SETUP --- #
 class Product:
+    __slots__ = (
+        'id', 
+        'supplier_code', 
+        'ean', 
+        'name', 
+        'anvisa_code', 
+        'sale_price', 
+        'max_consumer_price', 
+        'fiscal_profile', 
+        'batch'
+    )
+    
     def __init__(self, 
         id: int, 
         supplier_code: str, 

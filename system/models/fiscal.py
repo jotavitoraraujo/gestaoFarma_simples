@@ -3,6 +3,13 @@ from decimal import Decimal
 ##########
 # --- PROFILE (THIS IS A FISCAL PROFILE) --- #
 class FiscalProfile:
+    __slots__ = (
+        'id', 
+        'ncm', 
+        'cest', 
+        'origin_code'
+    )
+    
     def __init__(self,
         id: int,
         ncm: str,
@@ -43,7 +50,17 @@ class FiscalProfile:
 ##########
 # --- TRANSACTIONAL DATA (INPUT OF A FISCAL DATA IN THE STOCK) --- #
 class PurchaseTaxDetails:
-    
+    __slots__ = (
+        'id', 
+        'cfop', 
+        'icms_cst', 
+        'icms_st_base_amount', 
+        'icms_st_percentage', 
+        'icms_st_retained_amount', 
+        'pis_cst', 
+        'cofins_cst'
+    )
+   
     def __init__(self,
         id: int,
         cfop: str,

@@ -9,11 +9,11 @@ class AuthService:
     def __init__(self, user_repository: UserRepository):
         self.user_repository = user_repository
     
-    def _create_user(self, user_name: str) -> User:
+    def _create_user(self, user_id: int, user_name: str) -> User:
         'instanciated an object User'
 
         user = User (
-            user_id = None,
+            user_id = user_id,
             user_name = user_name
         )
         return user
@@ -30,7 +30,7 @@ class AuthService:
     def authenticate(self, user_name: str, provided_pin: str) -> User | None:
         'authenticate the user in system'
 
-        user_name: str = self.user_repository.find_by_username(user_name)
+        user_id, user_name = self.user_repository.find_by_username(user_name)
         
         if user_name is not None:
             stored_hash: str = self.user_repository.get_pin_hash(user_name)
@@ -41,7 +41,7 @@ class AuthService:
                 result: bool = security.verify_pin(stored_hash, stored_salt, provided_pin, func_compare)
         
             if result is True:
-                user = self._create_user(user_name)
+                user = self._create_user(user_id, user_name)
                 return user
         
             else:

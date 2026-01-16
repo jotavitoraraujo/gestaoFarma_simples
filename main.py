@@ -1,12 +1,14 @@
 ### --- IMPORTS --- ###
 
 from system.repositories.product_repository import ProductRepository
+from system.repositories.sales_repository import SalesRepository
 from system.repositories.event_repository import EventRepository
 from system.repositories.user_repository import UserRepository
 from system.services.dispatcher_service import DispatcherService
 from system.repositories.cmed_repository import CMEDRepository
 from system.services.pricing_service import PricingService
 from system.services.product_service import ProductService
+from system.services.sales_service import SalesService
 from system.modules.cmed_importer import CMEDImporter
 from system.services.auth_service import AuthService
 from system.modules.nfe_importer import NFEImporter
@@ -64,6 +66,9 @@ def main():
                 break
     
         while user_auth is not None:
+            print(user_auth)
+            print(user_auth.user_id)
+            print(user_auth.user_name)
             dispatcher = DispatcherService()
             ui = ConsoleUI(dispatcher)
             choice = ui.display_menu()
@@ -88,6 +93,31 @@ def main():
                     if cmed_path is not None:
                         importer = CMEDImporter(CMEDParser, dispatcher, save_cmed)
                         ui.run_async_task(importer.run_import, cmed_path)
+
+            elif choice == '3':
+                with database.connect_db() as connection_sales:
+                    event_repo_sales = EventRepository(connection_sales)
+                    prod_repo_sales = ProductRepository(connection_sales)
+                    prod_service_sales = ProductService(prod_repo_sales, event_repo_sales)
+                    sales_repo = SalesRepository(connection_sales)
+                    sales_service = SalesService(prod_service_sales, sales_repo, dispatcher)
+                    sales_service.start_new_sale()
+
+                    while True:
+                        ean_code: str = ui.get_ean()
+                        if ean_code is None: break
+                        qty: int = ui.get_quantity()
+                        try:
+                            sales_service.add_item(ean_code, qty)
+                            ui.info_sale(sales_service.get_total())
+                        except Exception as error:
+                            log.warning(f'[ALERTA] O Produto buscado não possui estoque ou não existe. Tente novamente')
+                            log.warning(f'[MOTIVO] {error}')
+                    
+                    if sales_service.cart:
+                        sales_service.finish_sale(user_auth.user_id)
+                        log.info(f'[INFO] Venda finalizada com sucesso!')
+                    else: log.info(f'[INFO] Venda cancelada: Nenhum item adicionado.')
 
             elif choice == '0':
                 log.info('=' * 30)

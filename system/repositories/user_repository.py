@@ -30,7 +30,7 @@ class UserRepository:
         'select the username of user using username'
 
         self.cursor.execute('''
-            SELECT user_name
+            SELECT id, user_name
             FROM users
             WHERE user_name = ?
         ''',
@@ -175,13 +175,14 @@ class UserRepository:
             user_name: str = response[0]
             return user_name
     
-    def find_by_username(self, user_name: str) -> str | None:
+    def find_by_username(self, user_name: str) -> tuple[int, str] | None:
         'find an user by username to login'
 
         response: tuple | None = self._select_table_user_by_username(user_name)
         if response is not None:
-            user_name: str = response[0]
-            return user_name
+            user_id: int = response[0]
+            user_name: str = response[1]
+            return user_id, user_name
     
     def get_pin_hash(self, user_name: str) -> str | None:
         'get the pin_hash using username of user'

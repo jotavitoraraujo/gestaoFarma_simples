@@ -185,7 +185,7 @@ def _create_sales_schema(cursor: Cursor):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
             order_date DATE NOT NULL,
-            total_value REAL NOT NULL,
+            total_value DECIMAL NOT NULL,
             FOREIGN KEY(user_id) REFERENCES users(id)
         )
     ''')
@@ -194,8 +194,8 @@ def _create_sales_schema(cursor: Cursor):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             order_id INTEGER NOT NULL,
             batch_id INTEGER NOT NULL,
-            quantity_sold INTEGER NOT NULL,
-            sale_price_register REAL,
+            quantity_sold DECIMAL NOT NULL,
+            sale_price_register DECIMAL,
             FOREIGN KEY(order_id) REFERENCES orders(id),
             FOREIGN KEY(batch_id) REFERENCES batchs(id)
         )
@@ -215,6 +215,12 @@ def _create_events_schema(cursor: Cursor):
             details TEXT NOT NULL           
         )
     ''')
+
+def _create_idx_orders_schema(cursor: Cursor):
+    'create the indexes for schema batchs'
+
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_batchs_id ON order_items(batch_id)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_orders_id ON order_items(order_id)')
 
 def _create_idx_users_schema(cursor: Cursor):
     'create the indexes for schema users'
@@ -337,6 +343,7 @@ def starter_schema(connect_db: Connection):
     ### -- INDEXES -- ###
     _create_idx_users_schema(cursor)
     _create_idx_events_schema(cursor)
+    _create_idx_orders_schema(cursor)
 
     ### -- PERMISSIONS -- ###
     _seed_initial_data(cursor)

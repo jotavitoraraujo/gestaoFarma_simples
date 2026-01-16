@@ -1,14 +1,14 @@
 ### --- IMPORTS --- ###
 from system.services.dispatcher_service import DispatcherService
 from system.models.payloads import ImportationFinishedPayload
-from system.models.audit_event import AuditEvent
 from system.models.event_types import EventType
 from system.utils import io_collectors as io
-from pathlib import Path
 from typing import Callable, Any
+from decimal import Decimal
+from pathlib import Path
 import threading as th
-import time as t
 import logging as log
+import time as t
 import sys
 #######################
 
@@ -121,3 +121,21 @@ class ConsoleUI:
         print('--- GESTÃO FARMA LOGIN --- ')
         pin: str = io.collect_user_pin()
         return pin
+    
+    def get_ean(self) -> str:
+
+        print('=' * 30)
+        print('--- GESTÃO FARMA VENDA ---')
+        ean: str = io.collect_EAN()
+        return ean
+    
+    def get_quantity(self) -> int:
+
+        print('=' * 30)
+        print('--- GESTÃO FARMA VENDA ---')
+        qty: int = io.collect_quantity()
+        return qty
+    
+    def info_sale(self, total: Decimal):
+
+        print(f'[INFO] Total: R$ {total:.2f}')

@@ -54,7 +54,20 @@ def user_name_validator(user_name: str) -> bool:
     else:
         return False
 
+def EAN_validator(ean: str) -> bool:
+    'validate the entered EAN-13 using the GS1 standard.'
 
+    ean = ean.strip()
+    if not isinstance(ean, str) or not ean.isdigit() or not len(ean) == 13:
+        return False
+
+    total: int = 0
+    for i in range(12):
+        digit = int(ean[i])
+        total += digit if i % 2 == 0 else digit * 3
+    result: int = (10 - (total % 10)) % 10
+    d13 = int(ean[12])
+    return result == d13
 
 
 

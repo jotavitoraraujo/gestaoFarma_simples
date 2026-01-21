@@ -5,6 +5,7 @@ from system.models.event_types import EventType
 from system.utils import io_collectors as io
 from typing import Callable, Any
 from decimal import Decimal
+from datetime import date
 from pathlib import Path
 import threading as th
 import logging as log
@@ -49,13 +50,25 @@ class ConsoleUI:
             log.error(f'[ERRO] A importação foi interrompida inesperadamente. Comunique ao administrador.')
         else: log.info(f'[SUCESSO] A importação foi concluída com sucesso.')
 
+    def display_submenu_reports(self) -> str | None:
+        'display submenu to print the reports'
+
+        print(' --- Sistema de Gestão da Farmácia ---')
+        print('Relátorios e Indicadores')
+        print('1. Faturamento Diário (Visão Analítica)')
+        print('2. Faturamento Mensal (Visão Sintética)')
+        print('3. Curva ABC de Produtos (Giro de Estoque)')
+        print('0. Voltar')
+        return input('Escolha uma opção: ')
+
     def display_menu(self) -> str | None:
-        'Exibe o menu principal e retorna a escolha do usuário.'
+        'display main menu'
+        
         print('\n--- Sistema de Gestão da Farmácia ---')
         print('1. Importar Nota Fiscal (.XML)')
         print('2. Importar Tabela CMED (.XLSX)')
         print('3. Registrar Venda')
-        print('4. Ver Relátorios')
+        print('4. Relatórios e Indicadores')
         print('5. Cadastrar Novo Usuário')
         print('0. Sair')
         return input('Escolha uma opção: ')
@@ -139,3 +152,12 @@ class ConsoleUI:
     def info_sale(self, total: Decimal):
 
         print(f'[INFO] Total: R$ {total:.2f}')
+
+    def get_dates(self) -> date | None:
+
+        print('=' * 30)
+        print('--- GESTÃO FARMA RELATÓRIOS ---')
+        print('Insira a Data Inicial e a Data Final para Impressão do Relatório.')
+        print('Formato: DD/MM/AAAA')
+        Date: date = io.collect_date()
+        return Date

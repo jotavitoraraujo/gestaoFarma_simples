@@ -31,9 +31,10 @@ def user_pass_validator(pin_digit: str) -> bool:
     else:
         return False
 
-def batch_expiration_date_validator(date_object: date) -> bool:
-    'verify if conversion of the object is fact object date truly'
-    if date_object > date.today():
+def date_validator(date_object: date) -> bool:
+    'validated a date verifing if the objetct is the correct type'
+    
+    if isinstance(date_object, date):
         return True
     else:
         return False

@@ -15,7 +15,7 @@ def price_str_conversor(price_str: str) -> float:
     
     return price_converted
 
-def expiration_date_str_conversor(date_str: str) -> date:
+def date_str_conversor(date_str: str) -> date:
     'receives an object string and make convert to date_object for acceptance in sql'
 
     try:

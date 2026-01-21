@@ -114,7 +114,7 @@ date_future = object_future()
 )
 def test_batch_expiration_date_validator(date, expected_result):
 
-    result = validators.batch_expiration_date_validator(date)
+    result = validators.date_validator(date)
     assert result == expected_result
 
 ### --- TEST PRICE VALIDATOR --- ###

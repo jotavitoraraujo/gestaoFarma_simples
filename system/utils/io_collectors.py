@@ -39,10 +39,10 @@ def collect_price() -> float:
     price: float = _collector_generic_input(ask_price, converter, validator)
     return price
 
-def collect_expiration_date() -> date:
+def collect_date() -> date:
 
-    converter: Callable = converters.expiration_date_str_conversor
-    validator: Callable = validators.batch_expiration_date_validator
+    converter: Callable = converters.date_str_conversor
+    validator: Callable = validators.date_validator
 
     ask_date: str = f'[ALERTA] Insira a data: '
     expiration: date = _collector_generic_input(ask_date, converter, validator)

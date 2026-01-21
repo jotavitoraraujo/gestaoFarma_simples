@@ -53,9 +53,9 @@ def test_collect_gerenic_input_2(mock_validator: MagicMock, mock_conversor: Magi
             ),
 
             (
-                io_collectors.collect_expiration_date,
-                converters.expiration_date_str_conversor,
-                validators.batch_expiration_date_validator,
+                io_collectors.collect_date,
+                converters.date_str_conversor,
+                validators.date_validator,
             ),
 
             (

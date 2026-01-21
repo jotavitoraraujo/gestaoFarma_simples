@@ -82,12 +82,12 @@ def test_price_str_conversor(price_str, expected_result):
 def test_expiration_date_str_conversor(date_str, expected_result):
 
     if isinstance(expected_result, date):
-        result = converters.expiration_date_str_conversor(date_str)
+        result = converters.date_str_conversor(date_str)
         assert result == expected_result
     
     else:
         with pytest.raises(expected_result):
-            converters.expiration_date_str_conversor(date_str)
+            converters.date_str_conversor(date_str)
 
 ### --- TEST QUANTITY CONVERSOR --- ###
 @pytest.mark.parametrize('quantity_input, expected_result', 

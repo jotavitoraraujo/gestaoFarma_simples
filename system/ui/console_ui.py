@@ -153,11 +153,12 @@ class ConsoleUI:
 
         print(f'[INFO] Total: R$ {total:.2f}')
 
-    def get_dates(self) -> date | None:
+    def get_dates(self) -> tuple[date, date] | None:
 
         print('=' * 30)
         print('--- GESTÃO FARMA RELATÓRIOS ---')
-        print('Insira a Data Inicial e a Data Final para Impressão do Relatório.')
-        print('Formato: DD/MM/AAAA')
-        Date: date = io.collect_date()
-        return Date
+        print('Data Inicial | Formato: DD/MM/AAAA')
+        start_date: date = io.collect_date()
+        print('Data Final | Formato: DD/MM/AAAA')
+        end_date: date = io.collect_date()
+        return start_date, end_date

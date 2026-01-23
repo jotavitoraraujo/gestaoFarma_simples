@@ -1165,3 +1165,5 @@
             
 2026-01-16 17:30:38,465 - WARNING - io_collectors - [ALERTA] Para cancelar pressione "Q".
 2026-01-16 17:30:42,769 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.
+2026-01-23 14:42:22,470 - WARNING - database - [ALERTA] Conexão com banco de dados iniciada.
+2026-01-23 14:42:22,483 - WARNING - database - [ALERTA] Conexão com o banco de dados finalizada.

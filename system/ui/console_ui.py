@@ -69,7 +69,6 @@ class ConsoleUI:
         print('2. Importar Tabela CMED (.XLSX)')
         print('3. Registrar Venda')
         print('4. Relatórios e Indicadores')
-        print('5. Cadastrar Novo Usuário')
         print('0. Sair')
         return input('Escolha uma opção: ')
 
@@ -162,3 +161,24 @@ class ConsoleUI:
         print('Data Final | Formato: DD/MM/AAAA')
         end_date: date = io.collect_date()
         return start_date, end_date
+    
+    def report_UI(self, data: dict[str, Decimal]):
+
+        print('\n' + '=' * 40)
+        print(f'     RESULTADO: FATURAMENTO DIÁRIO     ')
+        print('=' * 40)
+        
+        if data.get('revenue', 0) == 0:
+            print(f' [!] Nenhuma movimentação no período.')
+        else:
+            # Uso de padding e separadores para facilitar a absorção
+            print(f' > Vendas Realizadas:      {int(data["orders"]):>10}')
+            print(f' > Itens Processados:      {int(data["total_items_sold"]):>10}')
+            print(f' > Ticket Médio:           R$ {data["mid_ticket"]:>8,.2f}')
+            print('-' * 40)
+            print(f' TOTAL RECEITA:            R$ {data["revenue"]:>8,.2f}')
+        
+        print('=' * 40 + '\n')
+
+    def not_implemented_for_now(self) -> None:
+        print(f'[ALERTA] Funcionalidade em desenvolvimento. Favor aguarde.')

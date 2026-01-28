@@ -1,11 +1,12 @@
 ### --- IMPORTS --- ###
-
+from system.repositories.reporting_repository import ReportingRepository
 from system.repositories.product_repository import ProductRepository
 from system.repositories.sales_repository import SalesRepository
 from system.repositories.event_repository import EventRepository
 from system.repositories.user_repository import UserRepository
 from system.services.dispatcher_service import DispatcherService
 from system.repositories.cmed_repository import CMEDRepository
+from system.services.reporting_service import ReportingService
 from system.services.pricing_service import PricingService
 from system.services.product_service import ProductService
 from system.services.sales_service import SalesService
@@ -18,7 +19,9 @@ from system.models.event_types import EventType
 from system.ui.console_ui import ConsoleUI
 from system.modules import settings_log
 from system.models.user import User
+from decimal import Decimal
 from system import database
+from datetime import date
 from typing import Callable
 from pathlib import Path
 import logging as log
@@ -66,9 +69,6 @@ def main():
                 break
     
         while user_auth is not None:
-            print(user_auth)
-            print(user_auth.user_id)
-            print(user_auth.user_name)
             dispatcher = DispatcherService()
             ui = ConsoleUI(dispatcher)
             choice = ui.display_menu()
@@ -118,6 +118,21 @@ def main():
                         sales_service.finish_sale(user_auth.user_id)
                         log.info(f'[INFO] Venda finalizada com sucesso!')
                     else: log.info(f'[INFO] Venda cancelada: Nenhum item adicionado.')
+
+            elif choice == '4':
+                with database.connect_db() as connection_reports:
+                    repo_reports = ReportingRepository(connection_reports)
+                    report_service = ReportingService(repo_reports)
+                    sub_choice: str = ui.display_submenu_reports()
+                    if sub_choice == '1':
+                        dates: tuple[date, date] = ui.get_dates()
+                        if dates is not None:
+                            report: dict[str, Decimal] = report_service.daily_report(dates[0], dates[1])
+                            ui.report_UI(report)
+                    if sub_choice == '2':
+                        ui.not_implemented_for_now()
+                    if sub_choice == '3':
+                        ui.not_implemented_for_now()
 
             elif choice == '0':
                 log.info('=' * 30)

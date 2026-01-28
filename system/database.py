@@ -51,6 +51,7 @@ def connect_db():
         sqlite3.register_converter('Decimal', bytes_to_decimal_conversor)
         
         connect_db: Connection = sqlite3.connect(db_file, detect_types = sqlite3.PARSE_DECLTYPES, check_same_thread = False)
+        connect_db.row_factory = sqlite3.Row
         connect_db.execute('PRAGMA journal_mode = WAL')
         connect_db.execute('PRAGMA busy_timeout = 5000')
         connect_db.execute('PRAGMA synchronous = NORMAL')
@@ -221,6 +222,7 @@ def _create_idx_orders_schema(cursor: Cursor):
 
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_batchs_id ON order_items(batch_id)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_orders_id ON order_items(order_id)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_orders_order_date ON orders(order_date)')
 
 def _create_idx_users_schema(cursor: Cursor):
     'create the indexes for schema users'
